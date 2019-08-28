@@ -1,0 +1,49 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="2"><h2>商品基本属性</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">商品名称</td>
+        <td>{{ sf.text_raw('name', {'value': product.name}) }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">腾讯业务类别</td>
+        <td>{{ categories[product.category_id]|default('未知业务类别(' ~ product.category_id ~ ')') }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">面值类型</td>
+        <td>
+            任意充
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">面值</td>
+        <td>
+            1 / 1个月
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">建议市场价</td>
+        <td>{{ sf.text_raw('official_price', {'value': product.official_price}) }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">单次可购数量</td>
+        <td>
+            {% if item.face_value_type == 'ARBIT' %}
+                {{ sf.text_raw('num', {'value': product.num}) }}
+            {% else %}
+                {{ product.num }}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">商品创建时间</td>
+        <td>{{ product.created_at|date('Y-m-d H:i:s') }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">最近修改时间</td>
+        <td>{{ product.updated_at|date('Y-m-d H:i:s') }}</td>
+    </tr>
+</table>

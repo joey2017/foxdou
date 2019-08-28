@@ -1,0 +1,43 @@
+{% include "/Passport/Register/register__header.twig" %}
+
+<div class="register-main">
+    <div class="register-main-bgimg">
+        <div class="register-title">
+            <h2>注册</h2>
+        </div>
+        <p class="register-pro"></p>
+        <div style="margin: auto;">
+            <ul class="register-warp" style="">
+                <li class="register-item">
+                    <a href="{{ path('passport_register_individual') }}">
+                        <h2 class="clearfloat">
+                            <em class="reg-icon-1"></em>
+                            <span>个人注册</span>
+                        </h2>
+                        <p>一个身份证只能注册一个帐号</p>
+                    </a>
+                </li>
+                <li class="register-item">
+                    <a href="{{ path('passport_register_business') }}">
+                        <h2 class="clearfloat">
+                            <em class="reg-icon-2"></em>
+                            <span>企业注册</span>
+                        </h2>
+                        <p>注册企业帐号需要人工审核后才能登录，请务必填写真实资料</p>
+                    </a>
+                </li>
+              {#<li class="register-item">#}
+              {#<a href="{{ path('passport_register', {'type': 'E'}) }}">#}
+              {#<h2 class="clearfloat" style="width: 190px;">#}
+              {#<em class="reg-icon-3"></em>#}
+              {#<span>个体工商户注册</span>#}
+              {#</h2>#}
+              {#<p>注册个体户帐号需要人工审核后才能登录，请务必填写真实资料</p>#}
+              {#</a>#}
+              {#</li>#}
+            </ul>
+        </div>
+    </div>
+</div>
+
+{% include "/Passport/Register/register__footer.twig" %}

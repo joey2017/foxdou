@@ -1,0 +1,61 @@
+{% extends 'Supplier/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+<div class="foxdou-row foxdou-row-notm">
+    <div class="foxdou-form-row" id="operation-logs" style="margin-left: 200px;padding-top: 15px">
+        <form class="layui-form layui-form-pane" action="" id="logs-list">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作详情</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="info" placeholder="请输入操作详情" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作IP</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ip" placeholder="请输入操作ip" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作人</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="email" placeholder="请输入狐豆账号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">日期范围</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="" class="layui-input" id="timeFrame" placeholder="">
+                        <input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                        <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-normal" onclick="get_data();return false;">
+                        立即查询
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="foxdou-table-page" style="padding: 15px;margin-left: 200px;">
+        <table class="layui-table" id="logs-list-table" lay-filter="logs-list-table">
+
+        </table>
+    </div>
+    <script id="add_time" type="text/html">
+          <%#
+          var date = new Date();
+          date.setTime(d.add_time*1000);
+          return date.Format("yyyy-MM-dd hh:mm:ss");
+          %>
+    </script>
+</div>
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Supplier/Dashboard/operation_logs_js.twig" %}
+{% endblock %}

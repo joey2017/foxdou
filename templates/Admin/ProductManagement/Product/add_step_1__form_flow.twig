@@ -1,0 +1,63 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="2"><h2>商品属性（新增后无法修改）</h2></td>
+    </tr>
+    <tr>
+        <td class="table-label">运营商</td>
+        <td>
+            <div class="layui-input-inline">
+                {{ sf.radio_raw('operator_id', to_options(top_operators), {'lay-filter': 'operator_id'}) }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-label">有效时间</td>
+        <td>{{ sf.checkbox_raw('durations[]', to_options('App\\ProductConstants::DURATIONS'), {'lay-skin': 'primary'}) }}</td>
+    </tr>
+    <tr>
+        <td class="table-label">生效时间</td>
+        <td>{{ sf.checkbox_raw('effective_times[]', to_options('App\\ProductConstants::EFFECTIVE_TIMES'), {'lay-skin': 'primary'}) }}</td>
+    </tr>
+    <tr>
+        <td class="table-label">是否跨月</td>
+        <td>{{ sf.checkbox_raw('cross_months[]', to_options('App\\ProductConstants::CROSS_MONTH_TYPES'), {'lay-skin': 'primary'}) }}</td>
+    </tr>
+    <tr>
+        <td class="table-label">备注</td>
+        <td>{{ sf.text_raw('max_recharge_num', {'placeholder': '填写每月限充次数等', 'value': 0}) }}</td>
+    </tr>
+</table>
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="2"><h2>面值（新增后无法修改）</h2></td>
+    </tr>
+    <tr>
+        <td class="table-label">面值类型</td>
+        <td>{{ sf.radio_raw('face_value_types[]', {'1': '固定面值（面值为系统固定面值，单次可购1）'}, {'lay-skin': "primary", 'checked': '1', 'readonly': 1, 'disabled': 1}) }}</td>
+    </tr>
+    <tr>
+        <td class="table-label">固定面值</td>
+        <td>
+            <div class="layui-form-item">
+            <div>
+                <input name="" title="全选" type="checkbox" lay-skin="primary" lay-filter="select_all_fixed_face_values">
+            </div>
+            <div class="layui-inline" style="width: 900px;">
+                {% for value, title in constant('App\\ProductConstants::FLOW_FACE_VALUES') %}
+                    <div class="layui-input-inline" style="width: 60px;">
+                        <input name="fixed_face_values[]" value="{{ value }}" type="checkbox" title="{{ title }}" lay-skin="primary" class="layui-input fixed_face_value">
+                    </div>
+                    <div class="layui-input-inline" style="width: 60px;">
+                        <input name="official_prices[]" value="" type="text" placeholder="官方价" class="layui-input official_prices">
+                    </div>
+                {% endfor %}
+            </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+{% include "/Admin/ProductManagement/Product/_product_form_area_picker.twig" with {'provinces': provinces} %}
+

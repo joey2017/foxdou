@@ -1,0 +1,188 @@
+parameters:
+    admin_menus:
+        dashboard:
+            name: 首页
+            url:  /admin/dashboard
+
+        user-management:
+            name: 用户管理
+            items:
+#                - { name: 用户列表, url: /admin/users/list, icon: fa-user}
+#                - { name: 级别管理, url: /admin/users/levels, icon: fa-exchange}
+                - name: 狐豆通行证管理
+                  icon: layui-icon-chart
+                  items:
+                      - { name: 狐豆通信证管理, url: /admin/users/pass-management, icon: ""}
+                      - { name: 平台账户开通记录, url: /admin/users/open-account-log, icon: ""}
+                      - { name: 通行证冻结/解冻记录, url: /admin/users/account-status-log?platform_id=PASSPORT, icon: ""}
+#                - name: 开放平台账户
+#                  icon: layui-icon-chart
+#                  items:
+#                      - { name: 开放平台账户, url: /admin/users/open-account, icon: ""}
+#                      - { name: 定价分组管理, url: /admin/users/open-account, icon: ""}
+#                      - { name: 账户冻结/解冻记录, url: /admin/users/account-status-log?platform_id=2, icon: ""}
+                - name: 代理商平台账户
+                  icon: layui-icon-chart
+                  items:
+                      - { name: 代理商平台账户, url: /admin/users/get-agent-account, icon: ""}
+                      - { name: 定价分组管理, url: /admin/users/set-price-group, icon: ""}
+                      - { name: 代理商可用服务分组, url: /admin/users/service-group, icon: ""}
+                      - { name: 账户冻结/解冻记录, url: /admin/users/account-status-log?platform_id=RESELLER, icon: ""}
+                - name: 供应商平台账户
+                  icon: layui-icon-chart
+                  items:
+                      - { name: 供应商平台账户, url: /admin/users/get-supplier-account, icon: ""}
+                      - { name: 账户冻结/解冻记录, url: /admin/users/account-status-log?platform_id=SUPPLIER, icon: ""}
+#                - name: 狐豆靓号管理
+#                  icon: layui-icon-chart
+#                  items:
+#                      - { name: 狐豆靓号管理, url: /admin/users/open-account, icon: ""}
+#                      - { name: 狐豆靓号绑定记录, url: /admin/users/open-account, icon: ""}
+#                      - { name: 狐豆靓号解绑记录, url: /admin/users/open-account, icon: ""}
+        order-management:
+            name: 订单管理
+            items:
+                -   name: 手机话费充值订单
+                    icon: layui-icon-chart
+                    items:
+                        - { name: 手机话费充值主订单, url: /admin/orders/recharge?product_cate_id=1, icon: "", cate_id: 1, action: recharge}
+                        - { name: SUP订单, url: /admin/orders/suppliers?product_cate_id=1, icon: "", cate_id: 1, action: suppliers}
+                -   name: 固话宽带充值订单
+                    icon: layui-icon-rmb
+                    items:
+                        - { name: 固话宽带充值主订单, url: /admin/orders/recharge?product_cate_id=10, icon: "", cate_id: 10, action: recharge}
+                        - { name: SUP订单, url: /admin/orders/suppliers?product_cate_id=10, icon: "", cate_id: 10, action: suppliers}
+                -   name: 腾讯业务充值订单
+                    icon: layui-icon-read
+                    items:
+                        - { name: 腾讯业务充值主订单, url: /admin/orders/recharge?product_cate_id=3, icon: "", cate_id: 3, action: recharge}
+                        - { name: SUP订单, url: /admin/orders/suppliers?product_cate_id=3, icon: "", cate_id: 3, action: suppliers}
+        service-management:
+            name: 开放平台服务管理
+            items:
+#                -   name: 服务管理
+#                    icon: fa-reorder
+#                    items:
+#                        - { name: 服务管理, url: "", icon: fa-reorder}
+#                        - { name: 服务分类管理, url: "", icon: fa-reorder}
+#                        - { name: 费用模板管理, url: "", icon: fa-reorder}
+#                -   name: 用户获取服务
+#                    icon: fa-reorder
+#                    items:
+#                        - { name: 服务开通记录, url: "", icon: ""}
+#                        - { name: 应用管理, url: "", icon: ""}
+#                        - { name: 套餐订单, url: "", icon: ""}
+                -   name: 接口管理
+                    icon: fa-reorder
+                    items:
+#                        - { name: 接口展示管理, url: "", icon: ""}
+                        - { name: 接口请求记录, url: "/admin/open-platform/interface/request-logs", icon: ""}
+#                        - { name: 公共请求参数及默认值管理, url: "", icon: ""}
+#                        - { name: 公共返回参数及默认值管理, url: "", icon: ""}
+#                -   name: 回调通知管理
+#                    icon: fa-reorder
+#                    items:
+#                        - { name: 回调通知展示管理, url: "", icon: ""}
+#                        - { name: 回调通知记录, url: "", icon: ""}
+#        agent-service-management:
+#            name: 代理商平台服务管理
+#            items:
+#                -   name: 服务管理
+#                    icon: fa-reorder
+#                    items:
+#                        - { name: 手机话费充值, url: "", icon: fa-reorder}
+#                        - { name: 固话宽带充值, url: "", icon: fa-reorder}
+#                        - { name: 腾讯业务充值, url: "", icon: fa-reorder}
+        product-management:
+            name: 商品管理
+            items:
+                -   name: 代理商平台商品管理
+                    icon: fa-creative-commons
+                    items:
+                        - { name: 手机话费充值商品, route: admin_product_management_products_index, route_args: {'product_type': 'mobile'},    icon: fa-list-ul}
+#                        - { name: 手机流量充值商品, route: admin_product_management_products_index, route_args: {'product_type': 'flow'},      icon: fa-plus-circle}
+#                        - { name: 固话宽带充值商品, route: admin_product_management_products_index, route_args: {'product_type': 'telephone'}, icon: fa-plus-circle}
+#                        - { name: 腾讯业务充值商品, route: admin_product_management_products_index, route_args: {'product_type': 'tencent'},   icon: fa-plus-circle}
+                -   name: 特殊售价用户管理
+                    icon: fa-creative-commons
+                    items:
+                        - { name: 手机话费特殊售价用户, route: admin_product_management_specific_user_settings, route_args: {'product_type': 'mobile'}, icon: fa-list-ul}
+
+                -   name: 批量定时改价
+                    icon: fa-creative-commons
+                    items:
+                        - { name: 批量定时改价记录, route: admin_product_management_products_cron_jobs, icon: fa-list-ul}
+                -   name: 商品属性管理
+                    icon: fa-shopping-cart
+                    items:
+                        - { name: 手机号码归属地管理, route: admin_phone_number_attributions_index, icon: fa-list-ol}
+                        - { name: 地区及区号管理,    route: admin_regions_index, icon: fa-certificate}
+#                        - { name: 虚拟运营商管理,    route: admin_virtual_netowork_operators_index, icon: fa-certificate}
+                        - { name: 腾讯业务品类管理,  route: admin_tencent_product_categories_index, icon: fa-certificate}
+        audit-management:
+            name: 平台审核
+            items:
+                -   name: 用户信息审核
+                    icon: fa-user-plus
+                    items:
+                        - { name: 开户申请审核, url: /admin/audit/account-application, icon: fa-yen}
+                        - { name: 实名认证, url: /admin/audit/identities, icon: fa-check-square}
+                -   name: 供应商货源审核
+                    icon: fa-check-circle
+                    items:
+                        - { name: 手机话费充值类, url: /admin/audit/product-supplies?product_cate_id=1, icon: fa-question-circle}
+                        - { name: 固话宽带充值类, url: /admin/audit/product-supplies?product_cate_id=10, icon: fa-check-circle}
+                        - { name: 腾讯业务充值类, url: /admin/audit/product-supplies?product_cate_id=3, icon: fa-check-circle}
+                -   name: 供应商余额提现审核
+                    icon: fa-check-circle
+                    items:
+                        - { name: 余额提现申请审核, url: /admin/audit/withdraws, icon: fa-question-circle}
+                        - { name: 余额提现账户审核, url: /admin/audit/withdraw-accounts, icon: fa-check-circle}
+#        finance-management:
+#            name: 财务
+#            items:
+#                - { name: 资金明细, url: /admin/finance/, icon: fa-th-list}
+#                - { name: 交易记录, url: /admin/finance/default/jiaoyi-log, icon: fa-line-chart}
+#                - { name: 支付记录, url: /admin/finance/default/third-party-pay-log, icon: fa-line-chart}
+#                - { name: 充值扣款, url: /admin/finance/default/rechage, icon: fa-recycle}
+#                - { name: 充值记录, url: /admin/finance/default/rechage-log, icon: fa-credit-card}
+#                -   name: 支付方式
+#                    icon: fa-rmb
+#                    items:
+#                        - { name: 支付方式, url: /finance/finance-pay-way, icon: fa-bank}
+#                        - { name: 手续费管理, url: /finance/finance-pay-way/poundage, icon: fa-hand-rock-o}
+#                        - { name: 用户支付方式, url: /finance/finance-pay-way/user-bind-payway, icon: fa-user-md}
+#                        - { name: 支付机构管理, url: /finance/finance-pay-way/payment-institution, icon: fa-user-md}
+#                -   name: 提现管理
+#                    icon: fa-amount
+#                    items:
+#                        - { name: 提现银行, url: /finance/finance-cash/bank, icon: fa-bank}
+#                        - { name: 手续费管理, url: /finance/finance-cash/shouxu, icon: fa-hand-rock-o}
+#                        - { name: 用户账户, url: /finance/finance-cash/user-account, icon: fa-user-md}
+        system-administration:
+            name: 系统管理
+            items:
+                -   name: 系统设置
+                    icon: fa-search
+                    items:
+                        - { name: 站点设置, url: /admin/system-administration/system-settings/system, icon: fa-user}
+                        - { name: 通行证设置, url: /admin/system-administration/system-settings/passport, icon: layui-icon-chart}
+                        - { name: 代理商平台设置, url: /admin/system-administration/system-settings/reseller-platform, icon: layui-icon-rmb}
+                        - { name: 供应商平台设置, url: /admin/system-administration/system-settings/supplier-platform, icon: layui-icon-read}
+
+                -   name: 日志管理
+                    icon: fa-search
+                    items:
+                        - { name: 系统日志, url: /admin/system-administration/logging/admin-operation-logs, icon: fa-yen}
+
+                -   name: 后台用户管理
+                    icon: fa-search
+                    items:
+                        - { name: 后台用户管理, url: /admin/system-administration/administrators, icon: fa-user}
+                        - { name: 权限组管理, url: /admin/system-administration/roles, icon: fa-yen}
+                -   name: 文章公告管理
+                    icon: fa-search
+                    items:
+                        - { name: 文章管理, url: /admin/system-administration/articles, icon: fa-user}
+                        - { name: 文章分类管理, url: /admin/system-administration/article-categories, icon: fa-yen}
+#                        - { name: 首页轮播图, url: "", icon: fa-question-circle}

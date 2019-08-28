@@ -1,0 +1,180 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>Ta的财务-资金明细</title>
+
+    <script src="/assets/admin/h/js/plugins/layer/laydate/laydate.js"></script>
+    <link rel="stylesheet" href="/assets/admin/h/css/common.css" />
+    <script type="text/javascript" src="/assets/admin/js/jquery.min.js"></script>
+    <link href="/assets/admin/h/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <script src="/assets/admin/h/js/jquery.min.js?v=2.1.4"></script>
+    <link href="/assets/admin/h/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+
+    <script src="/assets/admin/js/common.js"></script>
+    <link href="//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/css/layui.css" rel="stylesheet">
+    <script src="//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/layui.all.js"></script>
+    <script src="/assets/common/js/ajaxRequest.js"></script>
+    <!--下拉列表-->
+    <link rel="stylesheet" href="/assets/admin/h/css/xui-select2.css"/>
+    <script type="text/javascript" src="/assets/admin/h/js/xui-select2.js"></script>
+    <style>
+        .screen-item{background:none; border:none;  padding: 0px;}
+        .col-sm-2{width: 17.45%}
+        .h-button-group{margin-bottom: 5px;}
+        .h-button-group button{margin-right: -10px;}
+        .date {
+            width: 420px;
+            float: left;
+        }
+        .seach input, .seach select {
+            background-color: #fff;
+            border: 1px solid #e5e6e7;
+            padding: 6px 12px;
+        }
+    </style>
+</head>
+
+<body>
+<div class="main-box">
+    {% include "Admin/UserDetail/ResellerPlatform/common_tabs.twig" %}
+    <div class="screen-item">
+        <div class="seach">
+            <form action="" method="get" enctype="multipart/form-data" id="list-data">
+                <input type="hidden" name="_token" value="{{ csrf_token('admin_user_details_reseller_platform_ajax_finance_detail') }}">
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="input-group m-b"><span class="input-group-addon">流水号</span>
+                        <input class="form-control product-price" name="trade_id" value="" placeholder="流水号" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group m-b"><span class="input-group-addon">业务单号</span>
+                        <input class="form-control product-price" name="order_id" value="" placeholder="业务单号" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group m-b"><span class="input-group-addon">交易名称</span>
+                        <input class="form-control product-price" name="name" value="" placeholder="交易名称" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group m-b"><span class="input-group-addon">交易类型</span>
+                        {{ sf.select_raw('log_type', to_options(constant("App\\Common\\Model\\Payment\\UserMoneyLog::LOG_TYPES"), '全部'), {"class": "form-control"}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2">
+                    <div class="input-group m-b"><span class="input-group-addon">金额范围</span>
+                        <input style="width:50%" class="form-control product-price" name="amount_min" value="" placeholder="最小金额" type="text">
+                        <input style="width:50%" class="form-control product-price" name="amount_max" value="" placeholder="最大金额" type="text">
+                    </div>
+                </div>
+                <div class="col-sm-2" style="width:170px;">
+                    <div class="input-group m-b" style="height: 34px">
+                        <select  name="time_type" style="height: 34px;width: 170px">
+                            <option value="add_time">订单时间</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-2" style="width: 400px;padding-right: 2px">
+                    <div class="input-group date" style="float: left">
+                        <input class="form-control layer-date" id="start_time" name="start_time"  value="" style="width: 167px" placeholder="开始时间" type="text">
+                        <input class="form-control layer-date" id="end_time" name="end_time" value="" style="width: 167px" placeholder="结束时间" type="text">
+                    </div>
+                </div>
+            </div>
+                <button type="submit" class="btn btn-primary" style="position:relative;top:-60px;margin-right:100px;float: right;" onclick="get_data();return false;">查询</button>
+            </form>
+        </div>
+    </div>
+    <div class="h-button-group">
+        <button class="layui-btn layui-btn-small f-fnsna" onclick="show_count(this)">查看统计</button>
+        <button class="layui-btn layui-btn-small f-fnsna" onclick="export_cvs()">导出订单</button>
+    </div>
+    <div class="m-table-total" style="display: none; padding: 20px; background: #fcf8e3;">
+        <ul class="g-bdc">
+            <li>收入：<span id="income_count"></span>（<span id="income_sum_money"></span>）</li>
+            <li>支出：<span id="payment_count"></span>（<span id="payment_sum_money"></span>）</li>
+        </ul>
+    </div>
+    <div class="h-input-block table-style1">
+        <table id="paged-table" lay-filter="test">
+
+        </table>
+    </div>
+</div>
+
+<script id="add_time" type="text/html">
+    <%#
+        var date = new Date();
+        date.setTime(d.add_time);
+        return date.Format("yyyy-MM-dd hh:mm:ss");
+    %>
+</script>
+
+<script type="text/html" id="actions">
+    <button class="layui-btn layui-btn-xs edit_btn" lay-event="detail">详情</button>
+</script>
+
+<script type="text/javascript">
+
+    var baseUrl = '{{ path('admin_user_details_reseller_platform_ajax_finance_detail') }}';
+    var columns = [[
+        {"field": "trade_id", "title": "交易流水号"},
+        {"field": "order_id", "title": "业务单号"},
+        {"field": "name", "title": "交易名称"},
+        {"field": "log_type", "title": "交易类型"},
+        {"field": "amount", "title": "交易金额"},
+        {"field": "current_balance", "title": "交易后余额"},
+        {"field": "add_time", "title": "时间", templet: "#add_time"},
+        {"field": "actions", "title": "操作", "toolbar": "#actions"}
+    ]];
+
+    function get_data() {
+        var params = $('form#list-data').serialize();
+        var url = baseUrl + '?' + 'id={{ id }}&' + params;
+        rander_table('#paged-table', url, columns);
+    }
+
+    layui.use(['table', 'laytpl'], function() {
+        // 初始化
+        get_data();
+    });
+
+    var show_count_num=0;
+    function show_count(dom){
+        if($(dom).text()=='查看统计'){
+            $('.m-table-total').css('display','block');
+            var params = $('form#list-data').serialize();
+            var url = baseUrl+'?id={{ id }}&'+params+'&count=yes';
+            if(show_count_num==0){
+                $.get(url,'',function (data) {
+                    $('#income_count').text(data.data.income[0].count+'笔');
+                    $('#income_sum_money').text(data.data.income[0].sum_money+'元');
+                    $('#payment_count').text(data.data.payment[0].count+'笔');
+                    $('#payment_sum_money').text(data.data.payment[0].sum_money+'元');
+                });
+            }
+            $(dom).text('关闭统计')
+        }else if($(dom).text()=='关闭统计'){
+            $('.m-table-total').css('display','none');
+            $(dom).text('查看统计')
+        }
+    }
+
+    function export_cvs(){
+        if($('#count_data_num').text()==0){
+            layer.msg('无数据不能导出');
+            return;
+        }
+        var params=$('form').serialize();
+        var url=location.href;
+        location.href=location.href+(url.indexOf('?')!=-1?'':'?')+params+'&export=yes';
+    }
+</script>
+</body>
+</html>

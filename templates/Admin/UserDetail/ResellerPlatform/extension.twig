@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>所有用户</title>
+    <link rel="shortcut icon" href="favicon.ico">
+
+    <link href="/assets/admin/h/css/bootstrap.min14ed.css?v=3.3.6" rel="stylesheet">
+    <link href="/assets/admin/h/css/font-awesome.min93e3.css?v=4.4.0" rel="stylesheet">
+    <!-- Data Tables -->
+    <link href="/assets/admin/h/css/animate.min.css" rel="stylesheet">
+    <link href="/assets/admin/h/css/style.min862f.css?v=4.1.0" rel="stylesheet">
+    <script src="/assets/admin/h/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/assets/admin/h/js/bootstrap.min.js?v=3.3.6"></script>
+    <script src="/assets/admin/h/js/plugins/jeditable/jquery.jeditable.js"></script>
+    <script src="/assets/admin/h/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="/assets/admin/h/js/plugins/dataTables/dataTables.bootstrap.js"></script>
+    <script src="/assets/admin/h/js/plugins/layer/layer.min.js"></script>
+    <script src="/assets/admin/h/js/plugins/iCheck/icheck.min.js"></script>
+    <script src="/assets/admin/js/common.js"></script>
+    <script src="/assets/admin/h/js/plugins/layer/laydate/laydate.js"></script>
+
+    <link href="//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/css/layui.css" rel="stylesheet">
+    <script src="//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/layui.all.js"></script>
+    <script src="/assets/common/js/ajaxRequest.js"></script>
+    <style>
+        .seach input,.seach select {  background-color: #fff;  border: 1px solid #e5e6e7;  padding: 6px 12px;  }
+        .table-header{padding: 20px; background:#fcf8e3}
+        table td,table th{text-align: center}
+        .col-sm-2{width: 300px;}
+        .ibox-content{border-style: hidden}
+    </style>
+</head>
+
+
+<body>
+<div class="ibox-content">
+    <div class="seach">
+        <form action="" method="get" enctype="multipart/form-data" id="list-data">
+            <input type="hidden" name="_token" value="{{ csrf_token('admin_user_details_reseller_platform_ajax_extension') }}">
+        <div class="row">
+            <div class="col-sm-2">
+                <div class="input-group m-b"><span class="input-group-addon">用户名</span>
+                    <input class="form-control product-price" name="user_name" placeholder="用户名" type="text">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group m-b"><span class="input-group-addon">昵称</span>
+                    <input class="form-control product-price" name="nick_name" placeholder="昵称" type="text">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group m-b"><span class="input-group-addon">级别</span>
+                    <input class="form-control product-price" name="level" placeholder="级别" type="text">
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group m-b"><span class="input-group-addon">状态</span>
+                    <select class="form-control" name="status">
+                        <option value="">全部</option>
+                        {% for key_s,status in statuses%}
+                            <option value="{{ key_s }}">{{ status }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="input-group m-b"><span class="input-group-addon">经销商类型</span>
+                    <select class="form-control" name="agency_type">
+                        <option value="">全部</option>
+                        {% for key_t,type in agency_types%}
+                            <option value="{{ key_t }}">{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+            <button type="submit" class="btn btn-primary" style="position:relative;top:-60px;margin-right:100px;float: right;" onclick="get_data();return false;">查询</button>
+        </form>
+    </div>
+
+</div>
+
+<div class="table-header" style="display: none;">
+    总计：元
+</div>
+<table id="paged-table" lay-filter="test">
+
+</table>
+</div>
+<div id="edit_level_dialog" style="display: none; padding: 20px 20px 0px 20px;">
+
+    <div class="input-group m-b"><span class="input-group-addon">选择级别</span>
+        <select class="form-control " id="new_level_id" >
+            <option value="">请选择正确的级别</option>
+
+        </select>
+    </div>
+</div>
+
+<div id="edit-status" style="display: none; padding: 20px 20px 0px 20px;">
+    <div class="col-sm-12" style="padding-left: 0px">
+        <div class="input-group m-b" >
+            <span class="input-group-addon">用户状态</span>
+            <select id="new_status"  class="form-control ">
+
+            </select>
+        </div>
+    </div>
+
+</div>
+<!--用户审核box-->
+<div id="aduit_dialog" style="display: none; padding: 20px 20px 0px 20px;">
+
+</div>
+
+<script id="add_time" type="text/html">
+    <%#
+        var date = new Date();
+        date.setTime(d.add_time);
+        return date.Format("yyyy-MM-dd hh:mm:ss");
+    %>
+</script>
+
+<script type="text/javascript">
+
+    var statuses = {};
+    {% for k_s,status_s in statuses%}
+        statuses.{{ k_s }} = '{{ status_s }}';
+    {% endfor %}
+
+    var agency_types = [];
+    {% for k_t,type_s in agency_types%}
+        agency_types.push('{{ type_s }}');
+    {% endfor %}
+
+    var baseUrl = '{{ path('admin_user_details_reseller_platform_ajax_extension') }}';
+    var columns = [[
+        {"field": "user_name", "title": "用户名"},
+        {"field": "nick_name", "title": "昵称"},
+        {"field": "balance", "title": "用户所在供货商平台金额"},
+        {"field": "rebate_balance", "title": "推广返利佣金余额"},
+        {"field": "level", "title": "级别"},
+        {"field": "status", "title": "状态", templet: function(d){
+                return statuses[d.status];
+            }},
+        {"field": "agency_type", "title": "经销商类型", templet: function(d){
+                return agency_types[d.agency_type-1];
+            }},
+        {"field": "add_time", "title": "添加时间", templet: "#add_time"}
+    ]];
+
+    function get_data() {
+        var params = $('form#list-data').serialize();
+        var url = baseUrl + '?' + 'id={{ id }}&' + params;
+        rander_table('#paged-table', url, columns);
+    }
+
+    layui.use(['table', 'laytpl'], function() {
+        // 初始化
+        get_data();
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+<form action="{{ path('simple_form_demo_submit', {'page': app.request.get('page')}) }}" method="post" class="layui-form foxdou-row">
+    {{ sf.text(form.username, '用户名') }}
+    {{ sf.text(form.email, 'Email') }}
+    {{ sf.text(form.mobile, '手机号') }}
+    {{ sf.file(form.avatar, '上传头像') }}
+    {{ sf.checkbox(form.do_not_disturb, '勿扰模式', {'Y': '是'}, {}, {'lay-skin': 'switch', 'lay-text': '是|否'}) }}
+    {{ sf.password(form.password, '密码') }}
+    {{ sf.password(form.password_confirm, '确认密码') }}
+    {{ sf.select(form.gender, '性别', genders, {'value': default_gender}) }}
+    {{ sf.checkbox(form.favourite_languages, '掌握的语言', languages, {'values': default_checked_values}) }}
+    {{ sf.radio(form.most_skilled_language, '主力语言', languages, {'value': default_most_skilled_language}) }}
+    {{ sf.textarea(form.intro, '自我介绍') }}
+
+    {{ sf.rest(form) }}
+    {{ sf.submit('提交', {'outer': null}) }}
+    {{ sf.button('暂存', {'outer': null}) }}
+</form>

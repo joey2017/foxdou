@@ -1,0 +1,123 @@
+<script>
+    $(document).ready(function () {
+        layui.laydate.render({
+            elem: '#scheduled_at',
+            type: 'datetime',
+            format: 'yyyy-MM-dd HH:mm' // 精确到分钟
+        });
+
+        layui.form.on('checkbox(price_group_changed)', function (data) {
+            var group_idx = $(data.elem).data('group-idx');
+            if (data.elem.checked) {
+                $('.group_column_' + group_idx).show();
+                $('.input_group_' + group_idx).prop('disabled', false);
+            } else {
+                $('.group_column_' + group_idx).hide();
+                $('.input_group_' + group_idx).prop('disabled', true);
+            }
+
+            layui.form.render();
+        });
+
+        layui.form.render();
+    });
+
+    function sync_group_selection(selector) {
+        $(selector).each(function (idx, item) {
+            var group_idx = $(item).val();
+            var checked = $(item).prop('checked');
+            $('.group_column_' + group_idx).prop('checked', checked);
+
+            if (checked) {
+                $('.group_column_' + group_idx).show();
+                $('.input_group_' + group_idx).prop('disabled', false);
+            } else {
+                $('.group_column_' + group_idx).hide();
+                $('.input_group_' + group_idx).prop('disabled', true);
+            }
+        })
+    }
+
+    function toggle_all(sender, selector) {
+        if ($(sender).data('all_checked')) {
+            $(selector).prop('checked', false);
+            $(sender).data('all_checked', false);
+        } else {
+            $(selector).prop('checked', true);
+            $(sender).data('all_checked', true);
+        }
+
+        sync_group_selection(selector);
+
+        layui.form.render();
+    }
+
+    function toggle_reverse(selector) {
+        $(selector).each(function (id, item) {
+            $(item).prop('checked', !$(item).prop('checked'));
+        });
+
+        sync_group_selection(selector);
+
+        layui.form.render();
+    }
+
+    function remove_row(sender, table_row) {
+        $(table_row)
+            .find('td')
+            .wrapInner('<div style="display: block;" />')
+            .parent()
+            .find('td > div')
+            .slideUp(500, function () {
+                $(this).parent().parent().remove();
+            });
+    }
+
+    //
+    // function parse_rate(sender) {
+    //     var rate = parseFloat($(sender).val());
+    //     if($(sender).prop('disabled')) {
+    //         return false;
+    //     }
+    //
+    //     if (isNaN(rate) || rate <= 0) {
+    //         console.log(sender);
+    //         layer.tips(isNaN(rate) ? '格式不正确' : '比例必须大于 0', sender, {tips: 1});
+    //         $(sender).addClass('error');
+    //         return false;
+    //     }
+    //
+    //     $(sender).removeClass('error');
+    //
+    //     return rate;
+    // }
+    //
+    // function on_price_changed(sender, source_group_idx, source_item_id, source_item_official_price) {
+    //     var price = parseFloat($(sender).val());
+    //     if($(sender).prop('disabled')) {
+    //         return;
+    //     }
+    //     if (isNaN(price) || price <= 0) {
+    //         console.log(sender);
+    //         layer.tips(isNaN(price) ? '格式不正确' : '价格必须大于 0', sender, {tips: 1});
+    //         $(sender).addClass('error');
+    //         return;
+    //     }
+    //     $(sender).removeClass('error');
+    //
+    //     var rate       = price / source_item_official_price * 100;
+    //     var rate_input = $('#rate_' + source_item_id + '_group_' + source_group_idx);
+    //     rate_input.val(rate.toFixed(3));
+    // }
+    //
+    // function on_rate_changed(sender, source_group_idx, source_item_id, source_item_official_price) {
+    //     var rate = parse_rate(sender);
+    //     if (rate === false) {
+    //         return;
+    //     }
+    //
+    //     var price       = rate * source_item_official_price / 100;
+    //     var price_input = $('#price_' + source_item_id + '_group_' + source_group_idx);
+    //     price_input.val(price.toFixed(5));
+    // }
+</script>

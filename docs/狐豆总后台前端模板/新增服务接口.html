@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>新增服务接口</title>
+	<link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+
+<body>
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<!-- 头部区域 -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layadmin-flexible">
+						<a href="javascript:;" title="侧栏伸缩">
+							<i class="layui-icon layui-icon-shrink-right"></i>
+							<i class="layui-icon layui-icon-spread-left"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">运营数据</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">用户管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">订单管理</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<a href="javascript:;">服务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">平台审核</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">内容管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">财务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">系统设置</a>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<div class="layui-form layui-header-switch">
+							<input type="checkbox" name="" lay-skin="switch" lay-text="开启语音|关闭语音" checked>
+						</div>						
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;" title="通知">
+							<i class="layui-icon layui-icon-notice"></i>							
+							<span class="layui-badge-dot"></span>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<cite>安郁</cite>
+							<span class="layui-nav-more"></span>
+						</a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="javascript:;">基本资料</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">修改密码</a>
+							</dd>
+							<hr />
+							<dd style="text-align: center;">
+								<a href="javascript:;">退出</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+			<!--侧栏菜单-->
+			<div class="layui-side layui-side-menu">
+				<div class="layui-side-scroll">
+					<a href="javascript:;" class="layui-logo">
+						<span>狐豆后台管理系统</span>
+					</a>
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-chart"></i>
+								<cite>服务管理</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd class="layui-this"><a href="javascript:;">服务管理</a></dd>
+					      		<dd><a href="javascript:;">服务分类管理</a></dd>
+					      		<dd><a href="javascript:;">费用模版管理</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-rmb"></i>
+								<cite>用户获取服务</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">服务开通记录<span class="layui-badge">6</span></a></dd>
+					      		<dd><a href="javascript:;">应用管理</a></dd>
+					      		<dd><a href="javascript:;">套餐订单</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-read"></i>
+								<cite>接口管理</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">服务接口管理</a></dd>
+					      		<dd><a href="javascript:;">接口请求记录</a></dd>
+						    </dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--主体内容-->
+			<div class="layui-body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<!--面包屑-->
+					<div class="layui-card layadmin-header">
+						<div class="layui-breadcrumb">
+							<a href="javascript:;">主页</a>
+							<a href="javascript:;">服务管理</a>
+							<a href="javascript:;">接口管理</a>
+							<a><cite>新增/编辑服务接口</cite></a>
+						</div>
+					</div>
+					<div class="layui-fluid">
+						<div class="layui-card">
+							<div class="layui-card-header">新增服务接口</div>
+							<div class="layui-card-body">
+								<div class="layui-foldapse">
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>基本信息</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">接口中文名称：</label>
+													<div class="layui-input-inline layui-inline-400">
+											        	<input type="text" placeholder="" class="layui-input">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">选择服务分类：</label>
+													<div class="layui-input-inline">
+														<select name="moban" lay-verify="">
+														  	<option value="">选择服务分类</option>
+														  	<option value="0">北京</option>
+														  	<option value="1">上海</option>
+														  	<option value="2">杭州</option>
+														</select>   
+													</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">服务状态：</label>
+													<div class="layui-input-block">
+											        	<input type="radio" name="a" value="0" title="正常" checked>
+											        	<input type="radio" name="a" value="1" title="维护">
+										          	</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>前台页面显示信息</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">接口地址：</label>
+													<div class="layui-input-block">
+											        	<input type="text" placeholder="" class="layui-input">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">接口名称：</label>
+													<div class="layui-input-inline layui-inline-400">
+											        	<input type="text" placeholder="" class="layui-input">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">支持格式：</label>
+													<div class="layui-input-inline layui-inline-400">
+											        	<input type="text" placeholder="" class="layui-input">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">请求方式：</label>
+													<div class="layui-input-inline layui-inline-400">
+											        	<input type="text" placeholder="" class="layui-input">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">接口备注：</label>
+													<div class="layui-input-inline layui-inline-400">
+											        	<input type="text" placeholder="" class="layui-input">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">请求示例地址：</label>
+													<div class="layui-input-block">
+											        	<textarea name="" placeholder="" class="layui-textarea"></textarea>
+										          	</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>前台页面显示公共请求参数</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<!--.layadmin-remove-color移除tr：hover颜色变化-->
+												<table class="layui-table layadmin-remove-color">
+													<!--colgroup静态表格控制表格列宽度的-->
+													<colgroup>
+													    <col width="20%">
+													    <col width="12%">
+													    <col width="12%">
+												    	<col>
+												    	<col width="15%">
+												  	</colgroup>
+													<thead>
+														<tr>
+												  			<th>选择公共请求参数</th>
+															<th colspan="3">
+																<div class="layui-checkbox-arrange">																	
+																	<input type="checkbox" name="" value="" title="app_id" lay-skin="primary">
+																	<input type="checkbox" name="" value="" title="method" lay-skin="primary">
+																	<input type="checkbox" name="" value="" title="sign" lay-skin="primary">
+																	<input type="checkbox" name="" value="" title="request_id" lay-skin="primary">
+																	<input type="checkbox" name="" value="" title="timestamp" lay-skin="primary">
+																	<input type="checkbox" name="" value="" title="format" lay-skin="primary">
+																	<input type="checkbox" name="" value="" title="version" lay-skin="primary">
+																</div>
+															</th>
+															<th>
+																<button class="layui-btn layui-btn-xs">新增</button>
+															</th>
+												  		</tr>
+												  		<tr>
+												  			<th>参数名称</th>
+															<th>类型</th>
+															<th>必填</th>
+															<th>说明</th>
+															<th>操作</th>
+												  		</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td>app_id</td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>																
+															</td>
+															<td>
+																<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+															</td>
+															<td>应用ID,在应用管理中查看</td>
+															<td>
+																<button class="layui-btn layui-btn-xs">编辑说明</button>
+															</td>
+														</tr>
+														<tr>
+															<td>app_id</td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>																
+															</td>
+															<td>
+																<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+															</td>
+															<td>应用ID,在应用管理中查看</td>
+															<td>
+																<button class="layui-btn layui-btn-xs">编辑说明</button>
+															</td>
+														</tr>
+														<tr>
+															<td>app_id</td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>																
+															</td>
+															<td>
+																<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+															</td>
+															<td>应用ID,在应用管理中查看</td>
+															<td>
+																<button class="layui-btn layui-btn-xs">编辑说明</button>
+															</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>前台页面显示公共请求参数</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<!--.layui-table-quiet单元格元素居中-->
+												<table class="layui-table layui-table-quiet">
+													<!--colgroup静态表格控制表格列宽度的-->
+													<colgroup>
+													    <col width="20%">
+													    <col width="12%">
+													    <col width="12%">
+												    	<col>
+												    	<col width="15%">
+												  	</colgroup>
+												  	<thead>
+												  		<tr>
+												  			<th>参数名称</th>
+															<th>类型</th>
+															<th>必填</th>
+															<th>说明</th>
+															<th>操作</th>
+												  		</tr>
+												  	</thead>
+												  	<tbody>
+												  		<!--样式共支持到五级：tr-1，tr-2，tr-3，tr-4，tr-5-->
+														<tr class="tr-1">
+															<td>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-1">
+															<td class="tr-trigger-icon">
+																<!--当参数含有子参数时，则出现该图标<i class="layui-icon layui-icon-triangle-r"></i>。-->
+																<!--展开状态用layui-icon-triangle-d，收缩状态用layui-icon-triangle-r-->
+																<i class="layui-icon layui-icon-triangle-r"></i>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+												  		<tr class="tr-1">
+															<td class="tr-trigger-icon">
+																<i class="layui-icon layui-icon-triangle-d"></i>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-2">
+															<td class="tr-trigger-icon">
+																<em class="bridge"></em>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-2">
+															<td class="tr-trigger-icon">
+																<em class="bridge"></em>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-2">
+															<td class="tr-trigger-icon">
+																<i class="layui-icon layui-icon-triangle-r"></i>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-2">
+															<td class="tr-trigger-icon">
+																<i class="layui-icon layui-icon-triangle-d"></i>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-3">
+															<td class="tr-trigger-icon">
+																<em class="bridge"></em>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-3">
+															<td class="tr-trigger-icon">
+																<em class="bridge"></em>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-3">
+															<td class="tr-trigger-icon">
+																<i class="layui-icon layui-icon-triangle-d"></i>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-4">
+															<td class="tr-trigger-icon">
+																<em class="bridge"></em>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-4">
+															<td class="tr-trigger-icon">
+																<em class="bridge"></em>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-4">
+															<td class="tr-trigger-icon">
+																<i class="layui-icon layui-icon-triangle-d"></i>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-5">
+															<td class="tr-trigger-icon">
+																<em class="bridge"></em>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>
+														<tr class="tr-5">
+															<td class="tr-trigger-icon">
+																<em class="bridge"></em>
+												            	<div class="layui-block">
+												            		<input type="text" placeholder="" class="layui-input">
+												            	</div>
+												            </td>
+															<td>
+												            	<div class="layui-inline">
+																	<select name="leixing" lay-verify="">
+																	  	<option value="0">string</option>
+																	  	<option value="1">object</option>
+																	  	<option value="1">int</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-inline">
+																	<select name="bitian" lay-verify="">
+																	  	<option value="0">是</option>
+																	  	<option value="1">否</option>
+																	</select>   
+																</div>	
+												            </td>
+												            <td>
+												            	<div class="layui-block">
+														        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+													          	</div>
+												            </td>
+												            <td>
+												            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-xs">追加子参数</button>
+												  				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+												            </td>
+														</tr>															
+												  	</tbody>												  		
+												</table>
+												<div class="layui-table-footbtn">													
+													<a onclick="addto_subparameter(this);" href="javascript:;"><i class="layui-icon layui-icon-add-1"></i>新增参数</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="layui-form">
+									<div class="layui-form-item">
+										<div class="layui-input-block" style="margin-left: 170px;">
+											<button class="layui-btn">确定创建</button>
+											<button class="layui-btn layui-btn-primary">取消</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<table style="display: none;">
+		<tbody class="temp-tr">
+			<tr class="tr">
+				<td>
+	            	<div class="layui-block">
+	            		<input type="text" placeholder="" class="layui-input">
+	            	</div>
+	            </td>
+				<td>
+	            	<div class="layui-inline">
+						<select name="leixing" lay-verify="">
+						  	<option value="0">string</option>
+						  	<option value="1">object</option>
+						  	<option value="1">int</option>
+						</select>   
+					</div>	
+	            </td>
+	            <td>
+	            	<div class="layui-inline">
+						<select name="bitian" lay-verify="">
+						  	<option value="0">是</option>
+						  	<option value="1">否</option>
+						</select>   
+					</div>	
+	            </td>
+	            <td>
+	            	<div class="layui-block">
+			        	<textarea name="" placeholder="" class="layui-textarea layui-textarea-short"></textarea>
+		          	</div>
+	            </td>
+	            <td>
+	            	<button onclick="addto_subparameter(this);" class="layui-btn layui-btn layui-btn-sm">追加子参数</button>
+	  				<button class="layui-btn layui-btn-danger layui-btn-sm">移除</button>
+	            </td>
+			</tr>
+		</tbody>	
+	</table>
+	
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/js/jquery.js"></script>
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/layui/layui.all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/common.js" ></script>
+	<script type="text/javascript">
+		
+		//新增参数
+		function addto_subparameter(this_dom){
+			var tem_tr=$('.temp-tr').find('tr').clone(true);
+			$(this_dom).parents('div').prev('table').append(tem_tr);
+			//重新渲染layui表单模块
+			layui.form.render();
+		}
+		
+	</script>
+</body>
+</html>

@@ -1,0 +1,203 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>狐豆-话费余额查询记录</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="favicon.ico">
+    <!-- Data Tables -->
+    {{ use_assets([
+        '/assets/admin/h/css/bootstrap.min14ed.css',
+        '/assets/admin/h/css/font-awesome.min93e3.css',
+        '/assets/admin/h/css/plugins/dataTables/dataTables.bootstrap.css',
+        '/assets/admin/h/css/plugins/iCheck/custom.css',
+        '/assets/admin/h/css/style.min862f.css',
+        '/assets/admin/h/css/animate.min.css',
+        '/assets/admin/js/jquery.js',
+        '/assets/admin/h/js/plugins/jeditable/jquery.jeditable.js',
+        '/assets/admin/h/js/plugins/dataTables/jquery.dataTables.js',
+        '/assets/admin/h/js/plugins/dataTables/dataTables.bootstrap.js',
+        '/assets/admin/h/js/plugins/iCheck/icheck.min.js',
+        '/assets/common/layui/css/layui.css',
+        '/assets/common/layui/layui.all.js',
+        '/assets/admin/js/common.js',
+        '/assets/common/js/ajaxRequest.js',
+    ]) }}
+    <style>
+        td,th{text-align: center}
+        .seach input, .seach select {
+            background-color: #fff;
+            border: 1px solid #e5e6e7;
+            padding: 6px 12px;
+        }
+        td{word-break:break-all;}
+
+        .date {
+            width: 420px;
+            float: left;
+        }
+
+        .date .layer-date {
+            width: 160px;
+        }
+
+        .table-header {
+            padding: 20px;
+            background: #fcf8e3
+        }
+        .panel-body{ padding: 15px!important;}
+        .panel-body a{margin: 0px 15px; font-size: 16px; color: #676a6c;}
+        .btn {color: #fff!important;}
+        .col-sm-2{width: 300px;}
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>订单
+                        <small>话费余额查询记录</small>
+                    </h5>
+                </div>
+                <div class="ibox-content">
+
+                    <div class="seach">
+
+                        <form action="" method="get" id="query_order_data_form">
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">用户帐号</span>
+                                    <input class="form-control product-price" value="" name="user_name" placeholder="用户帐号" type="text">
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">手机号码</span>
+                                    <input class="form-control" name="mobile" value="" placeholder="手机号码" type="text"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">查询状态</span>
+                                    {{ sf.select_raw('status', to_options(constant("App\\Common\\Model\\MobileBalanceQuery::STATUSES"), '全部'), {"class": "form-control"}) }}
+                                </div>
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">查询来源</span>
+                                    {{ sf.select_raw('platform_id', to_options(constant("App\\Platform::PLATFORMS"), '全部'), {"class": "form-control"}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2">
+                                <div class="input-group m-b"><span class="input-group-addon">&nbsp;查询IP&nbsp;&nbsp;</span>
+                                    <input placeholder="查询IP" class="form-control" name="ip" value="" type="text"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="width:150px;">
+                                <div class="input-group m-b" style="height: 34px">
+                                    <select  name="time_type" style="height: 34px;width: 150px">
+                                        <option value="add_time">查询时间</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-2" style="width: 450px;padding-right: 2px">
+                                <div class="input-group date" style="float: left">
+                                    <input class="form-control layer-date" id="timeFrame" name=""  value="" style="width: 200px" placeholder="时间范围" type="text"><input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                                    <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                                </div>
+                            </div>
+                        </div>
+                            <button type="submit" class="btn btn-primary" style="position:relative;top:-60px;margin-right:100px;float: right;" onclick="get_data();return false;">立即查询</button>
+                        </form>
+                    </div>
+                    {#<div>#}
+                        {#<button class="btn btn-primary  btn-sm" onclick="count_order(this)" id="show_count_btn">查看统计</button>#}
+                    {#</div>#}
+                    <div class="table-header" style="display: none;" id="count_order">
+
+                    </div>
+
+                    <div style="overflow-x: auto;width:100%">
+                    <table class="table table-striped table-bordered table-hover" id="editable" lay-filter="editable">
+
+                    </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script id="add_time" type="text/html">
+          <%#
+              var date = new Date();
+              date.setTime(d.add_time*1000);
+              return date.Format("yyyy-MM-dd hh:mm:ss");
+          %>
+    </script>
+<script type="text/html" id="actions">
+    <div class="layui-table-cell laytable-cell-4-0-9">
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="detail">请求详情</a>
+    </div>
+</script>
+<script>
+
+    //订单状态
+    var statuses = JSON.parse('{{ constant("App\\Common\\Model\\MobileBalanceQuery::STATUSES")|json_encode|raw }}');
+    var platform_id = JSON.parse('{{ constant("App\\Platform::PLATFORMS")|json_encode|raw }}');
+
+    var url = '';
+    var columns = [[
+        {"field": "id", "type": "checkbox", "width": 100},
+        {"field": "user_name", "title": "用户"},
+        {
+            "field": "platform_id", "title": "平台", templet: function (d) {
+                return platform_id[d.platform_id];
+            }
+        },
+        {
+            "field": "status", "title": "查询状态", templet: function (d) {
+                return statuses[d.status];
+            }
+        },
+        {"field": "mobile", "title": "手机号码", "width": 150},
+        {"field": "response", "title": "查询结果"},
+        {"field": "add_time", "title": "时间", "width": 200, templet: "#add_time"},
+        {"field": "ip", "title": "请求IP"},
+        {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 150}
+    ]];
+
+    get_data();
+    function get_data(){
+        var params = $('form#query_order_data_form').serialize();
+        url = '?' + params;
+        rander_table('#editable', url, columns);
+    }
+
+    table.on('tool(editable)', function(obj){
+        var layEvent = obj.event;
+        var data = obj.data;
+        if(layEvent === 'detail'){
+            var request  = data.request;
+            var response = data.response;
+            var params   = data.params;
+            var content  = '<div>请求信息：</div><div>'+request+'</div>'
+                +'<div>请求参数：</div><div>'+params+'</div>'
+                +'<div>响应信息：</div><div>'+response+'</div>';
+            layer.open({
+                title:'请求详情',
+                area:['500px','500px'],
+                content:content
+            });
+        }
+    });
+
+</script>
+</body>
+</html>

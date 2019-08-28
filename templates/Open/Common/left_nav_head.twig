@@ -1,0 +1,29 @@
+<div class="m-left-head">
+  <div class="head-img">
+    <a href="/user-info/index" title="查看账户信息">
+      <img class="user_head_portrait" src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/img/default-head-portrait.jpg" onerror="this.src='//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/img/default-head-portrait.jpg'"/>
+    </a>
+  </div>
+  <div class="user">
+    <p>{{ user.nick_name }}</p>
+  </div>
+</div>
+<div class="m-side-nav">
+  <div class="nav">
+    {% set icon_idx = 1 %}
+    {% for nav in left_nav %}
+      {#{% set path = nav.route ? path(nav.route) : nav.url %}#}
+      {% set url = menu_path(nav) %}
+      {% set is_current = current_path == url %}
+      <a href="{{ url }}" route="{{ nav|json_encode }}"
+         class="nav-title zzzzzzzzzz {{ is_current ? 'nav-title-this' : '' }}">
+        <i class="iconfont icon-nav icon-nav-{{ icon_idx }}">{{ nav.icon|raw }}</i>
+        <span class="f-fs-16">{{ nav.name }}</span>
+      </a>
+      {% set icon_idx = icon_idx + 1 %}
+    {% endfor %}
+  </div>
+</div>
+<div class="m-copy  f-tac s-gray">
+
+</div>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>用户注册 - {{ params('site_name') }}</title>
+  <link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/open/css/common-register.css"/>
+  <link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/open/css/register.css"/>
+  <link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/open/css/font-icon.css"/>
+  {#{{ use_asset('/assets/passport/css/register-common.css') }}#}
+  {#{{ use_asset('/assets/passport/css/register.css') }}#}
+  {{ use_assets([
+    '/assets/common/layui/css/layui.css',
+  ]) }}
+
+
+  {% set city_picker_js = app.environment == 'dev' ? "city-picker-dev.js" : "city-picker.js" %}
+
+  {{ use_assets([
+    '/assets/common/js/jquery.min.js',
+    '/assets/common/layui/layui.all.js',
+    '/assets/common/js/jquery.serializejson.js',
+    '/assets/common/js/common-verify.js',
+    '/assets/common/components/city-picker/' ~ city_picker_js,
+    '/assets/passport/js/passwdverify.js',
+  ]) }}
+
+
+  <script>
+      //服务协议
+      function agreement() {
+          layer.open({
+              title:    '服务协议',
+              type:     1,
+              closeBtn: 1,
+              area:     ['800px', '600px'], //宽高
+              skin:     'layui-layer-rim',
+              btn:      ['我已阅读'],
+              content:  $('#agreements'),
+              yes:      function (index, layero) {
+                  parent.$("#agree").attr('checked', true);
+                  layer.close(index);
+                  $('#agreements').hide();
+              },
+              cancel: function(){
+                  $('#agreements').hide();
+              }
+          });
+      }
+
+      /**
+       *发送手机/邮箱验证码
+       * @param type mobile|email
+       * @param img_verify_code 图形验证码
+       * @param target 发送目标/手机号码或邮箱帐号
+       */
+      function send_code(type, img_verify_code, target) {
+          var url;
+          var post_data;
+          if (type === 'mobile') {
+              if (!target || $('#bind_mobile').attr('check')) {
+                  layer.msg('请填写正确的手机号码');
+                  return false;
+              }
+              url       = '{{ url('common_sms_verifier_send_sms') }}';
+              post_data = {mobile: target, recaptcha: img_verify_code, type: 'user_login'};
+          } else if (type === 'email') {
+              if (!target) {
+                  layer.msg('请填写正确的邮箱');
+                  return false;
+              }
+              url       = '{{ url('common_sms_verifier_send_verify_code_by_email') }}';
+              post_data = {email: target, recaptcha: img_verify_code, type: 'user_login'};
+          } else {
+              layer.msg('错误的验证类型：' + type);
+              return false;
+          }
+          if (!img_verify_code || img_verify_code === '' || img_verify_code === undefined) {
+              layer.msg('请填写正确的图形验证码');
+              return false;
+          }
+
+          $.post(url, post_data,
+              function (data, status) {
+                  if (!data.status) {
+                      layer.msg('发送失败！' + data.msg);
+                      $('.verify_img').attr('src', '{{ path('common_recaptcha_index') }}?&' + Math.random());
+                      return false;
+                  }
+                  layer.msg('发送成功');
+                  if (type === 'mobile') {
+                      setCountDown($('#mobile-button'), $('#mobile-time'), $('#mobile-time-span'));
+                  } else if (type === 'email') {
+                      setCountDown($('#email-button'), $('#email-time'), $('#email-time-span'));
+                  }
+              }, 'json');
+      }
+
+      function register_success(content) {
+          layer.open({
+              title:    '注册成功',
+              type:     1,
+              closeBtn: 1,
+              area:     ['400px', '300px'], //宽高
+              skin:     'layui-layer-rim',
+              btn:      ['现在就去登录'],
+              content:  content,
+              yes:      function (index, layero) {
+                  window.location = '{{ url('passport_login') }}';
+              }
+          });
+
+      }
+  </script>
+
+  <style>
+  </style>
+</head>
+
+<body>
+<div class="login-top-item">
+  <div class="login-top">
+    <div class="login-logo"></div>
+    <div class="top-page-name"><span>&bull;&nbsp;&nbsp;</span>注册</div>
+    <div class="login-logo-right">已有帐号,<a href="{{ url('passport_login') }}" class="s-blue">请登录</a></div>
+  </div>
+</div>
+

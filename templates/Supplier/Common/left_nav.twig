@@ -1,0 +1,72 @@
+{% set user = app.user %}
+
+{% set current_group = app.request.get('group') %}
+{% set menus = params("supplier_menus") %}
+
+{% set defaults = app.debug ? {"items": [{"name": "路由" ~ current_route ~ " 没有匹配的项, group=" ~ current_group, "url": ""}]} : [] %}
+{% set left_nav = menus[current_group]|default(defaults) %}
+
+
+<div class="foxdou-side">
+    <div class="layui-side-scroll" data-path="{{ current_path }}">
+        <ul class="layui-nav layui-nav-tree" id="layui-nav-tree">
+            {% if left_nav.items is not defined %}
+                {% set url = menu_path(left_nav) %}
+                <li class="layui-nav-item {{ current_path in url ? 'layui-this' : '' }}">
+                    <a href="{{ url }}" data-id="{% if left_nav.cate_id is defined %}{{ left_nav.cate_id }}{% endif %}">
+                        <i class="layui-icon {{ nav.icon|default('') }}"></i>
+                        <cite>{{ left_nav.name }}</cite>
+                    </a>
+                </li>
+            {% else %}
+                {% for nav in left_nav.items|default([]) %}
+                    {% if nav.items is not defined %}
+                        {% set url = menu_path(nav) %}
+                        <li class="layui-nav-item {{ current_path in url ? 'layui-this' : '' }}">
+                            <a href="{{ url }}" data-id="{% if nav.cate_id is defined %}{{ nav.cate_id }}{% endif %}">
+                                <i class="layui-icon {{ nav.icon|default('') }}"></i>
+                                <cite>{{ nav.name }}</cite>
+                                {% if order_recharge_type_total is defined %}
+                                    {% for ortt_key, ortt in order_recharge_type_total %}
+                                        <span class="layui-badge">
+                                            {{ ortt[nav.cate_id] }}
+                                        </span>
+                                    {% endfor %}
+                                {% else %}
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="layui-nav-item layui-nav-itemed">
+                            <a href="javascript:;">
+                                <i class="layui-icon {{ nav.icon|default('') }}"></i>
+                                <cite>{{ nav.name }}</cite>
+                            </a>
+                            <dl class="layui-nav-child">
+                                {% for item in nav.items %}
+                                    {% set url = menu_path(item) %}
+                                    <dd class="{{ current_path in url ? 'layui-this' : '' }}">
+                                        <a href="{{ url }}">
+                                            {{ item.name }}
+                                            {% if order_recharge_type_total is defined %}
+                                                {% for ortt_key, ortt in order_recharge_type_total %}
+                                                    {% if ortt_key == item.action %}
+                                                        <span class="layui-badge">
+                                                            {{ ortt[item.cate_id] }}
+                                                        </span>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            {% else %}
+                                            {% endif %}
+                                        </a>
+                                    </dd>
+                                {% endfor %}
+                            </dl>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+</div>
+

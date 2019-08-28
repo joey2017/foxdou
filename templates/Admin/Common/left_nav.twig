@@ -1,0 +1,62 @@
+{% set user = app.user %}
+
+{% set current_group = app.request.get('group') %}
+{% set admin_menus = params("admin_menus") %}
+
+{% set defaults = app.debug ? {"items": [{"name": "路由" ~ current_route ~ " 没有匹配的项, group=" ~ current_group, "url": ""}]} : [] %}
+{% set left_nav = admin_menus[current_group]|default(defaults) %}
+{% set request_uri = app.request.server.get('REQUEST_URI') %}
+
+<div class="layui-side-scroll" data-path="{{ current_path }}">
+    <a href="{{ path('admin_dashboard_index') }}" class="layui-logo">
+        <span>狐豆后台管理系统</span>
+    </a>
+    <ul class="layui-nav layui-nav-tree" id="layui-nav-tree">
+        {% if left_nav.items is not defined %}
+            {% set url = menu_path(left_nav) %}
+            <li class="layui-nav-item {{ is_current_menu(left_nav) ? 'layui-this' : '' }}">
+                <a href="{{ url }}">
+                    <i class="layui-icon {{ nav.icon|default('') }}"></i>
+                    <cite>{{ left_nav.name }}</cite>
+                </a>
+            </li>
+        {% else %}
+            {% for nav in left_nav.items|default([]) %}
+                {% if nav.items is not defined %}
+                    {% set url = menu_path(nav) %}
+                    <li class="layui-nav-item {{ is_current_menu(nav)  ? 'layui-this' : '' }}">
+                        <a href="{{ url }}">
+                            <i class="layui-icon {{ nav.icon|default('') }}"></i>
+                            <cite>{{ nav.name }}</cite>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="layui-nav-item layui-nav-itemed">
+                        <a href="javascript:;">
+                            <i class="layui-icon {{ nav.icon|default('') }}"></i>
+                            <cite>{{ nav.name }}</cite>
+                        </a>
+                        <dl class="layui-nav-child">
+                            {% for item in nav.items %}
+                            {% set url = menu_path(item) %}
+                            <dd class="{{ is_current_menu(item) ? 'layui-this' : '' }}">
+                                <a href="{{ url }}" data-id="{% if item.cate_id is defined %}{{ item.cate_id }}{% endif %}">
+                                    {{ item.name }}
+                                    {% if order_recharge_type_total is defined %}
+                                        {% for ortt_key, ortt in order_recharge_type_total %}
+                                            {% if ortt_key == item.action %}
+                                                <span class="layui-badge">{{ ortt[item.cate_id] }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                    {% endif %}
+                                </a>
+                            </dd>
+                            {% endfor %}
+                        </dl>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </ul>
+</div>

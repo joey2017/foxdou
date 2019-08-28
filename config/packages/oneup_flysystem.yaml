@@ -1,0 +1,22 @@
+# Read the documentation: https://github.com/1up-lab/OneupFlysystemBundle/tree/master/Resources/doc/index.md
+oneup_flysystem:
+    adapters:
+        default_adapter:
+            local:
+                directory: '%default_upload_save_path%'
+        admin_article_adapter:
+            local:
+                directory: '%admin_article_upload_save_path%'
+        identity_image_adapter:
+            local:
+                directory: '%identity_image_upload_save_path%'
+    filesystems:
+        default:
+            adapter: default_adapter
+            alias: League\Flysystem\Filesystem
+        admin_article:
+            adapter: admin_article_adapter
+            alias: League\Flysystem\Filesystem
+        identity_image:
+            adapter: identity_image_adapter
+            alias: League\Flysystem\Filesystem

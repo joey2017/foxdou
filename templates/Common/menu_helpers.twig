@@ -1,0 +1,12 @@
+{% macro render_menu_item(item) %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': name }|merge(attrs) %}
+  {% endif %}
+  <select name="{{ name }}" {{ sf.attrs(attrs) }}>
+    {% for opt_value, opt_text in choices %}
+      <option value="{{ opt_value }}" {{ current_value is same as(opt_value)  ? 'selected="selected"' : '' }}>
+        {{ opt_text }}
+      </option>
+    {% endfor %}
+  </select>
+{% endmacro %}

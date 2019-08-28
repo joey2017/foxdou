@@ -1,0 +1,60 @@
+<div class="tab-content">
+    <form action="" method="post">
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">设置新密码</label>
+            <div class="sisi-input-inline">
+                <input type="password" name="" value="" class="sisi-input-ing" id="show_new_password"/>
+                <input type="hidden" name="new_password" value="" class="sisi-input-ing" id="new_password"/>
+            </div>
+        </div>
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">确认新密码</label>
+            <div class="sisi-input-inline">
+                <input type="password" name="" value="" class="sisi-input-ing" id="show_confirm_password"/>
+                <input type="hidden" name="confirm_password" value="" class="sisi-input-ing" id="confirm_password"/>
+            </div>
+        </div>
+        <div style="margin: 50px 0 0 110px;">
+            <button class="btn btn-middle btn-blue">确 认</button>
+        </div>
+    </form>
+</div>
+<div class="tab-prompt" style="box-sizing: border-box; padding: 20px;">
+    <p>没有收到短信校正码？</p>
+    <p>1、网络通讯异常可能会造成短信丢失，请重新获取或稍后再试。</p>
+    <p>2、请核实手机是否已欠费停机，或者屏蔽了系统短信。</p>
+</div>
+{{ use_assets([
+    '/assets/common/js/jsencrypt.min.js',
+    '/assets/common/js/jquery.md5.js',
+]) }}
+<script type="text/javascript">
+    function checkSubmit() {
+        var new_password     = $('#show_new_password').val();
+        var confirm_password = $('#show_confirm_password').val();
+        if (!new_password || !confirm_password) {
+            layer.msg('新密码不能为空！', {icon: 2});
+            return false;
+        }
+        if (new_password != confirm_password) {
+            layer.msg('两次输入的新密码不相同！', {icon: 2});
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    function change_data() {
+        //var new_password = do_encrypt($.md5($('#show_new_password').val().trim()));
+        var new_password = do_encrypt($('#show_new_password').val().trim());
+        $('#new_password').val(new_password);
+        $('#confirm_password').val(new_password);
+    }
+
+    var encrypt = new JSEncrypt();
+    encrypt.setPublicKey($("#rsa-pubkey").val());
+
+    function do_encrypt(encryptedstr) {
+        return encryptedstr;
+    }
+</script>

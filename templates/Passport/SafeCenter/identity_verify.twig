@@ -1,0 +1,208 @@
+{% extends '/Passport/layout.twig' %}
+{% block main_content %}
+    <div class="page-content">
+        <div class="tab-group-title">
+            <div class="title-item title-this">
+                <i class="iconfont">&#xe600;</i></br>
+                <span>验证身份</span>
+            </div>
+            <div class="line"></div>
+            <div class="title-item">
+                <i class="iconfont">&#xe603;</i></br>
+                <span>{{ operation[type]['name'] }}</span>
+            </div>
+            <div class="line"></div>
+            <div class="title-item">
+                <i class="iconfont">&#xe641;</i></br>
+                <span>完成</span>
+            </div>
+        </div>
+        <div class="tab-prompt">
+            <i class="iconfont ico-fs-16">&#xe625;</i>
+            <span>您正在使用 <b>{{ way_name }}</b> 验证身份，请完成以下操作</span>
+        </div>
+        <div class="tab-content">
+            <form action="" method="post">
+                <!-- 证件号-->
+                {% if '1' in inspect_way_views %}
+                    <div class="sisi-input-item">
+                        <label class="sisi-input-lable">证件号</label>
+                        <div class="sisi-input-inline">
+                            <input type="text" name="card_id" value="" class="sisi-input-ing"/>
+                        </div>
+                        <div class="sisi-input-auxe">
+                            <p>请输入您绑定的证件号(企业用户请输入营业执照号码，个人用户请输入身份证号码)</p>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- 支付密码-->
+                {% if '3' in inspect_way_views %}
+                    <div class="sisi-input-item">
+                        <label class="sisi-input-lable">支付密码</label>
+                        <div class="sisi-input-inline">
+                            <input type="password" name="pay_password" value="" class="sisi-input-ing"/>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- 登录密码-->
+                {% if '4' in inspect_way_views %}
+                    <div class="sisi-input-item">
+                        <label class="sisi-input-lable">登录密码</label>
+                        <div class="sisi-input-inline">
+                            <input type="password" name="password" value="" class="sisi-input-ing"/>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- 手机-->
+                {% if '2' in inspect_way_views %}
+                    <div class="sisi-input-item">
+                        <label class="sisi-input-lable">手机号码</label>
+                        <div class="sisi-input-inline" style="width: 400px;">
+                            <span class="sisi-span">{{ user_check.bind_mobile }}</span>
+                            <!--<a href="#" class="sisi-a">[手机不可用？点此修改]</a>-->
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- 邮箱 -->
+                {% if '5' in inspect_way_views %}
+                    <div class="sisi-input-item">
+                        <label class="sisi-input-lable">验证邮箱</label>
+                        <div class="sisi-input-inline" style="width: 400px;">
+                            <span class="sisi-span">{{ user_check.bind_email }}</span>
+                            <!--<a href="#" class="sisi-a">[邮箱不可用？点此修改]</a>-->
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!--图形验证码-->
+                <div class="sisi-input-item">
+                    <label class="sisi-input-lable">图形验证码</label>
+                    <div class="sisi-input-inline" style="width: 80px;">
+                        <input type="text" id="verify_code" value="" class="sisi-input-ing"/>
+                    </div>
+                    <div class="sisi-input-auxe">
+                        <div style="width: 90px; height: 34px;background: #CCCCCC;">
+                            <img class="verify_img" src="{{ url('common_recaptcha_index',{'id':'verify_code'}) }}" height="34px" width="90px" onclick="this.src='{{ url('common_recaptcha_index',{'id':'verify_code'}) }}?&'+Math.random();" title="点击获取"/>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- 手机验证码-->
+                {% if '2' in inspect_way_views %}
+                    <div class="sisi-input-item">
+                        <label class="sisi-input-lable">手机验证码</label>
+                        <div class="sisi-input-inline">
+                            <input type="text" name="mobile_verify_code" value="" class="sisi-input-ing"/>
+                        </div>
+                        <div class="sisi-input-auxe">
+                            <button type="button" class="btn btn-green send_code" onclick="sendCode(1);">
+                                <span class="s-white" id="mobile-time"></span><span id="mobile-time-span">发送手机验证码</span>
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <!-- 邮箱验证码-->
+                {% if '5' in inspect_way_views %}
+                    <div class="sisi-input-item">
+                        <label class="sisi-input-lable">邮箱验证码</label>
+                        <div class="sisi-input-inline">
+                            <input type="text" name="mail_verify_code" id="mail_verify_code" value="" class="sisi-input-ing"/>
+                        </div>
+                        <div class="sisi-input-auxe">
+                            <button type="button" class="btn btn-green send_code" onclick="sendCode(2)">
+                                <span class="s-white" id="mobile-time"></span><span id="mobile-time-span">发送邮箱验证码</span>
+                            </button>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div style="margin: 50px 0 0 110px;">
+                    <button class="btn btn-middle btn-blue">下一步</button>
+                    <a href="{{ path('passport_safe_center_identity_verify_way',{'type':type}) }}" class="f-cl-blue" style="margin-left: 20px;">重新选择验证方式</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    {{ use_assets(['/assets/common/js/jquery.form.min.js']) }}
+    <script type="text/javascript">
+        $('form').ajaxForm({
+            dataType:     'json',
+            url:          '{{ path("passport_safe_center_identity_verify") }}?type={{ type }}&verify_identity_way={{ verify_identity_way }}',
+            beforeSubmit: function () {
+            },
+            success:      function (data) {
+                if (data.status) {
+                    location.href = '{{ path("passport_safe_center_operation_exec",{'type':type}) }}';
+                    return;
+                }
+                layer.msg(data.msg);
+            }
+        });
+
+        function sendCode(t) {
+            var verify_code = $('#verify_code').val();
+            if (!verify_code) {
+                layer.msg('图形验证码不能为空');
+                return;
+            }
+            if (t == 1) {
+                var send_url = '{{ path("passport_safe_center_send_user_mobile_verify") }}';
+            } else if (t == 2) {
+                var send_url = '{{ path("passport_safe_center_send_user_email_verify") }}';
+            } else {
+                layer.msg('发送失败');
+            }
+            var success = function (data) {
+                if (data.status == true) {
+                    layer.msg('发送成功！');
+                    setCountDown($('.send_code'), $('#mobile-time'), $('#mobile-time-span'), '');
+                } else {
+                    layer.msg('发送失败！' + data.msg);
+                    $('.verify_img').attr('src', "{{ url('common_recaptcha_index',{'id':'verify_code'}) }}&" + Math.random());
+                }
+            };
+            nxwd.ajaxRequest(send_url,'POST',{verify_code: verify_code},'json',success);
+        }
+
+        /**
+         * 设置倒计时
+         */
+        function setCountDown(dom_button, dom_span, dom_span_content, msg) {
+            if (typeof msg == 'undefined') {
+                msg = '';
+            }
+            dom_span_content.text('秒后重新发送' + msg);
+            dom_button.attr('disabled', true);
+            jump(60, dom_span, function () {
+                dom_span_content.text('重新发送' + msg);
+                dom_button.removeAttr('disabled');
+            });
+        }
+
+
+        /**
+         * 系统设置倒计时
+         */
+        function jump(count, dom, callback) {
+            dom.text(count);
+            window.setTimeout(function () {
+                count--;
+                if (count >= 0) {
+                    jump(count, dom, callback);
+                } else {
+                    dom.text('');
+                    callback();
+                }
+            }, 1000);
+        }
+
+    </script>
+{% endblock %}

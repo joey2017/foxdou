@@ -1,0 +1,111 @@
+{% extends '/Passport/layout.twig' %}
+{% block main_content %}
+<style type="text/css">
+    .page-content{padding: 0;}
+     /*div:after{height: auto}*/
+    .sildrtitle em{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/t1.png) no-repeat;}
+    .banner-info{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/a1.png) no-repeat;}
+
+    .div-content{width: 460px;}
+    .div-group{background: #F8F8F8;}
+    .div-ico{background: none;}
+    .btn{width: 88px;}
+    .btn-green{background-color: #82D660;color: #FBFAFA;border-color: #F5F7F5}
+    .btn-orange{background-color: #F3C14D;color: #FBFAFA;border-color: #F5F7F5}
+</style>
+<div class="page-content">
+    <div class="sildebar">
+        <div class="sildrtitle">
+            <em></em>
+            帐号保护
+        </div>
+        <ul class="silderlist">
+            <li class="link-this">
+                <a href="">帐号保护</a>
+            </li>
+            <li>
+                <a href="{{ path('passport_identity_management_index') }}">实名认证</a>
+            </li>
+        </ul>
+    </div>
+    <div class="mainbar">
+        <h2 class="title">资金保护</h2>
+        <div style="padding: 10px 20px;">
+            <div class="div-group">
+                <div class="div-ico"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/i2.png" /></div>
+                <div class="div-content">
+                    <h3>支付密码</h3>
+                    <p class="f-cl-gray">付款或修改账户信息时输入，保护账户资金安全</p>
+                </div>
+                <div class="div-btn">
+                    <a href="{{ path('passport_safe_center_identity_verify_way',{'type':'4'}) }}" class="btn">修改</a>
+                </div>
+            </div>
+            <div class="div-group">
+                <div class="div-ico"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/i5.png" /></div>
+                <div class="div-content">
+                    <h3>余额支付</h3>
+                    <p class="f-cl-gray">余额支付功能：{% if user %}{{ user.pay_status == constant('App\\Common\\Model\\User\\User::PAY_STATUS_ENABLED') ? '开' : '关' }}{% endif %}</p>
+                </div>
+                <div class="div-btn">
+                    {% if user and user.pay_status == constant('App\\Common\\Model\\User\\User::PAY_STATUS_ENABLED') %}
+                        <a href="javascript:;" onclick="setPayStatus(0)" class="btn">关闭</a>
+                        {% else %}
+                        <a href="javascript:;" onclick="setPayStatus(1)" class="btn btn-orange">开启</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="div-group">
+                <div class="div-ico"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/i6.png" /></div>
+                <div class="div-content">
+                    <h3>狐豆安全风控</h3>
+                    <p class="f-cl-gray">能实时监控您的账户和交易异常，一旦发现异常，会及时通知到您</p>
+                </div>
+                <div class="div-btn">
+                    <a href="javascript:;" class="btn btn-green">保护中</a>
+                </div>
+            </div>
+            <div class="div-group">
+                <div class="div-ico"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/i7.png" /></div>
+                <div class="div-content">
+                    <h3>数字证书</h3>
+                    <p class="f-cl-gray">数字证书已升级为智能安全防护系统，保护你的账户安全</p>
+                </div>
+                <div class="div-btn">
+                    <a href="javascript:;" class="btn btn-green">保护中</a>
+                </div>
+            </div>
+        </div>
+        <h2 class="title">常见问题</h2>
+        <div class="problem">
+            无
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+{% block js_end %}
+<script type="text/javascript">
+    $('.sildebar').height($('.mainbar').height());
+    function setPayStatus(number){
+        var loading = null;
+        var before = function(){
+            loading = layer.load();
+        }
+        var error = function(){
+            layer.close(loading);
+            nxwd.showMsg('服務器未相应，请稍后重试',80000000);
+        }
+        var success = function(data){
+            layer.close(loading);
+            if (data.status) {
+                nxwd.showMsg(data.msg,'success');
+                //location.reload();
+            } else {
+                nxwd.showMsg(data.msg,'danger');
+            }
+        }
+        nxwd.ajaxRequest('{{ path('passport_protect_set_pay_status') }}','POST',{status:number},'json',success,before,error);
+    }
+</script>
+{% endblock %}

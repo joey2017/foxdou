@@ -1,0 +1,28 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/assets/admin/h/css/sidenav.css" />
+    <script type="text/javascript" src="/assets/admin/js/jquery.min.js"></script>
+    <title>侧栏</title>
+    <script language="JavaScript">
+        $(function(){
+            $(".sidenav li").eq(0).addClass('sidenav-this');
+            $(".sidenav li").click(function() {
+                $(this).siblings('li').removeClass('sidenav-this');
+                $(this).addClass('sidenav-this');
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="sidenav-box">
+    <ul class="sidenav">
+        {% for item in left_menu %}
+            <li class="{{ false ? 'sidenav-this' : '' }}"><a href="{{ item.url }}?id={{ id }}" target="right-frame">{{ item.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,6 @@
+endroid_qr_code:
+    path: /test/qr-code/{extension}/{text}
+    requirements:
+        text: "[\\w\\W]+"
+    defaults:
+        _controller: Endroid\QrCodeBundle\Controller\GenerateController

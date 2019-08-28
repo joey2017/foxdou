@@ -1,0 +1,230 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% set title = '我的财务-余额充值-狐豆-开放平台' %}
+{% block main_content %}
+
+  <div class="layui-card">
+    <div class="layui-card-header">在线充值</div>
+    <div class="layui-card-body">
+      <div class="layadmin-area">
+        <p>充值账户：<span>{{ user.realNameInfo.business_name|default('-') }}（{{ user.user_name }}）</span></p>
+        <p>账户余额：<span class="balance">{{ user.OpenPlatformAccount.balance|default(0)|number_format(2) }}</span>元</p>
+      </div>
+      <div class="layadmin-recharge-mode">充值方式：</div>
+      <div class="layui-tab layui-tab-card layadmin-recharge-tab">
+        <ul class="layui-tab-title wap-tab-ul">
+          <li class="layui-this">支付宝转账<span class="hot">（无费率）</span></li>
+          <li>支付宝在线(费率0.6%)</li>
+        </ul>
+        <div class="layui-tab-content" style="min-height: 100px;">
+          <div class="layui-tab-item layui-show">
+            <div class="layui-row">
+              <div class="layui-col-md7">
+                <h5>方法 1：打开支付宝“扫一扫”转账付款</h5>
+                <div class="layadmin-alipay-item">
+                  <img src="{{ asset('/assets/open/images/code-alipay.jpg') }}">
+                  <div class="layadmin-alipay-tip">
+                    <img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/img/saoyisao.png">
+                    <p>打开手机支付宝<br> 扫一扫转账付款</p>
+                  </div>
+                </div>
+                <div class="layadmin-remark">
+                  <p>支付宝转账时备注您的商户编号:</p>
+                  <p class="number">{{ user.user_name }}</p>
+                  <p>可在1分钟左右自动到账</p>
+                </div>
+              </div>
+              <div class="layui-col-md5">
+                <h5>方法 2：转账至下方支付宝账号</h5>
+                  <form id="via_transfer">
+                      <div class="layadmin-alipay-text">
+                          <div class="layadmin-area">
+                            <p>支付宝帐号：admin@foxdou.com</p>
+                            <p>支付宝户名：广西你行我动科技有限公司</p>
+                          </div>
+                          <p>忘记备注或备注信息填错时，将转账成功的支付宝流水号填入下方即可到账，如有疑问请联系客服。</p>
+                          <div class="layui-block">
+                            <input type="text" name="alipay_trade_no" id="alipay_trade_no" class="layui-input" placeholder="支付宝转账成功的交易流水号">
+                          </div>
+                          <div style="margin-top: 20px;">
+                            <input name="_token" value="{{ csrf_token('common_finance_balance_add_balance_via_alipay_transfer') }}" type="hidden">
+                            <input name="platform_id" value="{{ user.OpenPlatformAccount.platformId }}" type="hidden">
+                            <input name="scene_id" value="{{ constant('App\\PaymentConstants::SCENE_OPEN_PLATFORM_RECHARGE') }}" type="hidden">
+                            <button class="layui-btn layui-btn-normal" onclick="alipay_transfer_sub(this);">确认充值</button>
+                          </div>
+                    </div>
+                  </form>
+              </div>
+            </div>
+          </div>
+          <div class="layui-tab-item">
+            <div class="layui-inline layadmin-special-input">
+              <span>&yen;</span>
+              <div class="layui-inline">
+                <input id="amount" name="amount" type="text" class="layui-input" placeholder="请输入充值金额">
+              </div>
+              <label class="layui-form-label" style="color: red;display: none" id="alipayshouxufei"><span id="alipaypcshouxufei">手续费0元</span></label>
+            </div>
+            <div class="layadmin-special-text">
+              <p>
+                <img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/open/img/alipay.png" class="alipay-logo">
+                <span class="pro">请您在使用支付宝在线加款前仔细阅读下方说明信息：</span>
+              </p>
+              <p style="margin-top: 20px;">1、使用支付宝在线充值功能不需绑定支付宝，只需要输入充值金额后点击下一步然后在支付宝完成付款即可。</p>
+              <p>2、手续费按充值金额的0.6%收取，该手续费由支付宝官方直接收取。若不想承担该笔手续费可以选择转账加款的方式。</p>
+              <p>3、付款成功后即可自动到账，若付款后出现不到账的情况请联系客服。</p>
+            </div>
+            <div class="layui-block">
+              <input name="_token" value="{{ csrf_token('common_finance_balance_add_balance_via_alipay_online_payment') }}" type="hidden">
+              {#<a href="#" class="layui-btn layui-btn-normal" id="pc-alipay-next">下一步</a>#}
+              <button class="layui-btn layui-btn-normal" lay-submit="" id="pc-alipay-next">下一步</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+{% block js_end %}
+  <script type="text/javascript">
+
+      $('#amount').bind('click focus', function () {
+          if ($(this).attr('readonly')) {
+              $(this).removeAttr('readonly');
+          }
+      });
+
+      function alipay_transfer_sub(dom) {
+          var alipay_trade_no = $('#alipay_trade_no').val();
+          if (!alipay_trade_no) {
+              layer.msg('支付宝流水号不能为空');
+              return false;
+          }
+          if (alipay_trade_no.length < 25 || isNaN(alipay_trade_no) || alipay_trade_no.length > 38) {
+              layer.msg('请填写正确的支付宝流水号');
+              return false;
+          }
+          $(dom).attr('disabled', 'disabled');
+          var load = layer.load(1, {
+              shade:  [0.1, '#fff'] //0.1透明度的白色背景
+              , time: 0
+          });
+          $.ajax('{{ path('common_finance_balance_add_balance_via_alipay_transfer') }}', {
+              type:      'post'
+              , data:    $('#via_transfer').serializeArray()
+              , success: function (data) {
+                  layer.close(load);
+                  layer.msg(data.msg, function () {
+                  });
+                  if (data.status) {
+                      location.reload();
+                  }
+                  $(dom).removeAttr('disabled');
+
+              }
+              , error:   function () {
+                  layer.close(load);
+                  layer.msg('系统繁忙，请稍候再试');
+                  $(dom).removeAttr('disabled');
+
+              }
+
+          });
+      }
+
+      layui.use(['layer'], function () {
+          var layer = layui.layer;
+
+          bind_input_event('amount', function () {
+              var amount   = $('#amount').val();
+              var money_match;
+              //---modify orx start
+              var money_reg   = /(^[1-9]([0-9]+)?(\.[0-9]{1,2})?)|(^(0){1}$)|(^[0-9]\.[0-9]{0,2})/;
+              money_match = amount.match(money_reg);
+
+              if (!money_reg.test(amount)) {
+                  $('#amount').val('');
+                  $('#alipaypcshouxufei').text('请输入正确的金额');
+                  $('#alipayshouxufei').show();
+                  return;
+              } else {
+                  if (amount.substr(-1, 1) == '.') {
+                      if (amount.match(/\./gi).length > 1) {
+                          amount = money_match[0];
+                          $('#amount').val(amount);
+                      }
+                  } else if (amount != '0') {
+                      if (typeof money_match[0] != 'undefined') {
+                          amount = money_match[0];
+                          $('#amount').val(amount);
+                      }
+                  }
+              }
+              amount = parseFloat(amount);
+              if (!amount) {
+                  $('#alipayshouxufei').hide();
+                  return;
+              }
+
+              {% if not app.debug %}
+              if (amount < 0.1 && amount != 0) {
+                  $('#amount').val(0.1);
+              }
+              {% endif %}
+
+              if (amount > 9999999) {
+                  amount = 9999999;
+                  $('#amount').val(9999999);
+              }
+              var fei   = amount * 0.006;
+              var feilv = fei.toFixed(2);
+              if (amount < 0.9) {
+                  feilv = 0;
+              }
+              $('#alipaypcshouxufei').text('手续费' + feilv + '元');
+              $('#alipayshouxufei').show();
+          });
+
+
+          $('#pc-alipay-next').click(function (e) {
+              var amount = $('#amount').val();
+              if (amount == '' || amount == null || amount == undefined) {
+                  layer.msg('请先填写充值金额');
+                  return;
+              }
+
+              $.ajax({
+                  "type":    "post",
+                  "url":     "{{ path('common_finance_balance_add_balance_via_alipay_online_payment') }}",
+                  "async":   false,
+                  "data":    $('#via_online_payment').serializeArray(),
+                  "success": function (data) {
+                      if (data.status) {
+                          window.open(data.url, "_blank");
+                      } else {
+                          layer.msg(data.msg);
+                      }
+                  }
+              });
+
+              e.preventDefault();
+          });
+
+
+          function bind_input_event(call_name, call_back) {
+              var dom = document.getElementsByClassName(call_name);
+              for (var v in dom) {
+                  if (document.all) {
+                      dom[v].onpropertychange = function () {
+                          call_back();
+                      };
+                  } else {
+                      dom[v].oninput = function () {
+                          call_back();
+                      };
+                  }
+              }
+          }
+      });
+
+  </script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends '/Passport/layout.twig' %}
+{% block css%}
+    <style type="text/css">
+        .page-content{padding: 30px 80px;}
+        .title{display: block; padding: 10px 0 20px 0; color: #444444}
+    </style>
+{% endblock %}
+{% block main_content %}
+    <h3 style="color: #666666;">您正在为账户 {{ user.user_name }}({{ user.nick_name }}) {{ operation[type]['name'] }}，请选择身份验证方式：</h3>
+    {% for k,v in inspect_way_views %}
+        <div class="div-group">
+            {% if '2' in v.ways_ids %}
+                <div class="div-ico"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/ico1.jpg" /></div>
+            {% elseif '5' in v.ways_ids %}
+                <div class="div-ico"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/ico4.jpg" /></div>
+            {% endif %}
+            <div class="div-content">
+                <h3>通过 {{ v.ways_name }}</h3>
+            {% if '2' in v.ways_ids %}
+                <p class="f-cl-gray">如果你的手机 {{ user_check.bind_mobile }} 还在正常使用，请选择此方式</p>
+            {% elseif '5' in v.ways_ids %}
+                <p class="f-cl-gray">如果你的邮箱 {{ user_check.bind_email }} 还在正常使用，请选择此方式</p>
+            {% else %}
+                    <p class="f-cl-gray">通过 {{ v.ways_name }}</p>
+            {% endif %}
+
+            </div>
+            <div class="div-btn">
+                <a href="{{ path('passport_safe_center_identity_verify',{'type':type,'verify_identity_way':k}) }}" class="btn btn-yellow">立即验证</a>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="div-group">
+        <div class="div-ico"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/ico3.jpg" /></div>
+        <div class="div-content">
+            <h3>通过人工服务</h3>
+            {% if inspect_way_views %}
+            <p class="f-cl-gray">若以上信息已忘记或不再使用，请联系客服</p>
+            {% else %}
+            <p class="f-cl-gray">抱歉，根据系统安全中心检测，暂无其他验证方式适合您，请联系客服人工处理</p>
+            {% endif %}
+        </div>
+        <div class="div-btn">
+            <a href="http://crm2.qq.com/page/portalpage/wpa.php?uin=800093007&aty=0&a=0&curl=&ty=1" target="_blank" class="btn btn-yellow">立即联系</a>
+        </div>
+    </div>
+{% endblock %}

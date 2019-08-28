@@ -1,0 +1,22 @@
+{% extends 'Supplier/Common/layout.twig' %}
+{% set title = '狐豆便民中心-账户信息' %}
+
+{% block css %}
+  <style type="text/css">
+    input{height: 34px!important;}
+    .page-content{text-align: left;}
+    a:hover{opacity: .7;}
+    .head-portrait{position: relative;}
+    .uploadImage{position: absolute;top: 0;left: 0; width: 60px;height: 60px;overflow: hidden;}
+    .uploadImage img{width: 100%;height: 100%;}
+    #uploadImage{display: block; width: 60px;height: 60px!important;opacity: 0;cursor: pointer;}
+    .verify_failed{height: 100%;line-height: 34px;color: red}
+    .verify_successed{height: 100%;line-height: 34px;color: green}
+  </style>
+{% endblock %}
+
+{% block main_content %}
+  {% include "/Common/User/_profile.twig" %}
+
+  {% include "/Supplier/User/_form_shop_info.twig" %}
+{% endblock %}

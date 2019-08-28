@@ -1,0 +1,140 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '批量定时改价记录' %}
+
+{% block css %}
+    <style>
+        .search-form .layui-form-label {
+            min-width: 130px;
+        }
+
+        .layui-table-cell {
+            word-wrap: break-word;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form search-form" id="search-form">
+                    <div>
+                        <div class="layui-inline" style="margin-bottom: 0;">
+                            {{ sf.select('enabled', null, {'': '启用状态', '1': '启用', '0': '禁用'}, {'outer': null}) }}
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0;">
+                            {{ sf.select('status', null, to_options('App\\Admin\\Model\\CronJob::STATUSES', '任务执行状态'), {'outer': null}) }}
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0;">
+                            {{ sf.text('time_range', null, {'outer': null}, {'placeholder': '时间范围', 'id': 'search_time_range'}) }}
+                            {{ sf.hidden_raw('from') }}
+                            {{ sf.hidden_raw('to') }}
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0;">
+                            {{ sf.text('search', null, {'outer': null}, {'placeholder': '搜索'}) }}
+                        </div>
+                        <div class="layui-inline" style="margin-bottom: 0;">
+                            {{ sf.button('搜索', {'outer': null}, {'class': 'layui-btn layui-btn-sm', 'style': 'width: 80px;', 'onclick': 'reload_table()'}, null) }}
+                        </div>
+                    </div>
+                </form>
+
+                <script type="text/html" id="toolbar">
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="cancel_selected">撤销选定任务</button>
+                        {#<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="re-edit">选定任务</button>#}
+                    </div>
+                </script>
+
+                <script type="text/html" id="enabled">
+                    <% d.enabled == 1 ? '<span class="layui-badge layui-bg-green">启用</span>' : '<span class="layui-badge layui-bg-orange">禁用</span>' %>
+                </script>
+                <script type="text/html" id="actions">
+                    <a class="layui-btn layui-btn-xs" href="{{ path('admin_product_management_products_cron_jobs_view_price_change_job_details') }}?id=<%= d.id %>" lay-event="view">查看改价详情</a>
+                </script>
+                <table id="table" class="layui-table layadmin-table layui-form" lay-data="{url:'{{ path(current_route, {'product_type': app.request.get('product_type')}) }}', page:true, id:'table', method:'get', toolbar: '#toolbar', defaultToolbar: []}" lay-filter="table">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'id', width:50, type: 'checkbox'}">记录编号</th>
+                        <th lay-data="{field:'id', width:100, align: 'center', templet: '#edit_link'}">记录编号</th>
+                        <th lay-data="{field:'enabled', align: 'center', templet: '#enabled'}">启用状态</th>
+                        <th lay-data="{field:'status_text', align: 'center'}">任务执行状态</th>
+                        <th lay-data="{field:'platform_name', width:100, align: 'center'}">来源平台</th>
+                        <th lay-data="{field:'product_num', width:80, align: 'center', templet: '#status'}">涉及商品数</th>
+                        <th lay-data="{field:'scheduled_at', width:150, align: 'center'}">计划生效时间</th>
+                        <th lay-data="{field:'created_at', width:150, align: 'center'}">创建时间</th>
+                        <th lay-data="{field:'updated_at', width:150, align: 'center'}">结束时间</th>
+                        <th lay-data="{field:'creator_name', width:80, align: 'center' }">创建者</th>
+                        <th lay-data="{field:'canceller_name', width:80, align: 'center'}">终结操作者</th>
+                        <th lay-data="{field:'operations', width:170, align: 'center', templet: '#actions'}">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    <script>
+        $(document).ready(function () {
+            laydate.render({
+                elem: '#search_time_range',
+                type: 'datetime',
+                range: true,
+                format: 'yyyy-MM-dd HH:mm:ss'
+                ,done: function(value, date, endDate){
+                    console.log(value); //得到日期生成的值，如：2017-08-18
+                    console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                    console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+
+                    $('input[name=from]').val(value);
+                    $('input[name=to]').val(endDate.value);
+                }
+            });
+
+            layui.form.render('select');
+
+            table.on('toolbar(table)', function (data) {
+                var ids = [];
+                var checkStatus = table.checkStatus(data.config.id);
+                $.each(checkStatus.data, function (index, item) {
+                    ids.push(item.id);
+                });
+
+                if (typeof window[data.event] === "function") {
+                    window[data.event](ids, data);
+                    return;
+                }
+
+                console.log('Unhandled event: ' + data.event);
+            });
+        });
+
+        function cancel_selected(ids) {
+            axios_form.post('{{ path('admin_cron_jobs_cancel') }}', {ids: ids, _token: '{{ csrf_token('admin_products') }}'})
+                .then(function(response) {
+                    if(response.data.msg) {
+                        layer.msg(response.data.msg);
+                    }
+                    if(response.data.status) {
+                        reload_table();
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+
+        function reload_table() {
+            table.reload('table', {
+                url:'{{ path(current_route) }}',
+                where: $('#search-form').serializeJson()
+            });
+        }
+
+    </script>
+{% endblock %}

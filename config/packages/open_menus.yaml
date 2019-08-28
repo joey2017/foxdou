@@ -1,0 +1,49 @@
+parameters:
+    open_menus:
+        dashboard:
+            name: 控制台
+            url: /open/dashboard
+            items:
+                -   name: 账户信息
+                    icon: icon-iconwodegongzuotai
+                    url:  /open/dashboard/user-info
+                -   name: 平台公告
+                    icon: icon-gonggao
+                    url:  /open/dashboard/announcements
+                -   name: 操作日记
+                    icon: icon-xunhurizhi
+                    url:  /open/dashboard/operation-logs
+        service:
+            name: 服务
+            items:
+                -   name: 手机话费充值
+                    icon: icon-chongzhi2
+                    url:  /open/service/mobile
+                -   name: 手机流量充值
+                    icon: layui-icon-chart
+                    url:  /open/service/flow
+                -   name: 固话宽带充值
+                    icon: layui-icon-rmb
+                    url:  /open/service/telephone
+                -   name: 腾讯业务充值
+                    icon: icon-youxi
+                    url:  /open/service/tencent
+        finance:
+            name: 财务
+            items:
+                -   name: 账户概览
+                    url: /open/finance
+                    icon: icon-caiwu
+                -   name: 交易记录
+                    url: /open/finance/trade-logs
+                    icon: icon-gengxin
+                -   name: 资金明细
+                    url: /open/finance/transactions
+                    icon: icon-rizhidianjihou
+                -   name: 充值记录
+                    url: /open/finance/funding
+                    icon: icon-caiwu
+        passport:
+            name: 安全中心
+            icon: layui-icon-chart
+            url:  /passport/

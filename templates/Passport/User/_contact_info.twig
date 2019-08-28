@@ -1,0 +1,82 @@
+{% set contact_info = user.getContactInfo() %}
+<div class="m-wrapper">
+    <div class="title-block">
+      <h2 class="title-skin">联系信息</h2>
+    </div>
+    <div class="m-single">
+      <ul class="info-skin">
+        <li>
+          <div class="info-skin-left">联系人姓名</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <input type="text" name="" id="contact_name" value="{{ contact_info.contact_name|default('') }}" placeholder="" class="layui-input f-fnsna" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">联系人手机</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <input type="text" name="" id="contact_phone" value="{{ contact_info.contact_phone|default('') }}" placeholder="" class="layui-input f-fnsna" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">联系人邮箱</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <input type="text" name="" id="contact_mail" value="{{ contact_info.contact_mail|default('') }}" placeholder="" class="layui-input f-fnsna" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">联系人QQ</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <input type="text" name="" id="contact_qq" value="{{ contact_info.contact_qq|default('') }}" placeholder="" class="layui-input f-fnsna" />
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">联系人地址</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline" style="width: 600px;">
+              <input type="text" name="" id="contact_address" value="{{ contact_info.contact_address|default('') }}" placeholder="请输入联系人地址" class="layui-input f-fnsna" />
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div style="margin: 30px 0 0 150px;">
+      <button class="layui-btn f-fnsna" id="btn-save-contact">保 存</button>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+//      upload_alios_img('#head_img','.user_head_portrait,#head_img',{});
+      layui.use(['layer'], function(){
+          var layer = layui.layer;
+
+          $('#btn-save-contact').click(function () {
+              $.ajax('{{ path('passport_user_contact_info_update') }}', {
+                  type:'post'
+                  ,data:{contact_name:$('#contact_name').val()
+                      ,contact_phone:$('#contact_phone').val()
+                      ,contact_mail:$('#contact_mail').val()
+                      ,contact_qq:$('#contact_qq').val()
+                      ,contact_address:$('#contact_address').val()
+                      ,_token:'{{ csrf_token("passport_user_contact_info_update") }}'
+                  }
+                  ,success: function (data) {
+                      layer.msg(data.msg);
+                  }
+                  ,error:function () {
+                      layer.msg('网络或系统异常，请稍候再试')
+                  }
+
+              });
+          });
+      });
+
+  </script>

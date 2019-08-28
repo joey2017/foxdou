@@ -1,0 +1,19 @@
+parameters:
+    # Adds a fallback DATABASE_URL if the env var is not set. This allows you
+    # to run cache:warmup even if your environment variables are not available
+    # yet. You should not need to change this value.
+    env(DATABASE_URL): ''
+#    db.url: "mysql://dev:devdev@192.168.1.11/foxdou_dev?charset=utf8mb4"
+    #db.url: "mysql://test_foxdou:LIUliu123456@rm-wz9n3r837e93dat6svo.mysql.rds.aliyuncs.com/foxdou_test?charset=utf8"
+#    db.url: "mysql://root:root@neverland!@127.0.0.1/foxdou_dev?charset=utf8"
+
+    db:
+      master:
+        driver:   pdo_mysql
+        host:     127.0.0.1
+        port:     3306
+        dbname:   foxdou_dev
+        user:     root
+        password: root
+        charset:  utf8mb4
+

@@ -1,0 +1,131 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="5"><h2>用户组价格和策略设置</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">
+            范围<br/>
+            （勾选项出现在下方改价区域
+        </td>
+        <td>
+            <div style="padding: 5px;margin:auto;">
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="toggle_all(this, '.price-group')">
+                    全选
+                </button>
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="toggle_reverse('.price-group')">
+                    反选
+                </button>
+                <br/>
+            </div>
+            <div style="padding: 5px;margin:auto;">
+
+                <input type="checkbox" name="group_idx_0" title="全部用户（一般售价）(必选)" lay-skin="primary" checked readonly disabled>
+                <br/>
+                {% for group in price_groups %}
+                    {% set group_idx = loop.index0 + 2 %}
+                    <div class="layui-inline" style="min-width: 100px;">
+                        <input type="checkbox" name="group_ids[]" value="{{ group.id }}" title="{{ group.group_name }}" data-group-idx="{{ group_idx }}" class="price-group" lay-skin="primary" lay-filter="price_group_changed" {{ group.checked ? 'checked' : '' }}>
+                    </div>
+                {% endfor %}
+                <br/>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <input type="checkbox" name="set_specific_users" value="1" title="指定用户：（特殊售价）" lay-filter="price_group_changed" lay-skin="primary">
+                </div>
+                <div>
+                    {% if app.debug %}
+                    <textarea name="specific_user_names" class="layui-textarea" placeholder="请输入需要指定用户的通行证，每行为一项。">251651698
+543163171
+1521875638</textarea>
+                    {% else %}
+                    <textarea name="specific_user_names" class="layui-textarea" placeholder="请输入需要指定用户的通行证，每行为一项。"></textarea>
+                    {% endif %}
+                </div>
+            </div>
+        </td>
+    </tr>
+
+    {# 编辑模式下额外显示生效时间选择框 #}
+    {% if mode == 'edit' %}
+        <tr>
+            <td style="width: 150px;text-align: center;">生效时间</td>
+            <td>
+                <div class="layui-form-item" style="margin-bottom: 0px;">
+                    <div class="layui-input-inline">
+                        <input type="text" name="scheduled_at" id="scheduled_at" value="" class="layui-input" placeholder="比如：2019-09-09 00:00">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux">不填生效时间则立即生效</div>
+                </div>
+            </td>
+        </tr>
+    {% endif %}
+</table>
+
+<table class="layui-table layadmin-remove-color">
+    {#<colgroup>#}
+    {#<col style="width: 150px;text-align: center;" />#}
+    {#<col style="width: 80px;text-align: center;" />#}
+    {#<col style="text-align: center;" />#}
+    {#</colgroup>#}
+    <tr>
+        <td class="table-header" colspan="{{ (price_groups|length) + 4 }}"><h2>设置商品价格</h2></td>
+    </tr>
+    {% set sell_statuss          = to_options('App\\ProductConstants::SELL_STATUSES', '上架状态') %}
+    {% set refund_types          = to_options('App\\ProductConstants::REFUND_TYPES', '失败自动退款') %}
+    {% set price_limit_types     = to_options('App\\ProductConstants::PRICE_LIMIT_TYPES', '失败自动退款') %}
+    {% set strategy_options      = to_options('App\\ProductConstants::STRATEGIES', '策略类型') %}
+    {% set area_priority_options = to_options('App\\ProductConstants::AREA_PRIORITIES', '地区优先级') %}
+
+    {% for product in products %}
+        <tr id="item_{{ product.id }}" style="text-align: center;">
+            <td style="min-width: 150px;">
+                <p>{{ product.name }}</p>
+                <p> - </p>
+                <p>面值：{{ product.face_value }}</p>
+                <p> - </p>
+                <p>官方售价：{{ product.official_price }}</p>
+                <input type="hidden" name="products.{{ product.id }}.id" value="{{ product.id }}"/>
+            </td>
+            <td style="width: 150px;text-align: center;">
+                <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="sync_down_all(this, '{{ product.id }}')">
+                    全属性向下同步
+                </button>
+                <br> <br>
+                <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="remove_row(this, '#item_{{ product.id }}')">
+                    移除
+                </button>
+            </td>
+
+
+            {#全部用户的默认设置#}
+            {% set group_idx = 0 %}
+            {% set input_name_prefix = 'default_settings.' ~ product.id %}
+            {% set defaultType = constant('App\\ProductConstants::SETTING_SUBJECT_TYPE_DEFAULT') %}
+            {% set setting = product_settings[product.id][defaultType][0]|default(null) %}
+            {% set context = {'product': product, 'group': null, 'group_idx': group_idx, 'group_name': '全部用户', 'setting': setting, 'input_name_prefix': input_name_prefix}  %}
+            {% include "/Admin/ProductManagement/Product/_product_form_edit_user_group_settings_group_column.twig" with context %}
+
+            {#指定用户的设置#}
+            {% set group_idx = 1 %}
+            {% set input_name_prefix = 'specific_user_settings.' ~ product.id %}
+            {% set setting = null %} {# 设置为 null 的原因是因为，编辑的时候是编辑选定的多个用户的设置，所以无法设置默认值 #}
+            {% set context = {'product': product, 'group': null, 'group_idx': group_idx, 'group_name': '指定用户', 'setting': setting, 'input_name_prefix': input_name_prefix}  %}
+            {% include "/Admin/ProductManagement/Product/_product_form_edit_user_group_settings_group_column.twig" with context %}
+
+            {# 售价组的设置 #}
+            {% for group in price_groups %}
+                {% set group_idx = group_idx + 1 %}
+                {# 售价组的设置 #}
+                {% set input_name_prefix = 'group_settings.product_' ~ product.id ~ '.' ~ group.id  %}
+                {% set groupType = constant('App\\ProductConstants::SETTING_SUBJECT_TYPE_GROUP') %}
+                {% set setting = product_settings[product.id][groupType][group.id]|default(null) %}
+                {% set context = {'product': product, 'group': group, 'group_idx': group_idx, 'group_name': group.group_name, 'setting': setting, 'input_name_prefix': input_name_prefix}  %}
+                {% include "/Admin/ProductManagement/Product/_product_form_edit_user_group_settings_group_column.twig" with context %}
+            {% endfor %}
+        </tr>
+
+    {% endfor %}
+</table>

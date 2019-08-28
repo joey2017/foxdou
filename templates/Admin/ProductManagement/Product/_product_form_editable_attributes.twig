@@ -1,0 +1,56 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="5"><h2>批量设置可修改属性</h2></td>
+    </tr>
+    <tr>
+        <td class="table-sub-header" style="">商品名称</td>
+        <td class="table-sub-header" style="width: 80px;">是否上架</td>
+        <td class="table-sub-header" style="width: 120px;">失败自动退款</td>
+        <td class="table-sub-header" style="width: 80px;">限价</td>
+        <td class="table-sub-header" style="width: 120px;">操作</td>
+    </tr>
+    {% for item in products %}
+        <tr id="item_{{ item.id }}">
+            <td>
+                <div class="layui-fluid" style="padding: 0;">
+                    <div class="layui-row">
+                        <div class="layui-col-md10">
+                            {{ sf.text_raw('name_' ~ item.id, {'value': item.name}) }}
+                        </div>
+                        <div class="layui-col-md2" style="padding-left: 10px;">
+                            <div class="layui-form-mid layui-word-aux">
+                                <a href="#" onclick="$('input[name=name_{{ item.id }}]').val('{{ item.name }}')" data-target="name_{{ item.id }}" data-default-name="{{ item.name }}">默认名称</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                {{ sf.checkbox_raw('status_' ~ item.id, {'1': '是'}, {'lay-skin': 'switch', 'lay-text': '是|否', 'checked': 1}) }}
+            </td>
+            <td>
+                {{ sf.checkbox_raw('auto_refund_' ~ item.id, {'1': '是'}, {'lay-skin': 'switch', 'lay-text': '是|否', 'checked': 1}) }}
+            </td>
+            <td>
+                {{ sf.checkbox_raw('price_limit_' ~ item.id, {'1': '是'}, {'lay-skin': 'switch', 'lay-text': '是|否', 'checked': 1}) }}
+            </td>
+            <td>
+                {{ sf.hidden_raw('ids[]', {'value': item.id}) }}
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn layui-btn-normal layui-btn-sm" onclick="sync_forward({{ loop.index0 }}, {{ loop.length }})">
+                        向下同步
+                    </button>
+                </div>
+                <div class="layui-input-inline">
+                    <button type="button" class="layui-btn layui-btn-danger layui-btn-sm" onclick="$('#item_{{ item.id }}').remove()">
+                        移除
+                    </button>
+                </div>
+            </td>
+        </tr>
+
+    {% endfor %}
+</table>
+

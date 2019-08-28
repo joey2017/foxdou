@@ -1,0 +1,1801 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>狐豆云数据-接口产品-腾讯业务充值</title>
+    {{ use_assets([
+        '/assets/open/frontpage/css/layui.css',
+        '/assets/open/frontpage/css/font-icon/iconfont.css',
+        '/assets/open/frontpage/css/common.css',
+        '/assets/open/frontpage/css/article-article.css',
+        '/assets/common/js/jquery.min.js',
+        '/assets/open/frontpage/js/prettifyCode/prettify.css',
+        '/assets/open/frontpage/js/prettifyCode/prettify.js',
+        '/assets/open/frontpage/js/layui.js',
+    ]) }}
+</head>
+
+<body>
+<div class="g-head">
+    {% include "/Open/Common/topNav.twig" %}
+    <div class="m-banner-ad banner-bg"></div>
+</div>
+<div class="g-main clearfloat">
+    <div class="product-intro clearfloat">
+        <div class="f-fl">
+            <div class="product-booth">
+                <img src="{{ asset('/assets/open/frontpage/images/txyw.png') }}" />
+            </div>
+        </div>
+        <div class="product-detail">
+            <div class="detail-arrt">
+                <h1>
+                    <span style="margin-right: 15px;">腾讯业务充值</span>
+                </h1>
+                <p class="s-gray s-gray1">Q币、QQ黄钻、QQ会员等腾讯业务充值</p>
+                <p class="s-gray">
+                    <span>扣费方式：</span>
+                    <a href="javascript:void(0);" class="promo-type-1 promo-type-this" key="shishikoufei" onclick="koufeifangshi(this);">实时扣费</a>
+                </p>
+
+                <!-- 实时扣费 -->
+                <div key="shishikoufei" style="display: block;">
+                    <p>
+                        <span>价&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：&nbsp;</span>
+                        <span style="color: #FFA800;"><b>免费</b></span>
+                    </p>
+                    <p>
+                        {#<button class="btn btn-blue" onclick="lijishenqing();">免费申请</button>#}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% include "/Open/Interface/common_left.twig" %}
+    <div class="right-main">
+        <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin-top: 0px;">
+            <ul class="layui-tab-title">
+                <li class="layui-this">API</li>
+                <li>状态码参考</li>
+                <li>服务详情</li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="details-api">
+                        <div class="details-api-tab">
+                            <a href="javascript:void(0);" key="0" class="details-api-tab-this">1.话费查询</a>
+                            <a href="javascript:void(0);" key="1">2.查询订单</a>
+                            <a href="javascript:void(0);" key="2">3.查询商品</a>
+                            <a href="javascript:void(0);" key="3">4.回调通知</a>
+                        </div>
+                        <div class="details-api-content" key="0">
+                            <div class="goods-main">
+                                <ul class="h-details clearfloat">
+                                    <li>
+                                        <div class="details-title">接口地址：</div>
+                                        <div class="detail-content">
+                                            <p>https://openapi.foxdou.com/gateway.do</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">接口名称：</div>
+                                        <div class="detail-content">
+                                            <p>foxdou.tencent.recharge</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">支持格式：</div>
+                                        <div class="detail-content">
+                                            <p>json</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">请求方式：</div>
+                                        <div class="detail-content">
+                                            <p>get/post</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">请求示例：</div>
+                                        <div class="detail-content">
+                                            <p>https://openapi.foxdou.com/gateway.do?app_id=100001&method=foxdou.apistore.tencent.recharge&request_id=201601251702160000521880512&timestamp=2016-01-25 17:02:16&format=json&version=1.0&outer_sn=21321231&product_id=10000&qq=xxx&buy_num=1&recharge_ip=127.0.0.1&sign=4C356BC2C04186F4287DBBCF92B5336E</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>公共请求参数：：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>app_id</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">应用ID,在应用管理中查看</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>method</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">接口名称，本接口请填写foxdou.tencent.recharge</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>sign</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">签名<a target="_blank" href="https://open.foxdou.com/servicemall/tool/sign" style="font-size: 12px;">查看签名方式</a></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>request_id</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">请求编号，需保证唯一性，如12346</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>timestamp</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">发送请求的时间，格式"yyyy-MM-dd HH:mm:ss",允许请求的最大时间误差为5分钟</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>format</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>否</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">响应格式，默认json，目前仅支持json格式</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>version</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">调用的接口版本，固定为：1.0（请带小数点，如“1.0”，不要只写“1”）</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>业务请求参数：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>outer_sn</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">外部订单号</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>product_id</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">商品编号，可通过后台查询或商品查询接口</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>amount</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">充值帐号</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>buy_num</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">购买数量</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>recharge_ip</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">充值vip</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>公共返回参数说明：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>msg</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">本次请求的说明信息</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>error_code</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">请求状态码，返回“0”即代表业务请求/处理成功，其他请查阅状态码参考</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>time</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">当前响应时间</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>result</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>object</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">业务请求结果集，其值受业务影响，具体请看业务返回参数</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>业务返回参数说明：</h4>
+                                            <div class="details2-content">
+                                                <table class="foxdou-table foxdou-table-nob">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="td-5">名称</th>
+                                                        <th class="td-3">类型</th>
+                                                        <th class="td-5">示例值</th>
+                                                        <th class="td-7">描述</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="">
+                                                    <tr>
+                                                        <td colspan="4" class="foxdou-table-opentd">
+                                                            <!--二级伪表格-->
+                                                            <div class="foxdou-table-list return_params_table_data_0">
+                                                                <ul class="tr order_sn_19">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">order_sn</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">2016012517021636711</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">系统订单号</span></li>
+                                                                </ul>
+                                                                <ul class="tr product_name_56">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">product_name</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">Q币直充</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">商品名称</span></li>
+                                                                </ul>
+                                                                <ul class="tr product_face_val_57">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">product_face_val</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">1.000</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">商品面值</span></li>
+                                                                </ul>
+                                                                <ul class="tr buy_num_58">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">buy_num</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">1</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">购买数量</span></li>
+                                                                </ul>
+                                                                <ul class="tr account_59">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">account</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">xxx</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">充值帐号</span></li>
+                                                                </ul>
+                                                                <ul class="tr amount_60">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">amount</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">1</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">充值金额</span></li>
+                                                                </ul>
+                                                                <ul class="tr status_61">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">status</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">4</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">充值状态</span></li>
+                                                                </ul>
+                                                                <ul class="tr price_62">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">price</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">0.947</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">销售价格</span></li>
+                                                                </ul>
+                                                                <ul class="tr product_id_63">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">product_id</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">10000</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">商品编号</span></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>JSON返回示例：</h4>
+                                            <div class="details2-content">
+                                                <div class="jsonCallback">
+													<pre class="prettyprint">
+{
+	"msg":"提交成功",
+	"code":"0",
+	"time":"2016-01-25 17:02:17",
+	"result":{
+		"order_sn":"2016012517021636711",
+		"product_name":"Q币直充",
+		"product_face_val":"1.000",
+		"buy_num":"1",
+		"account":"xxx",
+		"amount":"1",
+		"status":"4",
+		"price":"0.947",
+		"product_id":"10000"
+	}
+}
+													</pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="details-api-content" key="1">
+                            <div class="goods-main">
+                                <ul class="h-details clearfloat">
+                                    <li>
+                                        <div class="details-title">接口地址：</div>
+                                        <div class="detail-content">
+                                            <p>https://openapi.foxdou.com/gateway.do</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">接口名称：</div>
+                                        <div class="detail-content">
+                                            <p>foxdou.tencent.queryProduct</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">支持格式：</div>
+                                        <div class="detail-content">
+                                            <p>json</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">请求方式：</div>
+                                        <div class="detail-content">
+                                            <p>get/post</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">请求示例：</div>
+                                        <div class="detail-content">
+                                            <p>https://openapi.foxdou.com/gateway.do?app_id=100001&method=foxdou.apistore.tencent.queryProduct&request_id=201601251802530000854819994&timestamp=2016-01-25 18:02:53&format=json&version=1.0&pages=1&limit=20&sign=4554827477A04090E5AC87C82ED70736</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>公共请求参数：：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>app_id</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">应用ID,在应用管理中查看</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>method</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">接口名称，本接口请填写foxdou.tencent.queryProduct</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>sign</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">签名<a target="_blank" href="https://open.foxdou.com/servicemall/tool/sign" style="font-size: 12px;">查看签名方式</a></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>request_id</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">请求编号，需保证唯一性，如12346</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>timestamp</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">发送请求的时间，格式"yyyy-MM-dd HH:mm:ss",允许请求的最大时间误差为5分钟</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>format</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>否</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">响应格式，默认json，目前仅支持json格式</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>version</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">调用的接口版本，固定为：1.0（请带小数点，如“1.0”，不要只写“1”）</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>业务请求参数：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>pages</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming"></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>limit</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming"></p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>公共返回参数说明：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>msg</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">本次请求的说明信息</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>error_code</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">请求状态码，返回“0”即代表业务请求/处理成功，其他请查阅状态码参考</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>time</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">当前响应时间</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>result</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>object</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">业务请求结果集，其值受业务影响，具体请看业务返回参数</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>业务返回参数说明：</h4>
+                                            <div class="details2-content">
+                                                <!--行无边表格：foxdou-table-nob（为点击tr展开做准备），若是普通表格无须添加.foxdou-table-nob-->
+                                                <table class="foxdou-table foxdou-table-nob">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="td-5">名称</th>
+                                                        <th class="td-3">类型</th>
+                                                        <th class="td-5">示例值</th>
+                                                        <th class="td-7">描述</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="">
+                                                    <tr>
+                                                        <td colspan="4" class="foxdou-table-opentd">
+                                                            <!--二级伪表格-->
+                                                            <div class="foxdou-table-list return_params_table_data_1">
+                                                                <ul class="tr count_15">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">count</span></li>
+                                                                    <li class="td td-3 "><span class="type">int</span></li>
+                                                                    <li class="td td-5"><span class="example">9</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">当前页数量</span></li>
+                                                                </ul>
+                                                                <ul class="tr data_list_54 foxdou-table-trigger foxdou-table-triggerin">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou triangle triangle-open"></em><span class="name">data_list</span></li>
+                                                                    <li class="td td-3 "><span class="type">object</span></li>
+                                                                    <li class="td td-5"><span class="example">[]</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">商品列表集</span></li>
+                                                                </ul>
+                                                                <div class="foxdou-table-list foxdou-table-listin" style="display: block;">
+                                                                    <ul class="tr product_id_106">
+                                                                        <li class="td td-5"><em class="xian bridge"></em><em class="jiantou"></em><span class="name">product_id</span></li>
+                                                                        <li class="td td-3 "><span class="type">string</span></li>
+                                                                        <li class="td td-5"><span class="example">10000</span></li>
+                                                                        <li class="td td-7"><span class="explain shuoming">商品编号</span></li>
+                                                                    </ul>
+                                                                    <ul class="tr product_name_107">
+                                                                        <li class="td td-5"><em class="xian bridge"></em><em class="jiantou"></em><span class="name">product_name</span></li>
+                                                                        <li class="td td-3 "><span class="type">string</span></li>
+                                                                        <li class="td td-5"><span class="example">Q币直充1.00元</span></li>
+                                                                        <li class="td td-7"><span class="explain shuoming">商品名称</span></li>
+                                                                    </ul>
+                                                                    <ul class="tr product_face_val_108">
+                                                                        <li class="td td-5"><em class="xian bridge"></em><em class="jiantou"></em><span class="name">product_face_val</span></li>
+                                                                        <li class="td td-3 "><span class="type">string</span></li>
+                                                                        <li class="td td-5"><span class="example">1.00</span></li>
+                                                                        <li class="td td-7"><span class="explain shuoming">商品面值</span></li>
+                                                                    </ul>
+                                                                    <ul class="tr can_buy_num_scope_109">
+                                                                        <li class="td td-5"><em class="xian bridge"></em><em class="jiantou"></em><span class="name">can_buy_num_scope</span></li>
+                                                                        <li class="td td-3 "><span class="type">string</span></li>
+                                                                        <li class="td td-5"><span class="example">1-1000</span></li>
+                                                                        <li class="td td-7"><span class="explain shuoming">该商品可购买数量的范围</span></li>
+                                                                    </ul>
+                                                                    <ul class="tr unit_110">
+                                                                        <li class="td td-5"><em class="xian bridge"></em><em class="jiantou"></em><span class="name">unit</span></li>
+                                                                        <li class="td td-3 "><span class="type">string</span></li>
+                                                                        <li class="td td-5"><span class="example">1</span></li>
+                                                                        <li class="td td-7"><span class="explain shuoming">单位1:(个)，2:(月)</span></li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>JSON返回示例：</h4>
+                                            <div class="details2-content">
+                                                <div class="jsonCallback">
+													<pre class="prettyprint">
+{
+	"msg":null,
+	"code":"0",
+	"time":"2016-01-25 17:57:48",
+	"result":{
+		"count":9,
+		"data_list":[{
+			"product_id":"10000",
+			"product_name":"Q币直充1.00元",
+			"product_face_val":"1.00",
+			"can_buy_num_scope":"1-1000",
+			"unit":"1"
+		},
+		{
+			"product_id":"10001",
+			"product_name":"Q币直充500.00元",
+			"product_face_val":"500.00",
+			"can_buy_num_scope":"1",
+			"unit":"1"
+		},
+		{
+			"product_id":"10002",
+			"product_name":"Q币直充300.00元",
+			"product_face_val":"300.00",
+			"can_buy_num_scope":"1",
+			"unit":"1"
+		},
+		{
+			"product_id":"10003",
+			"product_name":"Q币直充200.00元",
+			"product_face_val":"200.00",
+			"can_buy_num_scope":"1",
+			"unit":"1"
+		},
+		{
+			"product_id":"10004",
+			"product_name":"Q币直充100.00元",
+			"product_face_val":"100.00",
+			"can_buy_num_scope":"1",
+			"unit":"1"
+		},
+		{
+			"product_id":"10005",
+			"product_name":"Q币直充50.00元",
+			"product_face_val":"50.00",
+			"can_buy_num_scope":"1",
+			"unit":"1"
+		}]
+	}
+}
+													</pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="details-api-content" key="2">
+                            <div class="goods-main">
+                                <ul class="h-details clearfloat">
+                                    <li>
+                                        <div class="details-title">接口地址：</div>
+                                        <div class="detail-content">
+                                            <p>https://openapi.foxdou.com/gateway.do</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">接口名称：</div>
+                                        <div class="detail-content">
+                                            <p>foxdou.tencent.queryOrder</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">支持格式：</div>
+                                        <div class="detail-content">
+                                            <p>json</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">请求方式：</div>
+                                        <div class="detail-content">
+                                            <p>get/post</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">请求示例：</div>
+                                        <div class="detail-content">
+                                            <p>https://openapi.foxdou.com/gateway.do?app_id=100001&method=foxdou.apistore.tencent.queryOrder&request_id=201601251801450000613941143&timestamp=2016-01-25 18:01:45&format=json&version=1.0&outer_sn=&order_sn=2016012517021636711&sign=BF1CAA6007263736749AD263AD5DA6EA</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>公共请求参数：：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>app_id</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">应用ID,在应用管理中查看</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>method</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">接口名称，本接口请填写foxdou.tencent.queryOrder</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>sign</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">签名<a target="_blank" href="https://open.foxdou.com/servicemall/tool/sign" style="font-size: 12px;">查看签名方式</a></p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>request_id</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">请求编号，需保证唯一性，如12346</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>timestamp</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">发送请求的时间，格式"yyyy-MM-dd HH:mm:ss",允许请求的最大时间误差为5分钟</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>format</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>否</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">响应格式，默认json，目前仅支持json格式</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>version</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">调用的接口版本，固定为：1.0（请带小数点，如“1.0”，不要只写“1”）</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>业务请求参数：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>outer_sn</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">外部订单号</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>order_sn</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">系统订单号</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>公共返回参数说明：</h4>
+                                            <div class="details2-content">
+                                                <table class="table-1">
+                                                    <thead>
+                                                    <tr>
+                                                        <th style="width: 80px;">名称</th>
+                                                        <th style="width: 50px;">类型</th>
+                                                        <th style="width: 50px;">必填</th>
+                                                        <th>说明</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <p>msg</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">本次请求的说明信息</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>error_code</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">请求状态码，返回“0”即代表业务请求/处理成功，其他请查阅状态码参考</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>time</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>string</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">当前响应时间</p>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>
+                                                            <p>result</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>object</p>
+                                                        </td>
+                                                        <td>
+                                                            <p>是</p>
+                                                        </td>
+                                                        <td>
+                                                            <p class="shuoming">业务请求结果集，其值受业务影响，具体请看业务返回参数</p>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>业务返回参数说明：</h4>
+                                            <div class="details2-content">
+                                                <!--行无边表格：foxdou-table-nob（为点击tr展开做准备），若是普通表格无须添加.foxdou-table-nob-->
+                                                <table class="foxdou-table foxdou-table-nob">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="td-5">名称</th>
+                                                        <th class="td-3">类型</th>
+                                                        <th class="td-5">示例值</th>
+                                                        <th class="td-7">描述</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="">
+                                                    <tr>
+                                                        <td colspan="4" class="foxdou-table-opentd">
+                                                            <!--二级伪表格-->
+                                                            <div class="foxdou-table-list return_params_table_data_2">
+                                                                <ul class="tr order_sn_20">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">order_sn</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">2016012517021636711</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">系统订单号</span></li>
+                                                                </ul>
+                                                                <ul class="tr outer_sn_55">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">outer_sn</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">21321231</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">外部订单号</span></li>
+                                                                </ul>
+                                                                <ul class="tr status_157">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">status</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">21321231</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">充值状态(1:充值中,2:充值成功,3:充值失败。除3外若返回其他代码切勿退款)</span></li>
+                                                                </ul>
+                                                                <ul class="tr status_msg_158">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">status_msg</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">21321231</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">订单状态说明</span></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>JSON返回示例：</h4>
+                                            <div class="details2-content">
+                                                <div class="jsonCallback">
+													<pre class="prettyprint">
+{
+	"msg":"查询成功",
+	"code":"0",
+	"time":"2016-01-25 18:01:46",
+	"result":{
+		"order_sn":"2016012517021636711",
+		"outer_sn":"21321231",
+		"status":"1",
+		"status_msg":"充值中"
+	}
+}
+													</pre>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="details-api-content" key="3">
+                            <div class="goods-main">
+                                <ul class="h-details clearfloat">
+                                    <li>
+                                        <div class="details-title">支持格式：</div>
+                                        <div class="detail-content">
+                                            <p>json</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">请求方式：</div>
+                                        <div class="detail-content">
+                                            <p>post</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">接口备注：</div>
+                                        <div class="detail-content">
+                                            <p>订单状态回调接口，以post方式通知（第一次实时通知，第二次相隔5分钟，第三次起隔30分钟，最多通知5次，收到通知并校验签名后请返回纯小写英文“ok”，不要双引号）。</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details-title">请求示例：</div>
+                                        <div class="detail-content request-example" style="word-break: break-all">
+                                            <p>https://127.0.0.1/?order_sn=2016012417460031550&amp;outer_sn=123456&amp;order_status=2&amp;sign=927d1c5d76a982fee552b16387ec357f</p>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <div class="details2">
+                                            <h4>业务返回参数说明：</h4>
+                                            <div class="details2-content">
+                                                <table class="foxdou-table foxdou-table-nob">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="td-5">名称</th>
+                                                        <th class="td-3">类型</th>
+                                                        <th class="td-5">示例值</th>
+                                                        <th class="td-7">描述</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="">
+                                                    <tr>
+                                                        <td colspan="4" class="foxdou-table-opentd">
+                                                            <!--二级伪表格-->
+                                                            <div class="foxdou-table-list return_params_table_data_3">
+                                                                <ul class="tr order_sn_153">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">order_sn</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">2016012417460031550</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">系统订单号</span></li>
+                                                                </ul>
+                                                                <ul class="tr outer_sn_154">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">outer_sn</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">123456</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">外部订单号(下单时传递的outer_sn)</span></li>
+                                                                </ul>
+                                                                <ul class="tr order_status_155">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">order_status</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">2</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">订单状态(2成功,3失败)</span></li>
+                                                                </ul>
+                                                                <ul class="tr sign_156">
+                                                                    <li class="td td-5"><em class="xian"></em><em class="jiantou"></em><span class="name">sign</span></li>
+                                                                    <li class="td td-3 "><span class="type">string</span></li>
+                                                                    <li class="td td-5"><span class="example">927d1c5d76a982fee552b16387ec357f</span></li>
+                                                                    <li class="td td-7"><span class="explain shuoming">签名md5(order_sn+outer_sn+order_status+appkey)取小写值</span></li>
+                                                                </ul>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="details-api">
+                        <div class="goods-main">
+                            <ul class="h-details clearfloat">
+                                <li style="margin-bottom: 20px;">
+                                    <div class="details2-content">
+                                        <h4 style="margin-bottom: 10px;">服务级错误码(error_code)：</h4>
+                                        <table class="table-1">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 300px;">错误码</th>
+                                                <th>说明</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>200001</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">QQ号码不符合规范</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>200002</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">下单失败，具体信息将在msg节点反馈</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>200003</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">扣款失败</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>200004</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">外部订单号重复</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>200051</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">系统订单号和外部订单号不能同时为空</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>200052</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">订单不存在</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </li>
+                                <li style="margin-bottom: 20px;">
+                                    <div class="details2-content">
+                                        <h4 style="margin-bottom: 10px;">系统级错误码(error_code)：</h4>
+                                        <table class="table-1">
+                                            <thead>
+                                            <tr>
+                                                <th style="width: 100px;">错误码</th>
+                                                <th>说明</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100001</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">参数不能为空，请按照开发文档传递正确的参数</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100002</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">app_id必须为数字！</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100003</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">不存在的app_id</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100004</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">系统日志记录失败</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100005</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">错误的签名，请检查签名是否正确</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100006</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">APPID与用户身份不符</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100007</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">不存在该方法名（method）</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100008</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">抱歉，该接口暂停服务</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100009</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">抱歉，您没有使用这个接口的权限，如需要使用，请先申请</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100010</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">流量超限</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100011</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">禁止非白名单IP请求</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100012</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">服务不存在或已停止服务</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100013</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">该服务已暂停使用</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100014</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">应用状态异常</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100015</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">30分钟内请求失败次数过多（30次），请30分钟后再试</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100016</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">应用已到期，请续费后再操作</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100017</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">请求频率超限</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100018</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">系统方法method异常</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100019</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">该请求已过期</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100020</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">请求重复</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100021</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">调试次数达上限(50次|天)</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100051</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">缺少必要参数</p>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="width: 300px;">
+                                                    <p>100052</p>
+                                                </td>
+                                                <td>
+                                                    <p class="shuoming">参数取值范围不合法</p>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">无</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "/Open/Common/loginDialog.twig" %}
+{% include "/Open/Common/footer.twig" %}
+
+<script type="text/javascript">
+    /*
+     * 代码修饰器
+     */
+    prettyPrint();
+
+
+    /*
+     * 服务详情Tab标签的切换
+     */
+    layui.use(['form','element'], function(){
+        var form = layui.form();
+        var element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块
+        $('.details-api-tab').find('a:first').click();
+    });
+
+
+    layui.use('layer', function(){ //独立版的layer无需执行这一句
+        var $ = layui.jquery, layer = layui.layer; //独立版的layer无需执行这一句
+
+        //触发事件
+        var active = {
+            xiala: function(){
+                //充值app secret层
+                layer.open({
+                    type: 1
+                    ,title: '请选择'
+                    ,closeBtn: true
+                    ,area: '300px'
+                    ,shade: 0
+                    ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+                    ,moveType: 1 //拖拽模式，0或者1
+                    ,content: $('.info-2').show()
+                    ,success: function(layero){
+                        $('#queding').click(function(){
+                            layer.closeAll();
+                        });
+                    }
+                });
+            }
+        };
+        $('.site-demo-layer').on('click', function(){
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+    });
+
+
+
+    /*
+     * 服务详情-API小分类切换
+     */
+    $('.details-api-tab a').on('click',function(){
+        var key=$(this).attr('key');
+        $(this).addClass('details-api-tab-this');
+        $(this).siblings().removeClass('details-api-tab-this');
+        $('.details-api-content[key='+key+']').show();
+        $('.details-api-content').not('[key='+key+']').hide();
+
+    });
+
+
+    /*
+     * 导航菜单鼠标经过样式
+     */
+    $('#menu li').click(function(){
+        $(this).addClass('menu-this');
+        $(this).siblings().removeClass('menu-this');
+    });
+
+
+    /*
+     * 导航背景变色
+     */
+    $('.top').hover(
+        function(){
+            $(this).css('background','rgba(255,255,255,.1)');
+        },
+        function(){
+            $(this).css('background','none');
+        }
+    );
+
+    /*
+     * 导航下拉展示
+     */
+    $(".menu-list").find('.menu-item').first().addClass('menu-item-hover');
+    $(".menu-event").hover(
+        function () {
+            $(".menu-list").slideDown("fast");
+        },
+        function () {
+            $(".menu-list").stop(true).slideUp('fast');
+        }
+    );
+    $('.menu-title').mouseenter(function(){
+        $(this).parent().addClass('menu-item-hover').siblings().removeClass('menu-item-hover');
+        $(this).parent().find('.menu-body').hide();
+    });
+
+
+    /*
+     * 加减按钮的递增递减
+     */
+    function jia_jie(type,dom){
+        var num = Number($(dom).val());
+        if(type=='+'){
+            num = num + 1;
+        }else if(type=='-'){
+            if (num > 1) {
+                num = num - 1;
+            }
+        }
+        $(dom).val(num);
+    }
+    $('.add-input').click(function(){
+        jia_jie('+','.num-input');
+    });
+    $('.reduce-input').click(function(){
+        jia_jie('-','.num-input');
+    });
+
+
+    /*
+     *收藏图标添加点击样式
+     */
+    function add_class_shoucang(dom){
+        var aa=$(dom).find('i').is('li-this');
+        $(dom).find('i').addClass('li-this');
+    }
+
+
+    /*
+     * 扣费方式模块切换
+     */
+    function koufeifangshi(this_dom){
+        var key = $(this_dom).attr('key');
+        $(this_dom).addClass('promo-type-this');
+        $(this_dom).siblings().removeClass('promo-type-this');
+        $('.detail-arrt').find('div[key='+key+']').show();
+        $('.detail-arrt').find('div').not('div[key='+key+']').hide();
+    }
+
+
+    /*
+     * 点击“立即申请”按钮，弹出登录框
+     */
+    function lijishenqing(){
+        $('.blackMask').show();
+        $('body').css({overflow:'hidden'});    //禁用滚动条
+    }
+
+
+    /*
+     * 点击登录框又上角的 叉叉，关闭登录框
+     */
+    function dengluClose(){
+        $('.blackMask').hide();
+        $('body').css({overflow:'auto'});
+    }
+
+
+    /*
+     * 说明文字溢出隐藏，点击展开收缩
+     */
+    $('.shuoming').mouseover(function(){
+        if (this.offsetWidth < this.scrollWidth) {
+            $(this).attr('title','点击展开');
+            $(this).css('cursor','pointer');
+        }
+    });
+    function more_p(t){
+        $(t).siblings('p').removeClass('open-p');
+        $(t).remove();
+    }
+    function shuoming(this_dom){
+        if (this_dom.offsetWidth < this_dom.scrollWidth) {
+            $(this_dom).addClass('open-p');
+            $(this_dom).after("<span class='more-p' onclick='more_p(this);'>收起</span>") ;
+        }
+    }
+    $('.shuoming').click(function(){
+        shuoming(this);
+    });
+
+
+</script>
+
+</body>
+</html>

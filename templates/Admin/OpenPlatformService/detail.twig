@@ -1,0 +1,29 @@
+<div id="content_detail">
+    <div class="layui-form-item" style="margin-top: 30px;width:90%">
+        <label class="layui-form-label">URL</label>
+        <div class="layui-input-block" style="margin-left: 110px">
+            <input type="text" name="url" value="{{ data.url }}" lay-verify="required" readonly autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text" style="width:90%">
+        <label class="layui-form-label">请求参数</label>
+        <div class="layui-input-block" style="margin-left: 110px">
+            <textarea name="params" readonly  class="layui-textarea">
+                {{ data.params|raw }}
+            </textarea>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text" style="width:90%">
+        <label class="layui-form-label">响应</label>
+        <div class="layui-input-block" style="margin-left: 110px">
+            <textarea name="response" readonly class="layui-textarea">
+                {{ data.response|raw }}
+            </textarea>
+        </div>
+    </div>
+    <div class="layui-form-item" style="width:90%">
+        <div class="layui-input-block" style="margin-left: 110px">
+            <button class="layui-btn confirm">确定</button>
+        </div>
+    </div>
+</div>

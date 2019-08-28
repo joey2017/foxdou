@@ -1,0 +1,27 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<div class="layui-card-header">代理商平台设置</div>
+<div class="layui-card-body">
+    <div class="layui-collapse  layadmin-form-body">
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">佣金提现设置</h2>
+            <div class="layui-colla-content layui-show">
+                {{ sf.text(form.max_withdraw_times_per_day, '每日最大提现次数') }}
+                <div class="layui-form-item">
+                    {{ sf.text(form.min_withdraw_amount, '单次可提现范围', {'outer': null, 'inner': 'inline'}) }}
+                    <div class="layui-form-mid layui-word-aux"> ~</div>
+                    {{ sf.text(form.max_withdraw_amount, null, {'outer': null, 'inner': 'inline'}) }}
+                    <div class="layui-input-inline" style="">
+                        <div class="layui-form-mid layui-word-aux">元</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">员工模块设置</h2>
+            <div class="layui-colla-content layui-show">
+                {{ sf.text(form.invite_employee_expires_time, '邀请员工等待确认时间') }}
+            </div>
+        </div>
+    </div>
+</div>

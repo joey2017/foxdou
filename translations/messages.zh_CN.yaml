@@ -1,0 +1,61 @@
+"Bad credentials.":         登录失败：用户名或密码不正确
+"Invalid credentials.":     登录失败：用户名或密码不正确
+"Account is disabled.":     此账号已被封禁，请勿尝试登陆
+"Account is locked.":       此账号已经锁定，请勿尝试登陆
+"Invalid CSRF token.":      安全验证失败，请刷新页面后重新提交
+
+"email_not_verified":      您的邮箱尚未验证，请验证邮箱后再登录
+
+validation:
+  errors:
+    required:      "此项为必填项"
+    email:         "Email 地址格式错误"
+    url:           "URL 地址格式错误"
+    date:          "日期格式错误"
+    date_time:     "日期时间日期格式错误"
+    number:        "数字格式错误"
+    digit:         "只能输入数字"
+    equals_to:     "请再次输入相同的值"
+    max_length:    "最多 %argument% 个字符"
+    min_length:    "最少要 %argument% 个字符"
+    max:           "不能大于 %argument%"
+    min:           "不能小于 %argument%"
+    csrf:          "安全验证失败，请刷新页面后重新提交"
+    decimal:       "数字格式错误"
+    enum:          "请选择合法的值"
+    mobile:        "手机号格式错误"
+    id_card:       "身份证号格式错误"
+    alpha_dash:    "只允许输入字母、下划线 _ 和减号 -"
+    alpha_numeric: "只允许输入字母和数字"
+    alpha:         "只允许输入字母"
+    base64:        "Base64格式错误"
+    exact_length:  "能且仅能输入 %argument% 个字符"
+    integer:       "格式错误，只允许输入整数"
+    numeric:       "数字格式错误"
+    regex:         "格式错误，请检查"
+
+
+# 下面的弃用了
+#simple_form:
+#  errors:
+#    required:     "此项为必填项"
+#    email:        "请输入合法的 Email 地址"
+#    url:          "请输入合法的 URL 地址"
+#    date:         "请输入合法的日期"
+#    date_time:    "请输入合法的日期时间"
+#    date_iso:     "请输入合法的日期(ISO)."
+#    number:       "请输入合法的数字"
+#    digits:       "只能输入数字"
+#    creditcard:   "请输入合法的信用卡卡号"
+#    matches:      "请再次输入相同的值"
+#    accept:       "请输入合法的值"
+#    max_length:   "输入字符数量过多"
+#    min_length:   "输入字符数量过短"
+#    rangelength:  "输入字符数量不符合要求"
+#    range:        "输入的数值超出范围"
+#    max:          "输入的数值过大"
+#    min:          "输入的数值过小"
+#    decimal:      "只能输入数字金额"
+#    enum:         "请选择合法的值"
+#    mobile:       "手机号格式不正确"
+

@@ -1,0 +1,1029 @@
+<?php
+
+/* Test/SimpleFormDemo/helpers.twig */
+class __TwigTemplate_20aaf72ac7aa86f54db851df0c4e3a5d487d87d830a578928e0c3c3b55274246 extends Twig_Template
+{
+    private $source;
+
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->source = $this->getSourceContext();
+
+        // line 1
+        $this->parent = $this->loadTemplate("/Test/SimpleFormDemo/layout.twig", "Test/SimpleFormDemo/helpers.twig", 1);
+        $this->blocks = array(
+            'page_content' => array($this, 'block_page_content'),
+        );
+    }
+
+    protected function doGetParent(array $context)
+    {
+        return "/Test/SimpleFormDemo/layout.twig";
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e->enter($__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "Test/SimpleFormDemo/helpers.twig"));
+
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "Test/SimpleFormDemo/helpers.twig"));
+
+        // line 2
+        $context["sf"] = $this->loadTemplate("/Common/simple_form_helpers_for_layui.html.twig", "Test/SimpleFormDemo/helpers.twig", 2);
+        // line 1
+        $this->parent->display($context, array_merge($this->blocks, $blocks));
+        
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e->leave($__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e_prof);
+
+        
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
+
+    }
+
+    // line 4
+    public function block_page_content($context, array $blocks = array())
+    {
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e->enter($__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "page_content"));
+
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "block", "page_content"));
+
+        // line 5
+        echo "    <div class=\"foxdou-note\">
+        <div class=\"foxdou-row\">
+            <div class=\"foxdou-row-title\">
+                <span></span>
+                <h3><strong>助手函数说明</strong></h3>
+            </div>
+            <p>各个助手函数的参数等说明</p>
+        </div>
+    </div>
+    <div class=\"foxdou-content\">
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h1>公共参数说明</h1>
+            </div>
+            <div class=\"layui-card-body\">
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field</td>
+                        <td>该表单项对应的 form 字段</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>string类型。表单项的文字说明，比如：用户名、密码、确认密码等。如果设定为 null 则该表单项的不会生成 label 标签，方便和其他表单项组合使用</td>
+                    </tr>
+                    <tr>
+                        <td>attrs</td>
+                        <td>表单项控件的属性字段，比如 id, placeholer 等，可以随便自定义任意合法的 html 属性。例子： {'id': 'username', 'placeholder': '请输入用户名'}</td>
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>表单项的选项，常见选项如下：
+                            <table class=\"layui-table\">
+                                <tr>
+                                    <td>outer</td>
+                                    <td>string|null 类型。设定表单项的外层包裹 div 的类型。默认为 form-item，支持三种类型：<br>
+                                        null:  不生成外层包裹 div，方便和其他表单项组合使用<br>
+                                        'form-item':  生成的外层包裹 div 样式为 layui 默认的 layui-form-item<br>
+                                        'inline': 生成的外层包裹 div 样式为 layui-inline，方便和其他表单项在一行内组合使用<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>inner</td>
+                                    <td>
+                                        string|null 类型。控制表单项的内层包裹 div 的样式。默认是 'inline'。<br>
+                                        null:  不生成内层包裹 div，方便和其他表单项组合使用<br>
+                                        'inline':  生成的内层包裹 div 样式为 layui-input-inline，不占用整行<br>
+                                        'block': 生成的内层包裹 div 样式为 layui-input-block，占用整行<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>raw</td>
+                                    <td>
+                                        bool 类型。控制表单项的值是否原样输出（raw）。默认是 false。<br>
+                                        true:  原样输出（raw）<br>
+                                        false: 经过 HTML 转义后输出<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>show_error</td>
+                                    <td>
+                                        bool 类型。控制表单项是否显示错误信息（如果有错误的话）。默认是 true。<br>
+                                        true:  显示错误信息<br>
+                                        false: 不显示错误信息<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>tips</td>
+                                    <td>
+                                        string 类型。表单项的辅助提示信息。默认是 ''。<br>
+                                        如果是空字符串则不显示提示信息，否则显示该提示信息<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>string|null 类型。设定表单项控件的默认值，默认为 null。该值优先级高于 field.value，如果指定了 options.value（且不为 null），则此表单项的当前值与 options.value 关联，否则表单项的当前值与 field.value 关联。</td>
+                                </tr>
+                                <tr>
+                                    <td>values</td>
+                                    <td>array 类型。设定表单项控件的默认选定的项，仅 checkbox 控件可用</td>
+                                </tr>
+                            </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>button(field, title, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成一个 button 控件。</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、title、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>checkbox(field, label, choices, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'values': []}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>根据 choices 参数生成含有一个或者多个 checkbox 控件的表单项。</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>choices</td>
+                        <td>array 类型。一个 value => title 格式的数组，用来生成 checkbox 列表。比如 {'1': 'PHP', '2': 'Java'}
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>为了方便使用，checkbox 表单项的 options.inner 默认为 'block'，以便生成一个占整行的单选列表。<br>
+                        除了上面的 options 公共属性外，checkbox 表单的 options 还有一个 values 属性，如果 checkbox 控件的值等于 field.value 或这个 options.values 里的任何一个值，则该 checkbox 控件被设置为选择状态（checked）</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>error(field, translate=true)</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>手动生成一个错误信息 div 标签。</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>translate</td>
+                        <td>bool 类型。是否使用 translator 来做国际化错误信息
+                    </tr>
+                    <tr>
+                        <td>field</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>file(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>field_begin(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>field_end(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>hidden(field, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成 hidden 表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>input(field, type, value=null, attrs={}, value=false)</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>根据 type 参数生成输入控件，此方法仅生成控件，不生成表单项的外围包裹 div 等</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td>string 类型。生成控件的类型，支持的类型：input、select、checkbox、radio、textarea、file、hidden</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td>string 类型。控件的默认值，如果 value === null 则使用 field.value，否则使用 value 的值</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td>bool 类型。控制表单控件的值是否原样输出（raw）。默认是 false。<br>
+                            true:  原样输出（raw）<br>
+                            false: 经过 HTML 转义后输出<br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>field、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>label(field, label_text, attrs={}, mark_required=' *')</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>手动生成一个 label 项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>label_text</td>
+                        <td>string 类型。label 的标签文本</td>
+                    </tr>
+                    <tr>
+                        <td>mark_required</td>
+                        <td>string 类型。如果 mark_required 不为空并且该表单字段有 required 验证器（field.required == true），则自动在标签文本后面加上 mark_required 的值（默认是\" *\"） </td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>password(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成密码表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>radio(field, label, choices, options={'outer': 'form-item', 'inner': 'block', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>choices</td>
+                        <td>array 类型。一个 value => title 格式的数组，用来生成 checkbox 列表。比如 {'1': 'PHP', '2': 'Java'}
+                    </tr>
+                    <tr>
+                        <td>field、label、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>为了方便使用，radio 表单项的 options.inner 默认为 'block'，以便生成一个占整行的单选列表。<br>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>rest(form, type='hidden', options={'raw': false}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>把 form 里所有没有被生成过的表单项用 type 指定的 input 控件类型生成出来</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>form</td>
+                        <td>Form 类型。表单的 form 对象。</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td>string 类型。生成的 input 控件类型类型，默认是 hidden</td>
+                    </tr>
+                    <tr>
+                        <td>options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>rules(form)</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>暂时不用，无说明</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>select(field, label, choices, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>choices</td>
+                        <td>array 类型。一个 value => title 格式的数组，用来生成 checkbox 列表。比如 {'1': 'PHP', '2': 'Java'}
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>除了上面的 options 公共属性外，select 表单项的 options 还有一个 options.value 属性，如果 select 控件的值等于 field.value 或这个 options.value，则该 select 控件被设置为选择状态（checked）
+                    </tr>
+                    <tr>
+                        <td>field、label、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>submit(field, title, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成一个 submit 按钮</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>按钮的文本</td>
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>除了上面的 options 公共属性外，submit 表单项的 options 还有一个 options.value 属性。<br>
+                            如果 options.value === null，则该 submit 控件仅能用于提交表单，自身不包含数据（无 name 和 value 属性），<br>
+                            否则该 submit 控件自身可以包含提交数据（有name和value）。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>field、label、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>text(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文本（&lt;input type=\"text\" &gt;）表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>textarea(field, label=null, options={'outer': 'form-item', 'inner': 'block', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文本域（textarea）表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>为了方便使用，textarea 表单项的 options.inner 默认为 'block'，以便生成一个占整行的文本域。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>field、label、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+";
+        
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
+
+        
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e->leave($__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e_prof);
+
+    }
+
+    public function getTemplateName()
+    {
+        return "Test/SimpleFormDemo/helpers.twig";
+    }
+
+    public function isTraitable()
+    {
+        return false;
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  56 => 5,  47 => 4,  37 => 1,  35 => 2,  15 => 1,);
+    }
+
+    public function getSourceContext()
+    {
+        return new Twig_Source("{% extends \"/Test/SimpleFormDemo/layout.twig\" %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block page_content %}
+    <div class=\"foxdou-note\">
+        <div class=\"foxdou-row\">
+            <div class=\"foxdou-row-title\">
+                <span></span>
+                <h3><strong>助手函数说明</strong></h3>
+            </div>
+            <p>各个助手函数的参数等说明</p>
+        </div>
+    </div>
+    <div class=\"foxdou-content\">
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h1>公共参数说明</h1>
+            </div>
+            <div class=\"layui-card-body\">
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field</td>
+                        <td>该表单项对应的 form 字段</td>
+                    </tr>
+                    <tr>
+                        <td>label</td>
+                        <td>string类型。表单项的文字说明，比如：用户名、密码、确认密码等。如果设定为 null 则该表单项的不会生成 label 标签，方便和其他表单项组合使用</td>
+                    </tr>
+                    <tr>
+                        <td>attrs</td>
+                        <td>表单项控件的属性字段，比如 id, placeholer 等，可以随便自定义任意合法的 html 属性。例子： {'id': 'username', 'placeholder': '请输入用户名'}</td>
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>表单项的选项，常见选项如下：
+                            <table class=\"layui-table\">
+                                <tr>
+                                    <td>outer</td>
+                                    <td>string|null 类型。设定表单项的外层包裹 div 的类型。默认为 form-item，支持三种类型：<br>
+                                        null:  不生成外层包裹 div，方便和其他表单项组合使用<br>
+                                        'form-item':  生成的外层包裹 div 样式为 layui 默认的 layui-form-item<br>
+                                        'inline': 生成的外层包裹 div 样式为 layui-inline，方便和其他表单项在一行内组合使用<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>inner</td>
+                                    <td>
+                                        string|null 类型。控制表单项的内层包裹 div 的样式。默认是 'inline'。<br>
+                                        null:  不生成内层包裹 div，方便和其他表单项组合使用<br>
+                                        'inline':  生成的内层包裹 div 样式为 layui-input-inline，不占用整行<br>
+                                        'block': 生成的内层包裹 div 样式为 layui-input-block，占用整行<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>raw</td>
+                                    <td>
+                                        bool 类型。控制表单项的值是否原样输出（raw）。默认是 false。<br>
+                                        true:  原样输出（raw）<br>
+                                        false: 经过 HTML 转义后输出<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>show_error</td>
+                                    <td>
+                                        bool 类型。控制表单项是否显示错误信息（如果有错误的话）。默认是 true。<br>
+                                        true:  显示错误信息<br>
+                                        false: 不显示错误信息<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>tips</td>
+                                    <td>
+                                        string 类型。表单项的辅助提示信息。默认是 ''。<br>
+                                        如果是空字符串则不显示提示信息，否则显示该提示信息<br>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>string|null 类型。设定表单项控件的默认值，默认为 null。该值优先级高于 field.value，如果指定了 options.value（且不为 null），则此表单项的当前值与 options.value 关联，否则表单项的当前值与 field.value 关联。</td>
+                                </tr>
+                                <tr>
+                                    <td>values</td>
+                                    <td>array 类型。设定表单项控件的默认选定的项，仅 checkbox 控件可用</td>
+                                </tr>
+                            </table>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>button(field, title, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成一个 button 控件。</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、title、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>checkbox(field, label, choices, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'values': []}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>根据 choices 参数生成含有一个或者多个 checkbox 控件的表单项。</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>choices</td>
+                        <td>array 类型。一个 value => title 格式的数组，用来生成 checkbox 列表。比如 {'1': 'PHP', '2': 'Java'}
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>为了方便使用，checkbox 表单项的 options.inner 默认为 'block'，以便生成一个占整行的单选列表。<br>
+                        除了上面的 options 公共属性外，checkbox 表单的 options 还有一个 values 属性，如果 checkbox 控件的值等于 field.value 或这个 options.values 里的任何一个值，则该 checkbox 控件被设置为选择状态（checked）</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>error(field, translate=true)</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>手动生成一个错误信息 div 标签。</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>translate</td>
+                        <td>bool 类型。是否使用 translator 来做国际化错误信息
+                    </tr>
+                    <tr>
+                        <td>field</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>file(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>field_begin(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>field_end(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>hidden(field, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成 hidden 表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>input(field, type, value=null, attrs={}, value=false)</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>根据 type 参数生成输入控件，此方法仅生成控件，不生成表单项的外围包裹 div 等</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td>string 类型。生成控件的类型，支持的类型：input、select、checkbox、radio、textarea、file、hidden</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td>string 类型。控件的默认值，如果 value === null 则使用 field.value，否则使用 value 的值</td>
+                    </tr>
+                    <tr>
+                        <td>value</td>
+                        <td>bool 类型。控制表单控件的值是否原样输出（raw）。默认是 false。<br>
+                            true:  原样输出（raw）<br>
+                            false: 经过 HTML 转义后输出<br>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>field、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>label(field, label_text, attrs={}, mark_required=' *')</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>手动生成一个 label 项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>label_text</td>
+                        <td>string 类型。label 的标签文本</td>
+                    </tr>
+                    <tr>
+                        <td>mark_required</td>
+                        <td>string 类型。如果 mark_required 不为空并且该表单字段有 required 验证器（field.required == true），则自动在标签文本后面加上 mark_required 的值（默认是\" *\"） </td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>password(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成密码表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>radio(field, label, choices, options={'outer': 'form-item', 'inner': 'block', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>choices</td>
+                        <td>array 类型。一个 value => title 格式的数组，用来生成 checkbox 列表。比如 {'1': 'PHP', '2': 'Java'}
+                    </tr>
+                    <tr>
+                        <td>field、label、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>为了方便使用，radio 表单项的 options.inner 默认为 'block'，以便生成一个占整行的单选列表。<br>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>rest(form, type='hidden', options={'raw': false}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>把 form 里所有没有被生成过的表单项用 type 指定的 input 控件类型生成出来</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>form</td>
+                        <td>Form 类型。表单的 form 对象。</td>
+                    </tr>
+                    <tr>
+                        <td>type</td>
+                        <td>string 类型。生成的 input 控件类型类型，默认是 hidden</td>
+                    </tr>
+                    <tr>
+                        <td>options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>rules(form)</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>暂时不用，无说明</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>select(field, label, choices, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文件上传表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>choices</td>
+                        <td>array 类型。一个 value => title 格式的数组，用来生成 checkbox 列表。比如 {'1': 'PHP', '2': 'Java'}
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>除了上面的 options 公共属性外，select 表单项的 options 还有一个 options.value 属性，如果 select 控件的值等于 field.value 或这个 options.value，则该 select 控件被设置为选择状态（checked）
+                    </tr>
+                    <tr>
+                        <td>field、label、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>submit(field, title, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成一个 submit 按钮</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>title</td>
+                        <td>按钮的文本</td>
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>除了上面的 options 公共属性外，submit 表单项的 options 还有一个 options.value 属性。<br>
+                            如果 options.value === null，则该 submit 控件仅能用于提交表单，自身不包含数据（无 name 和 value 属性），<br>
+                            否则该 submit 控件自身可以包含提交数据（有name和value）。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>field、label、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>text(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文本（&lt;input type=\"text\" &gt;）表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>field、label、options、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class=\"layui-card\">
+            <div class=\"layui-card-header\">
+                <h3>textarea(field, label=null, options={'outer': 'form-item', 'inner': 'block', 'show_error': true, 'tips': null, 'raw': false, 'value': ''}, attrs={})</h3>
+            </div>
+            <div class=\"layui-card-body\">
+                <p>生成文本域（textarea）表单项</p>
+                <table class=\"layui-table\">
+                    <tr>
+                        <td>参数</td>
+                        <td>说明</td>
+                    </tr>
+                    <tr>
+                        <td>options</td>
+                        <td>为了方便使用，textarea 表单项的 options.inner 默认为 'block'，以便生成一个占整行的文本域。
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>field、label、attrs</td>
+                        <td>参见上面的公共参数说明
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+", "Test/SimpleFormDemo/helpers.twig", "D:\\phpStudy\\WWW\\foxdou\\templates\\Test\\SimpleFormDemo\\helpers.twig");
+    }
+}

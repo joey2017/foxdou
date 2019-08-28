@@ -1,0 +1,231 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% set title = '狐豆便民服务-代理中心-控制面板' %}
+
+{% block main_content %}
+
+{#<?php#}
+{#$this->registerCssFile('//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/index.css',['position' => \yii\web\View::POS_HEAD]);#}
+{#$this->registerCssFile("//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/js/ScrollPic/css/jquery.jscrollpane.css",['position' => \yii\web\View::POS_HEAD]);#}
+{#$this->registerCssFile("//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/js/xSlider/css/luara.left.css",['position' => \yii\web\View::POS_HEAD]);#}
+{#?>#}
+
+<style type="text/css">
+  .m-right {background: none; overflow: hidden;}
+  .pgn-lis { padding: 0 10px;}
+  .pgn-lis li {padding: 5px 0; border-bottom: 1px dashed #E0E0E0;}
+  .pgn-lis a {color: #777777;}
+  .pgn-lis a:hover {color: #00cdba;}
+  .pgn-lis p {display: inline-block; width: calc(100% - 80px);}
+  .pgn-lis span {float:right; width: 140px; text-align: right;}
+  #kuaijie .layui-this,.layui-carousel{background-color:white!important;}
+  .ca-container{padding: 20px 5px 5px 5px!important;height: 150px!important;}
+  #kuaijie .layui-carousel-ind{top:-20px;}
+  .article-list-item{
+      line-height: 34px;margin-left:15px;
+  }
+    .article-list-item > span{
+        margin-right: 0px;
+        float: right;
+    }
+
+</style>
+<!-- page-left开始 -->
+<div class="page-left">
+  <div class="m-container g-bdc" style="height: 243px;">
+    <div class="m-cwel">
+      <a class="f-fs-18 s-dark">你好，<span class="s-blue">{{ user.nick_name }}</span></a>
+      <a href="https://safe.foxdou.com/safe/simin-verify/index" target="_blank">
+        <i class="iconfont icon-rz f-fl">&#xe669;</i>
+        <span class="f-fl s-gray">{{ constant('App\\Common\\Model\\User\\RealNameAuthenticationInfo::STATUSES')[user.real_name_status] }}</span>
+      </a>
+      <a href="#">
+        <!--                <i class="iconfont icon-rz f-fl">&#xe63a;</i>-->
+        <!--                <span class="f-fl s-gray">未读消息（<span class="s-red">1</span>）</span>-->
+      </a><br />
+      <p>
+        <span class="" style="margin-right: 20px;">上次登录：{{ user.last_login_time|date('Y-m-d H:i:s') }}</span>
+        <span class="">IP：{{ user.last_login_ip|default('无') }}<span id="ip_address"></span></span>
+      </p>
+    </div>
+    <div class="m-item g-bdc">
+      <div class="item">
+        <div class="item-icon f-fl"><i class="iconfont">&#xe65a;</i></div>
+        <div class="item-amount f-fl">
+          <span class="f-fs-18 s-dark">账户余额</span><br />
+          <strong class="f-fs-20 s-red">{{ user.resellerAccount.balance|default(0) }}</strong><span style="margin-left: 10px;">元</span>
+          <a href="{{ path('reseller_finance_add_balance') }}" class="layui-btn">在线充值</a>
+        </div>
+      </div>
+      <div class="item ">
+        <h2 class="f-fs-18 s-dark"><i class="iconfont icon-yy f-fl">&#xe60f;</i><span class="f-fl">我的推广</span></h2>
+        <div class="item-total g-bdc f-fs-14 s-dark">
+          <p>用户 <a class="f-fs-18 s-blue" href="javascript:void(0);">{{ spread_users }}</a> 个</p>
+          <p>佣金余额 <span class="f-fs-18 s-red">{{ user.resellerAccount.rebate_balance|default(0) }}</span> 元</p>
+          <a href="{{ path('reseller_finance_withdraw') }}" class="layui-btn" style="position: relative; top: -2px; height: 30px!important; line-height: 30px; padding: 0 10px;">提取佣金</a>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-container" style="height: 200px;">
+    <h2 class="container-title">快捷入口<span><i class="iconfont icon-break">&#x3437;</i></span></h2>
+    <div class="ca-container">
+      <div class="ca-wrapper layui-carousel" id="kuaijie">
+        <div carousel-item >
+          <div class="">
+          {% for s in shortcuts %}
+            <div class="ca-item">
+              <a href="{{ s.url }}">
+                <img src="{{ s.img }}" />
+                <span>{{ s.name }}</span>
+              </a>
+            </div>
+          {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="m-container" style="height: 230px;">
+    <h2 class="container-title">经营状况<span><i class="iconfont icon-break">&#x3437;</i></span></h2>
+
+    <div class="container-content" style="height: 205px;">
+      <ul class="f-shouyi">
+        <li>
+          <h3>今日收益</h3>
+          <div class="f-amount"><span id="today_profit">{{ income_today.profit }}</span>元</div>
+          <i class="icon iconfont icon-baobiao"></i>
+        </li>
+        <li>
+          <h3>昨日收益</h3>
+          <div class="f-amount"><span id="yesterday_profit">{{ income_yest.profit }}</span>元</div>
+          <i class="icon iconfont icon-baobiao"></i>
+        </li>
+      </ul>
+    </div>
+
+
+  </div>
+</div>
+<!-- /page-left结束 -->
+<!-- page-right开始 -->
+<div class="page-right">
+  <div class="m-container">
+    <h2 class="container-title">最新活动</h2>
+    <div class="container-content" id="lunbo-box" style="padding: 0;">
+      <div class="slider-box">
+        <div class="layui-carousel" id="lunbo">
+          <div carousel-item >
+            <div  id="slider-1"><a href="#" ><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/img/slider-2.jpg" alt="2"/></a></div>
+            <div  id="slider-2"><a href="#"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/img/slider-1.jpg" alt="1"/></a></div>
+
+            <!--  <div id="slider-3"><a href="#"><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/img/slider-3.jpg" alt="3"/></a></div>-->
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+  <div class="m-container" style="height: 200px;">
+    <div class="layui-tab layui-tab-brief" style="margin: 0 0 5px 0;">
+      <h2 class="container-title">最新公告<a href="{{ url('reseller_dashboard_announcements') }}">更多&gt;&gt;</a></h2>
+      <div class="layui-tab-content">
+        <div class="layui-tab-item layui-show">
+          {{ render(controller('App\\Common\\Controller\\ArticleController::indexAction', { 'portal_id': constant('App\\Platform::RESELLER'), 'cate_id': 6, 'limit': 4, 'format': 'list' } )) }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="m-container" style="height: 230px;">
+    <h2 class="container-title">客户经理<span><i class="iconfont icon-break">&#x3437;</i></span></h2>
+    <div class="container-content g-bdc">
+      <div class="manager-item f-fl">
+        <h3><strong>系统使用、订单</strong><span class="f-fs-14 s-gray">有问题？请联系：</span></h3>
+        <div class="manager g-bdc">
+          <div class="f-fl f-fs-16 s-blue2" style="margin-top: 20px;">
+            <i class="iconfont f-fs-20">&#xe60e;</i>
+            <span>客户经理</span>
+          </div>
+          <div class="f-fl f-fs-14 s-gray" style="margin: 10px;">
+            <p>
+              <span>QQ：800093007</span>
+              <span>电话：400-068-0008</span>
+            </p>
+            <p>周一至周日 9：00-22：00</p>
+          </div>
+        </div>
+      </div>
+      <div class="manager-item f-fr">
+        <h3><strong>招商加盟、咨询</strong><span class="f-fs-14 s-gray">有问题？请联系：</span></h3>
+        <div class="manager g-bdc">
+          <div class="f-fl f-fs-16 s-blue2" style="margin-top: 20px;">
+            <i class="iconfont f-fs-20">&#xe60e;</i>
+            <span>客户经理</span>
+          </div>
+          <div class="f-fl f-fs-14 s-gray" style="margin: 10px;">
+            <p>
+              <span>QQ：800093007</span>
+              <span>电话：400-068-0008</span>
+            </p>
+            <p>周一至周五 9：00-18：00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /主体 -->
+<script type="text/javascript">
+    layui.use('carousel', function(){
+        var carousel = layui.carousel;
+        //建造实例
+        carousel.render({
+            elem: '#kuaijie'
+            ,width: '100%' //设置容器宽度
+            ,height: '115' //设置容器宽度
+            //     ,arrow: 'always' //始终显示箭头
+            //   ,indicator:'outside'
+            ,indicator:'none'
+            ,autoplay:false
+
+        });
+        carousel.render({
+            elem: '#lunbo'
+            ,width: '100%' //设置容器宽度
+            ,height: '180' //设置容器宽度
+            ,interval: '5000' //时间
+
+            //   ,arrow: 'always' //始终显示箭头
+            //,anim: 'updown' //切换动画方式
+            //   ,indicator:'none'
+        });
+    });
+    $(document).ready(function () {
+        $.ajax('/user-login-ip-query',{async:true,type:'POST',dataType:'json',data:{'_token':'user-login-ip-query:{{ csrf_token("user-login-ip-query") }}'},
+            success:function (data) {
+                if(data.status){
+                    $('#ip_address').text('('+data.address+')')
+                }
+            },
+            error: function(e){
+                //console.log(e);
+            }
+        });
+
+        $.ajax('/get-lately-count-profit',{
+            success:function (data) {
+                if(data.status){
+                    $('#today_profit').text(data.today+'元');
+                    $('#yesterday_profit').text(data.yesterday+'元');
+                }
+            },
+            error: function(e){
+                //console.log(e);
+            }
+        });
+
+    });
+</script>
+{% endblock %}

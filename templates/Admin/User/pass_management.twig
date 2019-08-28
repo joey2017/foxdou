@@ -1,0 +1,76 @@
+{% extends 'Admin/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+    <div class="layui-fluid" id="pass-management">
+        <div class="layui-card">
+            <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
+                <form class="layui-form-item" id="form">
+                    <div class="layui-inline">
+                        <input class="layui-input product-price" name="user_name" value="" placeholder="关键字搜索" type="text">
+                    </div>
+                    <div class="layui-inline">
+                        {{ sf.select_raw('type', to_options(constant("App\\Common\\Model\\User\\User::TYPES"), '注册类型'), {"class": "layui-input"}) }}
+                    </div>
+                    <div class="layui-inline">
+                        {{ sf.select_raw('status', to_options(constant("App\\Common\\Model\\User\\User::STATUSES"), '账户状态'), {"class": "layui-input"}) }}
+                    </div>
+                    <div class="layui-inline">
+                        {{ sf.select_raw('is_entry_identity_info', to_options(constant("App\\Common\\Model\\User\\User::IDENTITY_STATUS"), '身份信息'), {"class": "layui-input"}) }}
+                    </div>
+                    <div class="layui-inline">
+                        {{ sf.select_raw('real_name_status', to_options(constant("App\\Common\\Model\\User\\RealNameAuthenticationInfo::STATUSES"), '实名认证'), {"class": "layui-input"}) }}
+                    </div>
+                    <div class="layui-inline">
+                        {{ sf.select_raw('is_open_platform', to_options(constant("App\\Common\\Model\\User\\User::OPENPLATFORM_STATUS"), '开放平台账户开通状态'), {"class": "layui-input"}) }}
+                    </div>
+                    <div class="layui-inline">
+                        {{ sf.select_raw('is_agent_platform', to_options(constant("App\\Common\\Model\\User\\User::AGENTPLATFORM_STATUS"), '代理商平台账户开通状态'), {"class": "layui-input"}) }}
+                    </div>
+                    <div class="layui-inline">
+                        {{ sf.select_raw('is_supplier_platform', to_options(constant("App\\Common\\Model\\User\\User::SUPPLIERPLATFORM_STATUS"), '供应商平台账户开通状态'), {"class": "layui-input"}) }}
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">日期范围</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="" class="layui-input" id="timeFrame" placeholder="">
+                            <input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                            <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <div class="layui-input-block layui-input-block-margin">
+                            <button type="button" class="layui-btn layuiadmin-btn-useradmin" onclick="get_data()">查询
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body">
+                <div style="padding: 5px 0;">
+                    <button class="layui-btn layuiadmin-btn-useradmin reverse-select">
+                        反选
+                    </button>
+                    </button>
+                    <button class="layui-btn layui-btn-danger layuiadmin-btn-useradmin set-status" data-type="SUSPENDED">
+                        冻结通行证
+                    </button>
+                    <button class="layui-btn layuiadmin-btn-useradmin set-status" data-type="ACTIVE">
+                        解冻通行证
+                    </button>
+                </div>
+                <table id="paged-table" class="layui-table" lay-filter="paged-table">
+
+                </table>
+                <script type="text/html" id="actions">
+                    <a class="layui-btn layui-btn-success layui-btn-xs" lay-event="detail">详情</a>
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Admin/User/pass_management_js.twig" %}
+{% endblock %}

@@ -1,0 +1,127 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '我的财务-充值记录' %}
+
+{% set order_statuses        = constant('App\\Common\\Model\\Payment\\RechargeOrder::STATUSES') %}
+{% set payment_methods = constant('App\\PaymentConstants::PAYMENT_METHOD_CLASSES') %}
+
+{% block css %}
+  {% include "Reseller/Finance/commonCss.twig" %}
+{% endblock %}
+
+{% block main_content %}
+  <div class="caiwu-left" style="float: left; width: calc(100% - 380px);height: auto;border:1px solid #E0E0E0;">
+    <div class="panel-item g-bdc">
+      <div style="">
+        {% include "Reseller/Finance/financeTabs.twig" %}
+        <div class="m-screen-item">
+          <form action="" method="get" id="get-search" class="layui-form">
+              <div class="layui-form-item m-screen">
+                  {{ sf.text(form.order_id, null, {'outer': null}, {'placeholder': '业务单号'}) }}
+                  {{ sf.select(form.payment_method, null,  to_options(payment_methods, '支付方式'), {'outer': null}) }}
+                  {{ sf.select(form.status, null,  to_options(order_statuses, '交易状态'), {'outer': null}) }}
+                  {{ sf.text(form.from, null, {'outer': null}, {'placeholder': '开始时间', 'class': 'layui-input datepicker'}) }}
+                  {{ sf.text(form.to,  null, {'outer': null}, {'placeholder': '结束时间', 'class': 'layui-input datepicker'}) }}
+              </div>
+            <div class="m-cx btn-location">
+              <button class="layui-btn" onclick="get_trade_data();return false;">查 询</button>
+            </div>
+            <div style="clear: both;"></div>
+            {#<input name="_token" value="{{ csrf_token('finance') }}" id="_token">#}
+          </form>
+        </div>
+      </div>
+      <div class="m-tab-btn">
+        <button class="layui-btn layui-btn-small f-fnsna" onclick="show_count(this)">查看统计</button>
+      </div>
+
+      <div class="m-table-total" style="display: none;">
+        <ul class="g-bdc">
+          <li>总计：<span id="shouru_count"></span>（<span id="shouru_sum_money"></span>）</li>
+        </ul>
+      </div>
+
+
+      <div class="record-table g-bdc">
+        <table class="">
+          <thead>
+          <tr>
+            <th>充值单号</th>
+            <th>交易名称</th>
+            <th>金额</th>
+            <th>交易状态</th>
+            <th>支付方式</th>
+            <th>时间</th>
+          </tr>
+          </thead>
+          <tbody id="data-table">
+
+          {% for order in data %}
+            <tr>
+              <td>{{ order.id }}</td>
+              <td>{{ order.product_name }}</td>
+              <td>{{ order.amount|number_format(2) }}</td>
+              <td>{{ order_statuses[order.status]|default('未知状态(' ~ order.status ~ ')') }}</td>
+              <td>{{ payment_methods[order.payment_class_id]|default('未知状态(' ~ order.payment_class_id ~ ')') }}</td>
+              <td>{{ order.add_time|date('Y-m-d H:i:s') }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  {% include "Reseller/Common/_rightPanel.twig" %}
+
+  <script type="text/javascript">
+      var show_count_num={{ row_count }};
+      function show_count(dom){
+          if($(dom).text()=='查看统计'){
+              $('.m-table-total').css('display','block');
+              var params=$('form').serialize();
+              if(show_count_num == 0){
+                  $.get("{{ path("reseller_finance_funding_summary") }}?" + params,'',function (data) {
+                      $('#shouru_count').text(data.summary.count+'笔');
+                      $('#shouru_sum_money').text(data.summary.sum_money+'元');
+                  });
+              }
+              $(dom).text('关闭统计')
+          }else if($(dom).text()=='关闭统计'){
+              $('.m-table-total').css('display','none');
+              $(dom).text('查看统计')
+          }
+      }
+
+
+      layui.use(['form', 'laydate'], function(){
+          var form = layui.form
+              ,layer = layui.layer
+              ,laydate = layui.laydate;
+
+          laydate.render( {
+              elem: '#from'
+              ,type: 'date'
+          });
+          laydate.render({
+              elem: '#to'
+              ,type: 'date'
+          });
+      });
+
+
+      function export_cvs(){
+          var count_data_num = {{ row_count }};
+          if(count_data_num == 0){
+              layer.msg('无数据不能导出');
+              return;
+          }
+
+          var params = $('form').serialize();
+          location.href="{{ path("reseller_finance_trade_logs_export") }}?" + params;
+      }
+
+
+
+  </script>
+{% endblock %}

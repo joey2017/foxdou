@@ -1,0 +1,121 @@
+{% set user = app.user %}
+{% set current_route = app.request.attributes.get('_route') %}
+{% set current_path  = app.request.pathinfo %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %} {{ title|default("狐豆-安全中心") }} {% endblock %}</title>
+
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  {{ use_assets([
+    '/assets/passport/css/common.css',
+    '/assets/passport/css/font-class.css',
+    '/assets/common/layui/css/layui.css',
+    '/assets/common/js/jquery.min.js',
+    '/assets/common/layui/layui.all.js',
+    '/assets/common/js/ajaxRequest.js',
+    '/assets/admin/js/common.js',
+  ]) }}
+
+  <style type="text/css">
+
+
+    /*登录后*/
+    .after-login{width: 100%; height: 100%;}
+    .after-login:after{display:block;visibility:hidden;clear:both;height:0;overflow:hidden;content:'.';}
+
+    /*主体左侧*/
+    .my-info{padding: 5px 0; margin: 0 8px;}
+    .my-info .index-face{float: left; width: 60px; height: 60px; border-radius: 50%; border: 1px solid #E0E0E0; overflow: hidden; background: #DDDDDD;}
+    .my-info .index-face img{width: 100%;height: 100%;}
+    .my-info dl{float: left; width: 540px; height: auto; margin-left: 20px; line-height: 30px;}
+    .my-info dt, .my-info dd{display: inline-block;}
+    .my-info dd{width: 480px; margin-left: 5px;}
+
+    .my-last-login-time{padding: 2px 0 20px 88px; border-bottom: 1px dashed #DDDDDD;}
+    .my-last-login-time h3{display: block; line-height: 30px;}
+    .my-last-login-time p{display: block; text-align: left; color: #777777; font-family: arial;}
+    .my-last-login-time span{margin-right: 30px;line-height: 24px;}
+
+    .middel{padding: 40px 0 20px 88px;}
+    .level{margin-bottom: 40px;}
+    .level label, .level p{display: inline-block;}
+    .level label{float: left; padding: 10px 5px 0 0; color: #666666;}
+    .level p{text-align: left;}
+    .level img{display: inline-block;}
+    .level em{padding-left: 10px; font-family: arial; font-size: 28px; color: #ff8a00; font-style: normal;}
+    .level span{font-size: 16px; color: #ff8a00;}
+
+    .my-circs{margin-top: 20px; padding-right: 50px;}
+    .my-circs .risk-item{position: relative; padding: 15px; margin: 15px 0; border: 1px dashed #CCCCCC;}
+    .my-circs .risk-item em{float: left; display: block; width: 20px; height: 20px; margin-right: 10px;
+      background: url({{ asset('/assets/passport/css/img/gantan.png')}}) no-repeat;}
+    .my-circs .risk-item dt{padding-bottom: 7px; font-size: 16px;color: #444}
+    .my-circs .risk-item dd{padding: 0 120px 0 30px; color: #777777; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+    .my-circs .risk-item a{position: absolute; top: 22px; right: 20px; padding: 6px 20px; border-radius: 2px;
+      background: #F5F5F5; border: 1px solid #CCCCCC; color: #444;}
+    .my-circs .risk-item a:hover{border-color: #2f86f6;}
+
+
+    /*注：原.my_circs统一改为.my-circs*/
+    .my-circs-col {position: relative;}
+    .my-circs-col .open-item {position: absolute; top: 5px; right: 40px; padding-right: 22px; cursor: pointer; color: #2F86F6;}
+    .my-circs-col .open-item .triangle {content: ''; width: 0; height: 0; border-style: solid dashed dashed; border-color: #2F86F6 transparent transparent;
+      overflow: hidden; cursor: pointer; transition:all .2s; -webkit-transition:all .2s; position: absolute; top: 50%; right: 5px;
+      margin-top: -3px; border-width: 5px; border-top-color: #2F86F6;}
+    .my-circs-col .open-item:hover {opacity: .8;}
+
+    .my-yes-col {display: none; margin-top: 5px;}
+    .my-yes-col .my-circs {margin-top: 15px;}
+    .my-yes-col .my-circs .risk-item em{background: url({{ asset('/assets/passport/css/img/xiaolian.png')}}) no-repeat;}
+    .testing {position: relative; top: 50px; left: 90px; width: 300px; height: 200px; background-size: 100%!important;}
+
+    .page-content{min-height: 650px; padding: 0;}
+    .page-content{padding-top: 40px;padding-bottom: 40px;}
+    label.table-input{width:180px;}
+    .sisi-input-inline textarea{border: 1px solid #E0E0E0;width:100%;padding: 10px 10px;max-width: 500px;max-height: 250px;}
+    [readonly]{background: #F8F8F8}
+
+
+  </style>
+
+  {% block css %}
+  {% endblock %}
+  {% block js %}
+  {% endblock %}
+  {% block validation_scripts %}
+  {% endblock %}
+
+</head>
+
+<body>
+
+<div class="page-top">
+  {% include "/Passport/_topNav.twig" %}
+</div>
+
+{% include "/Common/_flash_messages.html.twig" %}
+
+<div class="page-content">
+  <!-- 登录后 -->
+  {% block main_content %}
+  {% endblock %}
+</div>
+
+<div class="page-foot">
+  {% include "/Passport/_footer.twig" %}
+</div>
+
+{% block js_end %}
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
+
+
+</body>
+<script type="text/javascript">
+</script>
+</html>

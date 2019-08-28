@@ -1,0 +1,91 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+{% block main_content %}
+    <div class="layui-card layadmin-service-details">
+        <form action="" method="get">
+            <input type="hidden" name="type_tab" id="type_tab" value="{{ type_tab }}">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li {% if type_tab == 'order' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'order'}) }}">订单管理</a></li>
+                    <li {% if type_tab == 'cost' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'cost'}) }}">商品成本</a></li>
+                    <li {% if type_tab == 'apps' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'apps'}) }}">应用管理</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-form layuiadmin-card-text">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">APPID</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="id" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">应用名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" value="" placeholder="请输入应用名称" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">服务名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="service_name" value="" placeholder="请输入服务名称" class="layui-input" />
+                            </div>
+                        </div>
+                        {#<div class="layui-inline">#}
+                            {#<label class="layui-form-label">扣费方式</label>#}
+                            {#<div class="layui-input-block">#}
+                                {#{{ sf.select_raw('pay_type', to_options(constant("App\\Common\\Model\\OpenPlatform\\App::PAY_TYPES"), '全部'), {"class": "layui-input"}) }}#}
+                            {#</div>#}
+                        {#</div>#}
+                        <div class="layui-inline">
+                            <label class="layui-form-label">应用状态</label>
+                            <div class="layui-input-block">
+                                {{ sf.select_raw('status', to_options(constant("App\\Common\\Model\\OpenPlatform\\App::APP_STATUSES"), '全部'), {"class": "layui-input"}) }}
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="get_data();return false;">查 询</button>
+                        </div>
+                    </div>
+                    <table class="layui-table layadmin-table" id="data-table" lay-filter="data-table">
+
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    <script>
+        form.render();
+        var statuses = JSON.parse('{{ constant("App\\Common\\Model\\OpenPlatform\\App::APP_STATUSES")|json_encode|raw }}');
+        //var pay_types = JSON.parse('{{ constant("App\\Common\\Model\\OpenPlatform\\App::PAY_TYPES")|json_encode|raw }}');
+        var columns = [
+            [
+                {"field": "name", "title": "应用名称", "width": 200},
+                {"field": "id", "title": "APPID", "width": 200},
+                {"field": "app_secret", "title": "app密钥"},
+                // {
+                //     "field": "pay_type", "title": "扣费方式", "width": 200, templet: function(d){
+                //         return pay_types[d.pay_type];
+                //     }
+                // },
+                {
+                    "field": "status", "title": "应用状态", "width": 200, templet: function(d){
+                        return statuses[d.status];
+                    }
+                },
+            ]
+        ];
+
+        function get_data() {
+            var params = $('form').serialize();
+            var url        = '?' + params;
+            rander_table('#data-table', url, columns,'');
+        }
+
+        // 初始化
+        get_data();
+
+    </script>
+{% endblock %}

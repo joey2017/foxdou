@@ -1,0 +1,106 @@
+<script>
+    var verify_statuses = JSON.parse('{{ constant("App\\Common\\Model\\Payment\\CashUserAccount::VERIFY_STATUSES")|json_encode|raw }}');
+    var url = "";
+    var columns = [[
+        {"field": "", "title": "", type: "checkbox", "width": 50},
+        {"field": "id", "title": "提现记录编号", "width": 150},
+        {
+            "field": "pass", "title": "创建者", "width": 200, templet: function (d) {
+                return d.pass+'<br>'+d.legal_person_name+'<br>'+d.bind_mobile+'<br>'+d.legal_person_identity_card_no;
+            }
+        },
+        {"field": "account_bank_name", "title": "银行", "width": 150},
+        {"field": "account_place", "title": "开户行名称", "width": 200},
+        {"field": "account_user", "title": "姓名"},
+        {"field": "account_num", "title": "账号", "width": 150},
+        {"field": "shenfenzheng_id", "title": "身份证", "width": 150},
+        {"field": "mobile", "title": "绑定手机号", "width": 150},
+        {"field": "info", "title": "备注"},
+        {
+            "field": "verify_status", "title": "状态", "width": 150, templet: function (d) {
+                return verify_statuses[d.verify_status];
+            }
+        },
+        {"field": "add_time", "title": "申请时间", templet: "#add_time", "width": 200},
+        {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 100}
+    ]];
+
+    function get_data() {
+        var params = $('form#withdraws-list').serialize();
+        url = '?' + params;
+        rander_table('#withdraws-table', url, columns);
+    }
+
+    var loading = null;
+    var before = function () {
+        loading = layer.load();
+    }
+    var error = function () {
+        layer.close(loading);
+        nxwd.showMsg('服务器未响应，请稍后重试');
+    }
+    var success = function (res) {
+        layer.close(loading);
+        if (res.status) {
+            nxwd.showMsg(res.msg, 'success');
+            location.reload();
+        } else {
+            nxwd.showMsg(res.msg, 'danger');
+        }
+    }
+
+    // 初始化
+    get_data();
+    table.on('tool(withdraws-table)', function (obj) {
+        var data = obj.data;
+        var layEvent = obj.event;
+
+        if (layEvent === 'review') { //审核
+            var yes = function (index){
+                layer.close(index);
+                var args = {id:data.id};
+                args.status = $('#setSuccessDome').find('input[name=status]:checked').val();
+
+                nxwd.ajaxRequest('{{ path("admin_audit_withdraw_accounts_review") }}','POST',args,'json',success,before,error);
+            }
+            nxwd.ajaxOpenCallBack('审核','setSuccessDome',0,0,yes);
+        }
+        if (layEvent === 'delete') { //删除
+            nxwd.ajaxDelete('{{ path("admin_audit_del_withdraw_accounts") }}',this,false,data.id);
+        }
+    });
+
+    var checked_ids = [];
+    table.on('checkbox(withdraws-table)', function(obj){
+        if (obj.checked) {
+            checked_ids.push(obj.data.id);
+        } else {
+            checked_ids.remove(obj.data.id);
+        }
+
+    });
+
+    $(document).on('click',function(e){
+        var target = $(e.target);
+        if (target.is('.reverse-select') || target.parents().is('.reverse-select')) {
+            $('.layui-table-box').find('input:checkbox').next().each(function () {
+                $(this).toggleClass('layui-form-checked');
+            })
+        } else if (target.is('.site-demo-layer') || target.parents().is('.site-demo-layer')) {
+            if (checked_ids.length == 0) {
+                nxwd.showMsg('至少选择一条记录');
+                return false;
+            }
+            var yes = function(index){
+                layer.close(index);
+                var args = {id:checked_ids};
+                args.status = $('#setSuccessDome').find('input[name=status]:checked').val();
+
+                nxwd.ajaxRequest('{{ path("admin_audit_withdraw_accounts_review") }}','POST',args,'json',success,before,error);
+            };
+
+            nxwd.ajaxOpenCallBack('审核','setSuccessDome',0,0,yes);
+        }
+    });
+
+</script>

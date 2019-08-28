@@ -1,0 +1,33 @@
+<script>
+    var statuses = JSON.parse('{{ constant("App\\Common\\Model\\Payment\\UserMoneyTradeLog::TRADE_STATUSES")|json_encode|raw }}');
+    var url = "{{ path('supplier_finance_trade_list') }}";
+    var columns = [[
+        {"field": "add_time", "title": "交易时间",templet:"#add_time"},
+        {"field": "name", "title": "商品名称"},
+        {"field": "amount", "title": "价格"},
+        {
+            "field": "trade_status", "title": "状态", "width": 150, templet: function (d) {
+                return statuses[d.trade_status];
+            }
+        },
+        {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 200}
+    ]];
+
+    function get_data() {
+        rander_table('#page-table', url, columns);
+    }
+
+    // 初始化
+    get_data();
+    form.render();
+
+    table.on('tool(page-table)', function (obj) {
+        var data = obj.data;
+        var layEvent = obj.event;
+
+        if (layEvent === 'detail') { //查看模板下商品
+
+            window.location.href = '{{ path("supplier_product_source_groups_products_list") }}?template_id='+data.id+'&produc_cate_id='+data.produc_cate_id;
+        }
+    });
+</script>

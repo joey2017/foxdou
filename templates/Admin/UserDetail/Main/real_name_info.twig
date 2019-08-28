@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>基本管理-实名认证-认证信息</title>
+    <link rel="stylesheet" href="/assets/admin/h/css/common.css" />
+    <script type="text/javascript" src="/assets/admin/js/jquery.min.js"></script>
+    <script language="JavaScript">
+        $(function(){
+            function edit(){
+                $('.h-input-text').hide();
+                $('.h-input-text').next('input').fadeIn();
+            }
+            function save(){
+                $("input").each(function(){
+                    var value = $(this).val();
+                    $(this).siblings('span.h-input-text').html(value);
+                    $(this).siblings('span.h-input-text').show();
+                    $(this).hide();
+                });
+            }
+            $('#edit').click(function(){
+                var htmlText = $('#edit').html();
+                if(htmlText == '编辑'){
+                    edit();
+                    $('#edit').html('保存');
+                }else{
+                    save();
+                    $('#edit').html('编辑');
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div class="main-box">
+    <ul class="h-tab">
+        <li class="tab-this"><a href="{{ path('admin_user_details_main_real_name_info',{id:user.user_id}) }}">认证信息</a></li>
+        <li><a href="{{ path('admin_user_details_main_real_name_info_pic',{id:user.user_id}) }}">证件照片</a></li>
+        <li><a href="{{ path('admin_user_details_main_real_name_info_history',{id:user.user_id}) }}">历史认证</a></li>
+    </ul>
+    <div class="h-details-box">
+        <ul class="h-details clearfloat">
+            <li>
+                <div class="details-title">性质</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text">{{ constant("App\\Common\\Model\\User\\User::TYPES")[user.user_type] }}</span>
+                        <input type="text" name="type" value="{{ constant("App\\Common\\Model\\User\\User::TYPES")[user.user_type] }}" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title">姓名</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text">{{ user.name }}</span>
+                        <input type="text" name="realname" value="{{ user.name }}" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title">身份证号</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text">{{ user.card_id }}</span>
+                        <input type="text" name="card_id" value="{{ user.card_id }}" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title">性别</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text">无</span>
+                        <input type="text" name="sex" value="无" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title">生日</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text">无</span>
+                        <input type="text" name="birthday" value="无" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title">户籍地址</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text">{{ user.address }}</span>
+                        <input type="text" name="address" value="{{ user.address }}" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title"></div>
+                <div class="detail-content">
+                    <div class="h-input-block" style="margin-top: 20px;">
+                        <button id="edit" class="btn btn-green">编辑</button>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

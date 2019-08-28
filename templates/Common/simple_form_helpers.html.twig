@@ -1,0 +1,342 @@
+{% macro attrs(attrs={}) %}
+  {% spaceless %}
+    {% for attrName, attrValue in attrs %}
+      {{ " #{attrName}=\"#{attrValue}\""|raw }}
+    {% endfor %}
+  {% endspaceless %}
+{% endmacro %}
+
+{% macro label_begin(field, attrs={}) %}
+{% spaceless %}
+    {% import _self as sf %}
+    {% set attrs = {'for': field.name, 'class': 'control-label'}|merge(attrs) %}
+<label {{ sf.attrs(attrs) }}>
+  {% endspaceless %}
+  {% endmacro %}
+
+  {% macro label_end() %}
+  {% spaceless %}
+</label>
+  {% endspaceless %}
+{% endmacro %}
+
+{% macro label(field, label_text, attrs={}, mark_required=' *') %}
+  {% spaceless %}
+    {% import _self as sf %}
+    {{ sf.label_begin(field, attrs) }}
+    {{ label_text }}{{ mark_required and field.required ? mark_required : '' }}
+    {{ sf.label_end() }}
+  {% endspaceless %}
+{% endmacro %}
+
+{% macro input(field, type, value, attrs={}, raw=false, options={}) %}
+  {% spaceless %}
+    {% import _self as sf %}
+    {% set form = field.form %}
+    {% do field.form.setRendered(field.name, true) %}
+    {% if attrs.id is not defined %}
+      {% set attrs = {'id': field.name }|merge(attrs) %}
+    {% endif %}
+    {% if field.error %}
+      {% set class = (attrs.class|default("")) ~ " error" %}
+    {% else %}
+      {% set class = attrs.class|default("layui-input") %}
+    {% endif %}
+    {% set attrs = {'class': class }|merge(attrs) %}
+    {% if options.prepend is defined or options.append is defined %}
+      <div class="{{ options.prepend is defined ? 'input-prepend' : '' }} {{ options.append is defined ? 'input-append' : '' }}">
+    {% endif %}
+    {% if options.prepend is defined %}
+      <span class="add-on">{{ options.prepend }}</span>
+    {% endif %}
+    {% if field.required %}
+      {% set attrs = {'required': 1}|merge(attrs) %}
+    {% endif %}
+    <input name="{{ field.name }}" value="{{ raw ? value|raw : value }}" type="{{ type }}" {{ sf.attrs(attrs) }} />
+    {% if options.append is defined %}
+      <span class="add-on">{{ options.append }}</span>
+    {% endif %}
+    {% if options.prepend is defined or options.append is defined %}
+      </div>
+    {% endif %}
+  {% endspaceless %}
+{% endmacro %}
+
+{% macro text(field, attrs={}, raw=false, options={}) %}
+  {% import _self as sf %}
+  {{ sf.input(field, 'text', field.value, attrs, raw, options) }}
+{% endmacro %}
+
+{% macro password(field, attrs={}) %}
+  {% import _self as sf %}
+  {{ sf.input(field, 'password', field.value, attrs, true) }}
+{% endmacro %}
+
+{% macro hidden(field, attrs={}) %}
+  {% import _self as sf %}
+  {{ sf.input(field, 'hidden', field.value, attrs, false) }}
+{% endmacro %}
+
+{% macro file(field, attrs={}) %}
+  {% import _self as sf %}
+  {{ sf.input(field, 'file', attrs, false) }}
+{% endmacro %}
+
+{% macro checkbox(field, value, text=null, attrs={}, label_attrs={}) %}
+  {% import _self as sf %}
+  {% if attrs.id is not defined %}
+    {% set id = field.name ~ '_' ~ field.value %}
+    {% set attrs = {'id': id }|merge(attrs) %}
+  {% endif %}
+  {% set attrs = {'title': text|raw }|merge(attrs) %}
+  {% if field.value == value %}
+    {% set attrs = {'checked': 'checked' }|merge(attrs) %}
+  {% endif %}
+  {% set label_attrs = {'class': 'checkbox', 'for': attrs.id }|merge(label_attrs) %}
+  {% if text %}
+    <label {{ sf.attrs(label_attrs) }}>
+  {% endif %}
+  {% set field = field|merge({"value": value}) %}
+  {{ sf.input(field, 'checkbox', value, attrs) }}
+  {% if text %}
+    {{ text|raw }}
+    </label>
+  {% endif %}
+{% endmacro %}
+
+{% macro radio(field, value, text, attrs={}, label_attrs={}) %}
+  {% import _self as sf %}
+  {% if attrs.id is not defined %}
+    {% set id = field.name ~ '_' ~ value %}
+    {% set attrs = {'id': id, 'title': text, 'class': 'layui-input' }|merge(attrs) %}
+  {% endif %}
+  {% if field.value == value %}
+    {% set attrs = {'checked': 'checked' }|merge(attrs) %}
+  {% endif %}
+  {{ sf.input(field, 'radio', value, attrs) }}
+{% endmacro %}
+
+{% macro textarea(field, attrs={}, raw=false) %}
+  {% import _self as sf %}
+  {% do field.form.setRendered(field.name, true) %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': field.name, 'class': 'layui-textarea' }|merge(attrs) %}
+  {% endif %}
+  <textarea name="{{ field.name }}" {{ sf.attrs(attrs) }}>{{ raw ? (field.value|raw) : field.value }}</textarea>
+{% endmacro %}
+
+{% macro select(field, choices, attrs={}, current_value = "") %}
+  {% import _self as sf %}
+  {% do field.form.setRendered(field.name, true) %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': field.name }|merge(attrs) %}
+  {% endif %}
+  <select name="{{ field.name }}" {{ sf.attrs(attrs) }}>
+    {% for opt_value, opt_text in choices %}
+      <option value="{{ opt_value }}" {{ field.value is same as(opt_value) ? 'selected="selected"' : '' }}>
+        {{ opt_text }}
+      </option>
+    {% endfor %}
+  </select>
+{% endmacro %}
+
+{% macro select_raw(name, choices, attrs={}, current_value = "") %}
+  {% import _self as sf %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': name }|merge(attrs) %}
+  {% endif %}
+  <select name="{{ name }}" {{ sf.attrs(attrs) }}>
+    {% for opt_value, opt_text in choices %}
+      <option value="{{ opt_value }}" {{ current_value is same as(opt_value)  ? 'selected="selected"' : '' }}>
+        {{ opt_text }}
+      </option>
+    {% endfor %}
+  </select>
+{% endmacro %}
+
+{% macro button(field, title, attrs={}) %}
+  {% import _self as sf %}
+  {% do field.form.setRendered(field.name, true) %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': field.name }|merge(attrs) %}
+  {% endif %}
+  {#{% set attrs = {'class': 'btn'}|merge(attrs) %}#}
+  <button name="{{ field.name }}" value="{{ field.value }}" type="button" {{ sf.attrs(attrs) }}>{{ title }}</button>
+{% endmacro %}
+
+{% macro submit(text, input=true, attrs={}) %}
+  {% import _self as sf %}
+  {% if input %}
+    {% set attrs = {'name': 'btn_submit' }|merge(attrs) %}
+  {% endif %}
+  {% if attrs.id is not defined %}
+    {% set attrs = {'id': "btn_submit_#{text}" }|merge(attrs) %}
+  {% endif %}
+  {% set attrs = {'class': 'layui-btn layui-btn-normal'}|merge(attrs) %}
+  <button type="submit" {{ sf.attrs(attrs) }}>{{ text }}</button>
+{% endmacro %}
+
+{% macro rest(form, type='hidden', attrs={}, raw=false) %}
+  {% import _self as sf %}
+  {% set rest_fields = form.getUnrenderedFields() %}
+  {% for field in rest_fields %}
+    {{ sf.input(field, type, field.value, attrs, raw) }}
+  {% endfor %}
+{% endmacro %}
+
+{% macro error(field, label_attrs={}) %}
+  {% if field.error %}
+    {% import _self as sf %}
+    {% set label_attrs = {'for': field.name, 'class': 'layui-form-mid layui-word-aux error'}|merge(label_attrs) %}
+    <label {{ sf.attrs(label_attrs) }}>
+      {{ field.error|raw }}
+    </label>
+  {% endif %}
+{% endmacro %}
+
+{% macro rules(form) %}
+  {% set rules = form.generateRules() %}
+  {% if rules %}
+    {{ rules|json_encode|raw }}
+  {% endif %}
+{% endmacro %}
+
+{#<div class="layui-form-item">#}
+  {#<label class="layui-form-label">用户名：</label>#}
+  {#<div class="layui-input-inline">#}
+    {#<input type="text" placeholder="" class="layui-input">#}
+  {#</div>#}
+{#</div>#}
+
+{# A shortcut macro to render a control group ( for Bootstrap css framework ) #}
+{% macro field(field, type, label_title, widget_settings={}, label_attrs={}, error_attrs={}, controls_attrs={}) %}
+  {% spaceless %}
+    {% import _self as sf %}
+
+    {% set widget_raw     = widget_settings.raw   is defined ? widget_settings.raw   : {} %}
+    {% set widget_attrs   = widget_settings.attrs is defined ? widget_settings.attrs : {} %}
+    {% set widget_desc    = widget_settings.desc  is defined ? widget_settings.desc  : null %}
+    {% set inline_desc    = widget_settings.inline_desc  is defined ? widget_settings.inline_desc  : null %}
+    {% set widget_options = widget_settings.options  is defined ? widget_settings.options  : {} %}
+
+    {% set label_attrs    = {'class': 'layui-form-label'}|merge(label_attrs) %}
+    {% set error_attrs    = {'class': 'help-inline error'}|merge(error_attrs) %}
+
+    {% set controls_attrs = {'class': 'layui-input-block'}|merge(controls_attrs) %}
+
+    <div class="layui-form-item {{ field.error ? ' error' : '' }}">
+      {{ sf.label(field, label_title, label_attrs) }}
+      <div {{ sf.attrs(controls_attrs) }}>
+        {% if type == 'text' %}
+          {{ sf.text(field, widget_attrs, widget_raw, widget_options) }}
+        {% elseif type == 'password' %}
+          {{ sf.password(field, widget_attrs) }}
+        {% elseif type == 'hidden' %}
+          {{ sf.hidden(field, widget_attrs) }}
+        {% elseif type == 'file' %}
+          {{ sf.file(field, widget_attrs) }}
+        {% elseif type == 'checkbox' %}
+          {% set widget_label_attrs = widget_settings.label_attrs is defined ? widget_settings.label_attrs : {} %}
+          {{ sf.checkbox(field, widget_settings.value, label_title, widget_attrs, widget_label_attrs) }}
+        {% elseif type == 'radio' %}
+          {% set widget_label_attrs = widget_settings.label_attrs is defined ? widget_settings.label_attrs : {} %}
+          {{ sf.checkbox(field, widget_settings.value, widget_settings.text, widget_attrs, widget_label_attrs) }}
+        {% elseif type == 'textarea' %}
+          {{ sf.textarea(field, widget_attrs, widget_raw) }}
+        {% elseif type == 'select' %}
+          {% set widget_extra_config = widget_settings.extra_config  is defined ? widget_settings.extra_config  : {} %}
+          {{ sf.select(field, widget_settings.options, widget_attrs, widget_extra_config) }}
+        {% else %}
+          <!-- input type "{{ type }}" is not supported by this macro -->
+        {% endif %}
+        {{ sf.error(field, error_attrs) }}
+      </div>
+    </div>
+  {% endspaceless %}
+{% endmacro %}
+
+{% macro inline_field(field, type, widget_settings={}, div_attrs={}) %}
+  {% set widget_raw     = widget_settings.raw   is defined ? widget_settings.raw   : {} %}
+  {% set widget_attrs   = widget_settings.attrs is defined ? widget_settings.attrs : {} %}
+  {% set widget_options = widget_settings.options  is defined ? widget_settings.options  : {} %}
+
+  <div class="layui-input-inline {{ field.error ? ' error' : '' }}" {{ sf.attrs(div_attrs) }}>
+      {% if type == 'text' %}
+          {{ sf.text(field, widget_attrs, widget_raw, widget_options) }}
+      {% elseif type == 'password' %}
+          {{ sf.password(field, widget_attrs) }}
+      {% elseif type == 'hidden' %}
+          {{ sf.hidden(field, widget_attrs) }}
+      {% elseif type == 'file' %}
+          {{ sf.file(field, widget_attrs) }}
+      {% elseif type == 'checkbox' %}
+          {% set widget_label_attrs = widget_settings.label_attrs is defined ? widget_settings.label_attrs : {} %}
+          {{ sf.checkbox(field, widget_settings.value, widget_settings.text, widget_attrs, widget_label_attrs) }}
+      {% elseif type == 'radio' %}
+          {% set widget_label_attrs = widget_settings.label_attrs is defined ? widget_settings.label_attrs : {} %}
+          {{ sf.checkbox(field, widget_settings.value, widget_settings.text, widget_attrs, widget_label_attrs) }}
+      {% elseif type == 'textarea' %}
+          {{ sf.textarea(field, widget_attrs, widget_raw) }}
+      {% elseif type == 'select' %}
+          {% set widget_options = widget_settings.options  is defined ? widget_settings.options  : {} %}
+          {% set widget_extra_config = widget_settings.extra_config  is defined ? widget_settings.extra_config  : {} %}
+          {{ sf.select(field, widget_settings.options, widget_attrs, widget_extra_config) }}
+      {% else %}
+        <!-- input type "{{ type }}" is not supported by this macro -->
+      {% endif %}
+      {{ sf.error(field, error_attrs) }}
+
+  </div>
+{% endmacro %}
+
+{# A shortcut macro to render a control group ( for Bootstrap css framework ) #}
+{#{% macro field(field, type, label_title, translate=false, label_attrs={}, widget_settings={}, error_attrs={}, controls_attrs={}) %}#}
+  {#{% spaceless %}#}
+    {#{% import _self as sf %}#}
+
+    {#{% set widget_raw     = widget_settings.raw   is defined ? widget_settings.raw   : {} %}#}
+    {#{% set widget_attrs   = widget_settings.attrs is defined ? widget_settings.attrs : {} %}#}
+    {#{% set widget_desc    = widget_settings.desc  is defined ? widget_settings.desc  : null %}#}
+    {#{% set inline_desc    = widget_settings.inline_desc  is defined ? widget_settings.inline_desc  : null %}#}
+    {#{% set widget_options = widget_settings.options  is defined ? widget_settings.options  : {} %}#}
+
+    {#{% set label_attrs    = {'class': 'control-label'}|merge(label_attrs) %}#}
+    {#{% set error_attrs    = {'class': 'help-inline error'}|merge(error_attrs) %}#}
+
+    {#{% set controls_attrs = {'class': 'controls'}|merge(controls_attrs) %}#}
+
+    {#<div class="control-group{{ field.error ? ' error' : '' }}">#}
+      {#{% set label_title = translate ? (label_title|trans) : label_title %}#}
+      {#{{ sf.label(field, label_title, label_attrs) }}#}
+      {#<div {{ sf.attrs(controls_attrs) }}>#}
+        {#{% if type == 'text' %}#}
+          {#{{ sf.text(field, widget_attrs, widget_raw, widget_options) }}#}
+        {#{% elseif type == 'password' %}#}
+          {#{{ sf.password(field, widget_attrs) }}#}
+        {#{% elseif type == 'hidden' %}#}
+          {#{{ sf.hidden(field, widget_attrs) }}#}
+        {#{% elseif type == 'file' %}#}
+          {#{{ sf.file(field, widget_attrs) }}#}
+        {#{% elseif type == 'checkbox' or type == 'radio' %}#}
+          {#{% set widget_label_attrs = widget_settings.label_attrs is defined ? widget_settings.label_attrs : {} %}#}
+          {#{{ sf.checkbox(field, widget_settings.value, widget_settings.text, widget_attrs, widget_label_attrs) }}#}
+        {#{% elseif type == 'textarea' %}#}
+          {#{{ sf.textarea(field, widget_attrs, widget_raw) }}#}
+        {#{% elseif type == 'select' %}#}
+          {# select(field, options, translate=false, attrs={}) %} #}
+          {#{% set widget_extra_config = widget_settings.extra_config  is defined ? widget_settings.extra_config  : {} %}#}
+          {#{{ sf.select(field, widget_settings.options, translate, widget_attrs, widget_extra_config) }}#}
+        {#{% else %}#}
+          {#<!-- input type "{{ type }}" is not supported by this macro -->#}
+        {#{% endif %}#}
+        {#{% if widget_desc %}#}
+          {#<span class="help-block">{{ widget_desc }}</span>#}
+        {#{% endif %}#}
+        {#{% if inline_desc %}#}
+          {#<span class="help-inline">{{ inline_desc }}</span>#}
+        {#{% endif %}#}
+        {#{{ sf.error(field, translate, error_attrs) }}#}
+      {#</div>#}
+    {#</div>#}
+  {#{% endspaceless %}#}
+{#{% endmacro %}#}

@@ -1,0 +1,157 @@
+{% extends '/Passport/layout.twig' %}
+
+{% block css %}
+    {{ use_assets([
+    '/assets/passport/css/common.css',
+    ]) }}
+    <style>
+        .shiMin{height: auto;border: 1px solid #E5E5E5;}
+        .shiMin .nameBar{width: auto;height: auto;padding:30px 20px 15px 20px;background: #FFFFFF;}
+        .shiMin .headImg{float: left; width: 80px;height: 80px;border-radius: 45px;border: 1px solid #EEEEEE;overflow: hidden;background: #C9DAE1;}
+        .shiMin .headImg img{width: 100%;height: 100%;}
+        .shiMin .headName{float: left;padding-top: 10px;margin-left: 20px;color: #333333;}
+        .shiMin .headName h2{padding:7px 0;font-size: 18px;font-weight: normal;}
+        .shiMin .headName span{color: #555555;}
+        .shiMin .infoBar{width: auto;height: auto;padding: 20px 10px 20px 90px; background: #F5F5F5;}
+        .shiMin .info{float: left;margin: 0 30px;}
+        .shiMin .info li{height: 24px;padding: 3px 0;line-height: 24px;color: #333333;}
+        .shiMin .info em{float: left; display: inline-block; width: 110px;font-style: normal;color: #888888}
+        .shiMin .info span{float: left;display: inline-block; width: 170px;}
+        .myIdCart{height: auto;padding: 15px 20px 20px 20px; border: 1px solid #E5E5E5;margin-top: 30px;}
+        .myIdCart h2{position: relative; padding: 10px 0; border-bottom: 1px dashed #E0E0E0; font-size: 18px;font-weight: normal;}
+        .myIdCart h2 a{position: absolute;top: 10px;right: 0px; font-size: 12px;color: #0FB5D8;}
+        .myIdCart h2 a:hover{opacity: .8;text-decoration: underline;}
+        .myIdCart .item{margin: 20px 0 0 0;}
+        .myIdCart .item li{display: inline-block;width: 200px;height: 140px;margin-right: 21px;background: #CCCCCC;}
+        .myIdCart .item li:nth-child(4n){margin-right: 0px;}
+        .myIdCart .item li img{width: 100%;height: 100%;}
+        .whyShiMin{height: 220px; margin: 30px 0 0 0;text-align: center;}
+        .whyShiMin h2{padding: 10px 0 40px 0;font-weight: normal;color: #444444;}
+        .whyShiMin .item{float: left; width: 150px;height: auto;margin: 0 40px;}
+        .whyShiMin .item img{width: 100px;height: 110px;}
+        .whyShiMin .item h4{font-weight: normal;}
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    <div class="shiMin">
+        <div class="nameBar clearfloat">
+            <div class="headImg">
+                <img src="{{ user.avatar_url }}" onerror="this.src='{{ asset('/assets/common/img/default-avatar.jpg') }}'"/>
+            </div>
+            <div class="headName">
+                <h2>{{ user.nick_name }}</h2>
+                认证状态：
+                <p><span>
+                    {{ user.getRealNameStatusText() }}
+                </span>
+                </p>
+                <p>性质：<span>{{ user.getTypeText() }}</span>
+                </p>
+            </div>
+        </div>
+        <div class="infoBar clearfloat">
+            {% if user.type == 'I' %}
+                <ul class="info" style="width: 280px;">
+                    <li><em>姓名：</em><span>{{ identity.entity_name }}</span></li>
+                    <li><em>身份证号码：</em><span>{{ identity.entity_license_no }}</span></li>
+                    {% if identity.entity_license_valid_long_term %}
+                        <li><em>执照有效日期：</em><span>长期</span></li>
+                    {% else %}
+                        <li><em>有效日期：</em><span>{{ identity.entity_license_valid_from|date('Y-m-d') }} ~ {{ identity.entity_license_valid_to|date('Y-m-d') }}</span></li>
+                    {% endif %}
+                    <li><em>注册地址：</em><span>{{ identity.entity_license_address }}</span></li>
+                </ul>
+            {% else %}
+                <ul class="info" style="width: 280px;">
+                    <li><em>企业名称：</em><span>{{ identity.entity_name }}</span></li>
+                    <li><em>营业执照号：</em><span>{{ identity.entity_license_no }}</span></li>
+                    <li><em>法人姓名：</em><span>{{ identity.biz_legal_representative_name }}</span></li>
+                    <li><em>法人身份证：</em><span>{{ identity.biz_legal_representative_id_no }}</span></li>
+
+                    {% if identity.entity_license_valid_long_term %}
+                        <li><em>执照有效日期：</em><span>长期</span></li>
+                    {% else %}
+                        <li><em>有效日期：</em><span>{{ identity.entity_license_valid_from|date('Y-m-d') }} ~ {{ identity.entity_license_valid_to|date('Y-m-d') }}</span></li>
+                    {% endif %}
+                    <li><em>注册地址：</em><span>{{ identity.entity_license_address }}</span></li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+    <div class="myIdCart">
+        <h2>我的证件照<a id="btn_toggle_images" href="javascript:show_verify_img();">查看完整证件照</a></h2>
+        <ul class="item">
+            {% if user.type == 'I' %}
+                <li>
+                    <img class="id_img_default" src="{{ asset('/assets/passport/img/zz1.jpg') }}" />
+                    <img src="{{ identity.entity_license_front_image_url }}" class="id_img_value" style="display: none;"/>
+                </li>
+                <li>
+                    <img class="id_img_default" src="{{ asset('/assets/passport/img/zz2.jpg') }}" />
+                    <img src="{{ identity.entity_license_back_image_url }}" class="id_img_value" style="display: none;"/>
+                </li>
+                <li>
+                    <img class="id_img_default" src="{{ asset('/assets/passport/img/zz3.jpg') }}" />
+                    <img src="{{ identity.entity_license_handheld_image_url }}" class="id_img_value" style="display: none;"/>
+                </li>
+
+            {% else %}
+                <li>
+                    <img class="id_img_default" src="{{ asset('/assets/passport/img/zz4.jpg') }}" />
+                    <img src="{{ identity.entity_license_front_image_url }}" class="id_img_value" style="display: none;"/>
+                </li>
+
+                <li>
+                    <img class="id_img_default" src="{{ asset('/assets/passport/img/zz1.jpg') }}" />
+                    <img src="{{ identity.biz_legal_representative_id_front_image_url }}" class="id_img_value" style="display: none;"/>
+                </li>
+                <li>
+                    <img class="id_img_default" src="{{ asset('/assets/passport/img/zz2.jpg') }}" />
+                    <img src="{{ identity.biz_legal_representative_id_back_image_url }}" class="id_img_value" style="display: none;"/>
+                </li>
+                <li>
+                    <img class="id_img_default" src="{{ asset('/assets/passport/img/zz3.jpg') }}" />
+                    <img src="{{ identity.biz_legal_representative_id_handheld_image_url }}" class="id_img_value" style="display: none;"/>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+    <div class="whyShiMin">
+        <h2>为什么进行实名认证</h2>
+        <div class="item">
+            <img src="{{ asset('/assets/passport/img/z1.png') }}" />
+            <h4>核实真实信息</h4>
+        </div>
+        <div class="item">
+            <img src="{{ asset('/assets/passport/img/z2.png') }}" />
+            <h4>保障账户安全</h4>
+        </div>
+        <div class="item">
+            <img src="{{ asset('/assets/passport/img/z3.png') }}" />
+            <h4>获得用户信赖</h4>
+        </div>
+        <div class="item">
+            <img src="{{ asset('/assets/passport/img/z4.png') }}" />
+            <h4>拓展更多功能</h4>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_end %}
+    <script>
+        $(document).ready(function () {
+            $('.id_img_default').show();
+            $('.id_img_value').hide();
+        });
+
+        function show_verify_img() {
+            $('.id_img_value').toggle();
+            $('.id_img_default').toggle();
+
+            var text = $('#btn_toggle_images').text() === '查看完整证件照' ? '隐藏完整证件照' : '查看完整证件照';
+            $('#btn_toggle_images').text(text);
+        }
+    </script>
+{% endblock %}

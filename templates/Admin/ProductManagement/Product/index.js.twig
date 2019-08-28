@@ -1,0 +1,179 @@
+table.on('toolbar(table)', function (ctx) {
+    if (typeof window[ctx.event] === "function") {
+        window[ctx.event](ctx);
+        return;
+    }
+
+    console.log('Unhandled table toolbar event: ' + ctx.event);
+});
+
+table.on('tool(table)', function (row) {
+    console.log(row);
+    //var data     = row.data; //获得当前行数据
+
+    if (typeof window[row.event] === "function") {
+        window[row.event](row);
+        return;
+    }
+
+    console.log('Unhandled table tool event: ' + row.event);
+});
+
+function on_table_render_done() {
+}
+
+function reload_table() {
+    //var subject_type = $('select[name=subject_type]').val();
+    //if(subject_type === 'USER') {
+    //    var setting_ids = $('input[name=setting_ids]').val();
+    //    if(!setting_ids) {
+    //        layer.msg('输入通行证/手机/昵称进行用户搜索');
+    //        return;
+    //    }
+    //
+    //    axios_form.get('{{ url('admin_users_search') }}', {setting_ids: setting_ids})
+    //        .then(function (response) {
+    //            if(!response.data.status) {
+    //                layer.msg(response.data.msg);
+    //                return;
+    //            }
+    //
+    //            var user =  response.data.user;
+    //            var info = user.user_name + '(' + user.mobile + ')'
+    //            $('#user_id').val(user.id);
+    //            $('#user_info').text(info);
+    //        })
+    //        .catch(function (reason) {
+    //            console.log(reason);
+    //            layer.msg('服务器返回错误，请重试');
+    //        });
+    //}
+
+    table.reload('table', {
+        url:   '{{ current_path }}',
+        where: $('#search-form').serializeJson(),
+        done:  on_table_render_done
+    });
+}
+
+function delete_selected(ctx) {
+    var ids = get_selected_ids(ctx);
+    layer.confirm('确认要删除选定的 ' + ids.length + ' 个商品吗？', {icon: 3, title: '删除确认'}, function (index) {
+        layer.close(index);
+
+        axios_form.post('{{ path('admin_product_management_products_delete_by_ids', {'product_type': app.request.get('product_type')}) }}', {ids: ids, _token: '{{ csrf_token('admin_products') }}'})
+            .then(function (response) {
+                if (response.data.msg) {
+                    layer.msg(response.data.msg);
+                }
+                if (response.data.status) {
+                    reload_table();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
+function batch_change_rebate(ctx) {
+    var setting_ids = get_selected_setting_ids(ctx);
+
+    layer.prompt({
+        title:    '请输入返现比例(百分比)',
+        formType: 0,
+        success:  function (layero, index) {
+            $(layero).find('input.layui-layer-input').attr('placeholder', '返现百分比，比如 2.71828');
+            $(layero).find('.layui-layer-content').append('<span>&nbsp;%</span>');
+            $(layero).find('.layui-layer-content').children().wrap('<div class="layui-inline"></div>');
+        }
+    }, function (input, index) {
+        var value = parseFloat(input);
+        if (isNaN(value) || value <= 0) {
+            layer.tips(isNaN(value) ? '格式不正确' : '比例必须大于 0', sender, {tips: 1});
+
+            return false;
+        }
+
+        do_batch_update_product_settings(setting_ids, {'rebate': value});
+
+        layer.close(index);
+    });
+}
+
+function update_source_settings(ctx) {
+    var setting_ids = get_selected_setting_ids(ctx);
+
+    $('#update_source_settings_form')[0].reset();
+    $('.error').html('');
+    $('.error').hide();
+    $('.tips').show();
+
+
+    axios.get('{{ path('admin_product_management_source_groups_groups_of_products', {'product_type': app.request.get('product_type')}) }}?product_ids=' + setting_ids.join(','))
+        .then(function (response) {
+            var options = '<option value="">请选择供货模板</option>';
+            $.each(response.data.product_source_groups, function (index, item) {
+                options += '<option value="' + item.id + '">' + item.display_name + '</option>';
+            });
+            $('#update_source_settings_form select[name=source_group_id]').html(options);
+            layui.form.render();
+
+            layer.open({
+                title:    '将已选商品批量设置为',
+                type:     1,
+                area:     ['500px', 'auto'],
+                content:  $('#update_source_settings_dialog'),
+                closeBtn: false,
+                btn:      ['保存', '取消'],
+                yes:      function (index, layero) {
+                    var post_data = {
+                        product_ids:     setting_ids,
+                        source_group_id: $('#update_source_settings_form select[name=source_group_id]').val(),
+                        sort:            $('#update_source_settings_form input[name=sort]').val(),
+                        weight:          $('#update_source_settings_form input[name=weight]').val(),
+                        enabled:         $('#update_source_settings_form input[name=enabled]:checked').val(),
+                        _token:          '{{ csrf_token('admin_products') }}'
+                    };
+
+                    axios_form.post('{{ path('admin_product_management_products_update_product_source_settings', {'product_type': app.request.get('product_type')}) }}', post_data)
+                        .then(function (response) {
+                            if (response.data.msg) {
+                                layer.msg(response.data.msg);
+                            }
+
+                            if (response.data.status) {
+                                layer.close(index);
+                                reload_table();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                },
+                btn2:     function (index, layero) {
+                    layer.close(index);
+                },
+                end:      function () {
+                    $('#update_source_settings_dialog').toggle();
+                }
+            });
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+
+}
+
+function batch_change_price(ctx) {
+    var ids = get_selected_product_ids(ctx);
+
+    if (!ids) {
+        layer.msg('请先选中要操作的商品');
+        return;
+    }
+
+    var ids_str          = encodeURIComponent(ids);
+    window.location.href = '{{ url('admin_product_management_products_batch_edit_price', {'product_type': app.request.get('product_type')}) }}?ids=' + ids_str;
+}

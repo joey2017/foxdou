@@ -1,0 +1,11 @@
+framework:
+    cache:
+        prefix_seed:            foxdou.com
+        app:                    cache.adapter.redis       # App related cache pools configuration
+        system:                 cache.adapter.system      # System related cache pools configuration
+        directory:              '%kernel.cache_dir%/pools'
+        default_redis_provider: 'redis://redis:9ec2e997f5df4d888be08f605bccd0a0@192.168.1.11:6379/0'
+#        pools:
+#            :
+#                adapter:              cache.app
+#                public:               false

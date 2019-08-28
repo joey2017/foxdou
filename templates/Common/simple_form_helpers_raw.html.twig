@@ -1,0 +1,149 @@
+{% macro attrs_raw(attrs={}) %}
+    {% spaceless %}
+        {% for attrName, attrValue in attrs %}
+            {{ " #{attrName}=\"#{attrValue}\""|raw }}
+        {% endfor %}
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro label_raw(for, label_text, attrs={}) %}
+    {% spaceless %}
+        {% import _self as sf %}
+        {% set attrs = {'for': for}|merge(attrs) %}
+        <label {{ sf.attrs_raw(attrs) }}>
+            {{ label_text }}
+        </label>
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro input_raw(type, name, value, attrs={}, raw=false) %}
+    {% spaceless %}
+        {% import _self as sf %}
+        {% if attrs.id is not defined %}
+            {#{% set attrs = {'id': name }|merge(attrs) %}#}
+        {% endif %}
+        <input name="{{ name }}" value="{{ raw ? value|raw : value }}" type="{{ type }}" {{ sf.attrs_raw(attrs) }} />
+    {% endspaceless %}
+{% endmacro %}
+
+{% macro text_raw(name, value, attrs={}, raw=false) %}
+    {% import _self as sf %}
+    {{ sf.input_raw('text', name, value, attrs, raw) }}
+{% endmacro %}
+
+{% macro password_raw(name, value, attrs={}) %}
+    {% import _self as sf %}
+    {{ sf.input_raw('password', name, value, attrs, true) }}
+{% endmacro %}
+
+{% macro hidden_raw(name, value, attrs={}) %}
+    {% import _self as sf %}
+    {{ sf.input_raw('hidden', name, value, attrs, false) }}
+{% endmacro %}
+
+{% macro file_raw(name, attrs={}) %}
+    {% import _self as sf %}
+    {{ sf.input_raw('file', name, '', attrs, false) }}
+{% endmacro %}
+
+{% macro checkbox_raw(name, choices, checked_values=null, attrs={}) %}
+    {% import _self as sf %}
+
+    {% set checked_values = checked_values is same as (null) ? [] : (checked_values is iterable ? checked_values : [checked_values]) %}
+    {% set attrs = {'value': ''}|merge(attrs) %}
+    {% for opt_value, title in choices %}
+        {# forced cast to string to avoid automatic type cast in compare #}
+        {% set opt_value = "%s"|format(opt_value) %}
+        {#{% set attrs = {'id': name ~ '_' ~ loop.index0}|merge(attrs) %}#}
+        {% set item_attrs = attrs|merge({'title': title }) %}
+
+        {# do a strict comparison #}
+        {% set checked = false %}
+        {% for checked_value in checked_values if not checked %}
+            {% set checked_value = "%s"|format(checked_value) %}
+            {% if opt_value is same as (checked_value) %}
+                {% set checked = true %}
+            {% endif %}
+        {% endfor %}
+
+        {% if checked %}
+            {% set item_attrs = {'checked': 'checked' }|merge(item_attrs) %}
+        {% endif %}
+
+        {{ sf.input_raw('checkbox', name, opt_value, item_attrs) }}
+    {% endfor %}
+
+{% endmacro %}
+
+{% macro radio_raw(name, choices, selected_value=null, attrs={}) %}
+    {% import _self as sf %}
+
+    {% set selected_value = selected_value is same as (null) ? selected_value : ("%s"|format(selected_value)) %}
+    {% set attrs = {'opt_value': ''}|merge(attrs) %}
+    {% for opt_value, title in choices %}
+        {# forced cast to string to avoid automatic type cast in compare #}
+        {% set opt_value = "%s"|format(opt_value) %}
+        {#{% set attrs = {'id': name ~ '_' ~ loop.index0, 'title': title }|merge(attrs) %}#}
+
+        {% set item_attrs = attrs|merge({'title': title }) %}
+        {% if opt_value is same as(selected_value) %}
+            {% set item_attrs = {'checked': 'checked' }|merge(item_attrs) %}
+        {% endif %}
+
+        {{ sf.input_raw('radio', name, opt_value, item_attrs) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro select_raw(name, choices, selected_value=null, attrs={}) %}
+    {% import _self as sf %}
+
+    {# forced cast to string to avoid automatic type cast in compare #}
+    {% set selected_value = selected_value is same as (null) ? selected_value : ("%s"|format(selected_value)) %}
+    {% if attrs.id is not defined %}
+        {#{% set attrs = {'id': name }|merge(attrs) %}#}
+    {% endif %}
+    <select name="{{ name }}" {{ sf.attrs_raw(attrs) }}>
+        {% for opt_value, opt_text in choices %}
+            {% set opt_value = "%s"|format(opt_value) %}
+            <option value="{{ opt_value }}" {{ opt_value is same as(selected_value)  ? 'selected="selected"' : '' }}>{{ opt_text }}</option>
+        {% endfor %}
+    </select>
+{% endmacro %}
+
+{% macro textarea_raw(name, value='', attrs={}, raw=false) %}
+    {% import _self as sf %}
+
+    {% if attrs.id is not defined %}
+        {#{% set attrs = {'id': name}|merge(attrs) %}#}
+    {% endif %}
+
+    <textarea name="{{ name }}" {{ sf.attrs_raw(attrs) }}>{{ raw ? (value|raw) : value }}</textarea>
+{% endmacro %}
+
+{% macro button_raw(name, title, value=null, attrs={}) %}
+    {% import _self as sf %}
+
+    {% if attrs.id is not defined %}
+        {#{% set attrs = {'id': name }|merge(attrs) %}#}
+    {% endif %}
+    {% if value %}
+        {% set attrs = {'name': name, 'value': value }|merge(attrs) %}
+    {% endif %}
+
+    <button type="button" {{ sf.attrs_raw(attrs) }}>{{ title }}</button>
+{% endmacro %}
+
+{% macro submit_raw(name, title, value=null, attrs={}) %}
+    {% import _self as sf %}
+
+    {% if attrs.id is not defined %}
+        {#{% set attrs = {'id': name }|merge(attrs) %}#}
+    {% endif %}
+
+    {% if value %}
+        {% set attrs = {'name': name, 'value': value }|merge(attrs) %}
+    {% endif %}
+
+    <button type="submit" {{ sf.attrs_raw(attrs) }}>{{ title }}</button>
+
+{% endmacro %}

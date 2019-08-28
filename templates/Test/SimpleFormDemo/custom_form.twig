@@ -1,0 +1,30 @@
+{% extends "/Test/SimpleFormDemo/layout.twig" %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block page_content %}
+    <div class="foxdou-note">
+        <div class="foxdou-row">
+            <div class="foxdou-row-title">
+                <span></span>
+                <h3><strong>自定义表单属性</strong></h3>
+            </div>
+            <p>sf.text、sf.password、sf.select、sf.checkbox 等助手方法支持自定义表单项的很多属性</p>
+        </div>
+    </div>
+    <div class="foxdou-content">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this">显示效果</li>
+                <li>代码</li>
+            </ul>
+            <div class="layui-tab-content" style="">
+                <div class="layui-tab-item layui-show">
+                    {% include "/Test/SimpleFormDemo/custom_form_form.twig" %}
+                </div>
+                <div class="layui-tab-item">
+                    <pre><code class="twig">{{ source("/Test/SimpleFormDemo/custom_form_form.twig")|e }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

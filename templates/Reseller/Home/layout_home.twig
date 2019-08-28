@@ -1,0 +1,106 @@
+{% set title = '狐豆代理商平台' %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>{{ title }}</title>
+
+  {{ use_assets([
+    '/assets/common/layui/css/layui.css',
+    '/assets/common/components/superslide/superslide.css',
+    '/assets/reseller/home/css/reset.css',
+    '/assets/reseller/home/css/common.css',
+    '/assets/reseller/home/css/index.css',
+  ]) }}
+
+  {{ use_assets([
+    '/assets/common/js/jquery.min.js',
+    '/assets/common/layui/layui.all.js',
+    '/assets/common/components/superslide/superslide.js',
+  ]) }}
+
+
+  {% block css %}
+    <style>
+      .agent-cols {
+        width: 1100px;
+        height: auto;
+        padding: 0px 0;
+        margin: 0 auto;
+      }
+    </style>
+  {% endblock %}
+
+  <script>
+      function view_article(url) {
+          var width  = 1000;
+          var height = window.screen.availHeight;
+          window.open(url, '', 'scrollbars=0,width=' + width + ',height=' + height + ',top=' + (((window.screen.availHeight) / 2) - (height / 2)) + ',left=' + (((window.screen.availWidth) / 2) - (width / 2)));
+      }
+  </script>
+
+</head>
+
+<body>
+<div class="wrapper">
+  <div class="agent-top">
+    <div class="agent-header">
+      <div class="agent-logo" style="background-image: url({{ asset('/assets/reseller/home/images/logo.png') }});"></div>
+      <div class="agent-nav">
+        {% include "Reseller/Home/top-nav.twig" %}
+      </div>
+    </div>
+  </div>
+
+  <div class="main_content">
+    {% block main_content %}
+    {% endblock %}
+  </div>
+
+  {% include "Reseller/Home/footer.twig" %}
+
+  <div class="agent-service">
+    <div class="agent-service-icon" title="在线客服" style="background-image: url({{ asset('/assets/reseller/home/images/kefu.png') }});"></div>
+    <div class="agent-service-body">
+      <img src="{{ asset('/assets/reseller/home/images/close.png') }}" class="agent-service-close" />
+      <div class="agent-sercice-info">
+        <h3>在线客服</h3>
+        <p>工作日：9:00-18:00</p>
+        <p>
+          <b>QQ号码</b>
+          <span>1063033278</span>
+        </p>
+        <p>
+          <b>在线客服</b>
+          <a href=""><img src="{{ asset('/assets/reseller/home/images/qq-jiaotan.png') }}"/></a>
+          <a href=""><img src="{{ asset('/assets/reseller/home/images/zaixianzixun.png') }}"/></a>
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="agent-backToTop" title="返回顶部"  style="background-image: url({{ asset('/assets/reseller/home/images/top.png') }});"></div>
+</div>
+<script>
+    layui.laypage.render({
+        elem: 'pager'
+        ,count: {{ total|default(0) }} //数据总数，从服务端得到
+        ,limit: {{ limit|default(4) }}
+        ,curr: {{ app.request.get('page')|default(1) }}
+        ,jump: function(obj, first){
+            //首次不执行
+            if(first){
+                return;
+            }
+
+            window.location = '?page=' + obj.curr;
+
+        }
+    });
+</script>
+
+{% block js_end %}
+{% endblock %}
+
+</body>
+</html>

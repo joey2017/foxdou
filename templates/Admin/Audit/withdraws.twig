@@ -1,0 +1,107 @@
+{% extends 'Admin/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief layadmin-tab" lay-filter="docDemoTabBrief">
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
+                            <div class="layui-form-item">
+                                <form action="" method="get" id="withdraws-list">
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">审核状态</label>
+                                        <div class="layui-input-block">
+                                            {{ sf.select_raw('trade_status', to_options(constant("App\\Common\\Model\\Payment\\SellCashUserLog::TRADE_STATUSES"), '全部'), {"class": "layui-input"}) }}
+                                        </div>
+                                    </div>
+
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">日期范围</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="" class="layui-input" id="timeFrame" placeholder=""><input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                                            <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <label class="layui-form-label">搜索</label>
+                                        <div class="layui-input-block">
+                                            <input type="text" name="keyword" placeholder="狐豆通行证搜索..." autocomplete="off" class="layui-input">
+                                        </div>
+                                    </div>
+                                    <div class="layui-inline">
+                                        <div class="layui-input-block layui-input-block-margin">
+                                            <button class="layui-btn layuiadmin-btn-useradmin" onclick="get_data();return false;">
+                                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="layui-card-body">
+                            <div style="padding: 5px 0;">
+                                <button class="layui-btn layuiadmin-btn-useradmin reverse-select">反选</button>
+                                <button class="layui-btn layuiadmin-btn-useradmin site-demo-layer" data-type="review">审核</button>
+                                <button class="layui-btn layuiadmin-btn-useradmin site-demo-layer" data-type="withdraw">修改提现结果</button>
+                            </div>
+                            <table class="layui-table" id="withdraws-table" lay-filter="withdraws-table">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script id="actions" type="text/html">
+          <%# if (d.trade_status < 2) { %>
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="review">审核</a>
+          <%# } %>
+          <%# if (d.trade_status == 2) { %>
+              <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="withdraw">修改提现结果</a>
+          <%# } %>
+        </script>
+    <script id="add_time" type="text/html">
+          <%#
+          var date = new Date();
+          date.setTime(d.add_time*1000);
+          return date.Format("yyyy-MM-dd hh:mm:ss");
+          %>
+        </script>
+    <script id="edit_time" type="text/html">
+          <%#
+          var date = new Date();
+          date.setTime(d.edit_time*1000);
+          return date.Format("yyyy-MM-dd hh:mm:ss");
+          %>
+        </script>
+{% endblock %}
+
+{% block extra %}
+
+    <!--此处为弹出层内容star-->
+    <div id="setSuccessDome" class="layer-demo layui-form" style="display: none;">
+        <input type="radio" name="status_a" value="1" title="审核不通过" checked>
+        <input type="radio" name="status_a" value="2" title="审核通过（人工转账）">
+        <input type="text" class="layui-input" name="platform_info_a" placeholder="请输入备注" style="margin-top: 15px">
+        <input type="password" class="layui-input" name="password_a" placeholder="请输入安全操作密码" style="margin-top: 15px">
+    </div>
+
+    <!--此处为弹出层内容开始end-->
+
+    <!--此处为弹出层内容star-->
+    <div id="setFailureDome" class="layer-demo layui-form" style="display: none;">
+        <input type="radio" name="status_b" value="3" title="已提现" checked>
+        <input type="radio" name="status_b" value="4" title="提现失败">
+        <input type="text" class="layui-input" name="platform_info_b" placeholder="请输入备注" style="margin-top: 15px">
+        <input type="password" class="layui-input" name="password_b" placeholder="请输入安全操作密码" style="margin-top: 15px">
+    </div>
+    <!--此处为弹出层内容开始end-->
+
+{% endblock %}
+
+{% block js_end %}
+  {% include "/Admin/Audit/withdraws_js.twig" %}
+{% endblock %}

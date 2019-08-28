@@ -1,0 +1,83 @@
+{% extends 'Supplier/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+    <style>
+        .margin-set{
+            margin-bottom: 15px;
+        }
+        .layui-input-inline{
+            width:300px;
+        }
+        .layui-form-label{
+            width:90px;
+        }
+    </style>
+    <div class="foxdou-row foxdou-row-notm">
+        <div class="foxdou-form-row" style="margin-left: 200px;">
+            <form class="layui-form" action="{{ path('supplier_finance_add_withdraw_account') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('supplier_finance_add_withdraw_account') }}">
+                <div class="margin-set">
+                    <label class="layui-form-label">选择银行</label>
+                    <div class="layui-input-inline">
+                        <select name="account_bank_id" id="account_bank_id">
+                            <option value="">--请选择银行--</option>
+                            {% for item in bank %}
+                                <option value="{{ item.id }}">{{ item.name }}</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                </div>
+                <div class="margin-set">
+                    <label class="layui-form-label">开户行名称</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="account_place" id="account_place" lay-verify="required" placeholder="请输入开户行名称" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="margin-set">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="account_user" id="account_user" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="margin-set">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">账号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="account_num" id="account_num" placeholder="请输入账号" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="margin-set">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">身份证号</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="shenfenzheng_id" id="shenfenzheng_id" placeholder="请输入身份证号" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="margin-set">
+                    <label class="layui-form-label">绑定手机号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="mobile" id="mobile" placeholder="请输入绑定手机号" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="margin-set">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="info" id="info" placeholder="请输入备注信息" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <button style="margin: 20px;" type="submit" class="layui-btn layui-btn-normal submit">提交</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Supplier/Finance/add_withdraw_account_js.twig" %}
+{% endblock %}

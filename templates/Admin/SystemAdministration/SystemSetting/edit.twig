@@ -1,0 +1,40 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '系统设置' %}
+
+{% block css %}
+  <style>
+    .layui-card-body {
+      padding: 0 0 10px 0;
+    }
+  </style>
+{% endblock %}
+
+{% block main_content %}
+  <div class="layui-fluid">
+    <div class="layui-card" style="padding-bottom: 10px;">
+      <form action="{{ path('admin_system_administration_system_settings_save', {'section': section}) }}" method="post" class="layui-form " id="system_settings_form">
+
+        {{ include("/Admin/SystemAdministration/SystemSetting/edit__" ~ section ~ ".twig") }}
+
+        <div class="layui-form">
+          <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 270px;">
+              <input type="hidden" name="_token" value="{{ csrf_token('system_settings') }}"/>
+              <button class="layui-btn" type="button" onclick="save_setting();">保存</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block js_end %}
+    <script>
+      function save_setting() {
+          ajax_post('{{ path('admin_system_administration_system_settings_save', {'section': section}) }}', $('#system_settings_form').serialize());
+      }
+    </script>
+{% endblock %}

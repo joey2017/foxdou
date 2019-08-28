@@ -1,0 +1,202 @@
+{% set default_gender = 'F' %}
+{% set default_checked_values = ['1', '3', '5'] %}
+{% set default_most_skilled_language = 1 %}
+
+{% set genders   = to_options('App\\Test\\Controller\\SimpleFormDemoController::GENDER', '性别') %}
+{% set languages = to_options('App\\Test\\Controller\\SimpleFormDemoController::LANGUAGES') %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Simple Form 用法演示</title>
+
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    {{ use_assets([
+        '/assets/common/layui/css/layui.css',
+        '/assets/supplier/font/iconfont.css',
+        '/assets/supplier/css/common.css',
+        '/assets/supplier/css/index.css',
+        '/assets/supplier/css/media-all.css',
+        '/assets/common/components/dropzone/dropzone.js',
+        '/assets/common/components/dropzone/dropzone.css',
+        '/assets/common/js/jquery.min.js',
+    ]) }}
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/idea.min.css">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+    <style>
+        /*.foxdou-content {*/
+        /*width: calc(100% - 315px);*/
+        /*}*/
+        /*.foxdou-note {*/
+        /*width: 300px;*/
+        /*}*/
+        .layui-table-cell {
+            padding: 0 5px !important;
+        }
+
+        .form-item-error-message {
+            color: red !important;
+        }
+         .dropzone .dz-preview {
+             width: 90%;
+             position: relative;
+             display: inline-block;
+             vertical-align: top;
+             margin: 1px;
+             min-height: 100px;
+         }
+        .dropzone .dz-preview .dz-image {
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        .sisi-btn-content {
+            min-height: 250px;
+            height: auto;
+        }
+        .sisi-btn-content .image-item {
+            min-height: 250px;
+            height: auto;
+        }
+        .dropzone .dz-preview:hover .dz-image img {
+            -webkit-transform: scale(1.05, 1.05);
+            -moz-transform: scale(1.05, 1.05);
+            -ms-transform: scale(1.05, 1.05);
+            -o-transform: scale(1.05, 1.05);
+            transform: scale(1.05, 1.05);
+            -webkit-filter: blur(0px);
+            filter: blur(0px); }
+
+        .layui-table tr:hover, .layui-table[lay-even] tr:nth-child(even) {
+            background-color: transparent !important;
+        }
+
+        .foxdou-body {
+            bottom: 0px !important;
+        }
+        .layui-tab-content {
+            padding: 0;
+        }
+
+        .layui-tab {
+            margin: 0 !important;
+        }
+        .hljs {
+            margin: 10px 0px 10px 20px;
+            background-color: #f1eff0 ;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="foxdou-box">
+    <div class="foxdou-header">
+        <div class="foxdou-top">
+            <div class=""></div>
+            <div class="foxdou-link">
+                <ul class="layui-nav layui-layout-left">
+                    <li class="layui-nav-item  layui-this">
+                        <a href="{{ current_path }}">SimpleForm 表单组件使用说明</a>
+                    </li>
+                </ul>
+            </div>
+
+            <ul class="layui-nav layui-layout-right foxdou-nav-user">
+                <li class="layui-nav-item">
+                </li>
+            </ul>
+
+        </div>
+    </div>
+
+    <div class="foxdou-side">
+        <div class="layui-side-scroll" data-path="{{ current_path }}">
+            <ul class="layui-nav layui-nav-tree">
+                <li class="layui-nav-item layui-this">
+                    <a href="{{ current_path }}">
+                        <i class="layui-icon"></i>
+                        <cite>首页</cite>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="foxdou-body">
+        <div class="">
+            <div class="layui-tab layui-tab-card">
+
+                {% set tabs = {
+                    'index': '使用说明',
+                    'helpers': '助手函数说明',
+                    'validators': '验证器列表',
+                    'transformers': '转换器列表',
+                    'default': '默认表单布局',
+                    'full_row': '整行表单布局',
+                    'custom_form': '自定义表单属性',
+                    'full_custom': '完全自定义表单布局',
+                    'inline_with_dynamic_table': '行内横排 + LayUI动态表格',
+                } %}
+
+                {% set current_page  = app.request.get('page')|default('') %}
+                <ul class="layui-tab-title">
+
+                    {% for id, name in tabs %}
+                        <li class="{{ id == current_page ? 'layui-this' : '' }}"><a href="{{ path('simple_form_demo_show', {'page': id}) }}">{{ name }}</a></li>
+                    {% endfor %}
+                </ul>
+                <div class="layui-tab-content">
+                    {% for id, name in tabs %}
+                        <div class="layui-tab-item {{ id == current_page ? 'layui-show' : '' }}" data-title="{{ name }}">
+                            {% if id == current_page %}
+                            {% block page_content %}{% endblock %}
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{ use_assets([
+    '/assets/common/layui/layui.all.js',
+    '/assets/common/js/jquery.serializejson.js',
+    '/assets/common/js/common-verify.js',
+]) }}
+
+
+{% include "/Common/Common/dropzone.twig" %}
+
+<script type="text/javascript">
+    // layui.element.render();
+
+    var UPLOAD_URL     = "{{ path('test_upload') }}";
+    var DELETE_URL     = "{{ url('common_file_upload_delete') }}";
+    var existingCovers = [{'id': '34312312321', 'url': '{{ asset('/assets/common/img/default-avatar.jpg') }}'}];
+
+    $(document).ready(function () {
+        function success(zoneId, file, response) {
+            console.log('success called', file, response);
+        }
+        function failure(zoneId, file, response) {
+            console.log('failure called', file, response);
+        }
+
+        var allow_upload = true;
+        setup_upload_form('dropzone_avatar', UPLOAD_URL, DELETE_URL, existingCovers, success, failure, allow_upload);
+    });
+
+</script>
+
+</body>
+</html>

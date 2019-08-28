@@ -1,0 +1,148 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '虚拟运营商管理' %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-form-pane layui-card-header">
+                <form class="layui-form foxdou-row horizon-form" id="search-form">
+                    <div class="layui-form-item" style="margin-bottom: 0;">
+                        {{ sf.select(search_form.top_operator_id, null, to_options('App\\Constants::CARRIERS', "上级运营商"), {'outer': 'inline'}, {'id': 'search_top_operator_id'}) }}
+                        {{ sf.select(search_form.enabled, null, {'': '启用状态', '1': '启用', '0': '禁用'}, {'outer': 'inline'}, {'id': 'search_enabled'}) }}
+                        {{ sf.text(search_form.name, null, {'outer': 'inline'}, {'id': 'search_name', 'placeholder': '搜索'}) }}
+                        {{ sf.button('搜索', {'outer': 'inline'}, {'onclick': 'reload_table()'}) }}
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body">
+                <div style="padding: 5px 0;">
+                    <button class="layui-btn layuiadmin-btn-useradmin" onclick="show_edit_dialog(null)">新增虚拟运营商</button>
+                </div>
+                <table id="table" class="layui-table" lay-data="{url:'{{ path('admin_virtual_netowork_operators_index') }}', page:true, id:'table', method:'get'}" lay-filter="table">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'id', width:100, align: 'center'}">ID</th>
+                        <th lay-data="{field:'name', align: 'center'}">虚拟运营商名字</th>
+                        <th lay-data="{field:'top_operator_name', width:200, align: 'center'}">上级运营商</th>
+                        <th lay-data="{field:'enabled_text', width:100, align: 'center'}">启用状态</th>
+                        <th lay-data="{field:'created_at', width:150, align: 'center'}">创建时间</th>
+                        <th lay-data="{field:'updated_at', width:150, align: 'center'}">更新时间</th>
+                        <th lay-data="{align:'center', toolbar: '#actions', width:100}">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <script type="text/html" id="actions">
+                    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra %}
+    <div class="layui-card" id="edit-dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="edit-form" class="layui-form" lay-filter="edit-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        带 * 号的为必填项
+                    </div>
+                </div>
+                {{ sf.select(edit_form.top_operator_id, '上级运营商', to_options('App\\Constants::CARRIERS', "上级运营商")) }}
+                {{ sf.text(edit_form.name, '虚拟运营商名称') }}
+                {{ sf.checkbox(edit_form.enabled, '启用状态', {'1': '启用'}, {}, {'lay-skin': 'switch', 'lay-text': '启用|禁用'}) }}
+
+                {{ sf.rest(edit_form) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js_end %}
+    <script>
+        layui.table.on('tool(table)', function (row) {
+            var data = row.data;
+            if (row.event === 'edit') {
+                console.log(row.data);
+                show_edit_dialog(row.data);
+            } else if (row.event === 'delete') {
+                layer.confirm('确认要删除吗？', function (index) {
+                    var form_data = {id: data.id, _token: '{{ csrf_token('admin_virtual_netowork_operators_delete') }}'};
+                    axios_form.post('{{ path("admin_virtual_netowork_operators_delete") }}', form_data)
+                        .then(function (response) {
+                            if(response.data.msg) {
+                                layer.msg(response.data.msg)
+                            }
+
+                            if(response.data.status) {
+                                reload_table();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            layer.msg('服务器未响应，请稍后重试')
+                        });
+                });
+            }
+        });
+
+        function reload_table() {
+            table.reload('table', {
+                where: $('#search-form').serializeJson()
+            });
+        }
+
+        function show_edit_dialog(data) {
+            $('#edit-form')[0].reset();
+
+            if (data) {
+                layui.form.val("edit-form", {
+                    "id":  data.id
+                    , "top_operator_id":     data.top_operator_id
+                    , "name":     data.name
+                    , "enabled":     data.enabled
+                });
+            }
+
+            layer.open({
+                title:    data ? '编辑' : '新增',
+                type:     1,
+                area:     ['600px', 'auto'],
+                content:  $('#edit-dialog'),
+                closeBtn: false,
+                btn:      ['保存', '取消'],
+                yes:      function (index, layero) {
+                    var loading = layer.load();
+
+                    axios_form.post('{{ path("admin_virtual_netowork_operators_save") }}', $('#edit-form').serializeJson())
+                        .then(function (response) {
+                            layer.close(loading);
+                            if(response.data.msg) {
+                                layer.msg(response.data.msg)
+                            }
+
+                            if(response.data.status) {
+                                layer.close(index);
+                                $('#edit-dialog').hide();
+                                reload_table();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            layer.close(loading);
+                            layer.msg('服务器未响应，请稍后重试')
+                        });
+                },
+                btn2:     function (index, layero) {
+                    layer.close(index);
+                    $('#edit-dialog').toggle();
+                }
+            });
+        }
+    </script>
+{% endblock %}

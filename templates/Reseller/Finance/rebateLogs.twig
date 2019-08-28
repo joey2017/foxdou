@@ -1,0 +1,124 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '我的财务-佣金明细' %}
+
+{% block css %}
+  {% include "Reseller/Finance/commonCss.twig" %}
+{% endblock %}
+
+{% block main_content %}
+  <div class="caiwu-left" style="float: left; width: calc(100% - 380px);height: auto;border:1px solid #E0E0E0;">
+    <div class="panel-item g-bdc">
+      <div style="">
+        {% include "Reseller/Finance/financeTabs.twig" %}
+        <div class="m-screen-item">
+          <form action="" method="get" id="rebate-form" class="layui-form">
+              <div class="layui-form-item m-screen">
+                  {{ sf.text(form.trade_sn, null, {'outer': null}, {'placeholder': '流水号'}) }}
+                  {{ sf.text(form.order_sn, null, {'outer': null}, {'placeholder': '业务单号'}) }}
+                  {{ sf.text(form.name, null, {'outer': null}, {'placeholder': '交易名称'}) }}
+                  {{ sf.select(form.rebate_type, null,  to_options('App\\Common\\Model\\Payment\\AgentUsersRebateLog::TRADE_STATUSES', '交易类型'), {'outer': null}) }}
+              </div>
+              <div class="layui-form-item m-screen">
+                  {{ sf.text(form.from, null, {'outer': null}, {'placeholder': '开始时间', 'class': 'layui-input datepicker'}) }}
+                  {{ sf.text(form.to,  null, {'outer': null}, {'placeholder': '结束时间', 'class': 'layui-input datepicker'}) }}
+              </div>
+
+            <div class="m-cx btn-location">
+              <button class="layui-btn" onclick="get_data();return false;">查 询</button>
+            </div>
+            <div style="clear: both;"></div>
+          </form>
+        </div>
+      </div>
+      <div class="m-tab-btn">
+        <button class="layui-btn layui-btn-small f-fnsna" onclick="show_count(this)">查看统计</button>
+      </div>
+
+      <div class="m-table-total" style="display: none;">
+        <ul class="g-bdc">
+          <li>收入：<span id="income_count"></span>（<span id="income_sum_money"></span>）</li>
+          <li>支出：<span id="payment_count"></span>（<span id="payment_sum_money"></span>）</li>
+        </ul>
+      </div>
+
+
+      <div class="record-table g-bdc">
+        <table id="data-table" lay-filter="data-table">
+
+        </table>
+          <script id="add_time" type="text/html">
+              <%#
+              var date = new Date();
+              date.setTime(d.add_time*1000);
+              return date.Format("yyyy-MM-dd hh:mm:ss");
+              %>
+          </script>
+      </div>
+    </div>
+  </div>
+  {% include "Reseller/Common/_rightPanel.twig" %}
+
+  <script type="text/javascript">
+
+      laydate.render( {
+          elem: '#from'
+          ,type: 'date'
+      });
+
+      laydate.render({
+          elem: '#to'
+          ,type: 'date'
+      });
+
+      var rebate_types = JSON.parse('{{ constant("App\\Common\\Model\\Payment\\AgentUsersRebateLog::TRADE_STATUSES")|json_encode|raw }}');
+      var columns = [
+          [
+              {"field": "trade_sn", "title": "交易流水号", "width": 250},
+              {"field": "order_sn", "title": "业务单号", "width": 200},
+              {"field": "name", "title": "交易名称", "width": 200},
+              {"field": "rebate", "title": "金额", "width": 100},
+              {"field": "after_rebate_balance", "title": "佣金余额", "width": 100},
+              {
+                  "field": "rebate_type", "title": "交易类型", "width": 100, templet: function(d){
+                      return rebate_types[d.rebate_type];
+                  }
+              },
+              {"field": "user_id", "title": "用户", "width": 100},
+              {"field": "info", "title": "其他信息", "width": 100},
+              {"field": "add_time", "title": "订单时间", "width": 150, templet: "#add_time"},
+              {"field": "actions", "title": "操作", "toolbar": "#actions"}
+          ]
+      ];
+
+      get_data();
+
+      function get_data() {
+          var params = $('form#rebate-form').serialize();
+          var url        = '?' + params;
+          rander_table('#data-table', url, columns);
+      }
+
+      function show_count(dom){
+          if($(dom).text() == '查看统计'){
+              $('.m-table-total').css('display','block');
+              var params = $('form#rebate-form').serialize();
+
+              $.get("{{ path("reseller_finance_rebatelogs_summary") }}?" + params, '',function (data) {
+                  if (data.status) {
+                      $('#income_count').text(data.income.count+'笔');
+                      $('#income_sum_money').text(data.income.sum_money+'元');
+                      $('#payment_count').text(data.spend.count+'笔');
+                      $('#payment_sum_money').text(data.spend.sum_money+'元');
+                  }
+              });
+              $(dom).text('关闭统计')
+          }else if($(dom).text() == '关闭统计'){
+              $('.m-table-total').css('display','none');
+              $(dom).text('查看统计')
+          }
+      }
+
+  </script>
+{% endblock %}

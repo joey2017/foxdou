@@ -1,0 +1,4 @@
+error:
+    maxsize: 文件大小超出限制
+    whitelist: 不支持上传此类型文件
+    blacklist: 此类型文件已经被管理员禁止上传

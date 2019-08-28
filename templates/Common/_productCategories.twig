@@ -1,0 +1,30 @@
+{%
+set categories = [
+  {"value": 1,  "name": "话费充值"},
+  {"value": 2,  "name": "游戏充值"},
+  {"value": 3,  "name": "腾讯业务"},
+  {"value": 4,  "name": "流量充值"},
+  {"value": 5,  "name": "加油卡"},
+  {"value": 6,  "name": "视频卡"},
+  {"value": 7,  "name": "票务"},
+  {"value": 8,  "name": "手机卡号"},
+  {"value": 9,  "name": "生活激费"},
+  {"value": 10, "name": "固话宽带充值"},
+]
+%}
+{% set current_cate = app.request.get('cate_id', 1) %}
+
+<div class="page-head">
+  {#<a href="{{ path("reseller_orders_index", {"cate_id": 1}) }}" class="fw-return f-fl"><i class="iconfont">&#xe60a;</i></a>#}
+  <div class="tab-item f-fl">
+    <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin: 0;">
+      <ul class="layui-tab-title tab-item-item" id="order_nav" style="padding-left: 0px;">
+        {% for cate_id in categories %}
+        <li class="{{ current_cate == cate_id.value ? "layui-this" : "" }}">
+          <a href="?cate_id={{ cate_id.value }}">{{ cate_id.name }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</div>

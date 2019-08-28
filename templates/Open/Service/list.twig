@@ -1,0 +1,182 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+{% block main_content %}
+    <div class="layui-card layadmin-service-details">
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li {% if type_tab == 'order' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'order'}) }}">订单管理</a></li>
+                <li {% if type_tab == 'cost' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'cost'}) }}">商品成本</a></li>
+                <li {% if type_tab == 'apps' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'apps'}) }}">应用管理</a></li>
+            </ul>
+
+            <div class="layui-tab-content">
+                <form action="" method="get" id="get_search">
+                    <input type="hidden" name="operator_id" id="operator_id" value="">
+                    {#<input type="hidden" name="cate_id" id="cate_id" value="{{ cate_id }}">#}
+                    <input type="hidden" name="type_tab" id="type_tab" value="{{ type_tab }}">
+                    <div class="layui-btn-container" id="operator_id_toggle">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" operator-id="">全部</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" operator-id="1">移动话费</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" operator-id="2">联通话费</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" operator-id="3">电信话费</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" operator-id="4">虚商话费</button>
+                    </div>
+                    <div class="layui-form layuiadmin-card-text">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单编号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="order_id" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">充值帐号</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="phone_number" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">订单状态</label>
+                            <div class="layui-input-block">
+                                {{ sf.select_raw('status', to_options(constant("App\\Common\\Model\\Order\\OrderRecharge::USER_STATUSES"), '全部'), {"class": "layui-input"}) }}
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">商品名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="product_name" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">充值金额</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="recharge_amount" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">面值</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="product_face_value" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">数量</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="buy_num" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline layadmin-time-frame-inline">
+                            <div class="layui-inline layadmin-time-title">
+                                <select name="type_time">
+                                    <option value="add_time">订单时间</option>
+                                    <option value="pay_time">付款时间</option>
+                                    <option value="end_time">完成时间</option>
+                                </select>
+                            </div>
+                            <div class="layui-inline layadmin-time-content">
+                                <input id="timeFrame" type="text" name="" value="" class="layui-input" placeholder="开始时间 - 结束时间" />
+                                <input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                                <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="get_data();return false;">查 询</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="layui-btn-container">
+                    <button onclick="show_count(this)" class="layui-btn layui-btn-normal layui-btn-sm">查看统计</button>
+                    <button onclick="export_cvs()" class="layui-btn layui-btn-normal layui-btn-sm">导出订单</button>
+                </div>
+                <!--统计展开时，按钮显示“收起统计”文本-->
+                <blockquote class="layui-elem-quote layadmin-elem-quote">
+                    <div class="layui-inline">
+                        待付款：<span id="no_pay_count">0</span>笔（<span id="no_pay_sum_money">0</span>元）
+                    </div>
+                    <div class="layui-inline">
+                        交易中：<span id="trading_count">0</span>笔（<span id="trading_sum_money">0</span>元）
+                    </div>
+                    <div class="layui-inline">
+                        交易完成：<span id="success_count">0</span>笔（<span id="success_sum_money">0</span>元）
+                    </div>
+                    <div class="layui-inline">
+                        交易失败：<span id="loser_count">0</span>笔（<span id="loser_sum_money">0</span>元）
+                    </div>
+                </blockquote>
+                <table class="layui-table layadmin-table" id="data-table" lay-filter="data-table">
+
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    <script>
+        $(function(){
+            form.render();
+            var columns = [
+                [
+                    {"field": "outer_sn", "title": "请求单号", "width": 200},
+                    {"field": "id", "title": "订单编号", "width": 250},
+                    {"field": "product_name", "title": "商品名称", "width": 200},
+                    {"field": "product_face_value", "title": "商品面值", "width": 100},
+                    {"field": "buy_num", "title": "数量", "width": 80},
+                    {"field": "recharge_amount", "title": "充值金额", "width": 100},
+                    {"field": "sell_price", "title": "成本", "width": 100},
+                    {"field": "phone_number", "title": "充值号码", "width": 120},
+                    {"field": "status", "title": "订单状态", "width": 150},
+                    {"field": "recharge_method", "title": "充值方式", "width": 150},
+                    {"field": "add_time", "title": "订单时间", "width": 150},
+                    {"field": "pay_time", "title": "付款时间", "width": 150},
+                    {"field": "end_time", "title": "完成时间", "width": 150},
+                    {"field": "note", "title": "备注", "width": 100},
+                ]
+            ];
+
+            function get_data() {
+                var params = $('form#get_search').serialize();
+                var url        = '?' + params;
+                rander_table('#data-table', url, columns,'');
+            }
+
+            // 初始化
+            get_data();
+
+            $('#operator_id_toggle button').on('click',function(e){
+                $(this).removeClass('layui-btn-primary').addClass('layui-btn-normal').siblings().addClass('layui-btn-primary').removeClass('layui-btn-normal');
+                $('#operator_id').val($(this).attr('operator-id'));
+                get_data();
+                e.preventDefault();
+            });
+        });
+
+        function show_count(dom){
+            if($(dom).text() == '查看统计'){
+                $('.layadmin-elem-quote').show();
+                var params = $('form#get_search').serialize();
+
+                $.get("{{ path(current_route) }}?count=yes&" + params,'',function (data) {
+                    $('#no_pay_count').text(data.data.nopay.count);
+                    $('#trading_count').text(data.data.recharge.count);
+                    $('#success_count').text(data.data.success.count);
+                    $('#loser_count').text(data.data.loser.count);
+                    $('#no_pay_sum_money').text(data.data.nopay.sum_money);
+                    $('#trading_sum_money').text(data.data.recharge.sum_money);
+                    $('#success_sum_money').text(data.data.success.sum_money);
+                    $('#loser_sum_money').text(data.data.loser.sum_money);
+                });
+
+                $(dom).text('关闭统计')
+            }else if($(dom).text() == '关闭统计'){
+                $('.layadmin-elem-quote').hide();
+                $(dom).text('查看统计')
+            }
+        }
+
+        function export_cvs(){
+            var params = $('form#get_search').serialize();
+            location.href = "{{ path(current_route) }}?export=yes&" + params;
+        }
+    </script>
+{% endblock %}

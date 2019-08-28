@@ -1,0 +1,34 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '权限组列表 - 系统设置' %}
+
+{% block main_content %}
+  <div class="layui-fluid">
+    <div class="layui-card">
+
+      <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
+        <h2>目前系统仅支持查看权限组列表，不支持增删操作</h2>
+      </div>
+
+      <div class="layui-card-body">
+        <table id="table" class="layui-table">
+          <thead>
+          <tr>
+            <th>权限组</th>
+            <th>说明</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for role_id, role_name in roles %}
+          <tr>
+            <td>{{ role_name }}</td>
+            <td>-</td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,153 @@
+<script>
+    var defalut = JSON.parse('{{ constant("App\\Common\\Model\\ResellerPriceGroup::IS_DEFAULT")|json_encode|raw }}');
+    var url = "";
+    var columns = [[
+        {"field": "id", "title": "ID", "width": 80, type: "checkbox"},
+        {"field": "id", "title": "定价组编号", "width": 200},
+        {"field": "group_name", "title": "定价组名称", "width": 150},
+        {"field": "note", "title": "备注", "width": 150},
+        {"field": "user_amount", "title": "用户数", "width": 150},
+        {
+            "field": "is_default", "title": "开通时默认组", templet: function (d) {
+                return defalut[d.is_default];
+            }
+        },
+        {"field": "add_time", "title": "创建时间", "width": 180, templet: "#add_time"},
+        {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 200}
+    ]];
+
+    function get_data() {
+        var params = $('#form').serialize();
+        url = '?' + params;
+        rander_table('#paged-table', url, columns);
+    }
+
+    var add_action = true;
+    // 初始化
+    get_data();
+    table.on('tool(paged-table)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+        var tr = obj.tr; //获得行元素
+
+        if (layEvent === 'edit') { //编辑
+            $('#group_name').val(data.group_name);
+            $('#note').val(data.note);
+            $('#csrf_token').val('{{ csrf_token("admin_users_edit_price_group") }}');
+            $('#item_id').val(data.id);
+            $('.submit').text('确认修改');
+            nxwd.ajaxOpen('修改定价组', '550px', '320px', 'btn-add-group');
+            add_action = false;
+        }
+
+        if (layEvent === 'delete') { //删除
+            var btn = $(tr).find('a[lay-event=delete]');
+            nxwd.ajaxDelete('{{ path("admin_users_del_price_group") }}', btn, false, data.id)
+        }
+    });
+
+    var checked_ids = [];
+    // 监听复选框选中事件
+    table.on('checkbox(paged-table)', function (obj) {
+        if (obj.checked) {
+            checked_ids.push(obj.data.id);
+        } else {
+            checked_ids.remove(obj.data.id);
+        }
+    });
+
+    $(document).on('click', function (e) {
+        var target = $(e.target);
+
+        if (target.is('.reverse-select') || target.parents().is('.reverse-select')) {
+            $('.layui-table-box').find('input:checkbox').next().each(function () {
+                $(this).toggleClass('layui-form-checked');
+            })
+        } else if (target.is('.set-default') || target.parents().is('.set-default')) {
+            if (checked_ids.length == 0) {
+                nxwd.showMsg('至少选择一条数据');
+                return false;
+            }
+            var loading = null;
+            var before = function () {
+                loading = layer.load();
+            }
+            var error = function () {
+                layer.close(loading);
+                nxwd.showMsg('服务器未响应，请稍后重试');
+            }
+            var success = function (res) {
+                layer.close(loading);
+                if (res.status) {
+                    nxwd.showMsg(res.msg, 'success');
+                    location.reload();
+                } else {
+                    nxwd.showMsg(res.msg, 'danger');
+                }
+            }
+            nxwd.ajaxRequest('{{ path("admin_users_set_default_price") }}', 'POST', {id: checked_ids}, 'json', success, before, error)
+        } else if (target.is('.add-group') || target.parents().is('.add-group')) {
+            //addGroup('{{ path("admin_users_add_price_group") }}')
+            $('#group_name').val('');
+            $('#note').val('');
+            $('#csrf_token').val('{{ csrf_token("admin_users_add_price_group") }}');
+            $('.submit').text('立即提交');
+            nxwd.ajaxOpen('添加定价组', '550px', '320px', 'btn-add-group');
+            add_action = true;
+        } else if (target.is('.submit') || target.parents().is('.submit')) {
+            var args = {};
+            args.group_name = $('#group_name').val();
+            args.note           = $('#note').val();
+            args._token    = $('#csrf_token').val();
+            var target_url = '';
+            if (!add_action) {
+                args.id = $('#item_id').val();
+                target_url = '{{ path("admin_users_edit_price_group") }}';
+            } else {
+                target_url = '{{ path("admin_users_add_price_group") }}';
+            }
+
+            ajaxSend(target_url, args, target);
+        }
+
+    });
+
+    /**
+     *
+     * @param url
+     * @param data
+     * @param _target
+     */
+    function ajaxSend(url,data,_target){
+        var that = _target;
+        var txt = that.text();
+
+        if (data.group_name == '') {
+            nxwd.showMsg('请输入服务组名称');
+            return false;
+        }
+        var before = function () {
+            that.attr('disabled', true).html('处理中...');
+        }
+        var error = function () {
+            that.removeAttr('disabled').html(txt);
+            nxwd.showMsg('服务器未响应，请稍后重试', 'danger');
+            return false;
+        }
+        var success = function (res) {
+            that.removeAttr('disabled').html(txt);
+            if (res.status) {
+                nxwd.showMsg(res.msg, 'success');
+                setTimeout(function () {
+                    layer.closeAll();
+                    location.reload();
+                }, 1500);
+            } else {
+                nxwd.showMsg(res.msg)
+            }
+        }
+        nxwd.ajaxRequest(url, 'POST', data, 'json', success, before, error);
+
+    }
+
+</script>

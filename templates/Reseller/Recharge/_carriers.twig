@@ -1,0 +1,22 @@
+{%
+set carriers = [
+  {"name": "移动", "value": 1, },
+  {"name": "联通", "value": 2, },
+  {"name": "电信", "value": 3, },
+  {"name": "虚商", "value": 4, },
+]
+%}
+{% set current_carrier = current_carrier|default(1) %}
+
+<div class="m-tab-item">
+  <ul class="m-tab" id="icp">
+    <li class="tab-this" value=""><a href="javascript:void(0);" >全部</a></li>
+    {% for c in carriers %}
+      {% set params = {"carrier": current_carrier} %}
+    <li class="{{ c.value == current_carrier ? "layui-this" : "" }}" value="{{ c.value }}">
+      {#<a href="?cate_id={{ current_cate }}&carrier={{ c.value }}" >{{ c.name }}</a>#}
+      <a href="javascript:void(0);" >{{ c.name }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>

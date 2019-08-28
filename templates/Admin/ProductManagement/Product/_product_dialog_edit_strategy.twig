@@ -1,0 +1,106 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<div class="layui-card" id="edit_strategy_dialog" style="display: none;">
+    <div class="layui-card-body">
+        <form id="edit_strategy_form" class="layui-form" lay-filter="edit_strategy_form">
+            <table class="layui-table layadmin-remove-color">
+                <tr>
+                    <td style="width: 150px;text-align: center;">策略类型</td>
+                    <td>
+                        <div class="">
+                            <input name="strategy" type="radio" class="layui-input" lay-skin="primary" value="{{ constant('App\\ProductConstants::STRATEGY_SORTING') }}" title="排序（一种按区域优先级下的排序选择一条可用供货渠道的策略）"/>
+                        </div>
+                        <div class="">
+                            <input name="strategy" type="radio" class="layui-input" lay-skin="primary" value="{{ constant('App\\ProductConstants::STRATEGY_RATIO') }}" title="比例分流（一种取全部已设置分流常数的可用渠道，按订单顺序计算出一条应选供货渠道的策略）"/>
+                        </div>
+                        <div class="">
+                            <input name="strategy" type="radio" class="layui-input" lay-skin="primary" value="{{ constant('App\\ProductConstants::STRATEGY_LOWEST_COST_IN_SAME_AREA') }}" title="相同地区成本（一种按区域优先级选择成本最低的一条可用供货渠道的策略）"/>
+                        </div>
+                        <div class="">
+                            <input name="strategy" type="radio" class="layui-input" lay-skin="primary" value="{{ constant('App\\ProductConstants::STRATEGY_LOWEST_COST_IN_ALL_AREA') }}" title="混合地区成本（一种全区域下选择成本最低的一条可用供货渠道的策略）"/>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;text-align: center;">货源适用范围优先级<br/>
+                        （只对排序/相同地区成本有效
+                    </td>
+                    <td>
+                        {{ sf.radio_raw('area_priority', constant('App\\ProductConstants::AREA_PRIORITIES')) }}
+                    </td>
+                </tr>
+            </table>
+            {{ sf.hidden_raw('setting_ids') }}
+            {{ sf.csrf('admin_products') }}
+        </form>
+    </div>
+</div>
+<script>
+    function batch_update_strategy(data) {
+        var setting_ids = get_selected_setting_ids(data);
+        do_update_strategy(setting_ids);
+    }
+
+    function update_single_strategy(row) {
+        $("table input[type='checkbox']").prop('checked', false);
+        $(row.elem).parent('tr').find("input[type='checkbox']").prop('checked', true);
+        form.render('checkbox');
+
+        var setting_ids = [row.data.setting_id];
+
+        do_update_strategy(setting_ids);
+    }
+
+    function do_update_strategy(setting_ids) {
+        if(!setting_ids || setting_ids.length === 0) {
+            layer.msg('请先选择操作对象');
+            return;
+        }
+
+        $('#edit_strategy_form')[0].reset();
+        $('#group_row').hide();
+        $('.error').html('');
+        $('.error').hide();
+        $('.tips').show();
+
+        $('#edit_strategy_form input[name=setting_ids]').val(setting_ids.join(','));
+
+        layui.form.render('radio');
+
+        layer.open({
+            title:    '设置一般售价及策略',
+            type:     1,
+            area:     ['900px', 'auto'],
+            content:  $('#edit_strategy_dialog'),
+            closeBtn: false,
+            btn:      ['保存', '取消'],
+            yes:      function (index, layero) {
+                var setting_ids    = $('#edit_strategy_form input[name=setting_ids]').val();
+                var strategy      = $('#edit_strategy_form input[name=strategy]:checked').val();
+                var area_priority = $('#edit_strategy_form input[name=area_priority]:checked').val();
+
+                axios_form.post('{{ path('admin_product_management_products_batch_update_settings', {'product_type': app.request.get('product_type')}) }}', {setting_ids: setting_ids, strategy: strategy, area_priority: area_priority, _token: '{{ csrf_token('admin_products') }}'})
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+                        if (response.data.status) {
+                            layer.close(index);
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+            },
+            btn2:     function (index, layero) {
+                layer.close(index);
+            },
+            end: function () {
+                $('#edit_strategy_dialog').hide();
+            }
+        });
+    }
+
+</script>

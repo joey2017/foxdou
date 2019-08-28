@@ -1,0 +1,386 @@
+<script>
+    table.on('toolbar(table)', function (data) {
+        console.log(data);
+        var items         = {};
+        var checkStatus = table.checkStatus(data.config.id);
+        $.each(checkStatus.data, function (index, item) {
+            items[item.source_id] = item;
+        });
+
+        if (typeof window[data.event] === "function") {
+            window[data.event](data.elem, items, false);
+            return;
+        }
+
+        console.log('Unhandled event: ' + data.event);
+    });
+
+    table.on('tool(table)', function (obj) {
+        console.log(obj);
+        var data  = obj.data; //获得当前行数据
+        var event = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+        var items = {};
+        items[data.source_id] = data;
+
+        if (typeof window[event] === "function") {
+            window[event](obj.elem, items, true);
+            return;
+        }
+    });
+
+    function reload_table() {
+        table.reload('table', {
+            url:   '{{ path(current_route, {'product_type': app.request.get('product_type')}) }}?product_id={{ product.id }}',
+            where: $('#search-form').serializeJson()
+        });
+    }
+
+    function update_source_settings(product_id, source_ids, attributes) {
+        axios_json.post('{{ path('admin_product_management_source_groups_batch_update_source_settings', {'product_type': app.request.get('product_type')}) }}', {product_id: product_id, source_ids: source_ids, attributes: attributes, _token: '{{ csrf_token('admin_products') }}'})
+            .then(function (response) {
+                if (response.data.msg) {
+                    layer.msg(response.data.msg);
+                }
+                if (response.data.status) {
+                    reload_table();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function update_source_distribution_sort(sender, items, is_single) {
+        layer.prompt({
+            title:    '请输入排序',
+            value:    is_single ? Object.values(items).source_setting_sort : '',
+            formType: 0
+        }, function (input, index) {
+            var value = parseFloat(input);
+            if (isNaN(value) || value <= 0) {
+                layer.tips(isNaN(value) ? '格式不正确' : '排序必须大于 0', sender, {tips: 1});
+                return false;
+            }
+
+            update_source_settings({{ product.id }}, Object.keys(items), {sort: value});
+
+            layer.close(index);
+        });
+
+    }
+
+    function update_source_distribution_weight(sender, items, is_single) {
+        layer.prompt({
+            title:    '请输入分流常数',
+            value:    is_single ? Object.values(items).source_setting_weight : '',
+            formType: 0
+        }, function (input, index) {
+            var value = parseFloat(input);
+            if (isNaN(value) || value <= 0) {
+                layer.tips(isNaN(value) ? '格式不正确' : '排序必须大于 0', sender, {tips: 1});
+                return false;
+            }
+
+            update_source_settings({{ product.id }}, Object.keys(items), {weight: value});
+
+            layer.close(index);
+        });
+
+    }
+
+    function delete_selected(sender, items, is_single) {
+        var ids =  Object.keys(items);
+        layer.confirm('确认要移除选定的 ' +ids.length + ' 个货源吗？', {icon: 3, title: '确认'}, function (index) {
+            layer.close(index);
+
+            axios_form.post('{{ path('admin_product_management_source_groups_delete_product_sources', {'product_type': app.request.get('product_type')}) }}', {product_id: {{ product.id }}, source_ids: ids, _token: '{{ csrf_token('admin_products') }}'})
+                .then(function (response) {
+                    if (response.data.msg) {
+                        layer.msg(response.data.msg);
+                    }
+                    if (response.data.status) {
+                        reload_table();
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        });
+    }
+
+    function check_all() {
+        $("table input[type='checkbox']").prop('checked', true);
+        form.render('checkbox');
+    }
+
+    function check_reverse() {
+        $("table input[type='checkbox']").each(function (idx, item) {
+            $(item).prop('checked', !$(item).prop('checked'));
+        });
+
+        var checkStatus = table.checkStatus('table');
+        $("table input[type='checkbox']").each(function (idx, item) {
+            if ($(item).attr('lay-filter') === "layTableAllChoose") {
+                $(item).prop('checked', checkStatus.isAll);
+            }
+        });
+
+        form.render('checkbox');
+    }
+
+    function update_source_price(sender, items, is_single) {
+        $('#update_source_price_form')[0].reset();
+        $('.error').html('');
+        $('.error').hide();
+        $('.tips').show();
+
+
+        if (is_single && items) {
+            var data = Object.values(items)[0];
+
+            $('#update_source_price_form input[name=price]').val(data.source_price);
+            $('#update_source_price_form input[name=rate]').val(data.source_rate);
+        }
+
+        layer.open({
+            title:    '设置货源售价和比例',
+            type:     1,
+            area:     ['600px', 'auto'],
+            content:  $('#update_source_price_dialog'),
+            closeBtn: false,
+            btn:      ['保存', '取消'],
+            yes:      function (index, layero) {
+                var post_data = {
+                    product_id: $('#update_source_price_form input[name=product_id]').val(),
+                    source_ids: Object.keys(items),
+                    price:      $('#update_source_price_form input[name=price]').val(),
+                    _token:     '{{ csrf_token('admin_products') }}'
+                };
+
+                axios_form.post('{{ path('admin_product_management_source_groups_update_source_price', {'product_type': app.request.get('product_type')}) }}', post_data)
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+
+                        if (response.data.status) {
+                            layer.close(index);
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        });
+    }
+
+    function update_supplier_account_status(sender, items, is_single) {
+        $('#update_supplier_account_status_form')[0].reset();
+        $('.error').html('');
+        $('.error').hide();
+        $('.tips').show();
+
+        layer.open({
+            title:    '修改供应商状态',
+            type:     1,
+            area:     ['500px', 'auto'],
+            content:  $('#update_supplier_account_status_dialog'),
+            closeBtn: false,
+            btn:      ['保存', '取消'],
+            yes:      function (index, layero) {
+                var ids = [];
+                $.each(items, function (key, item) {
+                    ids.push(item.supplier_account_id);
+                });
+                var post_data = {
+                    supplier_account_ids: ids,
+                    status:               $('#update_supplier_account_status_form input[name=status]:checked').val(),
+                    _token:               '{{ csrf_token('admin_products') }}'
+                };
+
+                axios_form.post('{{ path('admin_product_management_source_groups_update_supplier_account_status', {'product_type': app.request.get('product_type')}) }}', post_data)
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+
+                        if (response.data.status) {
+                            layer.close(index);
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        });
+    }
+
+    function update_source_group_status(sender, items, is_single) {
+        $('#update_source_group_status_form')[0].reset();
+        $('.error').html('');
+        $('.error').hide();
+        $('.tips').show();
+
+        layer.open({
+            title:    '修改供货模板状态',
+            type:     1,
+            area:     ['500px', 'auto'],
+            content:  $('#update_source_group_status_dialog'),
+            closeBtn: false,
+            btn:      ['保存', '取消'],
+            yes:      function (index, layero) {
+                var ids = [];
+                $.each(items, function (key, item) {
+                    ids.push(item.group_id);
+                });
+
+                var post_data = {
+                    group_ids: ids,
+                    status:    $('#update_source_group_status_form input[name=status]:checked').val(),
+                    _token:    '{{ csrf_token('admin_products') }}'
+                };
+
+                axios_form.post('{{ path('admin_product_management_source_groups_update_source_group_status', {'product_type': app.request.get('product_type')}) }}', post_data)
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+
+                        if (response.data.status) {
+                            layer.close(index);
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        });
+    }
+
+    function update_source_status(sender, items, is_single) {
+        $('#update_source_status_form')[0].reset();
+        $('.error').html('');
+        $('.error').hide();
+        $('.tips').show();
+
+        layer.open({
+            title:    '修改供货模板状态',
+            type:     1,
+            area:     ['500px', 'auto'],
+            content:  $('#update_source_status_dialog'),
+            closeBtn: false,
+            btn:      ['保存', '取消'],
+            yes:      function (index, layero) {
+                var ids = [];
+                $.each(items, function (key, item) {
+                    ids.push(item.group_id);
+                });
+
+                var post_data = {
+                    source_ids: Object.keys(items),
+                    status:    $('#update_source_status_form input[name=status]:checked').val(),
+                    _token:    '{{ csrf_token('admin_products') }}'
+                };
+
+                axios_form.post('{{ path('admin_product_management_source_groups_update_product_source_enable_status', {'product_type': app.request.get('product_type')}) }}', post_data)
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+
+                        if (response.data.status) {
+                            layer.close(index);
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        });
+    }
+
+    function update_product_source_review_status(sender, items, is_single) {
+        $('#edit_source_review_status_form')[0].reset();
+        $('.error').html('');
+        $('.error').hide();
+        $('.tips').show();
+
+        layer.open({
+            title:    '修改货源审核状态',
+            type:     1,
+            area:     ['500px', 'auto'],
+            content:  $('#edit_source_review_status_dialog'),
+            closeBtn: false,
+            btn:      ['保存', '取消'],
+            yes:      function (index, layero) {
+                var post_data = {
+                    source_ids: Object.keys(items),
+                    status:    $('#edit_source_review_status_form input[name=status]:checked').val(),
+                    _token:    '{{ csrf_token('admin_products') }}'
+                };
+
+                axios_form.post('{{ path('admin_product_management_source_groups_update_product_source_review_status', {'product_type': app.request.get('product_type')}) }}', post_data)
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+
+                        if (response.data.status) {
+                            layer.close(index);
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        });
+
+    }
+
+    function update_product_source_enable_status(sender, items, is_single) {
+        $('#update_product_source_enable_status_form')[0].reset();
+        $('.error').html('');
+        $('.error').hide();
+        $('.tips').show();
+
+        layer.open({
+            title:    '修改货源审核状态',
+            type:     1,
+            area:     ['500px', 'auto'],
+            content:  $('#update_product_source_enable_status_dialog'),
+            closeBtn: false,
+            btn:      ['保存', '取消'],
+            yes:      function (index, layero) {
+                var post_data = {
+                    product_id: '{{ product.id }}',
+                    source_ids: Object.keys(items),
+                    status:    $('#update_product_source_enable_status_form input[name=status]:checked').val(),
+                    _token:    '{{ csrf_token('admin_products') }}'
+                };
+
+                axios_form.post('{{ path('admin_product_management_source_groups_update_product_source_enable_status', {'product_type': app.request.get('product_type')}) }}', post_data)
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+
+                        if (response.data.status) {
+                            layer.close(index);
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            }
+        });
+
+    }
+
+</script>

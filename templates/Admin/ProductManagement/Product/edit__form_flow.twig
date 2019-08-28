@@ -1,0 +1,86 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="2"><h2>商品基本属性</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">商品名称</td>
+        <td>{{ sf.text_raw('name', {'value': product.name}) }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">运营商</td>
+        <td>{{ product.operator_id <= 3 ? operators[product.operator_id] : '虚商' }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">有效时间</td>
+        <td>
+            {% set durations = constant('App\\ProductConstants::DURATIONS') %}
+            {{ durations[product.duration]|default('未知有效时间(' ~ product.duration ~ ')') }}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">生效时间</td>
+        <td>
+            {% set effective_times = constant('App\\ProductConstants::EFFECTIVE_TIMES') %}
+            {{ effective_times[product.effective_time]|default('未知生效时间(' ~ product.effective_time ~ ')') }}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">有效时间</td>
+        <td>
+            {% set cross_month_types = constant('App\\ProductConstants::CROSS_MONTH_TYPES') %}
+            {{ cross_month_types[product.cross_month]|default('未知有效时间(' ~ product.cross_month ~ ')') }}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">当月限制充值次数</td>
+        <td>{{ sf.text_raw('max_recharge_num', {'value': product.max_recharge_num}) }}</td>
+    </tr>
+
+    <tr>
+        <td style="width: 150px;text-align: center;">面值类型</td>
+        <td>
+            {% set face_value_types = constant('App\\ProductConstants::FACE_VALUE_TYPES') %}
+            {{ face_value_types[product.face_value_type]|default('未知面值类型(' ~ product.face_value_type ~ ')') }}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">面值</td>
+        <td>
+            {% set flow_face_values = constant('App\\ProductConstants::FLOW_FACE_VALUES') %}
+            {{ flow_face_values[product.face_value]|default('未知面值(' ~ product.face_value ~ ')') }}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">建议市场价</td>
+        <td>{{ sf.text_raw('official_price', {'value': product.official_price}) }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">单次可购数量</td>
+        <td>
+            {{ product.num }}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">商品适用范围</td>
+        <td>
+            {% if product.province_code == 1 %}
+                全国
+            {% else %}
+                {{ provinces[product.province_code]|default('未知省份(' ~ product.province_code ~ ')') }}
+                {% if product.city_code != 0 %}
+                    / {{ cities[product.city_code]|default('未知城市(' ~ product.city_code ~ ')') }}
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">商品创建时间</td>
+        <td>{{ product.created_at|date('Y-m-d H:i:s') }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">最近修改时间</td>
+        <td>{{ product.updated_at|date('Y-m-d H:i:s') }}</td>
+    </tr>
+</table>

@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>接口请求记录详情</title>
+	<link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+
+<body>
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<!-- 头部区域 -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layadmin-flexible">
+						<a href="javascript:;" title="侧栏伸缩">
+							<i class="layui-icon layui-icon-shrink-right"></i>
+							<i class="layui-icon layui-icon-spread-left"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">运营数据</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">用户管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">订单管理</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<a href="javascript:;">服务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">平台审核</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">内容管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">财务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">系统设置</a>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<div class="layui-form layui-header-switch">
+							<input type="checkbox" name="" lay-skin="switch" lay-text="开启语音|关闭语音" checked>
+						</div>						
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;" title="通知">
+							<i class="layui-icon layui-icon-notice"></i>							
+							<span class="layui-badge-dot"></span>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<cite>安郁</cite>
+							<span class="layui-nav-more"></span>
+						</a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="javascript:;">基本资料</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">修改密码</a>
+							</dd>
+							<hr />
+							<dd style="text-align: center;">
+								<a href="javascript:;">退出</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+			<!--侧栏菜单-->
+			<div class="layui-side layui-side-menu">
+				<div class="layui-side-scroll">
+					<a href="javascript:;" class="layui-logo">
+						<span>狐豆后台管理系统</span>
+					</a>
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-chart"></i>
+								<cite>服务管理</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd class="layui-this"><a href="javascript:;">服务管理</a></dd>
+					      		<dd><a href="javascript:;">服务分类管理</a></dd>
+					      		<dd><a href="javascript:;">费用模版管理</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-rmb"></i>
+								<cite>用户获取服务</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">服务开通记录</a></dd>
+					      		<dd><a href="javascript:;">应用管理<span class="layui-badge">6</span></a></dd>
+					      		<dd><a href="javascript:;">套餐订单</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-read"></i>
+								<cite>接口管理</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">服务接口管理</a></dd>
+					      		<dd><a href="javascript:;">接口请求记录</a></dd>
+						    </dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--主体内容-->
+			<div class="layui-body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<!--面包屑-->
+					<div class="layui-card layadmin-header">
+						<div class="layui-breadcrumb">
+							<a href="javascript:;">主页</a>
+							<a href="javascript:;">服务管理</a>
+							<a href="javascript:;">接口管理</a>
+							<a href="javascript:;">接口请求记录</a>
+							<a><cite>详情</cite></a>
+						</div>
+					</div>
+					<div class="layui-fluid">
+						<div class="layui-card">
+							<div class="layui-card-header">详情</div>
+							<div class="layui-card-body">								
+								<table class="layui-table layui-table-even">
+									<tbody>
+										<tr>
+											<td>URL</td>
+											<td>http://open.1zbao.com/servicemall/tool/debug</td>
+										</tr>
+										<tr>
+											<td>请求参数</td>
+											<td>
+												<pre class="layui-code">
+{
+"app_id":"100110",
+"method":"foxdou.mobile.recharge",
+"request_id":"201809131437510000630677597",
+"timestamp":"2018-09-13 14:37:51",
+"format":"json",
+"version":"1.0",
+"outer_sn":"hyde20180913001",
+"amount":"1",
+"product_id":"",
+"mobile":"18677059350",
+"sign":"990AA43720D720E53CDA0617D5F2E957"
+}
+												</pre>										
+											</td>
+										</tr>
+										<tr>
+											<td>响应</td>
+											<td>
+												<pre class="layui-code">
+{
+"status":false,
+"code":200005,
+"msg":"抱歉，系统找不到合适的商品"
+}
+												</pre>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="layui-form" style="margin-top: 20px;">
+									<div class="layui-form-item">
+										<div class="layui-input-block" style="margin-left: 170px;">
+											<button class="layui-btn">确定创建</button>
+											<button class="layui-btn layui-btn-primary">取消</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/js/jquery.js"></script>
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/layui/layui.all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/common.js" ></script>
+</body>
+</html>

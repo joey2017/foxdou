@@ -1,0 +1,89 @@
+#!/usr/bin/env php
+<?php
+// 正态分布随机数
+function normalRand($min = 0, $max = 1) {
+    static $n;
+    static $last = false;
+    static $range = 10000000;
+
+    $useLast = false;
+
+    if ($last) {
+        $last = false;
+        $m    = $n;
+    } else {
+        do {
+            // 以下为Box-Mueller方法
+            $u = mt_rand($min, $range) / $range;
+            $v = mt_rand($min, $range) / $range;
+            $s = sqrt(-2 * log($u));
+            $x = $s * sin(2 * M_PI * $v);
+            $y = $s * cos(2 * M_PI * $v);
+
+            // 以下为封装
+            $width = 1.0; // 分布的宽度。
+            $step  = 5.0; // 分布的锋锐程度。数字越小，曲线越平。
+            $m     = $x / ($step * $width * 2.0) + $width / 2.0;
+            $n     = $y / ($step * $width * 2.0) + $width / 2.0;
+            if ($m < $width && $m > 0 && $n < $width && $n > 0) {
+                $useLast = true;
+            }
+        } while (!$useLast);
+    }
+
+    return $m * $max + $min;
+}
+
+function load_dist() {
+    $filename = __DIR__ . '/dist.json';
+    if(file_exists($filename)) {
+        $dist = json_decode(file_get_contents($filename));
+        if($dist) {
+          return $dist;
+        }
+    }
+
+    $max = 100;
+    $n = 100000;
+    $dist = [];
+    while($n--) {
+        $rnd = normalRand(0, $max);
+        $diff = intval(($rnd - $max / 2));
+        $value = $diff > 0 ? $max - $diff : $max + $diff;
+
+        if(!isset($dist[$value])) {
+            $dist[$value] = 1;
+        } else {
+            $dist[$value]++;
+        }
+    }
+
+    ksort($dist);
+
+    file_put_contents($filename, json_encode($dist));
+
+    return $dist;
+}
+
+
+$dist = load_dist();
+
+$min = 100000;
+$max = 0;
+foreach ($dist as $idx => $value) {
+    $min = min($min, $value);
+    $max = max($max, $value);
+}
+
+
+foreach ($dist as $idx => $value) {
+    $normalized = (int)(($value - $min) / $max * 100);
+    if($normalized < 0) {
+      $breakme = 1;
+    }
+    $str = str_repeat('#', $normalized);
+    printf("%02d: %s (%d/%d)\n", $idx, $str, $value, $normalized);
+}
+
+
+

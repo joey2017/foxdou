@@ -1,0 +1,23 @@
+<script>
+    var url = "";
+    var columns = [[
+        {"field": "id", "title": "记录编号", "width": 100},
+        {"field": "account", "title": "狐豆号", "width": 150},
+        {"field": "pass", "title": "通行证账号", "width": 150},
+        {"field": "status", "title": "冻结/解冻", templet:function(d){
+            return d.status * 1 == 1 ? '冻结' : '解冻';
+        }},
+        {"field": "desc", "title": "事件描述"},
+        {"field": "add_time", "title": "记录时间", "width": 200, templet: "#add_time"},
+    ]];
+
+    function get_data() {
+        var params=$('#form').serialize();
+        url = '?platform_id={{ platform_id }}&' + params;
+        rander_table('#paged-table', url, columns);
+    }
+
+    // 初始化
+    get_data();
+
+</script>

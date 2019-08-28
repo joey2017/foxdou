@@ -1,0 +1,45 @@
+{% extends '/Passport/layout.twig' %}
+{% block main_content %}
+<style type="text/css">
+    .page-content{height: 740px; padding: 0;}
+    .sildrtitle em{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/t1.png) no-repeat;}
+</style>
+<div class="page-content">
+    <div class="sildebar">
+        {% include "/Passport/Tool/safe_tool_common_left.twig" %}
+    </div>
+    <div class="mainbar">
+        <h2 class="title">密保邮箱</h2>
+        <div class="banner-info">
+            <div class="text">
+                {% if user %}
+                    {% if user.bind_email %}
+                        <style type="text/css">.banner-info{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/a2.png) no-repeat;}</style>
+                        您已绑定邮箱，如需更换邮箱请点击下方按钮“修改邮箱”。
+                        <a href="{{ path('passport_safe_center_identity_verify_way',{'type':2}) }}">修改邮箱</a>
+                    {% else %}
+                        <style type="text/css">.banner-info{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/a2-2.png) no-repeat;}</style>
+                        可通过绑定接收异常通知、找回帐号密码等。为了您的账户安全，请及时绑定邮箱帐号
+                        <a href="{{ path('passport_safe_center_identity_verify_way',{'type':7}) }}">绑定邮箱</a>
+                    {% endif %}
+                {% else %}
+                    <style type="text/css">.banner-info{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/a2-2.png) no-repeat;}</style>
+                    可通过绑定接收异常通知、找回帐号密码等。登录后可查看您的账户是否已绑定邮箱。
+                    <a href="{{ path('passport_home_index') }}">请登录后操作</a>
+                {% endif %}
+            </div>
+
+        </div>
+        <h2 class="title">温馨提示</h2>
+        <div class="problem" style="height: 150px;">
+            <p>邮箱停用或无法收到邮件的情况下若需要修改邮箱帐号，可在点击修改邮箱之后选择其他身份验证方式，也可以联系在线客服为您解决。</p>
+        </div>
+        <h2 class="title">常见问题</h2>
+        <div class="problem">
+            无
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+

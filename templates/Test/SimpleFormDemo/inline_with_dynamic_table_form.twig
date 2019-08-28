@@ -1,0 +1,38 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<form class="layui-form foxdou-row horizon-form" id="search-form">
+    <div class="layui-form-item" style="margin-bottom: 0;">
+        {{ sf.text(form.username, null, {'outer': 'inline'}, {'placeholder': '用户名'}) }}
+        {{ sf.text(form.mobile, null, {'outer': 'inline'}, {'placeholder': '手机号'}) }}
+        {{ sf.select(form.gender, null, genders, {'outer': 'inline'}) }}
+        {{ sf.text(form.search, null, {'outer': 'inline'}, {'placeholder': '模糊搜索'}) }}
+        {{ sf.button('搜索', {'outer': 'inline'}, {'onclick': 'reload()'}) }}
+    </div>
+</form>
+<div class="foxdou-row">
+    <div class="layui-card-body">
+        <table class="layui-table" lay-data="{url:'{{ path('simple_form_demo_show', {'page': app.request.get('page')}) }}', page:true, id:'user-table', method:'get'}" lay-filter="demo">
+            <thead>
+            <tr>
+                <th lay-data="{type:'checkbox', fixed: 'left', width:50}"></th>
+                <th lay-data="{field:'id', width:50, align: 'center'}">ID</th>
+                <th lay-data="{field:'type', width:80, align: 'center'}">用户类型</th>
+                <th lay-data="{field:'user_name', width:150, align: 'center'}">用户名</th>
+                <th lay-data="{field:'mobile', width:150, align: 'center'}">联系电话</th>
+                <th lay-data="{field:'email', width:150, align: 'center'}">email</th>
+                <th lay-data="{field:'status', sort: true, width:120, align: 'center'}">状态</th>
+                <th lay-data="{field:'info', align: 'left'}">备注</th>
+                <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo', width:180}">操作</th>
+            </tr>
+            </thead>
+        </table>
+        <script type="text/html" id="barDemo">
+            <div class="layui-table-cell laytable-cell-4-0-9">
+                <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+                <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+            </div>
+        </script>
+    </div>
+
+</div>

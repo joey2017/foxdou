@@ -1,0 +1,44 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% set title = '我的营销-推广链接' %}
+
+{%
+set left_nav = [{"name": "推广链接", "route": "reseller_affiliate_index", "icon": "&#xe64e;"}]
+%}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block css %}
+{% endblock %}
+
+{% block main_content %}
+  <div class="panel-item">
+    <ul class="f-extension">
+      <li>
+        <h3><b>推广名称：</b>狐豆-实体店-充值软件-亿支宝官方网站-最低进价充值软件,空中充值系统,缴费系统,最好的充值平台</h3>
+        <p><b>推广链接：</b>{{ url('passport_register',{'r':user.id}) }}</p>
+        <div class="layui-input-block">
+          <a href="javascript:void(0);" class="layui-btn layui-btn-small copy_url" data-clipboard-text="{{ url('passport_register',{'r':user.id}) }}">复制链接</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+  <script type="text/javascript" src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/js/clipboard.min.js"></script>
+  <script type="text/javascript">
+
+      $(function () {
+          var clipboard = new Clipboard('.copy_url', {
+//            text: function () {
+//                return $('#div').text().trim()
+//            },
+          });
+          clipboard.on('success', function (e) {
+              layer.msg('复制成功');
+          });
+          clipboard.on('error', function (e) {
+              layer.msg('复制失败');
+          });
+      });
+  </script>
+
+{% endblock %}

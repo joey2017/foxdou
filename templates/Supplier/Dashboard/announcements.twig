@@ -1,0 +1,34 @@
+{% extends 'Supplier/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+<div class="foxdou-row foxdou-row-notm">
+    <div style="margin-left: 200px;">
+        <div class="layui-card">
+            <div class="layui-tab layui-tab-brief layadmin-tab" lay-filter="docDemoTabBrief">
+                <div class="layui-tab-content">
+                    <div class="layui-tab-item layui-show">
+                        <div class="layui-card-body">
+                            <table class="layui-table" id="announcements-list-table" lay-filter="announcements-list-table">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script id="publish_time" type="text/html">
+        <%#
+          var date = new Date();
+          date.setTime(d.publish_time*1000);
+          return date.Format("yyyy-MM-dd hh:mm:ss");
+        %>
+    </script>
+
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Supplier/Dashboard/announcements_js.twig" %}
+{% endblock %}

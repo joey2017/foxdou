@@ -1,0 +1,47 @@
+{% extends "/Test/SimpleFormDemo/layout.twig" %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block page_content %}
+<style>
+    .horizon-form .input_username, .horizon-form .input_mobile, .horizon-form .input_gender {width: 150px !important;}
+    .horizon-form .input_search {width: 300px !important;}
+</style>
+
+    <div class="foxdou-note">
+    <div class="foxdou-row">
+        <div class="foxdou-row-title">
+            <span></span>
+            <h3><strong>行内横排 + LayUI动态表格</strong></h3>
+        </div>
+        <p>这个适用于常用的表格数据过滤、展示界面</p>
+    </div>
+</div>
+<div class="foxdou-content">
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">显示效果</li>
+            <li>代码</li>
+        </ul>
+        <div class="layui-tab-content" style="">
+            <div class="layui-tab-item layui-show">
+                {% include "/Test/SimpleFormDemo/inline_with_dynamic_table_form.twig" %}
+            </div>
+            <div class="layui-tab-item">
+                <pre><code class="twig">{{ source("/Test/SimpleFormDemo/inline_with_dynamic_table_form.twig")|e }}</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function reload() {
+        table.reload('user-table', {
+            where: $('#search-form').serializeJson(),
+            done: function(res, curr, count){
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                console.log(res);
+            }
+        });
+    }
+</script>
+{% endblock %}

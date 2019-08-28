@@ -1,0 +1,138 @@
+{% set user = app.user %}
+{% set current_group = app.request.get('group') %}
+
+{% set menus = params("supplier_menus") %}
+
+<div class="layui-card" id="change-password-dialog" style="display: none;">
+  <div class="layui-card-body" style="padding-right: 50px;">
+    <form id="change-password-form" class="layui-form" lay-filter="edit-form">
+      <div class="layui-form-item">
+        <label class="layui-form-label">旧密码：</label>
+        <div class="layui-input-block">
+          <input type="password" class="layui-input" name="old_password" autocomplete />
+        </div>
+        <div class="layui-form-mid layui-word-aux error" id="tips_old_password"></div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">新密码：</label>
+        <div class="layui-input-block">
+          <input type="password" class="layui-input" name="new_password" autocomplete/>
+        </div>
+        <div class="layui-form-mid layui-word-aux error" id="tips_new_password"></div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">新密码确认</label>
+        <div class="layui-input-block">
+          <input type="password" class="layui-input" name="new_password_confirm" autocomplete/>
+        </div>
+        <div class="layui-form-mid layui-word-aux error" id="tips_new_password_confirm"></div>
+      </div>
+      <input type="hidden" name="_token" value="{{ csrf_token('admin_profile_change_password') }}">
+    </form>
+  </div>
+</div>
+
+<div class="foxdou-header">
+    <div class="foxdou-top">
+        <div class="foxdou-logo"></div>
+        <div class="foxdou-link">
+            <ul class="layui-nav layui-layout-left">
+                {% for group_id, group in menus %}
+                    {% set is_current_group = false %}
+                    <li class="layui-nav-item {{ group_id == current_group ? 'layui-this' : '' }}" data-group-id="{{ group_id }}" data-cur-group="{{ current_group }}">
+                        <a href="{{ menu_path(group) }}">{{ group.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <ul class="layui-nav layui-layout-right foxdou-nav-user">
+            <li class="layui-nav-item">
+                <a href="javascript:;" id="balance" onclick="refresh_balance()" title="点击刷新">账户余额：<span>{{ user.supplierAccount.balance|default(0)|number_format(2) }}</span>元</a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="{{ user.avatar_url|default(asset('/assets/common/img/default-avatar.jpg')) }}" class="layui-nav-img">{{ user.user_name }}
+                    <span class="layui-nav-more"></span></a>
+                <dl class="layui-nav-child layui-anim layui-anim-upbit">
+                    <dd>
+                        <a href="{{ path('supplier_dashboard_profile') }}">基本资料</a>
+                    </dd>
+                    <dd>
+                        <a href="{{ url('passport_home_index') }}">安全设置</a>
+                    </dd>
+                    <dd>
+                        <a href="javascript:show_edit_dialog();">修改密码</a>
+                    </dd>
+                    <hr/>
+                    <dd>
+                        <a href="{{ url('logout') }}">退出</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+
+    </div>
+</div>
+
+<script>
+    function save_password(callback) {
+        $('#change-password-dialog .layui-word-aux').text('');
+        $.post('{{ path('admin_profile_change_password') }}',
+            $('#change-password-form').serialize(),
+            function (data) {
+                if (!data.status) {
+                    if (data.errors) {
+                        $.each(data.errors, function (key, error) {
+                            $('#tips_' + key).text(error);
+                        });
+                    } else {
+                        layer.alert(data.msg);
+                    }
+
+                    callback(false);
+                    return;
+                }
+                callback(true);
+                layer.msg(data.msg, {time: 1500});
+            }, 'json'
+        );
+    }
+
+    function show_edit_dialog() {
+        layer.open({
+            title:   '修改密码',
+            type:    1,
+            area:    ['500px', '320px'],
+            content: $('#change-password-dialog'),
+            // closeBtn: true,
+            btn:     ['修改', '取消'],
+            yes:     function (index, layero) {
+                save_password(function (succeed) {
+                    if (succeed) {
+                        layer.close(index);
+                        $('#change-password-dialog').toggle();
+                    }
+                });
+            },
+            btn2:    function (index, layero) {
+                layer.close(index);
+                $('#change-password-dialog').toggle();
+            },
+            cancel:  function(index) {
+                $('#change-password-dialog').hide();
+            }
+        });
+    }
+
+    function refresh_balance() {
+        $.get('{{ path("supplier_user_current_balance") }}',{},function (data) {
+            $('#balance').find('span').text(data.balance);
+            layer.tips('刷新成功','#balance', {
+                tips: [3, '#9ACD32'],
+                time: 3000
+            });
+        });
+    }
+
+</script>

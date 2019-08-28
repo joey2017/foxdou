@@ -1,0 +1,24 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% block main_content %}
+<div class="layui-card layadmin-notice">
+    <div class="layui-card-body layadmin-details-body">
+        <div class="top">
+            <h1>{{ announcement.title }}</h1>
+            <p>
+                <span>发布时间：{{ announcement.publish_time|date('Y-m-d H:i') }}</span>
+            </p>
+        </div>
+        <div class="main">
+            {{ announcement.content|raw }}
+        </div>
+        <div class="foot">
+            <div class="layui-text pre">
+                上一篇：{% if last %}<a href="{{ path('open_dashboard_announcement_details',{id:last.id}) }}">{{ last.title }}</a>{% else %}没有了{% endif %}
+            </div>
+            <div class="layui-text next">
+                下一篇：{% if next %}<a href="{{ path('open_dashboard_announcement_details',{id:next.id}) }}">{{ next.title }}</a>{% else %}没有了{% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,19 @@
+snc_redis:
+    session:
+        client: session
+        prefix: FDSESS
+        ttl:    3600
+    clients:
+        default:
+            type: phpredis
+            alias: default
+            dsn: '%env(REDIS_URL)%'
+            logging: '%kernel.debug%'
+        session:
+            type: phpredis
+            alias: session
+            dsn: '%env(REDIS_SESSION_URL)%'
+        jobs:
+            type: phpredis
+            alias: jobs
+            dsn: '%env(REDIS_JOBS_URL)%'

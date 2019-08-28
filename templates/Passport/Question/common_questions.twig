@@ -1,0 +1,42 @@
+{% extends '/Passport/layout.twig' %}
+{% block main_content %}
+<style type="text/css">
+    .page-content{height: 740px; padding: 0;}
+    .sildrtitle em{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/t1.png) no-repeat;}
+
+    /*文章列表*/
+    .page-lis-row {width: 720px; margin: 0 0 10px 0;}
+    .page-lis-item {position: relative; float:left; width: 100%; height: 30px; line-height: 24px; margin-top:5px; border-bottom: 1px dashed #E0E0E0;}
+    .page-lis-item a {position: absolute; display: block; width: 100%; box-sizing: border-box; padding-right: 100px;}
+</style>
+
+<div class="page-content">
+    <div class="sildebar">
+        <div class="sildrtitle">
+            <em></em>
+            常见问题
+        </div>
+        <ul class="silderlist">
+            <li class="link-this">
+                <a href="">常见问题</a>
+            </li>
+        </ul>
+    </div>
+    <div class="mainbar">
+        <div class="page-lis-row">
+            <div class="title">常见问题</div>
+            <div class="page-lis">
+                <ul class="page-lis">
+                    {% for v in articles %}
+                        <li class="page-lis-item">
+                        <a href="{{ path('passport_question_detail',{id:v.id}) }}">{{ v.title }}</a>
+                        <span>{{ v.publish_time|date('Y-m-d') }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

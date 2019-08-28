@@ -1,0 +1,18 @@
+<script>
+    var url = "";
+    var columns = [[
+        {"field": "name", "title": "分类"},
+        {"field": "title", "title": "标题"},
+        {"field": "abstract", "title": "摘要"},
+        {"field": "publish_time", "title": "发布时间",templet:"#publish_time"},
+    ]];
+
+    function get_data() {
+        var params = $('form#announcements-list').serialize();
+        url = '?' + params;
+        rander_table('#announcements-list-table', url, columns);
+    }
+
+    // 初始化
+    get_data();
+</script>

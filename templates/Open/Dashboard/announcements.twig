@@ -1,0 +1,43 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+    <div class="layui-card layadmin-notice">
+        <div class="layui-card-body">
+            <ul class="layui-news-list">
+                <!--已读公告，类.read-->
+                {% for item in data %}
+                <li {% if item.status==1 %}class="read"{% endif %}>
+                    <a href="{{ path('open_dashboard_announcement_details',{id: item.id}) }}">
+                        <p>{{ item.title }}</p>
+                        <span>{{ item.publish_time|date('Y-m-d H:i:s') }}</span>
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+            <div class="layadmin-page-container">
+                <div id="layPaging"></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    <script>
+        //完整的分页功能
+        laypage.render({
+            elem: 'layPaging',
+            count: {{ total }},
+            theme: '#1E9FFF',
+            curr: {{ page }},
+            limit: {{ page_size }}, //每页要显示多少条
+            layout: ['count', 'prev', 'page', 'next', 'limit', 'skip'],
+            jump: function(obj,first){
+                if(!first){
+                    location.href='?page='+obj.curr;
+                }
+            }
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+<script>
+    var verify_statuses = JSON.parse('{{ constant("App\\Common\\Model\\Payment\\CashUserAccount::VERIFY_STATUSES")|json_encode|raw }}');
+    var url = "";
+    var columns = [[
+        {"field": "id", "title": "提现账户编号"},
+        {"field": "account_bank_name", "title": "银行"},
+        {"field": "account_place", "title": "开户行名称"},
+        {"field": "account_user", "title": "姓名"},
+        {"field": "account_num", "title": "账号"},
+        {"field": "shenfenzheng_id", "title": "身份证"},
+        {"field": "mobile", "title": "绑定手机号"},
+        {"field": "info", "title": "备注"},
+        {
+            "field": "verify_status", "title": "审核状态", templet: function(d){
+                return verify_statuses[d.verify_status]
+            }
+        },
+        {"field": "add_time", "title": "添加时间", templet: "#add_time"},
+        {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 200}
+    ]];
+
+    function get_data() {
+        var params = $('form#trade-list').serialize();
+        url = '?' + params;
+        rander_table('#trade-list-table', url, columns);
+    }
+
+    // 初始化
+    get_data();
+    form.render();
+
+    table.on('tool(trade-list-table)', function (obj) {
+        var data = obj.data;
+        var layEvent = obj.event;
+
+        if (layEvent === 'delete') { //移除
+            nxwd.ajaxDelete('{{ path("supplier_finance_del_withdraw_account") }}',this,false,data.id);
+        }
+    });
+
+    $('#add-withdraw-account').on('click',function(){
+        window.location.href = '{{ path("supplier_finance_add_withdraw_account") }}';
+    });
+
+</script>

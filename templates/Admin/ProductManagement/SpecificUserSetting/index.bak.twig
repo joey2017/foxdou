@@ -1,0 +1,459 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '特殊售价及策略' %}
+
+{% block css %}
+    <style>
+        .search-form .layui-form-label {
+            min-width: 130px;
+        }
+        .layui-table-cell {
+            word-wrap: break-word;
+        }
+        #edit-form input.error {
+            border: solid 1px red !important;
+            background-color: #f7ecb5;
+        }
+        #edit-form .error input:focus {
+            border: solid 1px red !important;
+            background-color: #f7ecb5;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form search-form" id="search-form">
+                    <div>
+                        <div class="layui-inline" style="margin-bottom: 0;">
+                            {{ sf.select('group_id', null, to_options(groups, "用户定价组"), {'outer': null}) }}
+                            {{ sf.select('strategy', null, to_options('App\\ProductConstants::STRATEGIES', "特殊售价策略"), {'outer': null}) }}
+                            {{ sf.select('area_priority', null, to_options('App\\ProductConstants::AREA_PRIORITIES', "适用范围优先级"), {'outer': null}) }}
+                            {{ sf.select('status', null, to_options('App\\ProductConstants::STATUSES', "启用状态"), {'outer': null}) }}
+                            {{ sf.text('search', null, {'outer': null}, {'placeholder': '搜索'}) }}
+                            {{ sf.button('搜索', {'outer': null}, {'class': 'layui-btn layui-btn-sm', 'style': 'width: 80px;', 'onclick': 'reload_table()'}, null) }}
+                        </div>
+                    </div>
+                </form>
+
+                <script type="text/html" id="toolbar">
+                    <div class="layui-btn-container">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update_user_price_and_strategy">新增特殊用户</button>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="check_all">全选</button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="check_reverse">反选</button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_attributes" data-attribute="status" data-value="1">
+                                上架
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_attributes" data-attribute="status" data-value="0">
+                                下架
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_edit">批量编辑</button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete_selected">删除</button>
+                        </div>
+                    </div>
+                </script>
+
+                <script type="text/html" id="user_name">
+                    <a href="#"><%= d.user_name %></a>
+                </script>
+                <script type="text/html" id="status">
+                    <% d.status == 1 ? '<span class="layui-badge layui-bg-green">上架</span>' : '
+                    <span class="layui-badge layui-bg-orange">下架</span>' %>
+                </script>
+                <script type="text/html" id="price_info">
+                    <div style="cursor: pointer;color: #01AAED;">
+                        <p><%= d.price %> / <%= d.rate %></p>
+                    </div>
+                </script>
+                <script type="text/html" id="strategy_text">
+                    <div style="cursor: pointer;color: #01AAED;">
+                    <%= d.strategy_text %>
+          `          </div>
+                </script>
+                <script type="text/html" id="area_priority_text">
+                    <div style="cursor: pointer;color: #01AAED;">
+                    <%= d.area_priority_text %>
+                    </div>
+                </script>
+                <script type="text/html" id="actions">
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</button>
+                    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">移除</button>
+                </script>
+
+                <table id="table" class="layui-table layadmin-table layui-form list-table" lay-filter="table"
+                       lay-data="{url:'{{ path(current_route) }}', page:true, id:'table', method:'get', toolbar: '#toolbar', defaultToolbar: [], done: 'on_table_render_done()'}">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'checkbox', width:40, type: 'checkbox'}"></th>
+                        <th lay-data="{field:'product_name', align: 'center'}">商品名</th>
+                        <th lay-data="{field:'user_name', width:100, align: 'center', templet: '#user_name'}">特殊售价对象</th>
+                        <th lay-data="{field:'group_name', width:100, align: 'center'}">用户所在定价分组</th>
+                        <th lay-data="{field:'price_info', width:170, align: 'center', event:'update_user_price_and_strategy', templet: '#price_info'}">特殊售价/比例</th>
+                        <th lay-data="{field:'strategy_text', width:120, align: 'center', event:'update_user_price_and_strategy', templet: '#strategy_text'}">特殊售价策略</th>
+                        <th lay-data="{field:'area_priority_text', width:150, align: 'center', event:'update_user_price_and_strategy', templet: '#area_priority_text'}">货源适用范围优先级</th>
+                        <th lay-data="{field:'status', width:80, align: 'center', templet: '#status'}">启用状态</th>
+                        <th lay-data="{field:'add_time', width:150, align: 'center'}">添加时间</th>
+                        <th lay-data="{width:100, align: 'center', templet: '#actions'}">
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra %}
+    <div class="layui-card" id="edit-dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="edit-form" class="layui-form" lay-filter="edit-form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;padding: 5px;">
+                            商品名称
+                        </td>
+                        <td>
+                            {#{{ product.name }}#}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;text-align: center;padding: 5px;">
+                            商品面值
+                        </td>
+                        <td>
+                            {#{{ product.face_value }}#}
+                        </td>
+                    </tr>
+                    <tr id="users_row">
+                        <td style="width: 150px;text-align: center;padding: 5px;">
+                            <div style="padding: 5px;">指定用户</div>
+                        </td>
+                        <td>
+                            {{ sf.textarea_raw('user_names', {'class': 'layui-textarea', 'placeholder': '请输入需要指定用户的通行证，每行为一项。'}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;text-align: center;">售价/比例</td>
+                        <td>
+                            <div class="layui-inline">
+                                <div class="layui-input-inline" style="margin-left: 0;padding: 0px;">
+                                    {{ sf.text_raw('price', {'placeholder': '售价', 'oninput': 'on_price_changed(this);'}) }}
+                                </div>
+                                <div class="layui-input-inline" style="margin-left: 0;padding: 0px;">
+                                    /
+                                </div>
+                                <div class="layui-input-inline" style="margin-left: 0;padding: 0px;">
+                                    {{ sf.text_raw('rate', {'placeholder': '比例', 'oninput': 'on_rate_changed(this);'}) }}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;text-align: center;">策略类型</td>
+                        <td>
+                            <div class="">
+                                <input name="strategy" type="radio" class="layui-input" lay-skin="primary" value="1" title="排序（一种按区域优先级下的排序选择一条可用供货渠道的策略）"/>
+                            </div>
+                            <div class="">
+                                <input name="strategy" type="radio" class="layui-input" lay-skin="primary" value="2" title="比例分流（一种取全部已设置分流常数的可用渠道，按订单顺序计算出一条应选供货渠道的策略）"/>
+                            </div>
+                            <div class="">
+                                <input name="strategy" type="radio" class="layui-input" lay-skin="primary" value="3" title="相同地区成本（一种按区域优先级选择成本最低的一条可用供货渠道的策略）"/>
+                            </div>
+                            <div class="">
+                                <input name="strategy" type="radio" class="layui-input" lay-skin="primary" value="4" title="混合地区成本（一种全区域下选择成本最低的一条可用供货渠道的策略）"/>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;text-align: center;">货源适用范围优先级<br/>
+                            （只对排序/相同地区成本有效
+                        </td>
+                        <td>
+                            {{ sf.radio_raw('area_priority', constant('App\\ProductConstants::AREA_PRIORITIES')) }}
+                        </td>
+                    </tr>
+                </table>
+                {{ sf.hidden_raw('setting_id') }}
+                {#{{ sf.hidden_raw('product_id', {'value': product.id}) }}#}
+                {#{{ sf.hidden_raw('face_value', {'value': product.face_value}) }}#}
+                {{ sf.csrf('admin_products') }}
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_end %}
+    <script>
+        table.on('toolbar(table)', function (data) {
+            var ids         = [];
+            var checkStatus = table.checkStatus(data.config.id);
+            $.each(checkStatus.data, function (index, item) {
+                ids.push(item.id);
+            });
+
+            if(data.event === 'update_user_price_and_strategy') {
+                update_user_price_and_strategy();
+                return;
+            }
+
+            if (typeof window[data.event] === "function") {
+                window[data.event](ids, data);
+                return;
+            }
+
+            console.log('Unhandled event: ' + data.event);
+        });
+
+        table.on('tool(table)', function (obj) {
+            console.log(obj);
+            var data     = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            if (layEvent === 'update_user_price_and_strategy') {
+                update_user_price_and_strategy(data);
+            } else if (layEvent === 'edit') {
+                update_user_price_and_strategy(data);
+            } else if (layEvent === 'delete') {
+                delete_selected([data.id]);
+            }
+
+        });
+
+        function reload_table() {
+            table.reload('table', {
+                url:   '{{ path(current_route) }}',
+                where: $('#search-form').serializeJson()
+            });
+        }
+
+        function delete_selected(ids) {
+            layer.confirm('确认要移除选定的 ' + ids.length + ' 个特殊用户售价策略设置吗？', {icon: 3, title: '移除确认'}, function (index) {
+                layer.close(index);
+
+                axios_form.post('{{ path('admin_product_management_mobile_delete_special_user_settings') }}', {ids: ids, _token: '{{ csrf_token('admin_products') }}'})
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+                        if (response.data.status) {
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            });
+        }
+
+        function batch_change_rebate(ids, data) {
+            layer.prompt({
+                title:    '请输入返现比例(百分比)',
+                formType: 0,
+                success:  function (layero, index) {
+                    $(layero).find('input.layui-layer-input').attr('placeholder', '返现百分比，比如 2.71828');
+                    $(layero).find('.layui-layer-content').append('<span>&nbsp;%</span>');
+                    $(layero).find('.layui-layer-content').children().wrap('<div class="layui-inline"></div>');
+                }
+            }, function (input, index) {
+                var value = parseFloat(input);
+                if (isNaN(value) || value <= 0) {
+                    layer.tips(isNaN(value) ? '格式不正确' : '比例必须大于 0', sender, {tips: 1});
+
+                    return false;
+                }
+
+                do_batch_update_attributes(ids, 'rebate', value);
+
+                layer.close(index);
+            });
+        }
+
+        function batch_update_attributes(ids, data) {
+            if (!ids) {
+                layer.msg('请先选中要操作的商品');
+                return;
+            }
+
+            var attribute = $(data.elem).data('attribute');
+            var value     = $(data.elem).data('value');
+
+            console.log(ids, attribute, value);
+
+            if (!attribute) {
+                layer.msg('操作失败');
+                console.log('attribute 为空');
+                return;
+            }
+
+            do_batch_update_attributes(ids, [attribute], [value]);
+        }
+
+        function check_all() {
+            $("table input[type='checkbox']").prop('checked', true);
+            form.render('checkbox');
+        }
+
+        function check_reverse() {
+            $("table input[type='checkbox']").each(function (idx, item) {
+                $(item).prop('checked', !$(item).prop('checked'));
+            });
+
+            var checkStatus = table.checkStatus('table');
+            $("table input[type='checkbox']").each(function (idx, item) {
+                if($(item).attr('lay-filter') === "layTableAllChoose") {
+                    $(item).prop('checked', checkStatus.isAll);
+                }
+            });
+
+            form.render('checkbox');
+        }
+
+        function batch_edit(ids, data) {
+            var user_names         = [];
+            var checkStatus = table.checkStatus(data.config.id);
+            $.each(checkStatus.data, function (index, item) {
+                user_names.push(item.user_name);
+            });
+
+
+            var preset_data = {user_name: user_names.join("\n")};
+            update_user_price_and_strategy(preset_data);
+
+        }
+
+        function update_user_price_and_strategy(data) {
+            $('#edit-form')[0].reset();
+            $('.error').html('');
+            $('.error').hide();
+            $('.tips').show();
+
+            if (data) {
+                // console.log(data);
+                $('#users_row').hide();
+
+                $('#edit-form textarea[name=user_names]').val(data.user_name);
+                $('#edit-form input[name=setting_id]').val(data.setting_id);
+                $('#edit-form input[name=price]').val(data.price);
+                $('#edit-form input[name=rate]').val(data.rate);
+                $('#edit-form input[name=strategy][value="' + data.strategy + '"]').prop('checked', true);
+                $('#edit-form input[name=area_priority][value="' + data.area_priority + '"]').prop('checked', true);
+            } else {
+                $('#users_row').show();
+                $('#edit-form input[name=id]').val('');
+            }
+
+            layui.form.render('radio');
+
+            layer.open({
+                title:    '设置特殊用户售价及策略',
+                type:     1,
+                area:     ['900px', 'auto'],
+                content:  $('#edit-dialog'),
+                closeBtn: false,
+                btn:      ['保存', '取消'],
+                yes:      function (index, layero) {
+                    var data = {
+                        setting_id:     $('#edit-form input[name=setting_id]').val(),
+                        product_id:     $('#edit-form input[name=product_id]').val(),
+                        user_names:     $('#edit-form textarea[name=user_names]').val(),
+                        price:          $('#edit-form input[name=price]').val(),
+                        strategy:       $('#edit-form input[name=strategy]:checked').val(),
+                        area_priority:  $('#edit-form input[name=area_priority]:checked').val(),
+                        _token: '{{ csrf_token('admin_products') }}'
+                    };
+
+                    axios_form.post('{{ path('admin_product_management_mobile_save_special_user_settings') }}', data)
+                        .then(function (response) {
+                            if (response.data.msg) {
+                                layer.msg(response.data.msg);
+                            }
+                            if(response.data.invalid_user_names) {
+                                layer.alert(response.data.msg + "<br/>\n" + response.data.invalid_user_names, {
+                                    icon: 0
+                                });
+                                return;
+                            }
+
+                            if (response.data.status) {
+                                layer.close(index);
+                                $('#edit-dialog').toggle();
+                                reload_table();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                },
+                btn2:     function (index, layero) {
+                    layer.close(index);
+                    $('#edit-dialog').toggle();
+                }
+            });
+        }
+
+        function parse_rate(sender) {
+            var rate = parseFloat($(sender).val());
+            if(rate === '') {
+                return false;
+            }
+
+            if (isNaN(rate) || rate <= 0) {
+                layer.tips(isNaN(rate) ? '格式不正确' : '比例必须大于 0', sender, {tips: 1});
+                $(sender).addClass('error');
+                return false;
+            }
+
+            $(sender).removeClass('error');
+
+            return rate;
+        }
+
+        function on_price_changed(sender) {
+            var price      = parseFloat($(sender).val());
+            var face_value = $('#edit-form input[name=face_value]').val();
+
+            if (isNaN(price) || price <= 0 || price > face_value) {
+                layer.tips(isNaN(price) ? '格式不正确' : '价格必须大于 0', sender, {tips: 1});
+                $(sender).addClass('error');
+                return;
+            }
+            $(sender).removeClass('error');
+
+            var rate       = price / face_value;
+            var rate_input = $('#edit-form input[name=rate]');
+            rate_input.val(rate.toFixed(5));
+        }
+
+        function on_rate_changed(sender) {
+            var rate = parse_rate(sender);
+            if (rate === false) {
+                return;
+            }
+
+            var face_value  = $('#edit-form input[name=face_value]').val();
+            var price       = rate * face_value;
+            var price_input = $('#edit-form input[name=price]');
+            price_input.val(price.toFixed(5));
+        }
+
+    </script>
+{% endblock %}

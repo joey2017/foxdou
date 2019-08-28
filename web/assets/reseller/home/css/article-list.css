@@ -1,0 +1,35 @@
+.agent-header {width: 1000px; margin-left: -500px;}
+.agent-cols {width: 1000px; padding: 40px 0;}
+.agent-page-title h1 {width: 1000px;}
+.agent-ul-link {width: 1000px;}
+.agent-footer {width: 1000px;}
+.agent-item {width: 470px;}
+
+/*列表*/
+.agent-list {margin-top: 0;}
+
+/*列表详情*/
+.agent-crumb {position: relative; top: -18px;}
+.agent-crumb img {display: inline-block;}
+.agent-crumb-ul {display: inline-block;}
+.agent-crumb-ul li {display: inline-block;}
+.agent-crumb-ul li:last-child {color: #999;}
+.agent-crumb-ul a:hover {color: #008EF7; text-decoration: underline;}
+
+.agent-main-bg {background-color: #F3F3F3;}
+.agent-crumb {}
+.agent-details-box {padding: 20px 40px; background-color: #FFFFFF;}
+.agent-details {text-align: center;}
+.agent-news-title {padding: 20px 0;}
+.agent-news-time {display: block; padding-bottom: 20px; border-bottom: 1px dashed #E0E0E0; font-size: 14px; color: #888;}
+.agent-news-body {margin: 30px 0; text-align: left;}
+.agent-news-body p {display: block; width: 100%; margin-bottom: 10px; line-height: 30px;}
+.agent-news-body img {width: auto; max-width: 100%;}
+.agent-news-end {text-align: center; cursor: default;}
+.agent-news-end span {display: inline-block; width: 80px; height: 80px; border-radius: 50%; background-color: #f6fbff; border: 1px solid #EEEEEE; line-height: 80px; font-size: 24px; color: #779ebb;}
+.agent-prev-next {margin: 40px 0 20px 0;}
+.agent-prev-next li {float: left; width: 50%; text-align: left;}
+.agent-prev-next li:last-child {text-align: right;}
+.agent-prev-next a:hover {color: #008EF7; text-decoration: underline;}
+
+.agent-details-bottom {width: 100%; height: 24px; background-repeat: no-repeat; background-position: top left;}

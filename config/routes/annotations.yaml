@@ -1,0 +1,39 @@
+common_controllers:
+    resource: '../src/Common/Controller'
+    type: annotation
+    prefix: /common
+
+passport_controllers:
+    resource: '../src/Passport/Controller'
+    type: annotation
+    prefix: /passport
+
+admin_controllers:
+    resource: '../src/Admin/Controller'
+    type: annotation
+    prefix: /admin
+
+open_platform_api_controllers:
+    resource: '../src/OpenApi/Controller'
+    type: annotation
+    prefix: /openapi/api/v2
+
+open_platform_api_notify_controllers:
+    resource: '../src/OpenApi/Controller/NotifyController.php'
+    type: annotation
+    prefix: /openapi/
+
+open_platform_controllers:
+    resource: '../src/Open/Controller'
+    type: annotation
+    prefix: /open
+
+reseller_controllers:
+    resource: '../src/Reseller/Controller'
+    type: annotation
+    prefix: /reseller
+
+supplier_controllers:
+    resource: '../src/Supplier/Controller'
+    type: annotation
+    prefix: /supplier

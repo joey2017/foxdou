@@ -1,0 +1,506 @@
+.layui-card-body {
+	padding: 20px 25px;
+}
+/*账户*/
+.layui-user-pannel {
+	padding: 10px; 
+	height: 130px;
+}
+.layui-user-headimg {
+	position: absolute; 
+	top: 30px; 
+	left: 30px; 
+	width: 70px; 
+	height: 70px; 
+	border-radius: 50%; 
+	border: 1px solid #E0E0E0; 
+	overflow: hidden;
+}
+.layui-user-headimg img {
+	width: 100%; 
+	height: 100%;
+}
+.layui-user-info {
+	position: absolute; 
+	top: 25px; 
+	left: 120px; 
+	right: 30px; 
+	bottom: 10px;
+}
+.layui-user-info .name {
+	padding: 5px 0; 
+	font-size: 18px; 
+	color: #666;
+}
+.layui-user-info .name span {
+	color: #333;
+}
+.layui-user-info .name .ident {
+	display: inline; 
+	margin-left: 20px; 
+	color: #1E9FFF;
+}
+.layui-user-info .name .ident i {
+	position: relative; 
+	top: 2px;
+}
+.layui-user-info .name .ident span {
+	font-size: 12px; 
+	color: #1E9FFF;
+}
+.layui-user-info .news {
+	padding: 5px 0 10px 0; 
+	border-bottom: 1px dashed #E0E0E0;
+}
+.layui-user-info .news p {
+	display: inline-block; 
+	margin-right: 20px; 
+	color: #999;
+}
+.layui-user-info .news .news-number {
+	color: red;
+}
+.layui-user-info .balance {
+	padding-top: 15px; 
+	color: #666;
+}
+.layui-user-info .balance span {
+	position: relative; 
+	top: 1px; 
+	padding: 0 10px; 
+	font-size: 18px;
+}
+.layui-user-info .balance a {
+	margin-left: 10px; 
+	padding: 5px 10px; 
+	border-radius: 2px;
+	background-color: #1E9FFF; 
+	background-color: rgba(30,159,255,1); 
+	color: #fff;
+}
+.layui-user-info .balance a:hover {
+	background-color: rgba(30,159,255,.8); 
+	transition:all .3; 
+	-webkit-transition:all .3;
+}
+
+/*我的应用*/
+.layui-myapi-data {
+	
+}
+.layui-myapi-data li {
+	margin: 6px 0;
+}
+.layui-myapi-data a {
+	display: block;
+	padding: 7px 10px; 
+	border: 1px dashed #ccc; 
+	border-radius: 2px;
+	color: #666; 
+	text-align: center;
+}
+.layui-myapi-data a:hover {
+	background-color: #f8f8f8;
+}
+.layui-myapi-data li span {
+	margin: 0 8px; 
+	font-size: 18px;
+}
+.layui-myapi-data .green {
+	color: #1AB394;
+}
+.layui-myapi-data .orange {
+	color: #ff9c00;
+}
+.layui-myapi-data .gray {
+	color: #999999;
+}
+
+/*快捷入口*/
+.layui-shortcut li {
+	text-align: center;
+}
+.layui-shortcut li a {
+	display: block;
+}
+.layui-shortcut li .img-view {
+	display: inline-block;
+	width: 100%;
+	height: 40px;
+	padding: 5px 0;
+	line-height: 30px;
+	text-align: center;
+	border-radius: 2px;
+	font-size: 30px;
+	color: #333;
+	transition: all .3s;
+	-webkit-transition: all .3s;
+}
+.layui-shortcut li cite {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.layui-shortcut li:hover a {
+	color: #1e9fff;
+}
+.layui-shortcut li .img-view img {
+	height: 100%;	
+}
+
+/*已申请的应用*/
+.layui-have-api {
+	
+}
+.layui-have-api .layui-card-lump {
+	position: relative;
+    height: 100px;
+    border: 1px dashed #ccc;
+    border-radius: 2px;
+}
+.layui-have-api .layui-card-lump img {
+	position: absolute; 
+	top: 15px; 
+	left: 5px; 
+	width: 64px; 
+	height: 64px;
+}
+.layui-have-api .layui-card-lump .info {
+	position: absolute;
+	top: 35px;
+	padding: 5px;
+	left: 75px;
+	width: calc(100% - 120px);
+}
+.layui-have-api .layui-card-lump .info h3 {
+	display: block;
+	padding-bottom: 5px;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+.layui-have-api .layui-card-lump .info p {
+	color: #999;
+	line-height: 20px;
+	font-size: 12px;
+}
+.layui-have-api .layui-card-lump .info span {
+	margin: 0 5px;
+}
+.layui-have-api .layui-card-lump .spacer {
+	position: absolute;
+	top: 38px;
+	right: 85px;
+	width: 1px;
+	height: 30px;
+	background-color: #EEEEEE;
+}
+.layui-have-api .layui-card-lump a {
+	position: absolute;
+	top: 35px;
+	right: 10px;
+	padding: 5px;
+	color: #1E9FFF;
+}
+
+/*轮播*/
+.layui-slide {
+	min-height: 130px;
+	padding: 10px;
+}
+.layui-slide a {
+	display: block;
+	height: 100%;
+	background-position: center;
+}
+.layui-slide img {
+	height: 100%;
+}
+.layui-carousel-ind {
+	top: -30px;
+}
+
+/*客服信息*/
+.layui-custom-service {
+	display: block;
+    color: #f19149;
+    line-height: 30px;
+}
+.layui-custom-service .phone span {
+	color: #1AB394;
+    font-size: 18px;
+}
+.layui-custom-service .online-qq {
+    display: block;
+    margin-top: 10px;
+    padding: 3px 20px 6px 20px;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+    color: #888;
+    text-align: center;
+}
+.layui-custom-service .online-qq i {
+	position: relative;
+    top: 2px;
+    font-size: 20px;
+}
+.layui-custom-service .online-qq:hover {
+	color: #1e9fff;
+	border-color: #1e9fff;
+}
+
+/*账户信息*/
+.layadmin-account-form {
+	position: relative;
+	padding-top: 30px;
+}
+.layadmin-account-form .layui-form-label {
+	padding: 9px 15px;
+	color: #888;
+}
+.layadmin-account-form .layui-input-inline {
+	display: inline-block;
+	width: auto;
+	margin-right: 30px;
+}
+.layadmin-account-form .layui-form-mid {
+	color: #1E9FFF;
+}
+.layadmin-account-form .layui-form-mid span {
+	position: relative;
+	top: -1px;
+	color: #666;
+	margin: 0 8px;
+}
+.layadmin-account-form .lyui-btn {
+	background-color: #1E9FFF;
+}
+.layadmin-account-form .layadmin-text {
+	display: inline-block;
+	height: 38px;
+	line-height: 38px;
+}
+
+.layadmin-account-form .layadmin-headimg {
+	position: relative;
+	top: -5px;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	overflow: hidden;
+	border: 1px solid #e0e0e0;
+	font-size:0;
+}
+.layadmin-account-form .layadmin-headimg .uploadImage {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	overflow: hidden;
+}
+.layadmin-account-form .layadmin-headimg .uploadImage img {
+	width: 100%;
+	vertical-align:middle;
+}
+.layadmin-account-form .layadmin-headimg input[type=file] {
+	display: block;
+	width: 50px;
+	height: 50px;
+	opacity: 0;
+	cursor: pointer;
+}
+
+/*平台公告*/
+.layadmin-notice {
+	width: 1000px;
+	margin: 0 auto;
+}
+.layadmin-notice .layui-news-list {
+	margin: 0;
+}
+.layadmin-notice .layadmin-page-container {
+	border: none;
+	padding: 0;
+	margin-top: 10px;
+}
+.layadmin-details-body {
+	padding: 20px 40px;
+}
+.layadmin-details-body .top {
+	padding-top: 20px;
+	padding-bottom: 10px;
+	text-align: center;
+	border-bottom: 1px dashed #e0e0e0;
+}
+.layadmin-details-body .top h1 {
+	padding-bottom: 15px;
+	line-height: 34px;
+	color: #444;
+}
+.layadmin-details-body .top p {
+	color: #999;
+}
+.layadmin-details-body .main {
+	padding: 20px 0;
+	font-size: 16px;
+}
+.layadmin-details-body .main p {
+	margin: 15px 0;
+	text-align: left;
+}
+.layadmin-details-body .main img {
+	display: block;
+	max-width: 100%;
+	margin: 0 auto;
+}
+.layadmin-details-body .foot {
+	margin-top: 30px;
+}
+.layadmin-details-body .foot .pre, .layadmin-details-body .foot .next {
+	display: inline-block;
+	width: 48%;
+}
+.layadmin-details-body .foot .next {
+	float: right;
+	text-align: right;
+}
+
+/*在线充值*/
+.layadmin-area {
+	padding: 15px;
+	background-color: #F8F8F8;
+}
+.layadmin-area p {
+	padding: 0 10px;
+	line-height: 30px;
+	color: #888;
+}
+.layadmin-area span {
+	margin: 0 5px;
+	font-size: 18px;
+	color: #333;
+}
+.layadmin-area .balance {
+	color: #F07E05;
+	font-size: 24px;
+}
+.layadmin-recharge-mode {
+	padding-top: 20px;
+	padding-bottom: 10px;
+	font-weight: bold;
+	color: #333;
+}
+
+/*充值方式*/
+.layadmin-recharge-tab {
+    box-shadow: none;
+}
+.layadmin-recharge-tab .layui-tab-title .hot {
+	color: #FF0000;
+}
+.layadmin-recharge-tab .layui-tab-content {
+	padding: 30px 50px 40px 50px;
+}
+.layadmin-recharge-tab h5 {
+	margin-bottom: 30px;
+	color: #333;
+	font-weight: bold;
+}
+
+.layadmin-alipay-item {
+	width: 180px;
+    height: auto;
+    margin-right: 40px;
+    margin-bottom: 20px;
+    display: inline-block;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+    padding: 10px 10px 0px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(221, 221, 221);
+    border-image: initial;
+	vertical-align: top;
+}
+.layadmin-alipay-item>img {
+	display: inline-block;
+    width: 160px;
+}
+.layadmin-alipay-tip {
+	position: relative;
+	display: inline-block;
+    font-size: 12px;
+    margin: 15px auto;
+}
+.layadmin-alipay-tip img {
+    position: absolute;
+    top: 0px;
+    left: 10px;
+}
+.layadmin-alipay-tip p {
+    padding-left: 50px;
+    line-height: 16px;
+}
+.layadmin-remark {
+    display: inline-block;
+	vertical-align: top;
+}
+.layadmin-remark p {
+	color: #777;
+	font-size: 16px;
+}
+.layadmin-remark .number {
+	font-size: 30px;
+    color: #1E9FFF;
+    padding: 20px 0px;
+}
+.layadmin-alipay-text {
+	
+}
+.layadmin-alipay-text>p {
+	margin: 10px 0;
+	color: #ff320b;
+}
+.layadmin-special-input {
+	position: relative;
+	margin-bottom: 50px;
+}
+.layadmin-special-input>span {
+	position: absolute;
+	top: 20px;
+	left: 0;
+	z-index: 2;
+	display: block;
+	font-size: 20px;
+	color: #999;
+}
+.layadmin-special-input .layui-inline {
+	width: 400px;
+}
+.layadmin-special-input .layui-input {
+	height: 60px;
+	padding-left: 30px;
+	font-size: 30px;
+	color: #1E9FFF;
+	border-left: none;
+	border-right: none;
+	border-top: none;
+	border-bottom: 2px solid #1E9FFF;
+}
+.layadmin-special-text {
+	width: 100%;
+	padding: 30px 0;
+	border-top: 1px dashed #E0E0E0;
+}
+.layadmin-special-text img {
+	width: 100px;
+}
+.layadmin-special-text .pro {
+	margin-left: 10px;
+	vertical-align: bottom;
+}

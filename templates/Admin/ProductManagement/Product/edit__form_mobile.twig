@@ -1,0 +1,64 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="2"><h2>商品基本属性</h2></td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">商品名称</td>
+        <td>{{ sf.text_raw('name', {'value': product.name}) }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">运营商类别</td>
+        <td>{{ product.operator_id <= 3 ? operators[product.operator_id] : '虚商' }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">快充/慢充</td>
+        <td>
+            {% set speeds = constant('App\\ProductConstants::RECHARGE_SPEED_TYPES') %}
+            {{ speeds[product.speed]|default('未知速度类型(' ~ product.speed ~ ')') }}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">面值类型</td>
+        <td>
+            {% set face_value_types = constant('App\\ProductConstants::FACE_VALUE_TYPES') %}
+            {{ face_value_types[product.face_value_type]|default('未知面值类型(' ~ product.speed ~ ')') }}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">面值</td>
+        <td>{{ product.face_value }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">单次可购数量</td>
+        <td>
+            {% if product.face_value_type == 'ARBIT' %}
+                {{ sf.text_raw('num', {'value': product.num}) }}
+            {% else %}
+                {{ product.num }}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">商品适用范围</td>
+        <td>
+            {% if product.province_code == 1 %}
+                全国
+            {% else %}
+                {{ provinces[product.province_code]|default('未知省份(' ~ product.province_code ~ ')') }}
+                {% if product.city_code != 0 %}
+                    / {{ cities[product.city_code]|default('未知城市(' ~ product.city_code ~ ')') }}
+                {% endif %}
+            {% endif %}
+        </td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">商品创建时间</td>
+        <td>{{ product.created_at|date('Y-m-d H:i:s') }}</td>
+    </tr>
+    <tr>
+        <td style="width: 150px;text-align: center;">最近修改时间</td>
+        <td>{{ product.updated_at|date('Y-m-d H:i:s') }}</td>
+    </tr>
+</table>

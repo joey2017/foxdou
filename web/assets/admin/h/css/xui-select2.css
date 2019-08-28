@@ -1,0 +1,21 @@
+/**
+ *作者:江必琼
+ * QQ:1063033278 
+ **/
+
+.xui-select2{position: relative; width: 175px;height: auto;color: #555555;}
+.xui-select2 span{display: block; width: 100%;height: 34px; box-sizing: border-box;padding: 0 30% 0 10px;border-radius: 2px;
+border: 1px solid #E0E0E0;line-height: 34px; background:url(img/arrow.png) no-repeat;
+	background-size: 20px; background-position:96%;background-color: #FFFFFF;text-align: left;
+}
+.xui-select2:hover span{border-color: #FFB400 ;cursor: default;}
+.xui-select2-option{position: absolute;top: 40px; display: none; box-sizing: border-box;border-radius: 2px; 
+	border: 1px solid #E0E0E0;background: #FFFFFF;box-shadow: 0px 0px 5px #CCCCCC;text-align: center;
+	z-index: 9999;
+}
+.xui-select2-option li{box-sizing: border-box; height: 34px;padding: 0 10px;border-bottom: 1px solid #EEEEEE; 
+	list-style-type: none;line-height: 34px;color: #555555;cursor: default;margin: 0!important;
+}
+.xui-select2-option li:last-child{border-bottom: none;}
+.xui-select2-option li:hover{background: #555555;color: #FFFFFF;}
+.xui-select2-option-this{background-color: #F5F5F5!important;color: #555555!important;}

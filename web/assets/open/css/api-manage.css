@@ -1,0 +1,193 @@
+/*树形选项卡*/
+.layadmin-side-tab {
+	position: relative;
+	margin: 40px -1px 30px 0;
+	z-index: 1;
+}
+.layadmin-side-tab li {
+	position: relative;
+	margin: 5px 0;
+    line-height: 30px;
+    text-align: center
+}
+.layadmin-side-tab li a {
+	display: block;
+}
+.layadmin-side-tab .layui-this:after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 1px;
+	height: 100%;
+	background-color: #1E9FFF;
+}
+.layadmin-side-tab .layui-this a {
+	color: #1E9FFF;
+}
+
+/*右边主体内容*/
+.layadmin-api-manage {
+	height: auto;
+	min-height: 200px;
+	padding: 15px 20px;
+	border-left: 1px solid #e0e0e0;
+}
+/*面包屑容器*/
+.layadmin-breadcrumb {
+	margin-bottom: 20px;
+}
+.layadmin-breadcrumb .layui-breadcrumb a:hover {
+	color: #1E9FFF!important;
+}
+
+/*API证书*/
+.layadmin-api-book {
+	position: relative;
+	width: 100%;
+	height: auto;
+	box-sizing: border-box;
+	border: 5px solid #FFE8E0;
+	background: #FFFAF8;
+	padding: 30px;
+	margin: 10px auto;
+}
+.layadmin-api-book h1 {
+	margin: 0 0 20px 0;
+	font-size: 20px;
+	font-weight: bold;
+	color: #333333;
+}
+.layadmin-api-book .api-text {
+	line-height: 40px;
+}
+.layadmin-api-book .api-text dt {
+	float: left;
+	width: 120px;
+	color: #333;
+	text-align: right;
+	margin-right: 50px;
+}
+.layadmin-api-book .api-text span {
+	margin-right: 20px;
+}
+.layadmin-api-book .api-text a {
+	margin: 0 10px;
+	color: #1E9FFF;
+	cursor: pointer;
+}
+.layadmin-api-book .api-sign {
+	position: absolute;
+	bottom: 30px;
+	right: 150px;
+}
+.layadmin-api-book .api-sign p {
+	line-height: 40px;
+}
+.layadmin-api-book .api-seal {
+	position: absolute;
+	bottom: 10px;
+	right: 100px;
+	width: 160px;
+	height: 160px;
+	background: url(images/seal.png) no-repeat;
+	background-size: 160px;
+}
+/*功能场景*/
+.layadmin-api-function h2{
+	margin: 30px 0 20px 0;
+	font-size: 20px;
+	font-weight: bold;
+	color: #333333;
+}
+.layadmin-api-function table th {
+	color: #333;
+}
+.layadmin-api-function table a {
+	color: #1E9FFF;
+}
+.layadmin-api-function table a:hover {
+	opacity: .8;
+}
+.layadmin-api-function table td {
+	padding: 12px 10px!important;
+}
+.layadmin-api-function table tbody tr:hover {
+	background-color: #fff!important;
+}
+
+.layadmin-demo-app, .layadmin-demo-warning {
+	padding: 30px;
+	border-bottom: 1px solid #eee;
+	line-height: 22px;
+	background-color: #FFFFFF;
+	color: #777;
+	font-weight: 300;
+}
+.layadmin-demo-warning .layui-form-label{
+	width: 100px!important;
+}
+.layadmin-demo-app .icon {
+	position: absolute;
+	display: inline-block;
+	font-size: 30px;
+	color: #FFAD33;
+}
+.layadmin-demo-app p {
+	width: 300px;
+	margin-left: 40px;
+	word-wrap: break-word;
+}
+.layadmin-demo-app p>span:first-child {
+	display: block;
+	margin-bottom: 10px;
+	color: #3FAF56;
+	font-size: 18px;
+}
+.layui-layer-btn a {
+	padding: 2px 20px!important;
+}
+
+
+.layui-col-xs2 {
+	width: 160px;
+}
+.layui-col-xs10 {
+	width: calc(100% - 160px);
+}
+
+/*上传图片*/
+.layadmin-api-manage .layui-upload .layui-btn {
+	padding: 0 14px;
+}
+.layadmin-upload-list {
+	width: 100px;
+	height: 100px;
+	border: 1px solid #ddd;
+}
+.layadmin-upload-list .layui-upload-img {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 2px;
+	vertical-align: middle;
+}
+/*安全中心*/
+.layadmin-tab-content {
+	padding: 0 10px;
+}
+.layadmin-tab-content .layui-elem-quote {
+	padding: 10px;
+	margin: 20px 0;
+	border-left:3px solid #F7B824;
+	color: #333;
+}
+.layadmin-tab-content h2 {
+	font-size: 14px;
+	color: #333;
+}
+.layadmin-api-manage .layui-inline {
+	margin-right: 30px;
+}
+.layadmin-api-manage .layuiadmin-card-text {
+	margin: 20px 0;
+}

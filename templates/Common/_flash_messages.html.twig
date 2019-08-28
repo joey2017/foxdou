@@ -1,0 +1,182 @@
+{% set flashes = app.flashes %}
+{#{% set flashes = {#}
+    {#'info': ["info发的撒飞洒发的发生法第三方第三方发顺丰都是", "发的撒飞洒发的发生法第三方第三方发顺丰都是"],#}
+    {#'danger': ["danger发的撒飞洒发的发生法第三方第三方发顺丰都是", "发的撒飞洒发的发生法第三方第三方发顺丰都是"],#}
+    {#'warning': ["warning发的撒飞洒发的发生法第三方第三方发顺丰都是", "发的撒飞洒发的发生法第三方第三方发顺丰都是"],#}
+    {#'success': ["success发success的撒飞洒发的发生法第三方第三方发顺丰都是", "发的撒飞洒发的发生法第三方第三方发顺丰都是"],#}
+{#} %}#}
+
+{% if flashes %}
+    <style>
+
+        .alert {
+            position: relative;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+        }
+
+        .alert-heading {
+            color: inherit;
+        }
+
+        .alert-link {
+            font-weight: 700;
+        }
+
+        .alert-dismissible {
+            padding-right: 4rem;
+        }
+
+        .alert-dismissible .close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 0.75rem 1.25rem;
+            color: inherit;
+        }
+
+        .alert-primary {
+            color: #004085;
+            background-color: #cce5ff;
+            border-color: #b8daff;
+        }
+
+        .alert-primary hr {
+            border-top-color: #9fcdff;
+        }
+
+        .alert-primary .alert-link {
+            color: #002752;
+        }
+
+        .alert-secondary {
+            color: #383d41;
+            background-color: #e2e3e5;
+            border-color: #d6d8db;
+        }
+
+        .alert-secondary hr {
+            border-top-color: #c8cbcf;
+        }
+
+        .alert-secondary .alert-link {
+            color: #202326;
+        }
+
+        .alert-success {
+            color: #155724;
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .alert-success hr {
+            border-top-color: #b1dfbb;
+        }
+
+        .alert-success .alert-link {
+            color: #0b2e13;
+        }
+
+        .alert-info {
+            color: #0c5460;
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+        }
+
+        .alert-info hr {
+            border-top-color: #abdde5;
+        }
+
+        .alert-info .alert-link {
+            color: #062c33;
+        }
+
+        .alert-warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+        }
+
+        .alert-warning hr {
+            border-top-color: #ffe8a1;
+        }
+
+        .alert-warning .alert-link {
+            color: #533f03;
+        }
+
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+        }
+
+        .alert-danger hr {
+            border-top-color: #f1b0b7;
+        }
+
+        .alert-danger .alert-link {
+            color: #491217;
+        }
+
+        .alert-light {
+            color: #818182;
+            background-color: #fefefe;
+            border-color: #fdfdfe;
+        }
+
+        .alert-light hr {
+            border-top-color: #ececf6;
+        }
+
+        .alert-light .alert-link {
+            color: #686868;
+        }
+
+        .alert-dark {
+            color: #1b1e21;
+            background-color: #d6d8d9;
+            border-color: #c6c8ca;
+        }
+
+        .alert-dark hr {
+            border-top-color: #b9bbbe;
+        }
+
+        .alert-dark .alert-link {
+            color: #040505;
+        }
+
+    </style>
+
+    <div id="flash-messages" style="display: none;padding: 10px;" class="layui-card">
+        <div class="layui-card-body" style="padding: 5px;">
+            {% for label, messages in flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-dismissible alert-{{ label }}" role="alert">
+                        {{ message|trans }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        layer.open({
+            type: 1,
+            shade: 0.5,
+            title: '提示',
+            offset: 't',
+            area: ['500px', 'auto'],
+            content: $('#flash-messages'), //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            cancel: function(){
+                $('#flash-messages').hide();
+            }
+        });
+
+    </script>
+{% endif %}
+
+

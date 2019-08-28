@@ -1,0 +1,318 @@
+{% extends '/Passport/layout.twig' %}
+
+{% block css %}
+    <style>
+        .layui-word-aux {
+            display: none;
+            color: red;
+            line-height: 34px;
+        }
+        .sisi-btn-content {
+            margin-top: 0px;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    {% set read_only_attribute = read_only ? 'readonly' : '' %}
+
+    {% if user.real_name_status in ['PENDING', 'REVIEW'] %}
+        <div style="text-align: center;border: solid orange 2px;padding: 20px;margin: 0px 20px 50px 20px">
+            <h1>您的实名认证信息正在审核中，请耐心等待</h1>
+            <h3 style="color: #999;">审核结果将通过邮件或者短信发送通知，请留意</h3>
+        </div>
+    {% endif %}
+
+    <div class="sisi-form-item">
+        <form id="identity-submitting-form" lay-filter="identity-submitting-form" class="layui-form">
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable table-input">登录帐号</label>
+                <div class="sisi-input-inline">
+                    <input type="text" name="" readonly value="{{ user.user_name }}" class="sisi-input-ing" style="background: #F8F8F8;"/>
+                </div>
+            </div>
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable table-input">性质</label>
+                <div class="sisi-input-inline">
+                    <input type="text" name="" readonly value="{{ user.getTypeText() }}" class="sisi-input-ing" style="background: #F8F8F8;"/>
+                </div>
+            </div>
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable table-input">姓名</label>
+                <div class="sisi-input-inline">
+                    <input type="text" name="entity_name" id="entity_name" {{ read_only_attribute }} value="{{ identity.entity_name|default('') }}" class="sisi-input-ing"/>
+                </div>
+                <div class="layui-form-mid layui-word-aux " id="error_entity_name">请正确填写姓名</div>
+            </div>
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable table-input">身份证号码</label>
+                <div class="sisi-input-inline">
+                    <input type="text" name="entity_license_no" id="entity_license_no" {{ read_only_attribute }} value="{{ identity.entity_license_no|default('') }}" class="sisi-input-ing"/>
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="error_entity_license_no">请正确填写身份证号码</div>
+            </div>
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable table-input">身份证地址</label>
+                <div class="sisi-input-inline" style="width: 500px;">
+                    <input type="text" name="entity_license_address" id="entity_license_address" {{ read_only_attribute }} placeholder="请填写与身份证一致的地址" value="{{ identity.entity_license_address|default('') }}" class="sisi-input-ing"/>
+                </div>
+                <div class="layui-form-mid layui-word-aux" id="error_entity_license_address">请正确填写身份证地址</div>
+            </div>
+
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable table-input">身份证有效日期</label>
+                <div class="sisi-input-block f-fl" style="margin-right: 20px;">
+                    <ul class="inline clearfloat">
+                        <li class="">
+                            <input name="entity_license_valid_from" type="text" id="entity_license_valid_from" {{ read_only_attribute }} class="layui-input" placeholder="开始时间" value="{{ identity.entity_license_valid_from|date('Y-m-d') }}" style="width: 100px;" />
+                        </li>
+                        <li style="line-height: 34px;">-</li>
+                        <li class="lay-code">
+                            <input name="entity_license_valid_to" type="text" id="entity_license_valid_to" {{ read_only_attribute }} class="layui-input" placeholder="结束时间" value="{{ identity.entity_license_valid_to|date('Y-m-d') }}"  style="width: 100px;" />
+                        </li>
+                    </ul>
+                    <div class="layui-form-mid layui-word-aux" id="error_entity_license_valid_from">请正确填写身份证有效日期</div>
+                    <div class="layui-form-mid layui-word-aux" id="error_entity_license_valid_to">请正确填写身份证有效日期</div>
+                </div>
+                <div style="line-height: 34px;">
+                    <input type="checkbox" name="entity_license_valid_long_term" value="1" class="long-time" id="entity_license_valid_long_term" style="margin-right: 5px;"/>长期
+                </div>
+            </div>
+
+            {% set max_size_in_mb = (params('identity_image_max_upload_file_size')/1024/1024)|number_format(1) %}
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable">身份证正面</label>
+                <div class="sisi-input-block" style="width: 800px;">
+                    <div class="sisi-btn-content">
+                        <div class="layui-form-mid layui-word-aux" id="error_entity_license_front_image_id">请上传身份证正面照片</div>
+                        <div class="image-item f-fl">
+                            <div id="entity_license_front_image_id" class="dropzone" style="">
+                                <div class="dz-message needsclick">
+                                    <h3>点击这里<br>或拖图片到这里来上传</h3><br>
+                                    <span class="note needsclick">支持 {{ max_size_in_mb }}M 以内尺格式寸为 PNG/JPEG/BMP 图片</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-text f-fl">
+                            <p>1）身份证全部信息需清晰无遮挡，否则认证将无法通过；</p>
+                            <p>2）照片请勿进行任何软件处理；</p>
+                            <p>3）照片支持 JPG/PNG/BMP 格式，最大不超过 {{ max_size_in_mb }}M 。</p>
+                            <p>示例：<img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/u3908.png"/></p>
+                        </div>
+                    </div>
+                    <input type="hidden" name="entity_license_front_image_id" value="{{ identity.entity_license_front_image_id|default('') }}">
+                </div>
+            </div>
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable">身份证反面</label>
+                <div class="sisi-input-block" style="width: 800px;">
+                    <div class="sisi-btn-content">
+                        <div class="layui-form-mid layui-word-aux" id="error_entity_license_back_image_id">请上传身份证反面照片</div>
+                        <div class="image-item f-fl">
+                            <div id="entity_license_back_image_id" class="dropzone" style="">
+                                <div class="dz-message needsclick">
+                                    <h3>点击这里<br>或拖图片到这里来上传</h3><br>
+                                    <span class="note needsclick">支持 {{ max_size_in_mb }}M 以内尺格式寸为 PNG/JPEG/BMP 图片</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-text f-fl">
+                            <p>1）身份证全部信息需清晰无遮挡，否则认证将无法通过；</p>
+                            <p>2）照片请勿进行任何软件处理；</p>
+                            <p>3）照片支持 JPG/PNG/BMP 格式，最大不超过 {{ max_size_in_mb }}M 。</p>
+                            <p>示例：<img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/u3904.png"/></p>
+                        </div>
+                    </div>
+                    <input type="hidden" name="entity_license_back_image_id" value="{{ identity.entity_license_back_image_id|default('') }}">
+                </div>
+            </div>
+            <div class="sisi-input-item">
+                <label class="sisi-input-lable">手持身份证</label>
+                <div class="sisi-input-block" style="width: 800px;">
+                    <div class="sisi-btn-content">
+                        <div class="layui-form-mid layui-word-aux" id="error_entity_license_handheld_image_id">请上传手持身份证
+                        </div>
+                        <div class="image-item f-fl">
+                            <div id="entity_license_handheld_image_id" class="dropzone" style="">
+                                <div class="dz-message needsclick">
+                                    <h3>点击这里<br>或拖图片到这里来上传</h3><br>
+                                    <span class="note needsclick">支持 {{ max_size_in_mb }}M 以内尺格式寸为 PNG/JPEG/BMP 图片</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="image-text f-fl">
+                            <p>1）身份证全部信息需清晰无遮挡，否则认证将无法通过；</p>
+                            <p>2）照片请勿进行任何软件处理；</p>
+                            <p>3）照片支持 JPG/PNG/BMP 格式，最大不超过 {{ max_size_in_mb }}M 。</p>
+                            <p>示例：<img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/u3906.png"/></p>
+                        </div>
+                    </div>
+                    <input type="hidden" name="entity_license_handheld_image_id" value="{{ identity.entity_license_handheld_image_id|default('') }}">
+                </div>
+            </div>
+            <div style="text-align: center;margin-top: 50px;">
+                <input type="hidden" name="_token" value="{{ csrf_token('passport_identity_management_individual_submit') }}">
+                {% if not read_only %}
+                    <button type="button" class="btn btn-middle btn-blue" onclick="submit_entity_license_form(0);">保存草稿</button>
+                    <button type="button" class="btn btn-middle btn-blue" onclick="submit_entity_license_form(1);">提交认证</button>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Common/Common/dropzone.twig" %}
+
+    <style>
+        .dropzone.dz-clickable {
+            margin-top: 10px;
+        }
+
+        .dropzone .dz-preview {
+            width: 90%;
+            position: relative;
+            display: inline-block;
+            vertical-align: top;
+            margin: 1px;
+            min-height: 100px;
+        }
+        .dropzone .dz-preview .dz-image {
+            border-radius: 20px;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+        .sisi-btn-content {
+            min-height: 250px;
+            height: auto;
+        }
+        .sisi-btn-content .image-item {
+            min-height: 250px;
+            height: auto;
+        }
+        .dropzone .dz-preview:hover .dz-image img {
+            -webkit-transform: scale(1.05, 1.05);
+            -moz-transform: scale(1.05, 1.05);
+            -ms-transform: scale(1.05, 1.05);
+            -o-transform: scale(1.05, 1.05);
+            transform: scale(1.05, 1.05);
+            -webkit-filter: blur(0px);
+            filter: blur(0px); }
+
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            var UPLOAD_URL = "{{ oneup_uploader_endpoint('identity_image') }}";
+            var DELETE_URL = "{{ url('common_file_upload_delete') }}";
+            {#var currentCovers = [{{ {}|json_encode|raw }}];#}
+            var currentCovers = [{'url': 'http://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/u3908.png'}];
+
+            function success(zoneId, file, response) {
+                $('input[name=' + zoneId + ']').val(response.id);
+                console.log('success called', file, response);
+            }
+
+            function failure(zoneId, file, response) {
+                console.log('failure called', file, response);
+            }
+
+            {#var x = {{ identity.entity_license_front_image_id }};#}
+            {#var y = {{ identity.entity_license_back_image_id }};#}
+            {#var z = {{ identity.entity_license_handheld_image_id }};#}
+
+            {% set frontImage = ((identity.entity_license_front_image_id)|default(null)) ? [{'id': identity.entity_license_front_image_id, 'url': identity.entity_license_front_image_url}] : [] %}
+            var currentFrontImage = {{ frontImage|json_encode|raw }};
+            {% set backImage = ((identity.entity_license_back_image_id)|default(null)) ? [{'id': identity.entity_license_back_image_id, 'url': identity.entity_license_back_image_url}] : [] %}
+            var currentBackImage = {{ backImage|json_encode|raw }};
+            {% set handheldImage = ((identity.entity_license_handheld_image_id)|default(null)) ? [{'id': identity.entity_license_handheld_image_id, 'url': identity.entity_license_handheld_image_url}] : [] %}
+            var currentHandheldImage = {{ handheldImage|json_encode|raw }};
+
+            var allow_upload = {{ read_only ? 'false' : 'true' }};
+
+            setup_upload_form('entity_license_front_image_id', UPLOAD_URL, DELETE_URL, currentFrontImage, success, failure, allow_upload);
+            setup_upload_form('entity_license_back_image_id', UPLOAD_URL, DELETE_URL, currentBackImage, success, failure, allow_upload);
+            setup_upload_form('entity_license_handheld_image_id', UPLOAD_URL, DELETE_URL, currentHandheldImage, success, failure, allow_upload);
+
+            {% if read_only %}
+            $('.dz-remove').remove();
+            {% endif %}
+
+            init_form();
+        });
+
+        layui.use(['laydate'], function () {
+            var laydate = layui.laydate;
+
+            //执行一个laydate实例
+            laydate.render({
+                elem:    '#entity_license_valid_from' //指定元素
+                , theme: '#393D49'
+            });
+            laydate.render({
+                elem:    '#entity_license_valid_to' //指定元素
+                , theme: '#393D49'
+            });
+
+
+            laydate.render({
+                elem:    '#yingye_time_start' //指定元素
+                , theme: '#393D49'
+            });
+            laydate.render({
+                elem:    '#yingye_time_end' //指定元素
+                , theme: '#393D49'
+            });
+        });
+
+        function init_form() {
+            {% if identity and identity.entity_license_front_image_review_result == 'REJECTED' %}
+            $('#error_entity_license_front_image').toggle();
+            $('#error_entity_license_front_image').html('身份证正面照片不合格，请重新上传');
+            {% endif %}
+            {% if identity and identity.entity_license_back_image_review_result == 'REJECTED' %}
+            $('#error_entity_license_back_image').toggle();
+            $('#error_entity_license_back_image').html('身份证反面照片不合格，请重新上传');
+            {% endif %}
+            {% if identity and identity.entity_license_handheld_image_review_result == 'REJECTED' %}
+            $('#error_entity_license_handheld_image').toggle();
+            $('#error_entity_license_handheld_image').html('手持身份证照片不合格，请重新上传');
+            {% endif %}
+
+
+            {#{% if app.debug %}#}
+            {#layui.form.val('identity-submitting-form', {#}
+                {#'entity_name'              : '陈亚莉',#}
+                {#'entity_license_no'                : '350103198705202325',#}
+                {#'entity_license_address'           : '广西南宁',#}
+                {#'entity_license_valid_from'        : '2000-01-01',#}
+                {#'entity_license_valid_to'          : '2018-01-01'#}
+            {#});#}
+            {#{% endif %}#}
+        }
+
+        function submit_entity_license_form(submitNow) {
+            $('.layui-word-aux').hide();
+
+            $.post('{{ path('passport_identity_management_individual_submit') }}?submit=' + submitNow, $('#identity-submitting-form').serialize(), function (result) {
+                if (result.msg) {
+                    layer.msg(result.msg);
+                }
+
+                if (result.status) {
+                    window.location.reload();
+                    return;
+                }
+
+                if (result.errors) {
+                    $.each(result.errors, function (key, value) {
+                        $('#error_' + key).toggle();
+                    });
+                }
+            });
+        }
+
+    </script>
+{% endblock %}

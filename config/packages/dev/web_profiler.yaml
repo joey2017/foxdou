@@ -1,0 +1,6 @@
+web_profiler:
+    #toolbar: true
+    intercept_redirects: false
+
+framework:
+    profiler: { enabled: false, only_exceptions: true, only_master_requests: true }

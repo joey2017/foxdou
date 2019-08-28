@@ -1,0 +1,73 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% set title = '我的财务-我的账户' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block css %}
+  {% include "Reseller/Finance/commonCss.twig" %}
+{% endblock %}
+
+{% block main_content %}
+  <div class="caiwu-left" style="float: left; width: calc(100% - 380px);height: auto;">
+    <div class="panel-item g-bdc">
+      {% include "Reseller/Finance/financeTabs.twig" %}
+
+      <div class="m-container" style="background-color: #FFFFFF;">
+        <div class="m-cwel">
+          <a class="f-fs-16">{{ user.realNameInfo.business_name|default("未实名认证")  }}</a>
+        </div>
+        <div class="m-item">
+          <div class="item g-bdc">
+            <div class="item-icon f-fl"><i class="iconfont icon-item-icom">&#xe65a;</i></div>
+            <div class="item-amount f-fl">
+              <span class="f-fs-14 s-gray">账户余额</span><br />
+              <strong class="f-fs-20 s-red">{{ user.resellerAccount.balance|default(0)|number_format(2) }}</strong><span style="margin-left: 10px;">元</span>
+              <a href="{{ path('reseller_finance_add_balance') }}" class="layui-btn" >在线充值</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 最近交易记录 -->
+      <div class="panel-item" style="box-sizing: border-box; padding: 10px; background-color: #FFFFFF; border: 1px solid #E0E0E0; border-top: none;">
+        <table class="f-fl">
+          <thead>
+          <tr>
+            <th colspan="5">
+              <strong style="color: #2ca9e1;">最近交易记录</strong>
+              <a href="{{ path("reseller_finance_trade_logs") }}">更多</a>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          {% if trades %}
+            <tr>
+              <td style="width: 200px;">交易时间</td>
+              <td>交易事由</td>
+              <td>交易金额</td>
+              <td>交易状态</td>
+              <td></td>
+            </tr>
+          {% endif %}
+          {% set statuses = constant('App\\Common\\Model\\Payment\\UserMoneyTradeLog::TRADE_STATUSES') %}
+          {% for t in trades %}
+          <tr>
+            <td>{{ t.trade_time|date("Y-m-d H:i:s") }}</td>
+            <td>{{ t.name }}</td>
+            <td>{{ t.amount|number_format(2) }}</td>
+            <td>{{ statuses[t.trade_status]|default('未知状态(' ~ t.trade_status ~ ')') }}</td>
+            <td>
+              <a href="javascript:void();">详情</a>
+            </td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+        <!-- /最近交易记录 -->
+      </div>
+    </div>
+  </div>
+  {% include "Reseller/Common/_rightPanel.twig" %}
+  <!-- /我的财务 -->
+{% endblock %}

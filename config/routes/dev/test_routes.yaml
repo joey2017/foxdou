@@ -1,0 +1,22 @@
+test_controllers:
+    resource: '../src/Test/Controller'
+    type: annotation
+    prefix: /test
+
+blank:
+    path: /test/blank
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    defaults:
+        template: blank.twig
+
+hello:
+    path: /hello
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults:
+        route: test_hello
+
+phpinfo:
+    path: /phpinfo
+    controller: Symfony\Bundle\FrameworkBundle\Controller\RedirectController::redirectAction
+    defaults:
+        route: test_phpinfo

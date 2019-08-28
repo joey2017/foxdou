@@ -1,0 +1,70 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<div>
+    {{ sf.text(form.search_product, '搜索商品名称', {'outer': 'inline'}, {'placeholder': '输入商品名称或商品编号', 'style': 'width: 332px;'}) }}
+    <div class="layui-inline" style="margin-bottom: 0;">
+        <label class="layui-form-label">搜索创建时间</label>
+        {{ sf.text('search_time_range', null, {'outer': null}, {'placeholder': '2016/12/12 - 2017/12/12', 'style': 'width: 200px;'}) }}
+        {{ sf.hidden(form.from) }}
+        {{ sf.hidden(form.to) }}
+    </div>
+</div>
+
+<div>
+    <div class="layui-inline" style="margin-bottom: 0;">
+        <label class="layui-form-label">搜索商品面值</label>
+        {{ sf.text('face_value_min', null, {'outer': null}, {'placeholder': '开始', 'style': 'width: 80px;'}) }}
+        <div class="layui-input-inline">~</div>
+        {{ sf.text('face_value_max', null, {'outer': null}, {'placeholder': '结束', 'style': 'width: 80px;'}) }}
+    </div>
+    {#<div class="layui-inline" style="margin-bottom: 0;">#}
+    {#<label class="layui-form-label">搜索可购数量</label>#}
+    {#{{ sf.text('num_min', null, {'outer': null}, {'placeholder': '开始', 'style': 'width: 80px;'}) }}#}
+    {#<div class="layui-input-inline">~</div>#}
+    {#{{ sf.text('num_max', null, {'outer': null}, {'placeholder': '结束', 'style': 'width: 80px;'}) }}#}
+    {#</div>#}
+</div>
+
+<div>
+    {% include "/Admin/ProductManagement/Product/_product_form_subject_picker.twig" %}
+</div>
+
+<div>
+    <div class="layui-inline" style="margin-bottom: 0;">
+        <label class="layui-form-label">商品对操作对象状态</label>
+        {{ sf.select('sell_status', null, to_options('App\\ProductConstants::SELL_STATUSES', "上架状态"), {'outer': null}) }}
+        {{ sf.select('auto_refund', null, to_options('App\\ProductConstants::REFUND_TYPES', "失败自动退款"), {'outer': null}) }}
+        {{ sf.select('price_limit', null, to_options('App\\ProductConstants::REFUND_TYPES', "限价设置"), {'outer': null}) }}
+        {{ sf.select('strategy', null, to_options('App\\ProductConstants::STRATEGIES', "货源策略"), {'outer': null}) }}
+        {{ sf.select('area_priority', null, to_options('App\\ProductConstants::AREA_PRIORITIES', "地区优先级"), {'outer': null}) }}
+    </div>
+</div>
+
+<div>
+    <div class="layui-inline" style="margin-bottom: 0;">
+        <label class="layui-form-label">商品对操作对象售价</label>
+        {{ sf.text('subject_price_min', null, {'outer': null}, {'placeholder': '开始', 'style': 'width: 80px;'}) }}
+        <div class="layui-input-inline">~</div>
+        {{ sf.text('subject_price_max', null, {'outer': null}, {'placeholder': '结束', 'style': 'width: 80px;'}) }}
+        <button type="button" class="layui-btn layui-btn-sm" style="width: 80px;" onclick="reload_table()">全条件搜索</button>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        laydate.render({
+            elem: 'input[name=search_time_range]',
+            type: 'date',
+            range: true,
+            format: 'yyyy-MM-dd'
+            ,done: function(value, date, endDate){
+                console.log(value); //得到日期生成的值，如：2017-08-18
+                console.log(date); //得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
+                console.log(endDate); //得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
+
+                $('input[name=from]').val(value);
+                $('input[name=to]').val(endDate.value);
+            }
+        });
+    });
+</script>

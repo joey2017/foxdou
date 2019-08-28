@@ -1,0 +1,70 @@
+{% extends '/Passport/layout.twig' %}
+{% block main_content %}
+<style type="text/css">
+    .page-content{height: 740px; padding: 0;}
+    .page-title{padding: 15px 30px; border-bottom: 1px solid #E0E0E0; color: #2F86F6; font-weight: normal; font-size: 18px;}
+</style>
+<div class="page-content">
+    <h3 class="page-title">密码管理</h3>
+
+    <div class="tab-prompt">
+        <i class="iconfont ico-fs-16">&#xe625;</i>
+        <span>{{ operation[type]['name'] }}</span>
+    </div>
+    <div class="tab-content">
+            <form action="" method="post">
+                <div class="sisi-input-item">
+                    <label class="sisi-input-lable">用户名</label>
+                    <div class="sisi-input-inline">
+                        <input type="text" id="username" name="user_name" value="" class="sisi-input-ing" />
+                    </div>
+                    <div class="sisi-input-auxe">
+                        <p>请输入您的登录账号</p>
+                    </div>
+                </div>
+                <div class="sisi-input-item">
+                    <label class="sisi-input-lable">图形验证码</label>
+                    <div class="sisi-input-inline" style="width: 80px;">
+                        <input type="text" name="verify_code" id="verify_code" class="sisi-input-ing" />
+                    </div>
+                    <div class="sisi-input-auxe">
+                        <div style="width: 90px; height: 34px;background: #CCCCCC;">
+                            <img class="verify_img" src="{{ url('common_recaptcha_index',{'id':'verify_code'}) }}" height="34px" width="90px" onclick="this.src='{{ url('common_recaptcha_index',{'id':'verify_code'}) }}?&'+Math.random();" title="点击获取"/>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin: 50px 0 0 110px;">
+                    <button class="btn btn-middle btn-blue">确 认</button>
+                </div>
+            </form>
+    </div>
+</div>
+{% endblock %}
+{% block js_end %}
+    {{ use_assets('/assets/common/js/jquery.form.min.js') }}
+<script type="text/javascript">
+    $('form').ajaxForm({
+        dataType:'json',
+        beforeSubmit:function () {
+            if($('#username').val()==''){
+                layer.msg('用户名不能为空');
+                return false;
+            }
+          if($('#verify_code').val()==''){
+              layer.msg('验证码不能为空');
+              return false;
+          }
+        }
+        ,url:'{{ path('passport_user_password_reset_index',{'type',type}) }}'
+        ,success:function(data){
+            if(data.status){
+                location.href='{{ path("passport_safe_center_identity_verify_way",{"type":type}) }}';
+                return
+            }
+            layer.msg(data.msg);
+            $('.verify_img').attr('src',"{{ url('common_recaptcha_index',{'id':'verify_code'}) }}&"+Math.random());
+        }
+    });
+
+</script>
+{% endblock %}

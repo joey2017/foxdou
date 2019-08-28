@@ -1,0 +1,50 @@
+{% extends 'Reseller/Common/layout.twig' %}
+
+{% set title = announcement.title %}
+
+{% block css %}
+  <style type="text/css">
+    .m-wrapper{padding:10px 20px;text-align: left;}
+    .m-notice-box{}
+    .m-notice{padding: 10px 0;}
+    .m-notice h1{height: 50px;line-height: 50px; margin: 20px 0;}
+    .title{font-size: 28px;font-weight: bold;color: #666666;}
+    .info-pro{height: 40px;line-height: 40px; border-bottom: 1px dashed #E0E0E0;color: #999999;padding-bottom: 8px;}
+    .info-pro div{display: inline-block;text-align: center;margin: 0 30px;}
+    .info-text{padding: 40px 0; text-align: left;line-height: 30px;color: #666666;font-size: 16px;}
+    .info-text p{margin-bottom: 20px;}
+    .info-text img{max-width: 100%;margin: 0 auto;}
+    .info-foot{text-align: center;}
+    .info-foot a{display: inline-block;margin: 0 20px; line-height: 30px;padding: 0 20px;border-radius: 2px; border: 1px solid #1AB394;color: #1AB394;}
+    .info-foot a:hover{background: #F5F5F5;}
+  </style>
+
+
+{% endblock %}
+
+{% block main_content %}
+  <div class="m-wrapper g-bdc">
+    <div class="m-notice-box">
+      <div class="m-notice">
+        <h1 class="title">{{ announcement.title }}</h1>
+        <div class="info-pro">
+          <div>发布时间：<span>{{ announcement.add_time|date("Y-m-d H:i:s") }}</span></div>
+        </div>
+        <div class="info-text">
+          {{ announcement.content }}
+        </div>
+        <div class="info-foot">
+          {% if prev_id %}
+            <a href="">上一篇</a>
+          {% endif %}
+
+          <a href="{{ path("reseller_dashboard_announcements") }}">返回列表</a>
+
+          {% if next_id %}
+            <a href="">下一篇</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

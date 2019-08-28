@@ -1,0 +1,50 @@
+<script>
+
+    form.render();
+
+    $(document).on('click', function (e) {
+        var target = $(e.target);
+        if (target.is('.submit')) {
+            var account_bank_id = $('#account_bank_id').val();
+            var account_place   = $('#account_place').val();
+            var account_user    = $('#account_user').val();
+            var account_num     = $('#account_num').val();
+            var shenfenzheng_id = $('#shenfenzheng_id').val();
+            var mobile          = $('#mobile').val();
+            if (account_bank_id == '') {
+                nxwd.showMsg('请选择银行');
+                return false;
+            }
+            if (account_place == '') {
+                nxwd.showMsg('请输入开户行名称');
+                return false;
+            }
+            if (account_user == '') {
+                nxwd.showMsg('请输入姓名');
+                return false;
+            }
+            if (account_num == '') {
+                nxwd.showMsg('请输入账号');
+                return false;
+            }
+            if (shenfenzheng_id == '') {
+                nxwd.showMsg('请输入身份证号');
+                return false;
+            }
+            if (shenfenzheng_id.length !== 18) {
+                nxwd.showMsg('身份证号有误');
+                return false;
+            }
+            if (mobile == '') {
+                nxwd.showMsg('请输入绑定手机号');
+                return false;
+            }
+            if (!(/^1(3|4|5|7|8)\d{9}$/.test(mobile))) {
+                nxwd.showMsg('手机号格式不正确');
+                return false;
+            }
+            $("form:first").submit();
+        }
+    });
+
+</script>

@@ -1,0 +1,27 @@
+<script>
+    var paltform = JSON.parse('{{ constant("App\\Platform::PLATFORMS")|json_encode|raw }}');
+    var methods = JSON.parse('{{ constant("App\\Common\\Model\\User\\UsersOpenAccountLog::METHODS")|json_encode|raw }}');
+    var url = "";
+    var columns = [[
+        {"field": "id", "title": "记录编号", "width": 200},
+        {"field": "method", "title": "开通方式", "width": 200, templet:function(d){
+            return methods[d.method];
+        }},
+        {"field": "account", "title": "狐豆号"},
+        {"field": "pass", "title": "通行证账号"},
+        {"field": "platform_id", "title": "开通平台账号", templet:function(d){
+            return paltform[d.platform_id];
+        }},
+        {"field": "add_time", "title": "记录时间", "width": 200, templet: "#add_time"},
+    ]];
+
+    function get_data() {
+        var params=$('#form').serialize();
+        url = '?' + params;
+        rander_table('#paged-table', url, columns);
+    }
+
+    // 初始化
+    get_data();
+
+</script>

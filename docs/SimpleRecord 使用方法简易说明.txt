@@ -1,0 +1,152 @@
+首先需要定义一个 Model 类，继承自 \SimpleRecord\Model 类：
+
+    class User extends \SimpleRecord\Model {
+        static $table_name = 'yzb_users';     // 指定数据库表名，指定的话默认使用该类的类名小写的复数形式
+        static $primary_key = 'id';            // 指定主键名，不指定的话默认是 'id'
+        ...
+        // 其他可定义项目因为不常用，这里就不写了，请自行查阅代码...
+    }
+
+
+查询方法（这个几个方法中的 conditions，$options 参数详见下面说明）：
+
+    1. 直接根据 ID 查询一个或多个对象
+
+        a) 根据 ID 查询，默认会返回一个 model 对象，无数据返回 null: 
+
+            $user = User::find(1, $options);
+
+        b) 根据多个 ID 查询，默认返回一个 model 对象列表数据，
+          （特殊情况：如果返回的列表数量提供的 ID 数量不相同，会抛出 RecordNotFound 异常）
+        
+            $list = User::find(1, 2, 3, 4, $options);
+
+    2. 使用自定义条件查询，分为查询批量、查询个数据两类。
+       批量、单个、分页查询批量这几种查询参数结构是一样的，只不过查询单个数据的时候 $options 参数会强制加上 limit=1 offset=0
+
+        a) 查询单个数据，默认返回 model 对象: 
+            第一个：   $user = User::first($conditions, $options);
+            最后一个： $user = User::last($conditions, $options);
+
+            然后可以这样使用： 
+            $userId   = $user->id;
+            $username = $user->username;
+
+        b) 查询批量数据，默认返回关联数组列表:
+            $list = User::all($conditions, $options);
+
+            然后可以这样使用： 
+            $user     = $list[0];
+            $userId   = $user['id'];
+            $username = $user['username'];
+
+        c) 分页查询批量数据，默认返回关联数组列表和总记录数，方便用于分页: 
+            list($users, $total) = User::paginate($conditions, $options, $page = 1, $pageSize = 10);
+
+            使用方法同 b)。
+
+    3. 直接使用自定义 sql 语句查询，该方法直接返回一个 PDOStatment 对象，所有 PDOStatement 方法都可以使用：
+
+        $stmt = User::query($sql, $options);
+        $sql  = "SELECT id, name FROM users WHERE status=? ORDER BY id ASC LIMIT ?,?";
+        $stmt = User::query($sql, ['ACTIVE', 10, 0]);
+
+        a) 
+            $list = $stmt->fetchAll();
+            foreach($list as $user) {
+                $userId   = $user['id'];
+                $username = $user['username'];
+                ...
+            }
+
+        b)
+            $user     = $stmt->fetch();
+            $userId   = $user['id'];
+            $username = $user['username'];
+
+        c)
+            $userId = $stmt->fetchColumn(0);
+
+
+    4. 判断指定条件的数据是否存在：
+
+        $exists = User::exists($conditions, $options);
+
+    5. 获取符合条件的行数：
+
+        $count = User::count($conditions, $options);
+
+    6. 计算某一列的总和：
+
+        $count = User::sum($field, $conditions);
+
+
+$conditions, $options 参数说明如下：
+
+    $conditions 参数：
+
+        这个 conditions 查询条件数组有以下几种形式：
+
+        1. 自定义条件格式，这种格式最灵活，可控性最大，可以任意 AND、OR 组合，但是有时候没下面第二种方便。
+
+            $conditions = [ 'username=? AND status=? OR id IN(?)', ['admin', 'ACTIVE', [100, 202, 301]]];
+
+        2. "key" => "value" 形式的数组，这种形式的所有条件都是用 AND 组合，
+            注意：如果 $options 字段的 filter==true，那么所有 value 为 空字符串（也就是 ""）的条件都会被忽略，NULL、0不会被忽略
+
+            $conditions = ['username' => 'admin', 'status' => 'ACTIVE'];
+
+            $conditions = ['username' => 'admin', 'status' => 'ACTIVE', 'note' => '']; // 这个条件里的 note 会被忽略，不生效
+
+            $conditions = ['avatar' => null]; // 这个条件里的 null 不会被忽略，最终会生成 WHERE avatar IS NULL 的 sql 条件语句
+
+        3. "key" => ['OP' => [$ARGS]] 形式的高级组合数组，这种形式一般主要是为了和形式 2 配合使用，弥补
+            形式 2 灵活度不够的问题，无法使用比较操作符等缺陷，如果需要做的判断比较复杂，最好还是使用形式 1 的方法。
+            这种形式的所有条件也都是用 AND 组合，其中 OP 的取值有：
+
+            // LIKE 操作符
+            $conditions = ['name' => ['LIKE' => 'adm%']];
+            $conditions = ['name' => ['LIKE' => '%adm%']];
+            $conditions = ['name' => ['LIKE' => '%adm']];
+
+            // 范围比较
+            $conditions = ['date'    => ['BETWEEN' => ['2018-10-10', '2018-10-30']]];
+            $conditions = ['balance' => ['BETWEEN' => [1000, 9999]]];
+
+            // 判断是否为 NULL 或 NOT NULL （这个主要是为了弥补形式 2 无法判断 NOT NULL 的缺陷，
+            // 如果只是判断 null，最好还是使用形式 2 中 ['key' => null] 的方法）
+            $conditions = ['picture' => ['IS' => 'NULL'];
+            $conditions = ['picture' => ['IS' => 'NOT NULL']];
+
+            // 比较操作符
+            $conditions = ['balance' => ['>'  => 1000]];
+            $conditions = ['balance' => ['<'  => 1000]];
+            $conditions = ['balance' => ['>=' => 1000]];
+            $conditions = ['balance' => ['<=' => 1000]];
+            $conditions = ['balance' => ['<>' => 1000]];
+
+    
+    $options 参数：
+
+        这个参数有以下字段（使用不在这个列表里的参数会抛出异常）：    
+        $options = [
+            'select'     => 'id, name, field1, field2',                 // 需要 select 的字段
+            'from'       => 'users u',                                  // 查询哪个表，可以带别名，比如 users u 中 u 就是别名
+            'limit'      => 100,                                        // 限制查询数据数量，分页用
+            'offset'     => '10',                                       // 从第几条数据开始获取，分页用
+            'order'      => 'ORDER BY id DESC',                         // 排序用
+            'joins'      => 'INNER JOIN posts p on p.user_id=u.id',     // JOIN 子句，需要 join 查询的时候用，可以 join 多个表
+
+            'hydrate' => true|false,                                    // 是否合成 Model 对象，批量查询的时候默认不合成，其他情况默认合成
+            'filter' => 'true|false',                                    // 是否过滤掉 $conditions 中的空字符串条件，默认会过滤
+
+
+            // 以下字段不常用，不做介绍
+            'include' => '',
+            'readonly' => '',
+            'group' => '',
+            'having' => '',
+        ]
+
+
+

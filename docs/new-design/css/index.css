@@ -1,0 +1,77 @@
+/*侧栏icon*/
+.foxdou-nav .icon {position: absolute; top: 1px; left: 25px; color: #2B3B52;}	
+
+.foxdou-body>div {padding: 15px;}
+.foxdou-right {width: 300px;}
+.foxdou-left {width: calc(100% - 315px);}	
+			
+/*账户*/
+.foxdou-panel-user {height: 130px;}
+.fpu-headimg {position: absolute; top: 20px; left: 20px; width: 70px; height: 70px; border-radius: 50%; border: 1px solid #E0E0E0; overflow: hidden;}
+.fpu-headimg img {width: 100%; height: 100%}
+.fpu-info {position: absolute; top: 20px; left: 110px; right: 30px; bottom: 10px;}
+.fpu-info .name {padding: 5px 0; font-size: 18px; color: #666;}
+.fpu-info .name span {color: #333;}
+.fpu-info .name .yanzheng {display: inline; margin-left: 20px; color: #1E9FFF;}
+.fpu-info .name .yanzheng .icon {position: relative; top: 2px;}
+.fpu-info .name .yanzheng span {font-size: 12px; color: #1E9FFF;}
+.fpu-info .news-time {padding: 5px 0 10px 0; border-bottom: 1px dashed #E0E0E0;}
+.fpu-info .news-time p {display: inline-block; margin-right: 20px; color: #999;}
+.fpu-info .news-time .news {color: red;}
+.fpu-info .balance {padding-top: 15px; color: #666;}
+.fpu-info .balance span {position: relative; top: 1px; padding: 0 10px; font-size: 18px;}
+.fpu-info .balance a {margin-left: 10px; padding: 5px 10px; border-radius: 2px;background-color: #1E9FFF; background-color: rgba(30,159,255,1); color: #fff;}
+.fpu-info .balance a:hover { background-color: rgba(30,159,255,.8); transition:all .3; -webkit-transition:all .3;}
+
+/*轮播图*/
+.foxdou-slide {height: 130px;overflow: hidden;}
+.foxdou-slide img {width: 100%; height: 100%;}
+
+/*我的应用*/
+.foxdou-myapi {height: 180px;}
+.foxdou-myapi .myitem {box-sizing: border-box; padding: 8px 15px 0 15px;}
+.foxdou-myapi .myitem a {display: block; padding: 7px 10px; margin-bottom: 10px; border: 1px dashed #ccc; border-radius: 2px;
+	color: #666; text-align: center;}
+.foxdou-myapi .myitem a:hover {background-color: #F8F8F8;}
+.foxdou-myapi .myitem span {margin: 0 8px; font-size: 18px;}
+.foxdou-myapi .myitem .green {color: #1AB394;}
+.foxdou-myapi .myitem .orange {color: #ff9c00;}
+.foxdou-myapi .myitem .gray {color: #999999;}
+
+/*快捷入口*/
+.foxdou-quick {height: 180px;}
+.foxdou-quick .quickitem {height: 140px; padding: 3px 0 0 10px; overflow-y: hidden;}
+.foxdou-quick .quickitem li {position: relative; float: left; width: 190px; height: 50px; margin: 5px; border: 1px dashed #ccc; border-radius: 2px;
+	overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.foxdou-quick .quickitem li:hover {background-color: #F8F8F8;}
+.foxdou-quick .quickitem img {position: relative; left: 2px; width: 34px; height: 34px;}
+.foxdou-quick .quickitem a {display: block; line-height: 50px;overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+				
+/*已申请的应用*/
+.foxdou-ysqapi {height: 290px;}
+.foxdou-ysqapi .ysqapi-lis {height: 240px; padding: 3px 0 0 10px; overflow: hidden;}
+.foxdou-ysqapi .ysqapi-lis li {position: relative; float: left; width: 300px; height: 100px; margin: 5px; box-sizing: border-box; border: 1px dashed #ccc;
+	border-radius: 2px; overflow: hidden;}
+.foxdou-ysqapi .ysqapi-lis img {position: absolute; top: 15px; left: 5px; width: 64px; height: 64px;}
+.foxdou-ysqapi .ysqapi-lis .info {position: absolute; top: 15px; left: 75px; width: calc(100% - 120px);}
+.foxdou-ysqapi .ysqapi-lis .info h3 {display: block; padding-bottom: 5px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.foxdou-ysqapi .ysqapi-lis .info p {color: #999; line-height: 20px; font-size: 12px;}
+.foxdou-ysqapi .ysqapi-lis .info span {margin: 0 5px;}
+.foxdou-ysqapi .ysqapi-lis .spacer {position: absolute; top: 35px; right: 85px; width: 1px; height: 30px; background-color: #EEEEEE;}
+.foxdou-ysqapi .ysqapi-lis .xufei {position: absolute; top: 35px; right: 10px; padding: 5px; color: #1E9FFF;}
+.foxdou-ysqapi .ysqapi-lis .xufei:hover {color: #999;}
+
+/*联系客服*/
+.foxdou-kefu {height: 90px;}
+.foxdou-kefu .info {position: relative; padding: 8px 15px 0 15px; height: auto;}
+.foxdou-kefu .rexian {float: left; display: inline-block; color: #f19149; line-height: 30px;} 
+.foxdou-kefu .rexian .icon {font-size: 20px;}
+.foxdou-kefu .rexian span {color: #1AB394; font-size: 18px;}
+.foxdou-kefu .zxkf {position: absolute; top: 5px; right: 10px; display: block; padding: 3px 20px 6px 20px; border: 1px solid #1E9FFF; border-radius: 2px;
+	color: #1E9FFF;}
+.foxdou-kefu .zxkf:hover {border-color: #ffa1be; color: #ffa1be;}
+.foxdou-kefu .zxkf .icon {position: relative; top: 2px; font-size: 20px;}
+
+/*底部版权*/
+.foxdou-footer {background-color: #fff;}
+

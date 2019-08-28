@@ -1,0 +1,18 @@
+<script>
+    var url = "";
+    var columns = [[
+        {"field": "time", "title": "操作时间",templet:"#add_time", "width": 200},
+        {"field": "info", "title": "操作详情"},
+        {"field": "ip", "title": "操作ip", "width": 200},
+        {"field": "email", "title": "操作人"}
+    ]];
+
+    function get_data() {
+        var params = $('form#logs-list').serialize();
+        url = '?' + params;
+        rander_table('#logs-list-table', url, columns);
+    }
+
+    // 初始化
+    get_data();
+</script>

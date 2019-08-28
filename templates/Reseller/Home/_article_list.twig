@@ -1,0 +1,21 @@
+<div class="agent-main">
+  <div class="agent-cols" >
+    <div class="agent-list d-clear">
+      {% for item in data %}
+        <div class="agent-item">
+          <a href="javascript:view_article('{{ url("common_articles_view", {'id': item.id}) }}')">
+            <div class="img-view">
+              <img src="{{ item.images|default(asset('/assets/common/img/default-pic.jpg')) }}"/>
+            </div>
+            <h3><b>{{ item.title }}</b></h3>
+            <p>{{ item.abstract }}</p>
+            <span>{{ item.publish_time }}</span>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+    <div class="agent-more">
+      <div id="pager"></div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,57 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<form action="" class="layui-form" id="form">
+<input type="hidden" name="product_cate_id" value="{{ app.request.get('product_cate_id') }}">
+<input type="hidden" name="icp" id="icp_value" value="">
+<div class="layui-form-item m-screen">
+  <label class="layui-form-label m-screen-label">订单编号</label>
+  <div class="layui-input-inline m-input-block">
+    {{ sf.text(form.order_id,  {'class': 'layui-input',  'placeholder': '订单编号'}) }}
+  </div>
+  <label class="layui-form-label m-screen-label">充值号码</label>
+  <div class="layui-input-inline m-input-block">
+    {{ sf.text(form.on,  {'class': 'layui-input',  'placeholder': '充值号码'}) }}
+  </div>
+  <label class="layui-form-label m-screen-label">订单状态</label>
+  <div class="layui-input-inline m-input-block">
+      {{ sf.select(form.order_status, to_options(order_statuses, "全部")) }}
+  </div>
+</div>
+<div class="layui-form-item m-screen">
+  <label class="layui-form-label m-screen-label">商品名称</label>
+  <div class="layui-input-inline m-input-block">
+    {{ sf.text(form.product_name,  {'class': 'layui-input',  'placeholder': '商品名称'}) }}
+  </div>
+  <label class="layui-form-label m-screen-label-m">面值</label>
+  <div class="layui-input-inline m-input-block-m">
+    {{ sf.text(form.product_mianzi,  {'class': 'layui-input',  'placeholder': '面值'}) }}
+  </div>
+  <label class="layui-form-label m-screen-label-m">金额</label>
+  <div class="layui-input-inline m-input-block-m">
+    {{ sf.text(form.recharge_amount,  {'class': 'layui-input',  'placeholder': '金额'}) }}
+  </div>
+  <label class="layui-form-label m-screen-label">充值类型</label>
+  <div class="layui-input-inline m-input-block">
+    {{ sf.select(form.speed, [{"name": "全部", "value": ""}, {"name": "快充", "value": "1"}, {"name": "慢充", "value": "2"}, ]) }}
+  </div>
+</div>
+<div class="layui-form-item m-screen">
+  <div class="layui-input-inline m-input-block" style="width: 100px;">
+    <select name="time_type">
+      <option value="add_time">创建时间</option>
+      <option value="pay_time">支付时间</option>
+      <option value="end_time">完成时间</option>
+    </select>
+  </div>
+  <div class="layui-input-inline m-input-block" style="width: 90px;">
+    {{ sf.text(form.from,  {'class': 'layui-input f-fnsna datepicker',  'placeholder': '开始时间', 'style': ''}) }}
+  </div>
+  <div class="layui-input-inline m-input-block" style="width: 90px;">
+    {{ sf.text(form.to,  {'class': 'layui-input f-fnsna datepicker',  'placeholder': '结束时间', 'style': ''}) }}
+  </div>
+</div>
+<div class="m-cx">
+  <input type="button" value="查询" class="layui-btn" onclick="get_order_data();return false;">
+</div>
+<div style="clear: both;"></div>
+</form>

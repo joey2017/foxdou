@@ -1,0 +1,88 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<blockquote class="layui-elem-quote layui-quote-nm">
+  58mm打印机驱动安装指导书<a href="" class="">（点击下载）</a>
+</blockquote>
+<h2>直充商品</h2>
+<div class="hz-single">
+  <dl class="hz-dl hz-title">
+    <dt>&nbsp;</dt>
+    <dd>
+      {{ sf.text_raw(form.title_content,  {'class': 'layui-input print_view_content',  'placeholder': '在这里输入标题'}) }}
+      {{ sf.checkbox_raw(form.title, {'1': '显示'}, {'class': 'show_and_hide hz-dl layui-btn', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+  </dl>
+  <dl class="hz-dl">
+    <dt>订单号：</dt>
+    <dd>
+      <span>{{ "now"|date("Y-m-d H:i:s") }}76283</span>
+      {{ sf.checkbox_raw(form.order_id, {'1': '显示'}, {'class': 'show_and_hide hz-dl layui-btn', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+    <dt>交易时间：</dt>
+    <dd>
+      <span>{{ "now"|date("Y-m-d H:i:s") }}</span>
+      {{ sf.checkbox_raw(form.add_time, {'1': '显示'}, {'class': 'show_and_hide hz-dl layui-btn', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+  </dl>
+  <dl class="hz-dl">
+    <dt>商品名称：</dt>
+    <dd>
+      <span>广西联通话费10元快充</span>
+      {{ sf.checkbox_raw(form.product_name, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+    <dt>充值号码：</dt>
+    <dd>
+      <span class="">13888888888</span>
+      {{ sf.checkbox_raw(form.on, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+    <dt>充值前帐号信息：</dt>
+    <dd>
+      <span class="">姓名：刘*，余额：-0.5元</span>
+      {{ sf.checkbox_raw(form.on_before_info, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+    <dt>充值金额：</dt>
+    <dd>
+      <span>50元</span>
+      {{ sf.checkbox_raw(form.recharge_amount, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+    <dt>付款金额：</dt>
+    <dd>
+      <span class="">51元</span>
+      {{ sf.checkbox_raw(form.pay_money, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+  </dl>
+  <dl class="hz-dl" style="border-bottom: none;">
+    <dt>收银员：</dt>
+    <dd>
+      <span>{{ user.realNameInfo.business_name|default("张三") }}</span>
+      {{ sf.checkbox_raw(form.cashier, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+    <dt>联系电话：</dt>
+    <dd>
+      {{ sf.text_raw(form.contact_mobile_content,  {'class': 'layui-input print_view_content',  'placeholder': '在这里输入联系电话'}) }}
+      {{ sf.checkbox_raw(form.contact_mobile, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+    <dt>地址：</dt>
+    <dd>
+      {{ sf.text_raw(form.shop_address_content,  {'class': 'layui-input print_view_content',  'placeholder': '在这里输入地址'}) }}
+      {{ sf.checkbox_raw(form.shop_address, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+
+    <dt>网点名称：</dt>
+    <dd>
+      {{ sf.text_raw(form.shop_name_content,  {'class': 'layui-input print_view_content',  'placeholder': '在这里输入地址'}) }}
+      {{ sf.checkbox_raw(form.shop_name, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+    <dt>&nbsp;</dt>
+    <dd>
+      {{ sf.text_raw(form.foot_content,  {'class': 'layui-input foot_content',  'placeholder': '在这里输入页脚内容'}) }}
+      {{ sf.checkbox_raw(form.foot, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+    </dd>
+  </dl>
+  <div class="layui-input-block">
+    <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="submit" id="sub">保&nbsp;存</button>
+  </div>
+</div>
+<div class="hz-img">
+  <img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/img/58remin.png"/>
+</div>

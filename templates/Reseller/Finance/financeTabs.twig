@@ -1,0 +1,23 @@
+{%
+set tabs = [
+  {"name": "账户概览", "route": "reseller_finance_index"},
+  {"name": "交易记录", "route": "reseller_finance_trade_logs"},
+  {"name": "资金明细", "route": "reseller_finance_transactions"},
+  {"name": "充值记录", "route": "reseller_finance_funding"},
+]
+%}
+
+{% if app.user.resellerAccount.agency_type|default(0) == 2 %}
+  {% set tabs = tabs|merge([{"name": "佣金明细", "route": "reseller_finance_rebate_logs"}]) %}
+{% endif %}
+
+<div class="panel-nav-item">
+  <ul class="panel-nav g-bdc">
+    {% for tab in tabs %}
+      <li class="panel-nav-li  {{ tab.route == current_route ? 'panel-nav-this' : ''}}">
+        <a href="{{ path(tab.route) }}">{{ tab.name }}</a>
+      </li>
+    {% endfor %}
+
+  </ul>
+</div>

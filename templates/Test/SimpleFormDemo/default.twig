@@ -1,0 +1,29 @@
+{% extends "/Test/SimpleFormDemo/layout.twig" %}
+
+{% block page_content %}
+    <div class="foxdou-note">
+        <div class="foxdou-row">
+            <div class="foxdou-row-title">
+                <span></span>
+                <h3><strong>默认布局</strong></h3>
+            </div>
+            <p>适合于快速生成要求不高的表单</p>
+        </div>
+    </div>
+    <div class="foxdou-content">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this">显示效果</li>
+                <li>代码</li>
+            </ul>
+            <div class="layui-tab-content" style="">
+                <div class="layui-tab-item layui-show">
+                    {% include "/Test/SimpleFormDemo/default_form.twig" %}
+                </div>
+                <div class="layui-tab-item">
+                    <pre><code class="twig">{{ source("/Test/SimpleFormDemo/default_form.twig")|e }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

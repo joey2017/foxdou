@@ -1,0 +1,32 @@
+<div class="g-copy">
+  <div class="copyright">
+    <div class="copy-main f-fl clearfloat">
+      <div class="copy-main-left"></div>
+      <div class="copy-main-center">
+        <div class="copy-list">
+          <span>导航</span>
+          <a href="{{ path('open_frontpage_index') }}" target="_blank">首页</a>
+          <a href="{{ path('supplier_home_index') }}" target="_blank">供应商</a>
+          <a href="{{ path('reseller_home') }}" target="_blank">代理商</a>
+        </div>
+        <div class="copy-list">
+          <span>下载</span>
+          <a href="#">手机端</a>
+          <a href="#">PC客户端</a>
+          <a href="#">下载中心</a>
+        </div>
+        <div class="copy-list">
+          <span>帮助</span>
+          <a href="http://wpa.qq.com/msgrd?v=3&uin=2850236951&site=qq&menu=yes">联系客服</a>
+          <a href="#">服务公告</a>
+          <a href="{{ url('passport_home_index') }}">安全中心</a>
+        </div>
+      </div>
+      <div class="copy-main-right"></div>
+    </div>
+    <div class="copy-info f-fl">
+      Copyright © 2015-{{ "now"|date('Y') }} Foxdou.All Rights Reserved  {{ settings.system.beian_info }}
+    </div>
+  </div>
+</div>
+

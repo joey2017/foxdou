@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>运营数据（控制台）</title>
+	<link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+
+<body>
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<!-- 头部区域 -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layadmin-flexible">
+						<a href="javascript:;" title="侧栏伸缩">
+							<i class="layui-icon layui-icon-shrink-right"></i>
+							<i class="layui-icon layui-icon-spread-left"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<a href="javascript:;">运营数据</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">用户管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">订单管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">服务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">平台审核</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">内容管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">财务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">系统设置</a>
+					</li>					
+					<!--<li class="layui-nav-item">
+						<input type="text" name="" value="" placeholder="搜索..." class="layui-input layui-input-search" />
+					</li>-->
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<div class="layui-form layui-header-switch">
+							<input type="checkbox" name="" lay-skin="switch" lay-text="开启语音|关闭语音" checked>
+						</div>						
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;" title="通知">
+							<i class="layui-icon layui-icon-notice"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<cite>安郁</cite>
+							<span class="layui-nav-more"></span>
+						</a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="javascript:;">基本资料</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">修改密码</a>
+							</dd>
+							<hr />
+							<dd style="text-align: center;">
+								<a href="javascript:;">退出</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+			<!--侧栏-->
+			<div class="layui-side layui-side-menu">
+				<div class="layui-side-scroll">
+					<a href="javascript:;" class="layui-logo">
+						<span>狐豆后台管理系统</span>
+					</a>
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-chart"></i>
+								<cite>活跃度观察</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd class="layui-this"><a href="javascript:;">日活跃用户</a></dd>
+					      		<dd><a href="javascript:;">周活跃用户</a></dd>
+					      		<dd><a href="javascript:;">月活跃用户</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-chart"></i>
+								<cite>流失观察</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">用户流失</a></dd>
+						    </dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--页面标签-->
+			<div class="layadmin-pagetabs">
+				<div class="layui-icon layadmin-tabs-control layui-icon-prev"></div>
+				<div class="layui-icon layadmin-tabs-control layui-icon-next"></div>
+				<div class="layui-icon layadmin-tabs-control layui-icon-down">
+					<ul class="layui-nav layadmin-tabs-select">
+						<li class="layui-nav-item">
+							<a href="javascript:;">
+								<span class="layui-nav-more"></span>
+							</a>
+							<dl class="layui-nav-child layui-anim-fadein layui-anim layui-anim-upbit">
+				                <dd>
+				                	<a href="javascript:;">关闭当前标签页</a>
+				                </dd>
+				                <dd>
+				                	<a href="javascript:;">关闭其它标签页</a>
+				                </dd>
+				                <dd>
+				                	<a href="javascript:;">关闭全部标签页</a>
+				                </dd>
+				              </dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="layui-body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<!--选择要统计用户的平台、时间范围-->
+					<div class="layui-card layadmin-header layui-console-header">
+						<div class="layui-form">
+							<div class="layui-inline">
+								<div class="layui-input-inline">
+									<select name="" lay-verify="">
+									  	<option value="">选择统计用户的平台</option>
+									  	<option value="0">狐豆通行证</option>
+									  	<option value="1">狐豆开放平台</option>
+									  	<option value="2">代理商平台</option>
+									  	<option value="3">供应商平台</option>
+									</select> 
+								</div>
+							</div>		
+							<div class="layui-inline" style="width: 200px;">
+								<input id="timeFrame" type="text" name="" value="" placeholder="日期范围选择 -" class="layui-input" />
+							</div>
+						</div>
+					</div>
+					<div class="layui-fluid">						
+						<div class="layui-card">
+							<div class="layui-card-header">数据统计</div>
+							<div class="layui-card-body" pad15>
+								<div class="layadmin-backlog">
+									<ul class="layui-row layui-col-space10">
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>新注册用户数</h3>
+												<p><cite>36</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>本日活跃用户数</h3>
+												<p><cite>97</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>7日活跃用户数</h3>
+												<p><cite>260</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>30日活跃用户数</h3>
+												<p><cite>721</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>回归用户数</h3>
+												<p><cite>23</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>昨日流失用户数</h3>
+												<p><cite>12</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>昨日留存数</h3>
+												<p><cite>60</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>点3日留存数</h3>
+												<p><cite>160</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>
+													区间3日留存数
+													<i class="layui-icon layui-icon-tips" lay-tips="E/3天前注册用户数"></i>
+												</h3>
+												<p><cite>218</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>
+													点7日留存数
+													<i class="layui-icon layui-icon-tips" lay-tips="7天前注册，今日登录用户数"></i>
+												</h3>
+												<p><cite>668</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>
+													区间7日留存数
+													<i class="layui-icon layui-icon-tips" lay-tips="F/7天前注册，7日连续登录用户数"></i>
+												</h3>
+												<p><cite>560</cite></p>
+											</div>
+										</li>
+										<li class="layui-col-sm3 layui-col-md3 layui-col-lg2">
+											<div class="layadmin-backlog-body">
+												<h3>累计总用户数</h3>
+												<p><cite>9668</cite></p>
+											</div>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="layui-card">
+							<div class="layui-card-header">每日活跃用户列表</div>
+							<div class="layui-card-body">
+								<table class="layui-table layuiadmin-page-table">
+									<thead>
+										<tr>
+											<th>日期</th>
+											<th>累计总用户数</th>
+											<th>新注册用户数</th>
+											<th>本日活跃用户数</th>
+											<th>7日活跃用户数</th>
+											<th>30日活跃用户数</th>
+											<th>DAU/MAU</th>
+											<th>回归用户数</th>
+											<th>昨日流失用户数</th>
+											<th>昨日流失率</th>
+											<th>昨日留存数</th>
+											<th>昨日留存率</th>
+											<th>点3日留存数</th>
+											<th>点3日留存率</th>
+											<th>区间3日留存数</th>
+											<th>区间3日留存率</th>
+											<th>点7日留存数</th>
+											<th>点7日留存率</th>
+											<th>区间7日留存数</th>
+											<th>区间7日留存率</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+										<tr>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+											<td>&nbsp;</td>
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+		
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/js/jquery.js"></script>
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/layui/layui.all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/common.js" ></script>
+	<script type="text/javascript">
+		$('.layadmin-backlog-body i').mouseover(function(){
+			var txt = $(this).attr('lay-tips');
+			
+			layer.tips(txt, this, {
+					tips: [1, '#78BA32'],
+					time: 0
+				});
+		}).mouseout(function(){
+//			layer.closeAll('tips');
+		});
+		
+	</script>
+</body>
+</html>

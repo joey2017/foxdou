@@ -1,0 +1,20 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<form action="" class="layui-form" id="form">
+    <input type="hidden" name="cate_id" value="{{ app.request.get('cate_id') }}">
+    <input type="hidden" name="operator_id" id="operator_id" value="">
+    <div class="layui-form-item m-screen">
+        {{ sf.text(form.id, null, {'outer': null}, {'placeholder': '商品编号'}) }}
+        {{ sf.text(form.name, null, {'outer': null}, {'placeholder': '商品名称'}) }}
+        {{ sf.select(form.status, null,  to_options('App\\Common\\Model\\Product\\Product::STATUSES', "商品状态"), {'outer': null}) }}
+    </div>
+    <div class="layui-form-item m-screen">
+        {{ sf.text(form.face_value, null, {'outer': null}, {'placeholder': '商品编号'}) }}
+        {{ sf.text(form.sell_price, null, {'outer': null}, {'placeholder': '商品编号'}) }}
+        {{ sf.select(form.speed, null,  to_options({'1': '快充', '2': '慢充'}, "充值速度"), {'outer': null}) }}
+    </div>
+    <div class="m-cx">
+        <input type="button" value="查询" class="layui-btn" onclick="get_data('{{ path('reseller_product_index') }}');return false;">
+    </div>
+    <div style="clear: both;"></div>
+</form>

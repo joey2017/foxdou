@@ -1,0 +1,68 @@
+<div class="level">
+    <label>安全级别：</label>
+    <p>
+        {% for i in 1..all_num %}
+        <img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/xx.png" />
+        {% endfor %}
+
+        {% if ban_num %}
+        <img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/xx-b.png" />
+        {% endif %}
+
+        {% set number = 5 - all_num - (ban_num ? 1 : 0) %}
+        {% if number > 0 %}
+        {% for j in 1..number %}
+        <img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/img/xx-h.png" />
+        {% endfor %}
+        {% endif %}
+    </p>
+    <p>
+        <em>{{ score }}</em>
+        <span>分</span>
+    </p>
+</div>
+<div class="my-circs-col" style="display: block;">
+    {% if inspect_data.false %}
+    <p>您的帐号存在 <span style="color: #ff8a00; font-size: 18px;">{{ loser_num }}</span> 项风险</p>
+    <div class="open-item">展开/收起安全项<span class="triangle"></span></div>
+    {% else %}
+    <p>您的帐号很安全,请继续保持哦！</p>
+    {% endif %}
+    <div class="my-circs">
+        {% for v in inspect_data.false %}
+        <div class="risk-item ">
+            <dl>
+                <dt>
+                    <strong>
+                        <em></em>{{ v.title }}
+                    </strong>
+                </dt>
+                <dd>{{ v.info }}</dd>
+            </dl>
+            <a href="{{ v.href }}" target="_blank">{{ v.href_title }}</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!--安全项-->
+<div class="my-yes-col"  style="display: block">
+    <p>安全项</p>
+    <div class="my-circs">
+        {% for v in inspect_data.true %}
+        <div class="risk-item my_yes">
+            <dl>
+                <dt>
+                    <strong>
+                        <em></em>{{ v.safe_title }}
+                    </strong>
+                </dt>
+                <dd>{{ v.safe_info }}</dd>
+            </dl>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+

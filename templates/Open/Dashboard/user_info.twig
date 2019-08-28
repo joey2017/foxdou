@@ -1,0 +1,257 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% block main_content %}
+    <div class="layui-card">
+        <div class="layui-tab layui-tab-brief">
+            <ul class="layui-tab-title">
+                <li class="layui-this"><a href="javascript:void(0);">账户信息</a></li>
+                <li><a href="javascript:void(0);">联系信息</a></li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <div class="layui-form layadmin-account-form">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">头像</label>
+                            <div class="layui-input-block">
+                                <div class="layadmin-headimg">
+                                    <div class="uploadImage">
+                                        <img src="{{ asset('/assets/common' ~ user_info.head_img) }}" id="headimg">
+                                    </div>
+                                    <input type="file" id="uploadImage" value="{{ user_info.head_img }}" name="head_img" class="fimg1 fields"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">昵称</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{{ user_info.nick_name }}</span>
+                                <input type="text" name="nick_name" value="{{ user_info.nick_name }}" placeholder="请输入昵称" class="layui-input fields" style="display: none;"/>
+                            </div>
+                            <div class="layui-form-mid layui-text">
+                                <a class="edit" href="javascript:void(0);">修改</a>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">狐豆帐号</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{% if user_info.type == 'I' %}{{ user_info.mobile }}{% else %}{{ user_info.email }}{% endif %}</span>
+                                {#<input type="text" name="pass" value="{{ user_info.type == constant('App\\Common\\Model\\User\\User::TYPE_BUSINESS::') ? user_info.email : user_info.mobile }}" placeholder="请输入狐豆账号" class="layui-input" style="display: none;"/>#}
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">绑定手机</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{{ user_info.bind_mobile }}</span>
+                                <input type="text" name="bind_mobile" value="{{ user_info.bind_mobile }}" placeholder="请输入绑定手机" class="layui-input fields" style="display: none;"/>
+                            </div>
+                            <div class="layui-form-mid layui-text">
+                                <a href="javascript:void(0);" class="edit">修改</a>
+                                {#<span>|</span>#}
+                                {#<a href="javascript:void(0);">关闭手机登录</a>#}
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱账户</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{% if user_info.bind_email %}{{ user_info.bind_email }}{% else %}未绑定{% endif %}</span>
+                                <input type="text" name="bind_email" value="{{ user_info.bind_email }}" placeholder="请输入绑定邮箱" class="layui-input fields" style="display: none;"/>
+                            </div>
+                            <div class="layui-form-mid layui-text">
+                                <a href="javascript:void(0);" class="edit">修改</a>
+                                {#<span>|</span>#}
+                                {#<a href="javascript:void(0);">关闭邮箱登录</a>#}
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">帐户性质</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{% if user_info.type=='I' %}个人{% else %}公司{% endif %}</span>
+                                {#<input type="text" name="type" value="{% if user_info.type=='I' %}个人{% else %}公司{% endif %}" placeholder="请输入昵称" class="layui-input" style="display: none;"/>#}
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">实名认证</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{% if user_info.real_name_status == 'VERIFIED' %}已认证{% else %}未认证{% endif %}</span>
+                                {#<input type="text" name="real_name_status" value="{% if user_info.real_name_status == 'VERIFIED' %}已认证{% else %}未认证{% endif %}" placeholder="请输入昵称" class="layui-input" style="display: none;"/>#}
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">公司名称</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{{ user_info.biz_legal_representative_name }}</span>
+                                {#<input type="text" name="biz_legal_representative_name" value="{{ user_info.biz_legal_representative_name }}" placeholder="请输入公司名称" class="layui-input fields" style="display: none;"/>#}
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">法人名称</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{{ user_info.entity_name }}</span>
+                                {#<input type="text" name="entity_name" value="{{ user_info.entity_name }}" placeholder="请输入法人名称" class="layui-input" style="display: none;"/>#}
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">企业地址</label>
+                            <div class="layui-input-inline">
+                                <span class="layadmin-text">{{ user_info.entity_license_address }}</span>
+                                {#<input type="text" name="entity_license_address" value="{{ user_info.entity_license_address }}" placeholder="请输入企业地址" class="layui-input business_name" style="display: none;"/>#}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-tab-item">
+                    <div class="layui-form" style="margin-top: 30px;">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="contact_name" value="{{ user_info.contact_name }}" placeholder="" class="layui-input fields"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">手机</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="contact_phone" value="{{ user_info.contact_phone }}" placeholder="" class="layui-input fields"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="contact_mail" value="{{ user_info.contact_mail }}" placeholder="" class="layui-input fields"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">QQ</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="contact_qq" value="{{ user_info.contact_qq }}" placeholder="" class="layui-input fields"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">地址</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="contact_address" value="{{ user_info.contact_address }}" placeholder="" class="layui-input fields"/>
+                            </div>
+                        </div>
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button class="layui-btn layui-btn-normal" id="edit-btn">保 存</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js_end %}
+    <script>
+        function itemToggle() {
+            $('.layui-tab-content').find('.layui-tab-item').toggleClass('layui-show');
+        }
+
+        $(function () {
+            $('.layui-tab-title li').on('click',function () {
+                itemToggle();
+            })
+
+            $('.edit').click(function () {
+                var htmlText = $('.edit').html();
+                if (htmlText == '修改') {
+                    $('.edit').each(function (i, that) {
+                        edit(that);
+                    });
+                    $('.edit').html('完成');
+                } else {
+                    $('.edit').each(function (i, that) {
+                        save(that);
+                    });
+                    $('.edit').html('修改');
+                }
+            });
+
+            $('#edit-btn').click(function () {
+                var args          = {};
+                $('.fields').each(function(){
+                    args[$(this).attr('name')] = $(this).val();
+                });
+
+                args._token = '{{ csrf_token("open_dashboard_user_info") }}';
+
+                var loading = null;
+                var before = function () {
+                    loading = layer.load();
+                }
+                var error = function () {
+                    layer.close(loading);
+                    nxwd.showMsg('服务器未响应，请稍后重试');
+                }
+                var success = function (res) {
+                    layer.close(loading);
+                    if (res.status) {
+                        nxwd.showMsg(res.msg, 'success');
+                        location.reload();
+                    } else {
+                        nxwd.showMsg(res.msg, 'danger');
+                    }
+                }
+                nxwd.ajaxRequest('{{ path("open_dashboard_user_info") }}', 'POST', args, 'json', success, before, error)
+
+            });
+        })
+
+        /*
+         * 上传头像
+         */
+        layui.use('upload', function () {
+            var $      = layui.jquery,
+                upload = layui.upload;
+
+            upload.render({
+                elem:     '#uploadImage'
+                , url:    '/'
+                , before: function (obj) {
+                    //预读本地文件示例，不支持ie8
+                    obj.preview(function (index, file, result) {
+                        $('#headimg').attr('src', result); //图片链接（base64）
+                    });
+                },done: function(res){
+                    //上传成功
+                    if(res.status){
+                        nxwd.showMsg(res.msg,'success');
+                    } else {
+                        nxwd.showMsg(res.msg,'danger');
+                    }
+                }
+                ,error: function(){
+
+                }
+            });
+        });
+
+
+        function edit(this_dom) {
+            var pts     = $(this_dom).parents('.layui-form-item'),
+                pts_txt = $(this_dom).parents('.layui-form-item').find('.layadmin-text').html();
+            if ($(this_dom).is('.bind-email')) {
+                pts_txt = '';
+            }
+
+            pts.find('.layadmin-text').hide();
+            pts.find('input').fadeIn();
+            pts.find('input').val(pts_txt);
+
+        }
+
+        function save(this_dom) {
+            var pts     = $(this_dom).parents('.layui-form-item'),
+                pts_val = $(this_dom).parents('.layui-form-item').find('input').val();
+
+            if (pts_val === '') {
+                nxwd.showMsg('值不能为空');
+                return false;
+            }
+            pts.find('input').hide();
+            pts.find('.layadmin-text').show();
+            pts.find('.layadmin-text').html(pts_val);
+
+        }
+    </script>
+{% endblock %}

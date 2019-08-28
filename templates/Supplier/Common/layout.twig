@@ -1,0 +1,74 @@
+{% set user = app.user %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %} {{ title|default("狐豆供应商平台") }} {% endblock %}</title>
+
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    {{ use_assets([
+        '/assets/common/layui/css/layui.css',
+        '/assets/supplier/font/iconfont.css',
+        '/assets/supplier/css/common.css',
+        '/assets/supplier/css/index.css',
+        '/assets/supplier/css/media-all.css',
+    ]) }}
+
+    {{ use_assets([
+        '/assets/common/js/jquery.min.js',
+        '/assets/common/layui/layui.all.js',
+        '/assets/admin/js/common.js',
+        '/assets/common/js/ajaxRequest.js',
+        '/assets/common/js/jquery.serializejson.js',
+        '/assets/common/js/common-verify.js',
+    ]) }}
+
+</head>
+
+<body>
+
+<div class="foxdou-box">
+  {% include "/Supplier/Common/top_nav.twig" %}
+  {% include "/Supplier/Common/left_nav.twig" %}
+
+  {% block main_content %}
+  {% endblock %}
+
+  <div class="foxdou-footer">
+    Copyright ©你行我动科技
+  </div>
+</div>
+
+<script type="text/javascript">
+    // layui.config({
+    //     base: '/assets/supplier/js/'
+    // }).use('index'); //加载入口
+
+    var ele = layui.element.render();
+
+    layui.use('carousel',function(){
+        var carousel = layui.carousel;
+
+        //常规轮播
+        carousel.render({
+            elem: '#test1'
+            ,arrow: 'hover'
+            ,width: '100%'
+            ,height: '130px'
+        });
+    })
+
+
+
+</script>
+
+{% block extra %}
+{% endblock %}
+{% block js_end %}
+{% endblock %}
+</body>
+</html>

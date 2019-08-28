@@ -1,0 +1,25 @@
+function get_categories(portalId, callback) {
+    $.getJSON("{{ path('admin_system_administration_articles_categories') }}.json?portal_id="+portalId, function(data){
+        var optionstring = "";
+        $.each(data.data, function(i,item){
+            optionstring += "<option value=\"" + item.id + "\" >" + item.name + "</option>";
+        });
+        $("#parent_id").html('<option value=""></option>' + optionstring);
+        form.render('select'); //这个很重要
+
+        if(callback) {
+            callback(data.data)
+        }
+    });
+}
+
+layui.form.on('select(portal_id)', function(data){
+    get_categories(data.value);
+});
+
+
+function reload_table(tableId) {
+    table.reload(tableId, {
+        where: $('#' + tableId).serializeJson()
+    });
+}

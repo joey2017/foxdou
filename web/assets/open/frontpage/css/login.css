@@ -1,0 +1,58 @@
+
+.login-content{position: relative; width: 100%;height: 400px;margin-bottom:380px;background: #17a2c1;}
+.login-item{position: absolute;top: 180px;left: 50%;margin-left: -600px; width: 1200px;height: auto;background: #FFFFFF;-webkit-box-shadow:0 0 0 3px #E0E0E0;-moz-box-shadow:0 0 0 3px #E0E0E0;box-shadow:0 0 3px #E0E0E0;}
+.login-banner{width: 100%;height: 400px;margin: 0 auto; background: url(img/bg1.jpg) no-repeat;background-position: center;}
+
+
+/*登录-----------------------------------------*/
+.login{float: left;position: relative; width: 900px;height: 550px;box-sizing: border-box;border-right: 1px solid #EEEEEE;padding: 80px 120px 60px 120px;background: #FFFFFF; z-index: 999;}
+/*登录-帐号密码*/
+.login-accounts{}
+.login-accounts-title{width: 100%;height: 60px;box-sizing: border-box; padding: 5px 0;}
+.login-accounts .login-avatar{float: left;width: 50px;height: 50px;margin-right: 20px;text-align: center;line-height: 50px;}
+.login-accounts .login-avatar i{font-size: 44px!important;color: #333333;}
+.login-accounts .login-input-item{width: 100%;height: auto;box-sizing: border-box; padding: 30px 0 50px 70px;}
+.login-accounts .login-input-item .layui-input-inline{width: 250px;}
+.login-accounts .login-input-item input{width: 250px;box-sizing: border-box; border-radius: 0;padding-left: 40px;padding-right: 5px; color: #333333;}
+.login-accounts .login-input-item .layui-input-inline i{position: absolute;top: 8px;left: 10px;font-size: 18px;color: #999999;}
+.login-accounts .login-way{position: absolute;top: 80px;right: 15px; width: 34px; height: auto;z-index: 10;}
+.login-accounts .login-way span{float: left; color: #666666;}
+.login-accounts .login-way a{float: left;display: inline-block;width: 34px;height: 34px; margin: 5px 0;}
+.login-accounts .login-way i{font-size: 34px;color: #E0E0E0;line-height: 34px;}
+.login-accounts .login-way .qq:hover{color: #FF8F44;}
+.login-accounts .login-way .sina:hover{color: #FF5555;}
+.login-accounts .login-way .alipay:hover{color: #64AEE0;}
+
+.login-pro{}
+.login-pro button{width: 250px;}
+.a-link{display: inline-block; margin-top: 10px; color: #BBBBBB;}
+.a-link:hover{color: #0fb5d8;}
+
+/*登录-扫码*/
+.login-code{}
+.login-code-title{width: 100%;margin: 0 0 40px 0; line-height: 50px;text-align: center;font-size: 20px; color: #0fb5d8;}
+.login-code-item{width: 220px;height: 220px;margin: 0 auto; box-sizing: border-box;padding: 5px;border: 1px solid #E0E0E0; line-height: 180px;text-align: center;}
+.login-code-item img {width: 100%;}
+.login-code p{text-align: center;line-height: 28px;}
+
+.code-icon{position: absolute;top: 0;right: 0;width: 56px;height: 56px;margin:5px;text-align: right;line-height: 55px;cursor: pointer;}
+.code-icon i{font-size: 50px;}
+
+/*注册提示-----------------------------------------*/
+.register-prompt{float: right; width: 300px;height: auto;}
+.register-prompt-text{position: relative; float: left;width: 100%; height: 360px;background: #f8b551; box-sizing: border-box;padding: 60px 50px 30px 40px; color: #FFFFFF;line-height: 24px;}
+.register-prompt-item{float: left;width: 100%;height: auto;box-sizing: border-box;padding: 50px 0 30px 0;text-align: center;}
+
+
+.g-copy{width: 100%;height: 300px;border-top: 2px solid #999999; background: #FFFFFF;}
+/*版权*/
+.copyright{width: 1200px;height: 300px; margin: 0 auto;}
+.copy-main{width: 100%;height: 158px;padding: 40px 0;}
+.copy-main-left{float: left; width: 280px;height: 100px;}
+.copy-main-center{float: left;width: 640px;height: auto;}
+.copy-main-right{float: right; width: 280px;height: 100px;}
+.copy-info{width: 100%;height: 60px;border-top: 1px solid #CCCCCC;text-align: center;line-height: 60px; color: #333333;}
+.copy-list{float: left; width: 150px;height: auto;margin: 0 30px;}
+.copy-list span{display: block;margin-bottom: 20px; color: #333333;font-weight: bold;}
+.copy-list a{display: block;height: 24px;font-size: 12px; line-height: 24px;margin: 5px 0; color: #666666;}
+.copy-list a:hover{text-decoration: underline;}

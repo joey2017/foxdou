@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>编辑生成规则-预览</title>
+	<link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+
+<body>
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<!-- 头部区域 -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layadmin-flexible">
+						<a href="javascript:;" title="侧栏伸缩">
+							<i class="layui-icon layui-icon-shrink-right"></i>
+							<i class="layui-icon layui-icon-spread-left"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">运营数据</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<a href="javascript:;">用户管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">订单管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">服务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">平台审核</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">内容管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">财务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">系统设置</a>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<div class="layui-form layui-header-switch">
+							<input type="checkbox" name="" lay-skin="switch" lay-text="开启语音|关闭语音" checked>
+						</div>						
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;" title="通知">
+							<i class="layui-icon layui-icon-notice"></i>							
+							<span class="layui-badge-dot"></span>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<cite>安郁</cite>
+							<span class="layui-nav-more"></span>
+						</a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="javascript:;">基本资料</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">修改密码</a>
+							</dd>
+							<hr />
+							<dd style="text-align: center;">
+								<a href="javascript:;">退出</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+			<!--侧栏菜单-->
+			<div class="layui-side layui-side-menu">
+				<div class="layui-side-scroll">
+					<a href="javascript:;" class="layui-logo">
+						<span>狐豆后台管理系统</span>
+					</a>
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-chart"></i>
+								<cite>狐豆通行证管理</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd class="layui-this"><a href="javascript:;">狐豆通行证管理</a></dd>
+					      		<dd><a href="javascript:;">平台账户开通记录</a></dd>
+					      		<dd><a href="javascript:;">通行证冻结/解冻记录</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-rmb"></i>
+								<cite>开放平台用户管理</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">开放平台用户管理</a></dd>
+					      		<dd><a href="javascript:;">用户级别管理</a></dd>
+					      		<dd><a href="javascript:;">账户冻结/解冻记录</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-read"></i>
+								<cite>供应商用户管理</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">供应商用户管理</a></dd>
+					      		<dd><a href="javascript:;">用户级别管理</a></dd>
+					      		<dd><a href="javascript:;">账户冻结/解冻记录</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-read"></i>
+								<cite>狐豆靓号管理</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">狐豆靓号管理</a></dd>
+					      		<dd><a href="javascript:;">狐豆靓号绑定记录</a></dd>
+					      		<dd><a href="javascript:;">狐豆靓号解绑记录</a></dd>
+						    </dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--主体内容-->
+			<div class="layui-body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<!--面包屑-->
+					<div class="layui-card layadmin-header">
+						<div class="layui-breadcrumb">
+							<a href="javascript:;">主页</a>
+							<a href="javascript:;">服务管理</a>
+							<a href="javascript:;">费用模版管理</a>
+							<a><cite>新增/编辑费用模版</cite></a>
+						</div>
+					</div>
+					<div class="layui-fluid">
+						<div class="layui-card">
+							<div class="layui-card-header">新增费用模版</div>
+							<div class="layui-card-body">
+								<div class="layui-foldapse">
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>编辑生成规则</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">规定号段：</label>
+													<div class="layui-input-block layadmin-good-number">
+														<div class="layui-inline layui-inline-400">
+												        	<div class="layadmin-card">
+												        		<div class="layui-btn-group">
+																	<button class="layui-btn layui-btn-sm">全选</button>
+																	<button class="layui-btn layui-btn-sm">反选</button>
+																	<button class="layui-btn layui-btn-sm">移除</button>
+																</div>
+																<table class="layui-table layadmin-remove-color">
+																	<colgroup>
+																		<col width="60">
+																		<col >
+																		<col width="100">
+																	</colgroup>
+																	<thead>
+																		<tr>
+																			<th>选择</th>
+																			<th>号码</th>
+																			<th>操作</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+												        	</div>
+											          	</div>
+											          	<div class="layui-inline">
+											          		共导入12345个，去重后剩余12333个
+											          	</div>
+													</div>													
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">号码类型：</label>
+													<div class="layui-input-block">											        	
+											        	<input type="radio" name="a" title="初始号码" checked>
+											        	<input type="radio" name="a" title="免费靓号" >
+											        	<input type="radio" name="a" title="收费靓号" >
+											        	<input type="radio" name="a" title="未开放靓号" >
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">面向通行证类型：</label>
+													<div class="layui-input-block">
+											        	<input type="checkbox" name="" value="" title="个人通行证" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="企业通行证" lay-skin="primary">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">售价：</label>
+													<div class="layui-input-inline">
+														<input type="text" placeholder="" class="layui-input">
+										         	</div>
+										         	<div class="layui-form-mid">元</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">备注：</label>
+													<div class="layui-input-block">
+														<input type="text" placeholder="" class="layui-input">
+										         	</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="layui-form">
+									<div class="layui-form-item">
+										<div class="layui-input-block" style="margin-left: 170px;">
+											<button class="layui-btn">下一步</button>
+											<button class="layui-btn layui-btn-primary">返回</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<table style="display: none;">
+		<tbody class="temp-tr">
+			<tr>
+	  			<td>套餐</td>
+	  			<td>
+	  				<div class="layui-inline">
+	  					<input type="text" placeholder="" class="layui-input">
+	  				</div>
+	  			</td>
+	  			<td>												  				
+	  				<div class="layui-inline">
+	  					<input type="text" placeholder="" class="layui-input">
+	  				</div>
+	  			</td>
+	  			<td>
+	  				<div class="layui-text layui-text-graly">
+	  					<a href="javascript:;" class="setTop">最顶</a>
+	  					<a href="javascript:;" class="setUp">上移</a>
+	  					<a href="javascript:;" class="setDown">下移</a>
+	  					<a href="javascript:;" class="setBottom">最底</a>
+	  				</div>
+	  			</td>
+	  			<td>
+	  				<button class="layui-btn layui-btn layui-btn-sm">保存</button>
+	  				<button class="layui-btn layui-btn-danger layui-btn-sm">删除</button>
+	  			</td>
+	  		</tr>
+		</tbody>	
+	</table>
+	
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/js/jquery.js"></script>
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/layui/layui.all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/common.js" ></script>
+	<script type="text/javascript">		
+		
+		//最顶
+		function setTop(obj){
+			var domTr=$(obj).parents('tr');
+			var trIndex=$(obj).parents('tr').index();
+			
+			if(trIndex==0){
+				layer.msg('已经是最顶了！');
+				return;
+			}
+			domTr.parents('tbody').prepend(domTr);			
+		}
+		$('.setTop').click(function(){
+			setTop(this);
+		});
+		
+		//上移
+		function setUp(obj){
+			var domTr=$(obj).parents('tr');
+			var trIndex=$(obj).parents('tr').index();
+			
+			if(trIndex==0){
+				layer.msg('已经是最顶了，不能继续上移了！');
+				return;
+			}
+			domTr.prev().before(domTr);
+		}
+		$('.setUp').click(function(){
+			setUp(this);
+		});
+		
+		//下移
+		function setDown(obj){
+			var domTr=$(obj).parents('tr');
+			var trLength=$(obj).parents('tbody').find('tr').length;
+			var trIndex=$(obj).parents('tr').index();
+			
+			if(trIndex==trLength-2){
+				layer.msg('已经是最底了，不能继续下移了！');
+				return;
+			}
+			domTr.next().after(domTr);
+		}
+		$('.setDown').click(function(){
+			setDown(this);
+		});
+		
+		//最底
+		function setBottom(obj){
+			var domTr=$(obj).parents('tr');
+			var trLength=$(obj).parents('tbody').find('tr').length;
+			var trIndex=$(obj).parents('tr').index();
+			
+			if(trIndex==trLength-2){
+				layer.msg('已经是最底了！');
+				return;
+			}
+			$(obj).parents('tbody').find('tr:last-child').before(domTr);
+		}
+		$('.setBottom').click(function(){
+			setBottom(this);
+		});
+		
+		//新增套餐
+		function new_set_meal(this_dom){
+			var tem_tr=$('.temp-tr').find('tr').clone(true);
+			$(this_dom).parents('div').prev('table').append(tem_tr);
+		}
+		
+		
+		
+	</script>
+</body>
+</html>

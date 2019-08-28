@@ -1,0 +1,116 @@
+security:
+    encoders:
+        # Our user class and the algorithm we'll use to encode passwords. https://symfony.com/doc/current/security.html#c-encoding-the-user-s-password
+        App\Admin\Model\AdminUser:  bcrypt
+        App\Common\Model\User\User: bcrypt
+
+    providers:
+        # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded. To load users from somewhere else: https://symfony.com/doc/current/security/custom_provider.html
+        admins:
+            id: App\Admin\Service\AdminUserProvider
+        users:
+            id: App\Common\Service\UserProvider
+        api_user_provider:
+            id: App\OpenApi\Service\UserProvider
+
+    # https://symfony.com/doc/current/security.html#initial-security-yml-setup-authentication
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        admin:
+            pattern: ^/admin/
+            provider: admins
+
+            # but the firewall does not require login on every page
+            # denying access is done in access_control or in your controllers
+            anonymous: true
+
+            # This allows the user to login by submitting a username and password. Reference: https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                username_parameter: username
+                password_parameter: password
+                target_path_parameter: _target_path
+                csrf_parameter: _token
+                csrf_token_id: authenticate
+
+                # The route name that the login form submits to
+                check_path: admin_login
+                # The name of the route where the login form lives
+                # When the user tries to access a protected page, they are redirected here
+                login_path: admin_login
+                # Secure the login form against CSRF
+                # Reference: https://symfony.com/doc/current/security/csrf_in_login_form.html
+                csrf_token_generator: security.csrf.token_manager
+                # The page users are redirect to when there is no previous page stored in the
+                # session (for example when the users access directly to the login page).
+                default_target_path: admin_dashboard_index
+
+            logout:
+                # The route name the user can go to in order to logout
+                path: admin_logout
+                # The name of the route to redirect to after logging out
+                target: admin_dashboard_index
+
+        api_v2:
+            pattern:   ^/openapi/api/v2
+            anonymous: false
+            stateless: true
+            provider: api_user_provider
+            guard:
+                authenticators:
+                    - App\OpenApi\Security\ApiAuthenticator
+
+        main:
+            pattern: ^/
+            provider: users
+            user_checker:   App\Common\Service\UserChecker
+
+            # but the firewall does not require login on every page denying access is done in access_control or in your controllers
+            anonymous: true
+
+            # This allows the user to login by submitting a username and password  Reference: https://symfony.com/doc/current/security/form_login_setup.html
+            form_login:
+                username_parameter: username
+                password_parameter: password
+                target_path_parameter: _target_path
+                csrf_parameter: _token
+                csrf_token_id: authenticate
+
+                # The route name that the login form submits to
+                check_path: passport_login
+                # The name of the route where the login form lives When the user tries to access a protected page, they are redirected here
+                login_path: passport_login
+                # Secure the login form against CSRF Reference: https://symfony.com/doc/current/security/csrf_in_login_form.html
+                # The page users are redirect to when there is no previous page stored in the  session (for example when the users access directly to the login page).
+                default_target_path: frontpage
+
+                success_handler: App\Common\Handler\UserLoginSuccessHandler
+                csrf_token_generator: security.csrf.token_manager
+
+            logout:
+                # The route name the user can go to in order to logout
+                path: passport_logout
+                success_handler: App\Common\Handler\UserLogoutSuccessHandler
+                # The name of the route to redirect to after logging out
+                target: frontpage
+
+
+    role_hierarchy:
+        ROLE_OPEN_PLATFORM: ROLE_USER
+        ROLE_RESELLER:      ROLE_USER
+        ROLE_SUPPLIER:      ROLE_USER
+
+        ROLE_ALL_PLATFORMS:
+            - ROLE_OPEN_PLATFORM
+            - ROLE_RESELLER
+            - ROLE_SUPPLIER
+
+        ROLE_ADMIN:
+            - ROLE_ALL_PLATFORMS
+            - ROLE_ADMIN_EDITOR
+        ROLE_SUPER_ADMIN:
+            - ROLE_ADMIN
+            - ROLE_ALLOWED_TO_SWITCH
+

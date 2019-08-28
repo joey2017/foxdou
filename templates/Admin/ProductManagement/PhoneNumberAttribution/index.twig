@@ -1,0 +1,184 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '号码归属地管理' %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-form-pane layui-card-header">
+                <form class="layui-form foxdou-row horizon-form" id="search-form">
+                    <div class="layui-form-item" style="margin-bottom: 0;">
+                        {{ sf.select(search_form.search_operator_id,   null, to_options(all_operators, "运营商"), {'outer': 'inline'}) }}
+
+                        <div class="layui-inline">
+                            <div class="layui-input-inline">
+                                <input value="" type="text" autocomplete="on" class="layui-input" id="search-city-picker" name="search-city-picker" readonly="readonly" data-toggle="city-picker" placeholder="请选择地区" style="width: 200px;">
+                            </div>
+                        </div>
+                        {{ sf.select(search_form.search_status, null, {'': '启用状态', '1': '启用', '0': '禁用'}, {'outer': 'inline'}) }}
+                        {{ sf.text(search_form.search_text, null, {'outer': 'inline'}, {'placeholder': '搜索'}) }}
+                        <div class="layui-inline">
+                            {{ sf.button('搜索', {'outer': null}, {'class': 'layui-btn layui-btn-sm', 'style': 'width: 80px;', 'onclick': 'reload_table()'}, null) }}
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body">
+                <div style="padding: 5px 0;">
+                    <button class="layui-btn layuiadmin-btn-useradmin" onclick="show_edit_dialog(null)">新增号段</button>
+                </div>
+                <table id="table" class="layui-table" lay-data="{url:'{{ path('admin_phone_number_attributions_index') }}', page:true, id:'table', method:'get'}" lay-filter="table">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'id', width:100, align: 'center'}">ID</th>
+                        <th lay-data="{field:'operator_prefix', width:60, align: 'center'}">号码段</th>
+                        <th lay-data="{field:'number_prefix', width:100, align: 'center'}">运营商代码</th>
+                        <th lay-data="{field:'operator_name', width:150, align: 'center'}">运营商名字</th>
+                        <th lay-data="{field:'is_vmno_text', width:100, align: 'center'}">是否虚商</th>
+                        <th lay-data="{field:'top_operator_name', width:100, align: 'center'}">顶级运营商</th>
+                        <th lay-data="{field:'province_name', width:150, align: 'center'}">所在省</th>
+                        <th lay-data="{field:'city_name', width:150, align: 'center'}">所在市</th>
+                        <th lay-data="{field:'status_text', width:100, align: 'center'}">启用状态</th>
+                        <th lay-data="{field:'note', align: 'center'}">备注</th>
+                        <th lay-data="{field:'created_at', width:150, align: 'center'}">创建时间</th>
+                        <th lay-data="{field:'updated_at', width:150, align: 'center'}">更新时间</th>
+                        <th lay-data="{align:'center', toolbar: '#actions', width:100}">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <script type="text/html" id="actions">
+                    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete">删除</a>
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra %}
+    <div class="layui-card" id="edit-dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="edit-form" class="layui-form" lay-filter="edit-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        带 * 号的为必填项
+                    </div>
+                </div>
+                {{ sf.select(edit_form.operator_id,   '运营商', to_options(all_operators, "运营商")) }}
+                {{ sf.text(edit_form.operator_prefix, '运营商代码（前三位）') }}
+                {{ sf.text(edit_form.number_prefix, '号码段（前七位）') }}
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">请选择地区</label>
+                    <div class="layui-input-inline">
+                        <input value="" type="text" autocomplete="on" class="layui-input" id="city-picker" name="city-picker" readonly="readonly" data-toggle="city-picker" placeholder="请选择地区" style="width: 200px;">
+                    </div>
+                </div>
+
+                {{ sf.textarea(edit_form.note, '备注') }}
+                {{ sf.rest(edit_form) }}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block js_end %}
+    <script src="{{ url('admin_regions_city_picker_data') }}"></script>
+    {{ use_assets([
+    '/assets/common/components/city-picker/city-picker.css',
+    '/assets/common/components/city-picker/city-picker.impl.js'
+    ]) }}
+
+    <script>
+        var search_picker = new layui.citypicker("#search-city-picker", {
+            simple: true,
+            level: 'search_city_code',
+            province_widget_name: 'search_province_code',
+            city_widget_name: 'search_city_code'
+        });
+
+        var edit_picker = new layui.citypicker("#city-picker", {
+            simple: true,
+            level: 'city_code'
+        });
+
+        layui.table.on('tool(table)', function (row) {
+            var data = row.data;
+            if (row.event === 'edit') {
+                console.log(row.data);
+                show_edit_dialog(row.data);
+            } else if (row.event === 'delete') {
+                layer.confirm('确认要删除吗？', function (index) {
+                    var form_data = {id: data.id, _token: '{{ csrf_token('admin_phone_number_attributions_delete') }}'};
+                    axios_form.post('{{ path("admin_phone_number_attributions_delete") }}', form_data)
+                        .then(function (response) {
+                            if(response.data.msg) {
+                                layer.msg(response.data.msg)
+                            }
+
+                            if(response.data.status) {
+                                reload_table();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            layer.msg('服务器未响应，请稍后重试')
+                        });
+                });
+            }
+        });
+
+        function reload_table() {
+            table.reload('table', {
+                where: $('#search-form').serializeJson()
+            });
+        }
+
+        function show_edit_dialog(data) {
+            $('#edit-form')[0].reset();
+
+            if (data) {
+                layui.form.val("edit-form", data);
+                edit_picker.pick({province_code: data.province_code, city_code: data.city_code});
+            }
+
+            layer.open({
+                title:    data ? '编辑' : '新增',
+                type:     1,
+                area:     ['600px', 'auto'],
+                content:  $('#edit-dialog'),
+                closeBtn: false,
+                btn:      ['保存', '取消'],
+                yes:      function (index, layero) {
+                    var loading = layer.load();
+
+                    axios_form.post('{{ path("admin_phone_number_attributions_save") }}', $('#edit-form').serializeJson())
+                        .then(function (response) {
+                            layer.close(loading);
+                            if(response.data.msg) {
+                                layer.msg(response.data.msg)
+                            }
+
+                            if(response.data.status) {
+                                layer.close(index);
+                                $('#edit-dialog').hide();
+                                reload_table();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                            layer.close(loading);
+                            layer.msg('服务器未响应，请稍后重试')
+                        });
+                },
+                btn2:     function (index, layero) {
+                    layer.close(index);
+                    $('#edit-dialog').toggle();
+                }
+            });
+        }
+    </script>
+{% endblock %}

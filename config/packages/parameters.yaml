@@ -1,0 +1,25 @@
+parameters:
+    default_max_upload_file_size: 10240000
+    default_upload_save_path: "%kernel.project_dir%/web/uploads/files"
+
+    admin_article_max_upload_file_size: 5242880
+    admin_article_upload_save_path: "%kernel.project_dir%/web/uploads/article"
+
+    identity_image_max_upload_file_size: 10240000
+    identity_image_upload_save_path: "%kernel.project_dir%/web/uploads/identity"
+
+
+    upload_profiles:
+        default:
+            base_uri:      "/uploads/files"
+            #save_dir:          "%kernel.project_dir%/web/uploads/files"
+            # 最大上传文件：5M
+            #max_file_size: 5242880
+            #allowed_types: ["image/png", "image/jpeg", "image/gif", "image/bmp", "image/zip", "image/doc", "image/pdf", "image/txt", "image/xls", "image/file", "image/pdf"]
+        admin_article:
+            base_uri:      "/uploads/article"
+            #max_file_size: 5242880
+            #save_dir:      "%kernel.project_dir%/web/uploads/article"
+            #allowed_types: ["image/png", "image/jpeg", "image/gif", "image/bmp"]
+
+    asset_base_url:       "//foxdou-public.oss-cn-shenzhen.aliyuncs.com"

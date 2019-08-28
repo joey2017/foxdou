@@ -1,0 +1,94 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+{% block main_content %}
+    <div class="layui-card layadmin-service-details">
+        <form action="" method="get">
+            <input type="hidden" name="operator_id" id="operator_id" value="">
+            <input type="hidden" name="type_tab" id="type_tab" value="{{ type_tab }}">
+            <div class="layui-tab layui-tab-brief">
+                <ul class="layui-tab-title">
+                    <li {% if type_tab == 'order' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'order'}) }}">订单管理</a></li>
+                    <li {% if type_tab == 'cost' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'cost'}) }}">商品成本</a></li>
+                    <li {% if type_tab == 'apps' %}class="layui-this"{% endif %}><a href="{{ path(current_route,{'type_tab':'apps'}) }}">应用管理</a></li>
+                </ul>
+                <div class="layui-tab-content">
+                    <div class="layui-btn-container" id="operator_id_toggle">
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" operator-id="">全部</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" operator-id="1">移动话费</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" operator-id="2">联通话费</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" operator-id="3">电信话费</button>
+                        <button class="layui-btn layui-btn-primary layui-btn-sm" operator-id="4">虚商话费</button>
+                    </div>
+                    <div class="layui-form layuiadmin-card-text">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">商品名称</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">面值</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="face_value" value="" class="layui-input" />
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">产品状态</label>
+                            <div class="layui-input-block">
+                                {{ sf.select_raw('status', to_options(constant("App\\ProductConstants::STATUSES"), '全部'), {"class": "layui-input"}) }}
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="get_data();return false;">查 询</button>
+                        </div>
+                    </div>
+                    <table class="layui-table layadmin-table" id="data-table" lay-filter="data-table">
+
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    <script>
+        form.render();
+        var statuses = JSON.parse('{{ constant("App\\ProductConstants::STATUSES")|json_encode|raw }}');
+        var columns = [
+            [
+                {"field": "id", "title": "商品编号", "width": 300},
+                {"field": "name", "title": "商品名称"},
+                {"field": "face_value", "title": "面值", "width": 200},
+                {"field": "num", "title": "可购数量", "width": 120},
+                {
+                    "field": "status", "title": "商品状态", "width": 150,templet: function(d){
+                        return statuses[d.status];
+                    }
+                },
+                {"field": "price", "title": "商品价格", "width": 200},
+                {
+                    "field": "discount", "title": "商品折扣", "width": 150, templet: function(d){
+                        return d.discount+''+'%';
+                    }
+                },
+            ]
+        ];
+
+        function get_data() {
+            var params = $('form').serialize();
+            var url        = '?' + params;
+            rander_table('#data-table', url, columns,'');
+        }
+
+        // 初始化
+        get_data();
+
+        $('#operator_id_toggle button').on('click',function(e){
+            $(this).removeClass('layui-btn-primary').addClass('layui-btn-normal').siblings().addClass('layui-btn-primary').removeClass('layui-btn-normal');
+            $('#operator_id').val($(this).attr('operator-id'));
+            get_data();
+            e.preventDefault();
+        });
+    </script>
+{% endblock %}

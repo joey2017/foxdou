@@ -1,0 +1,78 @@
+{% extends 'Admin/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+  <div class="layui-fluid" id="pass-management">
+    <div class="layui-card">
+      <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
+        <form class="layui-form-item" id="form">
+          <div class="layui-inline">
+              <input class="layui-input product-price" name="user_name" value="" placeholder="关键字搜索" type="text">
+          </div>
+          <div class="layui-inline">
+              {{ sf.select_raw('real_name_status', to_options(constant("App\\Common\\Model\\User\\RealNameAuthenticationInfo::STATUSES"), '认证状态'), {"class": "layui-input"}) }}
+          </div>
+          <div class="layui-inline">
+              {{ sf.select_raw('status', to_options(constant("App\\Common\\Model\\User\\SupplierAccount::STATUSES"), '账户状态'), {"class": "layui-input"}) }}
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">日期范围</label>
+            <div class="layui-input-block">
+                <input type="text" name="" class="layui-input" id="timeFrame" placeholder="">
+                <input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+            </div>
+          </div>
+          <div class="layui-inline">
+            <div class="layui-input-block layui-input-block-margin">
+              <button type="button" class="layui-btn layuiadmin-btn-useradmin" onclick="get_data()">查询
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="layui-card-body">
+        <div style="padding: 5px 0;">
+          <button class="layui-btn layuiadmin-btn-useradmin reverse-select">
+            反选
+          </button>
+          <button class="layui-btn layui-btn-danger layuiadmin-btn-useradmin set-status" data-type="SUSPENDED">
+            冻结账户
+          </button>
+          <button class="layui-btn layuiadmin-btn-useradmin set-status" data-type="ACTIVE">
+            解冻账户
+          </button>
+        </div>
+        <table id="paged-table" class="layui-table" lay-filter="paged-table">
+
+        </table>
+        <script type="text/html" id="actions">
+             <%# if(d.status == 'ACTIVE'){ %>
+             <a class="layui-btn layui-btn-danger layui-btn-xs"  lay-event="freeze">冻结</a>
+             <a class="layui-btn layui-btn-success layui-btn-xs" lay-event="detail">详情</a>
+             <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="banned">清退</a>
+             <%# }else if(d.status == 'SUSPENDED'){ %>
+             <a class="layui-btn layui-btn-success layui-btn-xs" lay-event="unfreeze">解冻</a>
+             <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="banned">清退</a>
+             <%# }else if(d.status == 'REJECTED'){ %>
+             <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="banned">清退</a>
+             <%# }else{ %>
+             <a class="layui-btn layui-btn-success layui-btn-xs" lay-event="detail">详情</a>
+             <%# } %>
+        </script>
+      </div>
+    </div>
+  </div>
+  <script id="add_time" type="text/html">
+    <%#
+      var date = new Date();
+      date.setTime(d.add_time*1000);
+      return date.Format("yyyy-MM-dd hh:mm:ss");
+      %>
+  </script>
+{% endblock %}
+
+{% block js_end %}
+  {% include "/Admin/User/get_supplier_account_js.twig" %}
+{% endblock %}

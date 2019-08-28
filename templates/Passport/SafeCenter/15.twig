@@ -1,0 +1,140 @@
+{{ use_assets([
+    '/assets/passport/xui-select2/css/xui-select.css'
+]) }}
+
+<style type="text/css">
+    .sisi-input-inline {width: 320px !important;}
+    .foxdou-other-input {display: none;}
+</style>
+<div class="tab-content">
+    <form action="" method="post">
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">问题一：</label>
+            <div class="sisi-input-inline">
+                <div class="xui-select2 foxdou-select" id="question_1" name="question_1" value="0">
+                    <div class="xui-arrow"></div>
+                    <ul class="xui-select2-option" style="display: none;">
+                        <li value="0">请选择问题</li>
+                        {% for question in constant('App\\Passport\\Model\\SafeCenter::SAFE_QUESTION_EXAMPLE') %}
+                            <li value="{{ question }}">{{ question }}</li>
+                        {% endfor %}
+                        <li value="1">其它</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="sisi-input-item" id="other_question_1" style="display: none">
+            <label class="sisi-input-lable">请设置问题：</label>
+            <div class="sisi-input-inline">
+                <input type="text" name="" value="" class="sisi-input-ing"/>
+            </div>
+        </div>
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">答案：</label>
+            <div class="sisi-input-inline">
+                <input type="text" name="answer_1" value="" class="sisi-input-ing"/>
+            </div>
+        </div>
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">问题二：</label>
+            <div class="sisi-input-inline">
+                <div class="xui-select2 foxdou-select" id="question_2" name="question_2" value="0">
+                    <div class="xui-arrow"></div>
+                    <ul class="xui-select2-option" style="display: none;">
+                        <li value="0">请选择问题</li>
+                        {% for question in constant('App\\Passport\\Model\\SafeCenter::SAFE_QUESTION_EXAMPLE') %}
+                            <li value="{{ question }}">{{ question }}</li>
+                        {% endfor %}
+                        <li value="1">其它</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="sisi-input-item" id="other_question_2" style="display: none">
+            <label class="sisi-input-lable">请设置问题：</label>
+            <div class="sisi-input-inline">
+                <input type="text" name="" value="" class="sisi-input-ing"/>
+            </div>
+        </div>
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">答案：</label>
+            <div class="sisi-input-inline">
+                <input type="text" name="answer_2" value="" class="sisi-input-ing"/>
+            </div>
+        </div>
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">问题三：</label>
+            <div class="sisi-input-inline">
+                <div class="xui-select2 foxdou-select" id="question_3" name="question_3" value="0">
+                    <div class="xui-arrow"></div>
+                    <ul class="xui-select2-option" style="display: none;">
+                        <li value="0">请选择问题</li>
+                        {% for question in constant('App\\Passport\\Model\\SafeCenter::SAFE_QUESTION_EXAMPLE') %}
+                            <li value="{{ question }}">{{ question }}</li>
+                        {% endfor %}
+                        <li value="1">其它</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="sisi-input-item" id="other_question_3" style="display: none">
+            <label class="sisi-input-lable">请设置问题：</label>
+            <div class="sisi-input-inline">
+                <input type="text" name="" value="" class="sisi-input-ing"/>
+            </div>
+        </div>
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">答案：</label>
+            <div class="sisi-input-inline">
+                <input type="text" name="answer_3" value="" class="sisi-input-ing"/>
+            </div>
+        </div>
+        <div style="margin: 50px 0 0 110px;">
+            <button class="btn btn-middle btn-blue">确认设置</button>
+        </div>
+    </form>
+</div>
+
+{{ use_assets([
+    '/assets/passport/xui-select2/js/xui-select.js'
+]) }}
+<script type="text/javascript">
+    function checkSubmit() {
+        var question1 = $("input[name='question_1']").val();
+        var question2 = $("input[name='question_2']").val();
+        var question3 = $("input[name='question_3']").val();
+        var answer1   = $("input[name='answer_1']").val();
+        var answer2   = $("input[name='answer_2']").val();
+        var answer3   = $("input[name='answer_3']").val();
+        if ((!question1 || !question2 || !question3) || (question1 == 0 || question2 == 0 || question3 == 0)) {
+            layer.msg('请设置正确的问题');
+            return false;
+        }
+        if (!answer1 || !answer2 || !answer3) {
+            layer.msg('答案不能为空');
+            return false;
+        }
+
+    }//不可删除或屏蔽
+
+    /*
+     * 载入下拉插件
+     */
+    xui.select2();
+
+    $('.foxdou-select li').click(function () {
+        var value       = $(this).attr('value');
+        var question_id = $(this).parents('.foxdou-select').attr('id');
+        var other_id    = 'other_' + question_id;
+        if (value === '1') {
+            $('#' + question_id).find('input').removeAttr('name');//
+            $('#' + other_id).find('input').attr('name', question_id);//
+            $('#' + other_id).show();
+        } else {
+            $('#' + other_id).find('input').removeAttr('name');
+            $('#' + other_id).hide();
+            $('#' + question_id).find('input').attr('name', question_id);
+        }
+    });
+
+</script>

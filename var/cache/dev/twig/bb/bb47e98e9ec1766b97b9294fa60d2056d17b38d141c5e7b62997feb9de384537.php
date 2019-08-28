@@ -1,0 +1,489 @@
+<?php
+
+/* Admin/UserDetail/SupplierPlatform/orders.twig */
+class __TwigTemplate_f28212de2f5577f5f29215d62030fd8432bb34de33dc46a297588421fd5be13d extends Twig_Template
+{
+    private $source;
+
+    public function __construct(Twig_Environment $env)
+    {
+        parent::__construct($env);
+
+        $this->source = $this->getSourceContext();
+
+        $this->parent = false;
+
+        $this->blocks = array(
+        );
+    }
+
+    protected function doDisplay(array $context, array $blocks = array())
+    {
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e = $this->extensions["Symfony\\Bundle\\WebProfilerBundle\\Twig\\WebProfilerExtension"];
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e->enter($__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "Admin/UserDetail/SupplierPlatform/orders.twig"));
+
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->extensions["Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension"];
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->enter($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof = new Twig_Profiler_Profile($this->getTemplateName(), "template", "Admin/UserDetail/SupplierPlatform/orders.twig"));
+
+        // line 1
+        $context["sf"] = $this->loadTemplate("/Common/simple_form_helpers_for_layui.html.twig", "Admin/UserDetail/SupplierPlatform/orders.twig", 1);
+        // line 2
+        echo "<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=\"utf-8\" />
+    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=1\" />
+    <title>基本管理-Ta的财务-交易记录</title>
+    <link rel=\"stylesheet\" href=\"/assets/admin/h/css/common.css\" />
+    <link href=\"/assets/admin/h/css/bootstrap.min14ed.css?v=3.3.6\" rel=\"stylesheet\">
+    <script src=\"/assets/admin/h/js/jquery.min.js?v=2.1.4\"></script>
+    <link href=\"/assets/admin/h/css/style.min862f.css?v=4.1.0\" rel=\"stylesheet\">
+
+    <script src=\"/assets/admin/h/js/plugins/layer/laydate/laydate.js\"></script>
+
+    <script src=\"/assets/admin/js/common.js\"></script>
+    <link href=\"//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/css/layui.css\" rel=\"stylesheet\">
+    <script src=\"//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/layui.all.js\"></script>
+    <script src=\"/assets/common/js/ajaxRequest.js\"></script>
+    <!--下拉列表-->
+    <link rel=\"stylesheet\" href=\"/assets/admin/h/css/xui-select2.css\"/>
+    <script type=\"text/javascript\" src=\"/assets/admin/h/js/xui-select2.js\"></script>
+
+    <style>
+        .screen-item{background:none; border:none;  padding: 0px;}
+        .h-button-group{margin-bottom: 5px;}
+        .h-button-group button{margin-right: -10px;}
+        .date {
+            width: 420px;
+            float: left;
+        }
+        .seach input, .seach select {
+            background-color: #fff;
+            border: 1px solid #e5e6e7;
+            padding: 6px 12px;
+        }
+    </style>
+</head>
+
+<body>
+<div class=\"main-box\">
+    <div class=\"screen-item\">
+        <div class=\"seach\">
+            <form action=\"\" method=\"get\" enctype=\"multipart/form-data\" id=\"list-data\">
+                <input type=\"hidden\" name=\"_token\" value=\"";
+        // line 44
+        echo twig_escape_filter($this->env, $this->env->getRuntime('Symfony\Bridge\Twig\Extension\CsrfRuntime')->getCsrfToken("admin_user_details_supplier_platform_ajax_orders"), "html", null, true);
+        echo "\">
+            <div class=\"row\">
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">订单编号</span>
+                        <input class=\"form-control product-price\" name=\"order_id\" placeholder=\"订单编号\" type=\"text\">
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">充值号码</span>
+                        <input class=\"form-control product-price\" name=\"phone_number\" placeholder=\"充值号码\" type=\"text\">
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">订单状态</span>
+                        ";
+        // line 58
+        echo $context["sf"]->macro_select_raw("status", $this->extensions['App\Common\Twig\AppExtension']->toOptions(twig_constant("App\\Common\\Model\\Payment\\OrderRecharge::STATUSES"), "全部"), array("class" => "form-control"));
+        echo "
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">商品名称</span>
+                        <input class=\"form-control product-price\" name=\"product_name\" placeholder=\"商品名称\" type=\"text\">
+                    </div>
+                </div>
+            </div>
+            <div class=\"row\">
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">面值</span>
+                        <input class=\"form-control product-price\" name=\"product_face_value\" placeholder=\"面值\" type=\"text\">
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">金额</span>
+                        <input class=\"form-control product-price\" name=\"recharge_amount\" placeholder=\"金额\" type=\"text\">
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">充值类型</span>
+                        <select class=\"form-control\" name=\"speed\">
+                            <option value=\"0\">全部</option>
+                            <option value=\"1\">快充</option>
+                            <option value=\"2\">慢充</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class=\"row\">
+                <div class=\"col-sm-2\" style=\"width:170px;\">
+                    <div class=\"input-group m-b\" style=\"height: 34px\">
+                        <select  name=\"time_type\" style=\"height: 34px;width: 170px\">
+                            <option value=\"add_time\">添加时间</option>
+                            <option value=\"pay_time\">付款时间</option>
+                            <option value=\"end_time\">结束时间</option>
+                        </select>
+                    </div>
+                </div>
+                <div class=\"col-sm-2\" style=\"width: 400px;padding-right: 2px\">
+                    <div class=\"input-group date\" style=\"float: left\">
+                        <input style=\"width:50%\" id=\"start_time\" class=\"form-control product-price layer-date\" name=\"start_time\" value=\"\" type=\"text\">
+                        <input style=\"width:50%\" id=\"end_time\" class=\"form-control product-price layer-date\" name=\"end_time\" value=\"\" type=\"text\">
+                    </div>
+                </div>
+            </div>
+                <button type=\"submit\" class=\"btn btn-primary\" style=\"position:relative;top:-60px;margin-right:100px;float: right;\" onclick=\"get_data();return false;\">查询</button>
+            </form>
+        </div>
+    </div>
+    <div class=\"h-button-group\">
+        <button class=\"layui-btn layui-btn-small f-fnsna\" onclick=\"count_order(this)\">查看统计</button>
+        <button class=\"layui-btn layui-btn-small f-fnsna\" onclick=\"export_cvs()\">导出订单</button>
+    </div>
+    <div class=\"m-table-total\" id=\"count_order_box\" style=\"display: none; padding: 20px; background: #fcf8e3;\">
+        <span id=\"count_wait_info\">正在统计中，请稍候...</span>
+        <ul id=\"count_ul_box\" class=\"g-bdc\">
+            <li>成功订单：<span id=\"success_count\">0</span>笔（<span id=\"success_sum\">0</span>元,利润<span id=\"success_profit\">0</span>元）</li>
+            <li>失败订单：<span  id=\"loser_count\">0</span>笔（<span id=\"loser_sum\">0</span>元）</li>
+            <li>充值中订单：<span  id=\"recharge_count\">0</span>笔（<span id=\"recharge_sum\">0</span>元）</li>
+            <li>待付款订单：<span  id=\"nopay_count\">0</span>笔（<span id=\"nopay_sum\">0</span>元）</li>
+        </ul>
+    </div>
+    <div class=\"h-input-block table-style1\">
+        <table id=\"paged-table\" lay-filter=\"test\">
+
+        </table>
+    </div>
+</div>
+
+<script type=\"text/javascript\">
+
+    var baseUrl = '";
+        // line 131
+        echo $this->extensions['Symfony\Bridge\Twig\Extension\RoutingExtension']->getPath("admin_user_details_supplier_platform_ajax_orders");
+        echo "';
+    var columns = [[
+        {\"field\": \"id\", \"title\": \"订单编号\"},
+        {\"field\": \"product_name\", \"title\": \"商品名称\"},
+        {\"field\": \"product_face_value\", \"title\": \"面值\"},
+        {\"field\": \"buy_num\", \"title\": \"数量\"},
+        {\"field\": \"recharge_amount\", \"title\": \"充值金额\"},
+        {\"field\": \"sell_price\", \"title\": \"成本\"},
+        {\"field\": \"life_real_sell_price\", \"title\": \"零售价\"},
+        {\"field\": \"profit\", \"title\": \"利润\"},
+        {\"field\": \"phone_number\", \"title\": \"充值号码\"},
+        {\"field\": \"status\", \"title\": \"订单状态\"},
+        {\"field\": \"add_time\", \"title\": \"订单时间\", templet: \"#add_time\"},
+        {\"field\": \"pay_time\", \"title\": \"付款时间\", templet: \"#pay_time\"},
+        {\"field\": \"end_time\", \"title\": \"完成时间\", templet: \"#end_time\"},
+        {\"field\": \"note\", \"title\": \"备注\"},
+        {\"field\": \"actions\", \"title\": \"操作\", \"toolbar\": \"#actions\"}
+    ]];
+
+    function get_data() {
+        var params = \$('form#list-data').serialize();
+        var url = baseUrl + '?' + 'id=";
+        // line 152
+        echo twig_escape_filter($this->env, (isset($context["id"]) || array_key_exists("id", $context) ? $context["id"] : (function () { throw new Twig_Error_Runtime('Variable "id" does not exist.', 152, $this->source); })()), "html", null, true);
+        echo "&' + params;
+        rander_table('#paged-table', url, columns);
+    }
+
+    layui.use(['table', 'laytpl'], function() {
+        // 初始化
+        get_data();
+    });
+
+    var count_num=1;
+    function count_order(dom) {
+        if(\$(dom).text()=='查看统计'){
+            \$('#count_order_box').show();
+            \$('#count_wait_info').show();
+            if(count_num==1){
+                \$.get(baseUrl,\$('form#list-data').serialize()+'&id=";
+        // line 167
+        echo twig_escape_filter($this->env, (isset($context["id"]) || array_key_exists("id", $context) ? $context["id"] : (function () { throw new Twig_Error_Runtime('Variable "id" does not exist.', 167, $this->source); })()), "html", null, true);
+        echo "&'+'&count=yes',function (data) {
+                    count_num=1;
+                    \$('#success_count').text(data.data.success[0].count);
+                    \$('#success_profit').text(data.data.success[0].profit||0);
+                    \$('#loser_count').text(data.data.loser[0].count);
+                    \$('#recharge_count').text(data.data.recharge[0].count);
+                    \$('#nopay_count').text(data.data.nopay[0].count);
+
+                    \$('#success_sum').text(data.data.success[0].recharge_amount?data.data.success[0].recharge_amount:0);
+                    \$('#loser_sum').text(data.data.loser[0].recharge_amount?data.data.loser[0].recharge_amount:0);
+                    \$('#recharge_sum').text(data.data.recharge[0].recharge_amount?data.data.recharge[0].recharge_amount:0);
+                    \$('#nopay_sum').text(data.data.nopay[0].recharge_amount?data.nopay.recharge_amount:0);
+
+                    \$('#count_wait_info').hide();
+                    \$('#count_ul_box').show();
+                });
+            }else {
+                \$('#count_wait_info').hide();
+                \$('#count_ul_box').show();
+            }
+            \$(dom).text('收起统计');
+        }else {
+            \$('#count_order_box').hide();
+            \$('#count_wait_info').hide();
+            \$('#count_ul_box').hide();
+            \$(dom).text('查看统计');
+        }
+    }
+
+    function export_cvs(){
+        if(\$('#count_data_num').text()==0){
+            layer.msg('无数据不能导出');
+            return;
+        }
+        var params=\$('form').serialize();
+        var url=location.href;
+        location.href=location.href+(url.indexOf('?')!=-1?'':'?')+params+'&export=yes';
+    }
+
+</script>
+</body>
+</html>
+";
+        
+        $__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e->leave($__internal_085b0142806202599c7fe3b329164a92397d8978207a37e79d70b8c52599e33e_prof);
+
+        
+        $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02->leave($__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02_prof);
+
+    }
+
+    public function getTemplateName()
+    {
+        return "Admin/UserDetail/SupplierPlatform/orders.twig";
+    }
+
+    public function isTraitable()
+    {
+        return false;
+    }
+
+    public function getDebugInfo()
+    {
+        return array (  210 => 167,  192 => 152,  168 => 131,  92 => 58,  75 => 44,  31 => 2,  29 => 1,);
+    }
+
+    public function getSourceContext()
+    {
+        return new Twig_Source("{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset=\"utf-8\" />
+    <meta name=\"viewport\" content=\"width=device-width,initial-scale=1,maximum-scale=1\" />
+    <title>基本管理-Ta的财务-交易记录</title>
+    <link rel=\"stylesheet\" href=\"/assets/admin/h/css/common.css\" />
+    <link href=\"/assets/admin/h/css/bootstrap.min14ed.css?v=3.3.6\" rel=\"stylesheet\">
+    <script src=\"/assets/admin/h/js/jquery.min.js?v=2.1.4\"></script>
+    <link href=\"/assets/admin/h/css/style.min862f.css?v=4.1.0\" rel=\"stylesheet\">
+
+    <script src=\"/assets/admin/h/js/plugins/layer/laydate/laydate.js\"></script>
+
+    <script src=\"/assets/admin/js/common.js\"></script>
+    <link href=\"//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/css/layui.css\" rel=\"stylesheet\">
+    <script src=\"//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/layui.all.js\"></script>
+    <script src=\"/assets/common/js/ajaxRequest.js\"></script>
+    <!--下拉列表-->
+    <link rel=\"stylesheet\" href=\"/assets/admin/h/css/xui-select2.css\"/>
+    <script type=\"text/javascript\" src=\"/assets/admin/h/js/xui-select2.js\"></script>
+
+    <style>
+        .screen-item{background:none; border:none;  padding: 0px;}
+        .h-button-group{margin-bottom: 5px;}
+        .h-button-group button{margin-right: -10px;}
+        .date {
+            width: 420px;
+            float: left;
+        }
+        .seach input, .seach select {
+            background-color: #fff;
+            border: 1px solid #e5e6e7;
+            padding: 6px 12px;
+        }
+    </style>
+</head>
+
+<body>
+<div class=\"main-box\">
+    <div class=\"screen-item\">
+        <div class=\"seach\">
+            <form action=\"\" method=\"get\" enctype=\"multipart/form-data\" id=\"list-data\">
+                <input type=\"hidden\" name=\"_token\" value=\"{{ csrf_token('admin_user_details_supplier_platform_ajax_orders') }}\">
+            <div class=\"row\">
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">订单编号</span>
+                        <input class=\"form-control product-price\" name=\"order_id\" placeholder=\"订单编号\" type=\"text\">
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">充值号码</span>
+                        <input class=\"form-control product-price\" name=\"phone_number\" placeholder=\"充值号码\" type=\"text\">
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">订单状态</span>
+                        {{ sf.select_raw('status', to_options(constant(\"App\\\\Common\\\\Model\\\\Payment\\\\OrderRecharge::STATUSES\"), '全部'), {\"class\": \"form-control\"}) }}
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">商品名称</span>
+                        <input class=\"form-control product-price\" name=\"product_name\" placeholder=\"商品名称\" type=\"text\">
+                    </div>
+                </div>
+            </div>
+            <div class=\"row\">
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">面值</span>
+                        <input class=\"form-control product-price\" name=\"product_face_value\" placeholder=\"面值\" type=\"text\">
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">金额</span>
+                        <input class=\"form-control product-price\" name=\"recharge_amount\" placeholder=\"金额\" type=\"text\">
+                    </div>
+                </div>
+                <div class=\"col-sm-2\">
+                    <div class=\"input-group m-b\"><span class=\"input-group-addon\">充值类型</span>
+                        <select class=\"form-control\" name=\"speed\">
+                            <option value=\"0\">全部</option>
+                            <option value=\"1\">快充</option>
+                            <option value=\"2\">慢充</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class=\"row\">
+                <div class=\"col-sm-2\" style=\"width:170px;\">
+                    <div class=\"input-group m-b\" style=\"height: 34px\">
+                        <select  name=\"time_type\" style=\"height: 34px;width: 170px\">
+                            <option value=\"add_time\">添加时间</option>
+                            <option value=\"pay_time\">付款时间</option>
+                            <option value=\"end_time\">结束时间</option>
+                        </select>
+                    </div>
+                </div>
+                <div class=\"col-sm-2\" style=\"width: 400px;padding-right: 2px\">
+                    <div class=\"input-group date\" style=\"float: left\">
+                        <input style=\"width:50%\" id=\"start_time\" class=\"form-control product-price layer-date\" name=\"start_time\" value=\"\" type=\"text\">
+                        <input style=\"width:50%\" id=\"end_time\" class=\"form-control product-price layer-date\" name=\"end_time\" value=\"\" type=\"text\">
+                    </div>
+                </div>
+            </div>
+                <button type=\"submit\" class=\"btn btn-primary\" style=\"position:relative;top:-60px;margin-right:100px;float: right;\" onclick=\"get_data();return false;\">查询</button>
+            </form>
+        </div>
+    </div>
+    <div class=\"h-button-group\">
+        <button class=\"layui-btn layui-btn-small f-fnsna\" onclick=\"count_order(this)\">查看统计</button>
+        <button class=\"layui-btn layui-btn-small f-fnsna\" onclick=\"export_cvs()\">导出订单</button>
+    </div>
+    <div class=\"m-table-total\" id=\"count_order_box\" style=\"display: none; padding: 20px; background: #fcf8e3;\">
+        <span id=\"count_wait_info\">正在统计中，请稍候...</span>
+        <ul id=\"count_ul_box\" class=\"g-bdc\">
+            <li>成功订单：<span id=\"success_count\">0</span>笔（<span id=\"success_sum\">0</span>元,利润<span id=\"success_profit\">0</span>元）</li>
+            <li>失败订单：<span  id=\"loser_count\">0</span>笔（<span id=\"loser_sum\">0</span>元）</li>
+            <li>充值中订单：<span  id=\"recharge_count\">0</span>笔（<span id=\"recharge_sum\">0</span>元）</li>
+            <li>待付款订单：<span  id=\"nopay_count\">0</span>笔（<span id=\"nopay_sum\">0</span>元）</li>
+        </ul>
+    </div>
+    <div class=\"h-input-block table-style1\">
+        <table id=\"paged-table\" lay-filter=\"test\">
+
+        </table>
+    </div>
+</div>
+
+<script type=\"text/javascript\">
+
+    var baseUrl = '{{ path('admin_user_details_supplier_platform_ajax_orders') }}';
+    var columns = [[
+        {\"field\": \"id\", \"title\": \"订单编号\"},
+        {\"field\": \"product_name\", \"title\": \"商品名称\"},
+        {\"field\": \"product_face_value\", \"title\": \"面值\"},
+        {\"field\": \"buy_num\", \"title\": \"数量\"},
+        {\"field\": \"recharge_amount\", \"title\": \"充值金额\"},
+        {\"field\": \"sell_price\", \"title\": \"成本\"},
+        {\"field\": \"life_real_sell_price\", \"title\": \"零售价\"},
+        {\"field\": \"profit\", \"title\": \"利润\"},
+        {\"field\": \"phone_number\", \"title\": \"充值号码\"},
+        {\"field\": \"status\", \"title\": \"订单状态\"},
+        {\"field\": \"add_time\", \"title\": \"订单时间\", templet: \"#add_time\"},
+        {\"field\": \"pay_time\", \"title\": \"付款时间\", templet: \"#pay_time\"},
+        {\"field\": \"end_time\", \"title\": \"完成时间\", templet: \"#end_time\"},
+        {\"field\": \"note\", \"title\": \"备注\"},
+        {\"field\": \"actions\", \"title\": \"操作\", \"toolbar\": \"#actions\"}
+    ]];
+
+    function get_data() {
+        var params = \$('form#list-data').serialize();
+        var url = baseUrl + '?' + 'id={{ id }}&' + params;
+        rander_table('#paged-table', url, columns);
+    }
+
+    layui.use(['table', 'laytpl'], function() {
+        // 初始化
+        get_data();
+    });
+
+    var count_num=1;
+    function count_order(dom) {
+        if(\$(dom).text()=='查看统计'){
+            \$('#count_order_box').show();
+            \$('#count_wait_info').show();
+            if(count_num==1){
+                \$.get(baseUrl,\$('form#list-data').serialize()+'&id={{ id }}&'+'&count=yes',function (data) {
+                    count_num=1;
+                    \$('#success_count').text(data.data.success[0].count);
+                    \$('#success_profit').text(data.data.success[0].profit||0);
+                    \$('#loser_count').text(data.data.loser[0].count);
+                    \$('#recharge_count').text(data.data.recharge[0].count);
+                    \$('#nopay_count').text(data.data.nopay[0].count);
+
+                    \$('#success_sum').text(data.data.success[0].recharge_amount?data.data.success[0].recharge_amount:0);
+                    \$('#loser_sum').text(data.data.loser[0].recharge_amount?data.data.loser[0].recharge_amount:0);
+                    \$('#recharge_sum').text(data.data.recharge[0].recharge_amount?data.data.recharge[0].recharge_amount:0);
+                    \$('#nopay_sum').text(data.data.nopay[0].recharge_amount?data.nopay.recharge_amount:0);
+
+                    \$('#count_wait_info').hide();
+                    \$('#count_ul_box').show();
+                });
+            }else {
+                \$('#count_wait_info').hide();
+                \$('#count_ul_box').show();
+            }
+            \$(dom).text('收起统计');
+        }else {
+            \$('#count_order_box').hide();
+            \$('#count_wait_info').hide();
+            \$('#count_ul_box').hide();
+            \$(dom).text('查看统计');
+        }
+    }
+
+    function export_cvs(){
+        if(\$('#count_data_num').text()==0){
+            layer.msg('无数据不能导出');
+            return;
+        }
+        var params=\$('form').serialize();
+        var url=location.href;
+        location.href=location.href+(url.indexOf('?')!=-1?'':'?')+params+'&export=yes';
+    }
+
+</script>
+</body>
+</html>
+", "Admin/UserDetail/SupplierPlatform/orders.twig", "D:\\phpStudy\\WWW\\foxdou\\templates\\Admin\\UserDetail\\SupplierPlatform\\orders.twig");
+    }
+}

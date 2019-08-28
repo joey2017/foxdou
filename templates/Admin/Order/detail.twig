@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>订单-订单详情</title>
+    <style type="text/css">
+        .sup_log_hide{background-color: #f1ffed;display: none}
+    </style>
+    {{ use_assets([
+        '/assets/common_order_detail_temporary.css',
+        '/assets/common/js/axios.min.js',
+        '/assets/common/js/jquery.min.js',
+        '/assets/common/layui/layui.all.js',
+        '/assets/common/js/ajaxRequest.js',
+    ]) }}
+</head>
+
+<body>
+<div class="page-content" style="padding-top: 0px;">
+    <div class="h-title">
+        <h2>订单详情</h2>
+    </div>
+    <div class="details-group clearfloat">
+        <ul class="small-group">
+            {% if data.operator_id is defined %}
+                <li><em>归属地：</em><span>{{data['province_name']}}{{ data['city_name'] }}{{ product_cate[data['product_cate_id']]['child'][data['operator_id']]['name'] }}</span></li>
+            {% endif %}
+            <li><em>订单编号：</em><span>{{data['id']}}</span></li>
+            <li><em>商品名称：</em><span>{{data['product_name']}}</span></li>
+            <li><em>商品类型：</em><span>{{product_cate[data['product_cate_id']]['name']}}</span></li>
+
+            <li><em>面值：</em><span>{{data['product_face_value']}}</span></li>
+            <li><em>充值方式：</em><span>{{constant('App\\Constants::RECHARGE_METHODS')[data['recharge_method']]}}</span></li>
+            <li><em>充值次数：</em><span>{{data['recharge_sequence']}}</span></li>
+            <li><em>订单状态：</em><span>{{constant('App\\Common\\Model\\Order\\OrderRecharge::STATUSES')[data['status']]}}</span></li>
+            <li><em>充值状态：</em><span>{{constant('App\\Common\\Model\\Order\\OrderRechargeSup::RECHARGE_STATUS')[data['recharge_status']]}}</span></li>
+            <li><em>结算状态：</em><span>{{constant('App\\Common\\Model\\Order\\OrderRecharge::SETTLEMENT')[data['settlement_status']]}}</span></li>
+            <li><em>后台备注：</em><span>{{data['admin_info']?:'-'}}</span></li>
+        </ul>
+        <ul class="small-group">
+            <li><em>请求单号：</em><span>{{data['outer_sn']}}</span></li>
+            <li><em>官方流水：</em><span>{{data['official_sn']}}</span></li>
+            <li><em>订单IP：</em><span>{{data['user_ip']}}</span></li>
+            <li><em>订单成本：</em><span>{{data['sup_price']}}</span></li>
+            <li><em>销售价格：</em><span>{{data['sell_price']}}</span></li>
+            <li><em>订单利润：</em><span>{{data['profit']}}</span></li>
+            <li><em>充值号码：</em><span>{{data['phone_number']}}</span></li>
+            <li><em>充值金额：</em><span>{{data['recharge_amount']}}</span></li>
+            <li><em>充值前余额：</em><span>-</span></li>
+            <li><em>充值后余额：</em><span>-</span></li>
+            <li><em>供货商：</em><span>{% if data['sup_user_id']==0 %}系统模版{% else %}{{ data['sell_nick_name'] }}({{ data['sell_username'] }}){% endif %}</span></li>
+            <li><em>货源ID：</em><span>{{data['source_id']}}</span></li>
+        </ul>
+
+        <ul class="small-group">
+            <li><em>订单时间：</em><span>{{data['add_time']|date('Y-m-d H:i:s')}}</span></li>
+            <li><em>付款时间：</em><span>{{data['pay_time']|date('Y-m-d H:i:s')}}</span></li>
+            <li><em>完成时间：</em><span>{{data['end_time']|date('Y-m-d H:i:s')}}</span></li>
+            <li><em>用户备注：</em><span>{{data['note']?:'-'}}</span></li>
+            <li><em>下单方式：</em><span>{{constant('App\\Constants::RECHARGE_METHODS')[data['recharge_method']]}}</span></li>
+            <li><em>订单来源：</em><span>{{constant('App\\Platform::PLATFORMS')[data.platform_id]}}</span></li>
+            <li><em>下单用户：</em><span>{{data['user_nick_name']}}({{ data['user_name'] }})</span></li>
+            <li><em>用户级别：</em><span>--</span></li>
+            <li><em>模版名称：</em><a href="javascript:void(0);" onclick="show_contact('{{data['t_id']}}')" onmouseenter="show_tips(this)"><span>{{data['template_name']}}</span></a></li>
+            <li><em>模版编号：</em><span>{{data['t_id']}}</span></li>
+            {#<li><em>供货商备注：</em><span>{{data['sup_info']}}</span></li>#}
+        </ul>
+    </div>
+
+    <div class="h-title">
+        <h2>充值状态变更记录</h2>
+    </div>
+    <div class="table-style2">
+        <div style="overflow-x: auto;width:100%">
+        <table>
+            <thead>
+            <tr>
+                <th>充值次数</th>
+                <th>sup单号</th>
+                <th>充值号码</th>
+                <th>订单状态</th>
+                <th>充值状态</th>
+                <th>结算状态</th>
+                <th>变更时间</th>
+                <th>充值渠道</th>
+                <th>渠道成本</th>
+                <th>利润</th>
+
+                <th>操作人</th>
+                <th>操作方式</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            {% for k,v in  recharge_status_log%}
+
+                <tr class="{% if k>0 and recharge_status_log[k-1]['sup_order_id']==v['sup_order_id'] %}{{ v['sup_order_id'] }} sup_log_hide{% else %}sup_log_show{% endif %}">
+                    <td>{{v['recharge_sequence']}}</td>
+                    <td>{{v['sup_order_id']}}</td>
+                    <td>{{v['phone_number']}}</td>
+
+                    <td>{{constant('App\\Common\\Model\\Order\\OrderRecharge::STATUSES')[v['order_status']]}}</td>
+                    <td>{{constant('App\\Common\\Model\\Order\\OrderRechargeSup::RECHARGE_STATUS')[v['recharge_status']]}}</td>
+                    <td>{{constant('App\\Common\\Model\\Order\\OrderRechargeSup::SETTLE_STATUSES')[v['settle_status']]}}</td>
+                    <td>{{v['add_time']|date('Y-m-d H:i:s')}}</td>
+                    <td><a href="javascript:void(0);" class="details-layer">{% if v['sup_user_id'] is defined %}{{ v['sup_user_id']}}{% else %}系统模版<br/>{{ v['t_name'] }}<br/>{{ v['t_id'] }}<br/>({{ v['source_id'] }}){% endif %}</a></td>
+                    <td>{{v['sup_price']}}</td>
+                    <td>{{data['profit']}}</td>
+                    <td>{{v['operation_user']}}</td>
+                    <td>{{constant('App\\Common\\Model\\Order\\OrderRechargeSupOperationLog::OPERATION_TYPES')[v['operation_type']]}}</td>
+                    <td>
+                        {% if k <= 0 or recharge_status_log[k-1]['sup_order_id']!=v['sup_order_id'] %}
+                            <a href="javascript:void (0);" onclick="show_log('.{{v['sup_order_id']}}',this);">查看变更记录</a>
+                        {% endif %}
+                    </td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    function show_log(show_dom,this_dom) {
+        // (dom).attr('class','');
+        var text=(this_dom).text();
+        if(text=='查看变更记录'){
+            (show_dom).show();
+            (this_dom).text('隐藏变更记录');
+        }else {
+            (show_dom).hide();
+            (this_dom).text('查看变更记录');
+        }
+
+    }
+
+    (function(){
+        function open_table(this_dom){
+            var a=("<tr class='new-tr'><td colspan=\'13\' class='new-td'></td></tr>");
+            (this_dom).parents('tr').after(a);
+        }
+        function createTable(rowNum,clomnNum){
+            var table = ("<table border = \"1\" >");
+            table.addClass('new-table');
+            for(var i=0;i<rowNum;i++){
+                var tr=("<tr></tr>");
+                tr.appendTo(table);
+                for(var j=0;j<clomnNum;j++){
+                    var td=("<td>" +"&nbsp;"+"</td>");
+                    td.appendTo(tr);
+                }
+            }
+            table.append("</table>");
+
+            return table;
+        }
+        ('.open-in').click(function(){
+            var html_text=(this).html();
+            if(html_text == '详细'){
+                open_table(this);
+                (".new-td").html(createTable(5,13));
+                (this).html('收缩');
+            }else{
+                (this).parents('table').find('.new-tr').remove();
+                (this).html('详细');
+            }
+        });
+
+    });
+
+    function  show_tips(dom) {
+        layer.tips('查看联系人',(dom));
+    }
+
+
+    function show_contact(template_id) {
+        var content_url='id='+template_id+'';
+        contact(content_url,template_id,'');
+    }
+
+    function contact(content_url,template_id,add_or_edit_url){
+        layer.open({
+            type: 2,
+            area: ['100%', '90%'],
+            title: '查看联系人', //不显示标题
+            content: content_url, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响
+            btn: ['确定', '取消'],
+            btn1: function (index) {
+                layer.close(index);
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

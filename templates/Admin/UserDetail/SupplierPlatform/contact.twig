@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>基本管理-基本信息-联系信息</title>
+	<link rel="stylesheet" href="/assets/admin/h/css/common.css" />
+	<script type="text/javascript" src="/assets/admin/js/jquery.min.js"></script>
+
+  <style>
+	.image-view{float: left; width: 70px;height: 70px;margin-right: 10px; background: #BBB5B5;}
+	.sisi-btn-item {position: relative;float: left;}
+	.sisi-btn-item input{position: absolute;display: block; top: 0;left: 0;width: 70px;height: 70px; opacity: 0;}
+	.sisi-btn-item button{display: block;width: 70px;height: 70px;box-sizing: border-box;border: 2px dashed #E0E0E0;background: #FFFFFF;}
+	.sisi-btn-item button:hover{border-color: #CCCCCC;}
+	.sisi-btn-item span{display: block;width: 100%;height: 100%;font-size: 30px;line-height:60px;color: #CCCCCC;}
+  </style>
+  <script language="JavaScript">
+      //基本信息的修改和保存
+      $(function(){
+          function edit(){
+              $('.inp-val').each(function(){
+                  var value = $(this).html();
+                  $(this).hide();
+                  $('textarea').hide();
+                  $(this).next('input').fadeIn();
+                  $(this).next('input').val(value);
+
+              });
+          }
+          function save(){
+              $('input').each(function(){
+                  var value = $(this).val();
+                  $(this).siblings('span.inp-val').html(value);
+                  $(this).siblings('span.inp-val').show();
+                  $(this).hide();
+
+              });
+          }
+          $('#edit').click(function(){
+              var htmlText = $('#edit').html();
+              if(htmlText == '编辑'){
+                  edit();
+                  $('#edit').html('保存');
+              }else{
+                  save();
+                  $('#edit').html('编辑');
+              }
+          });
+      });
+  </script>
+</head>
+
+<body>
+<div class="main-box">
+  <ul class="h-tab">
+	<li><a href="{{ path('admin_user_details_supplier_platform_basic_info',{id:user.user_id}) }}">基本信息</a></li>
+	<li class="tab-this"><a href="{{ path('admin_user_details_supplier_platform_contact',{id:user.user_id}) }}">联系信息</a></li>
+  </ul>
+  <div class="h-details-box">
+	<ul class="h-details clearfloat">
+		<li>
+			<div class="details-title">联系人</div>
+			<div class="detail-content">
+				<div class="h-input-inline">
+					<span class="h-input-text inp-val">{{ user.contact_name }}</span>
+					<input type="text" name="" value="" class="h-input-ing" style="display: none;" />
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class="details-title">联系手机号码</div>
+			<div class="detail-content">
+				<div class="h-input-inline">
+					<span class="h-input-text inp-val">{{ user.contact_phone }}</span>
+					<input type="text" name="" value="" class="h-input-ing" style="display: none;" />
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class="details-title">联系QQ</div>
+			<div class="detail-content">
+				<div class="h-input-inline">
+					<span class="h-input-text inp-val">{{ user.contact_qq }}</span>
+					<input type="text" name="" value="" class="h-input-ing" style="display: none;" />
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class="details-title">联系邮箱</div>
+			<div class="detail-content">
+				<div class="h-input-inline">
+					<span class="h-input-text inp-val">{{ user.contact_mail }}</span>
+					<input type="text" name="" value="" class="h-input-ing" style="display: none;" />
+				</div>
+			</div>
+		</li>
+		<li>
+			<div class="details-title">地址</div>
+			<div class="detail-content">
+				<div class="h-input-inline">
+					<span class="h-input-text inp-val">{{ user.contact_address }}</span>
+					<input type="text" name="" value="" class="h-input-ing" style="display: none;" />
+				</div>
+			</div>
+		</li>
+	</ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+	layui.use(['element', 'form','layer'], function(){
+		var element = layui.element(); //导航的hover效果、二级菜单等功能，需要依赖element模块
+		var form = layui.form();
+		var layer = layui.layer;
+	});
+
+	$('.app-secret-none').click(function () {
+		var dom=$(this);
+		var domstatus=$(this).attr('data-status');
+		if(domstatus=='hidden'){
+			layer.prompt({title: '请输入密码验证身份', formType:1,type:1}, function(pass, index){
+				var encrypt = new JSEncrypt();
+				encrypt.setPublicKey($("#rsa-pubkey").val());
+				var password=encrypt.encrypt(pass.trim());
+				$.post('',
+                    {},function(data){
+					if(data.status){
+						$('.app-secret').html(data.msg+'　');
+						$('.app-secret-none').html('隐藏');
+						dom.attr('data-status','show');
+						layer.close(index);
+					}else{
+						layer.alert(data.msg);
+					}
+				});
+			});
+		}else{
+			$('.app-secret').html('');
+			$('.app-secret-none').html('显示');
+			dom.attr('data-status','hidden');
+		}
+	});
+</script>
+
+
+</body>
+</html>

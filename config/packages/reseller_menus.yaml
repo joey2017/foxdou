@@ -1,0 +1,78 @@
+parameters:
+    reseller_menus:
+        dashboard:
+            name: 控制面板
+            items:
+                -   name: 首页
+                    icon: layui-icon-chart
+                    url:  /supplier/dashboard
+                -   name: 账户信息
+                    icon: layui-icon-rmb
+                    url:  /supplier/profile
+                -   name: 平台公告
+                    icon: layui-icon-rmb
+                    url:  /supplier/announcements
+                -   name: 操作日记
+                    icon: layui-icon-rmb
+                    url:  /supplier/operation-logs
+        orders:
+            name: 订单管理
+            items:
+                -   name: 手机话费充值订单
+                    icon: layui-icon-chart
+                    url:  /supplier/profile
+                -   name: 手机流量充值订单
+                    icon: layui-icon-chart
+                    url:  /supplier/profile
+                -   name: 固话宽带充值订单
+                    icon: layui-icon-rmb
+                    url:  /supplier/profile
+                -   name: 腾讯业务充值订单
+                    icon: layui-icon-rmb
+                    url:  /supplier/profile
+        products:
+            name: 供货管理
+            items:
+                -   name: 供货模板管理
+                    icon: fa-creative-commons
+                    items:
+                        - { name: 供货模板管理, url: /supplier/products, icon: fa-list-ul}
+                -   name: 商品管理
+                    icon: fa-shopping-cart
+                    items:
+                        - { name: 手机话费充值, url: /service/service/list, icon: fa-list-ol}
+                        - { name: 手机流量充值, url: /service/service-cate/, icon: fa-certificate}
+                        - { name: 固话宽带充值, url: /service/service-cate/, icon: fa-certificate}
+                        - { name: 腾讯业务充值, url: /service/service-cate/, icon: fa-certificate}
+                -   name: 供货接口秘钥
+                    icon: fa-shopping-cart
+                    items:
+                        - { name: 供货接口秘钥, url: /service/service/list, icon: fa-list-ol}
+        finance:
+            name: 财务
+            items:
+                -   name: 账务明细
+                    icon: fa-rmb
+                    items:
+                        - { name: 账户概览, url: /finance/finance-pay-way, icon: fa-bank}
+                        - { name: 交易记录, url: /finance/finance-pay-way/poundage, icon: fa-hand-rock-o}
+                        - { name: 资金明细, url: /finance/finance-pay-way/user-bind-payway, icon: fa-user-md}
+                -   name: 提现管理
+                    icon: fa-amount
+                    items:
+                        - { name: 申请提现, url: /finance/finance-cash/bank, icon: fa-bank}
+                        - { name: 提现记录, url: /finance/finance-cash/shouxu, icon: fa-hand-rock-o}
+                        - { name: 提现账户管理, url: /finance/finance-cash/user-account, icon: fa-user-md}
+
+        users:
+            name: 用户管理
+            items:
+                - name: 员工管理
+                  icon: layui-icon-chart
+                  items:
+                      - { name: 员工管理, url: /supplier/users/pass-management, icon: ""}
+                      - { name: 岗位权限管理, url: /supplier/users/open-account-log, icon: ""}
+        passport:
+            name: 狐豆通行证
+            icon: layui-icon-chart
+            url:  /passport/

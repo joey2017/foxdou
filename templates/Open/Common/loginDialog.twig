@@ -1,0 +1,62 @@
+<!-- 弹出的登录框 -->
+{% if not is_granted('ROLE_USER') %}
+    {{ use_assets('/assets/open/frontpage/css/login_dialog.css') }}
+    <div class="blackMask" style="display: none;">
+        <div class="login-alpha">
+            <div class="login">
+                <i class="icon iconfont icon-guanbi" id="closeDialog"></i>
+                <form class="layui-form dialog-login" action="{{ url('passport_login') }}" method="post">
+                    <input type="hidden" name="_csrf" value="{{ csrf_token('passport_login') }}">
+                    <p class="login-title">登录狐豆</p>
+                    <div class="login-group">
+                        <div class="login-input-group">
+                            <div class="layui-form-item">
+                                <div class="h-input-block" style="position: relative;">
+                                    <input type="text" name="username" value="{{ last_username|default('') }}" required placeholder="请输入帐号" class="h-input-ing f-fnsna" id="login-username"/>
+                                    <i class="icon iconfont icon-zhanghao"></i>
+                                </div>
+                            </div>
+                            <div class="layui-form-item">
+                                <div class="h-input-block">
+                                    <input type="password" name="password" required placeholder="请输入密码" class="h-input-ing f-fnsna" id="login-password"/>
+                                    <i class="icon iconfont icon-mima"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="layui-form-item" style="margin-bottom: 17px;">
+                        <div class="layui-inout-inline">
+                            <div id="drag"></div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="_token" value="{{ csrf_token('authenticate') }}"/>
+                    <input type="hidden" name="_target_path" value="{{ path('open_dashboard_index') }}"/>
+                    <button class="login-btn f-fnsna login-dialog-btn" lay-submit="" lay-filter="">立即登录</button>
+                </form>
+                <p class="login-arrow">
+                    <a href="{{ path('passport_user_password_reset_index',{'type':'5'}) }}" target="_blank">忘记密码？</a>
+                    <span>|</span>
+                    <a href="{{ path('passport_register') }}" target="_blank">注册帐号</a>
+                    <span>|</span>
+                    <a href="javascript:void(0);">意见反馈</a>
+                </p>
+                <div class="login-way" style="display: none;">
+                    <a href="#"><i class="icon iconfont icon-qq1"></i></a>
+                    <a href="#"><i class="icon iconfont icon-weixin1"></i></a>
+                    <a href="#"><i class="icon iconfont icon-xinlang-copy"></i></a>
+                    <a href="#"><i class="icon iconfont icon-weixin-"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <script>
+        /*
+        * 点击登录框又上角的 叉叉，关闭登录框
+        */
+        $('#closeDialog').on('click',function(){
+            $('.blackMask').hide();
+            $('body').css({overflow:'auto'});
+        });
+    </script>
+{% endif %}

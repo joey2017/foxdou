@@ -1,0 +1,213 @@
+<script>
+    var face_value_types = JSON.parse('{{ constant("App\\ProductConstants::FACE_VALUE_TYPES")|json_encode|raw }}');
+    var cate_ids = JSON.parse('{{ constant("App\\Constants::CARRIERS")|json_encode|raw }}');
+    var speeds = JSON.parse('{{ constant("App\\Constants::RECHARGE_SPEED")|json_encode|raw }}');
+    var sell_statuses = JSON.parse('{{ constant("App\\ProductConstants::RECHARGE_SPEED_TYPES")|json_encode|raw }}');
+    var statuses = JSON.parse('{{ constant("App\\ProductConstants::REVIEW_STATUSES")|json_encode|raw }}');
+    var url = "";
+    var columns = [[
+        {"field": "", "title": "", type: "checkbox", "width": 50},
+        {"field": "id", "title": "申请记录编号", "width": 150},
+        {"field": "pass", "title": "供应商通行证账号", "width": 150},
+        {"field": "nick_name", "title": "供应商昵称", "width": 150},
+        {"field": "t_name", "title": "供货模板","width": 100},
+        {"field": "product_name", "title": "商品名称","width": 200},
+        {"field": "face_value", "title": "面值"},
+        {
+            "field": "face_value_type", "title": "面值类型", "width": 150, templet: function (d) {
+                return face_value_types[d.face_value_type];
+            }
+        },
+        {
+            "field": "province_name", "title": "商品适用范围", "width": 150, templet: function(d){
+                return d.province_name ? d.province_name : d.city_name;
+            }
+        },
+        {
+            "field": "operator_id", "title": "运营商类别", templet: function (d) {
+                return cate_ids[d.operator_id];
+            }
+        },
+        {
+            "field": "speed", "title": "快充/慢充", templet: function (d) {
+                return speeds[d.speed];
+            }
+        },
+        {"field": "source_price", "title": "供货价", "width": 150},
+        {
+            "field": "cost_percent", "title": "供货价/面值", "width": 200, templet: function (d) {
+                return d.source_price / d.face_value;
+            }
+        },
+        {
+            "field": "sell_status", "title": "货源启用状态", "width": 200, templet: function (d) {
+                return sell_statuses[d.sell_status];
+            }
+        },
+        {
+            "field": "status", "title": "货源审核状态", "width": 200, templet: function (d) {
+                return statuses[d.status];
+            }
+        },
+        {"field": "add_time", "title": "货源添加时间", "width": 180, templet: "#add_time"},
+        {"field": "edit_time", "title": "审核时间", templet: "#edit_time", "width": 180},
+        {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 150}
+    ]];
+
+    if ('{{ product_cate_id }}' == 3) {
+        columns = [[
+            {"field": "", "title": "", type: "checkbox", "width": 50},
+            {"field": "id", "title": "申请记录编号", "width": 150},
+            {"field": "pass", "title": "供应商通行证账号", "width": 150},
+            {"field": "nick_name", "title": "供应商昵称", "width": 150},
+            {"field": "t_name", "title": "供货模板","width": 150},
+            {"field": "product_name", "title": "商品名称","width": 200},
+            {"field": "tencent_name", "title": "腾讯业务品类","width": 200},
+            {"field": "face_value", "title": "面值"},
+            {
+                "field": "face_value_type", "title": "面值类型", "width": 150, templet: function (d) {
+                    return face_value_types[d.face_value_type];
+                }
+            },
+            {"field": "source_price", "title": "供货价", "width": 150},
+            {
+                "field": "cost_percent", "title": "供货价/面值", "width": 200, templet: function (d) {
+                    return d.source_price / d.face_value;
+                }
+            },
+            {
+                "field": "sell_status", "title": "货源启用状态", "width": 200, templet: function (d) {
+                    return sell_statuses[d.sell_status];
+                }
+            },
+            {
+                "field": "status", "title": "货源审核状态", "width": 200, templet: function (d) {
+                    return statuses[d.status];
+                }
+            },
+            {"field": "add_time", "title": "货源添加时间", "width": 180, templet: "#add_time"},
+            {"field": "edit_time", "title": "审核时间", templet: "#edit_time", "width": 180},
+            {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 150}
+        ]];
+    }
+    function get_data() {
+        var params = $('form#product-supplies-list').serialize();
+        url = '?' + params + '&product_cate_id=' + '{{ product_cate_id }}';
+        rander_table('#product-supplies-table', url, columns);
+    }
+
+    var loading = null;
+    var before = function () {
+        loading = layer.load();
+    }
+    var error = function () {
+        layer.close(loading);
+        nxwd.showMsg('服务器未响应，请稍后重试');
+    }
+    var success = function (res) {
+        layer.close(loading);
+        if (res.status) {
+            nxwd.showMsg(res.msg, 'success');
+            location.reload();
+        } else {
+            nxwd.showMsg(res.msg, 'danger');
+        }
+    }
+
+    // 初始化
+    get_data();
+    table.on('tool(product-supplies-table)', function (obj) {
+        var data = obj.data;
+        var layEvent = obj.event;
+
+        if (layEvent === 'review') { //审核
+            var yes = function (index){
+                layer.close(index);
+                var args = {};
+                args.product_cate_id = '{{ product_cate_id }}';
+                args.id = data.id;
+                args.status = $("input[name=review_status]:checked").val();
+                nxwd.ajaxRequest('{{ path("admin_audit_product_review") }}','POST',args,'json',success,before,error);
+            }
+            nxwd.ajaxOpenCallBack('货源审核','review-content','320px','220px',yes);
+        }
+        if (layEvent === 'delete') { //删除
+            nxwd.ajaxDelete('{{ path("admin_audit_product_supplies_del") }}?product_cate_id={{ product_cate_id }}',this,false,data.id);
+        }
+    });
+
+    //运营商类别
+    form.on('select(operator)', function(data){
+        if (data.value == 4) {
+            $('#mvno-block').show();
+        } else {
+            $('#mvno-block').hide();
+        }
+    });
+
+    var checked_ids = [];
+    table.on('checkbox(product-supplies-table)', function(obj){
+        if (obj.checked) {
+            checked_ids.push(obj.data.id);
+        } else {
+            checked_ids.remove(obj.data.id);
+        }
+
+    });
+
+    $(document).on('click',function(e){
+        var target = $(e.target);
+        if (target.is('.reverse-select') || target.parents().is('.reverse-select')) {
+            $('.layui-table-box').find('input:checkbox').next().each(function () {
+                $(this).toggleClass('layui-form-checked');
+            })
+        } else if (target.is('.site-demo-layer') || target.parents().is('.site-demo-layer')) {
+            var change_status = target.attr('data-status');
+            var _that = e.target;
+            var active = {
+                setSuccess: function(){
+                    productOperation('{{ path("admin_audit_product_review") }}','{{ product_cate_id }}',checked_ids,1);
+                },
+                setFailure: function(){
+                    productOperation('{{ path("admin_audit_product_review") }}','{{ product_cate_id }}',checked_ids,4);
+                },
+                changeStatus: function(){
+                    productOperation('{{ path("admin_audit_product_change_status") }}','{{ product_cate_id }}',checked_ids,change_status);
+                },
+                delete: function(){
+                    nxwd.ajaxDelete('{{ path("admin_audit_product_supplies_del") }}?product_cate_id={{ product_cate_id }}',_that,true);
+                }
+
+            };
+
+            var posttype = target.data('type');
+            active[posttype] ? active[posttype].call(this) : '';
+
+        }
+    });
+
+    /**
+     * 货源审核/启用/停用
+     * @param url           // 请求url
+     * @param id            // 项目ID
+     * @param status        // 通过或不通过 1,4 | 停止或启用 0,1
+     */
+    function productOperation(url, product_cate_id, id, status) {
+
+        if (id == '' || typeof id == 'undefined' || id == null) {
+            nxwd.showMsg('项目id不能为空');
+            return false;
+        }
+
+        if (status === '' || product_cate_id === '' || typeof product_cate_id == 'undefined' || product_cate_id == null) {
+            nxwd.showMsg('参数有误');
+            return false;
+        }
+
+        //var action = (status == 1 ? '审核通过' : '审核不通过');
+        var ok = layer.confirm('您确定要执行该操作吗？', {icon: 3, title: '系统提示'}, function(){
+            layer.close(ok);
+            nxwd.ajaxRequest(url, 'POST', {product_cate_id: product_cate_id,id: id, status: status}, 'json', success, before, error);
+        });
+    }
+</script>

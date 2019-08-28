@@ -1,0 +1,62 @@
+{% set user = app.user %}
+{% set current_route = app.request.attributes.get('_route') %}
+{% set current_path  = app.request.pathinfo %}
+
+{% set admin_menus = params("admin_menus") %}
+{% set defaults = app.debug ? {"items": [{"name": "路由" ~ current_route ~ " 没有匹配的项", "url": ""}]} : [] %}
+{% set left_nav = admin_menus[current_route]|default(defaults) %}
+{% set main_panel_url = left_nav.items[0].url %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %} {{ title|default("狐豆") }} {% endblock %}</title>
+  <link rel="shortcut icon" href="favicon.ico">
+
+  <link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+  <link rel="stylesheet" type="text/css" href="/assets/admin/css/admin.css"/>
+  <script type="text/javascript" src="//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/js/jquery.min.js"></script>
+  <script type="text/javascript" src="//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/layui.all.js"></script>
+  <script type="text/javascript" charset="utf-8" src="/assets/admin/js/common.js" ></script>
+  <script type="text/javascript" charset="utf-8" src="/assets/common/js/ajaxRequest.js" ></script>
+
+  {% block css %}
+  {% endblock %}
+  {% block js %}
+  {% endblock %}
+  {% block validation_scripts %}
+  {% endblock %}
+</head>
+<body>
+<div class="layadmin-tabspage-none">
+  <div class="layui-layout layui-layout-admin">
+      <div class="layui-header">
+        <!-- 头部区域 -->
+          {% include "Admin/Common/top_nav.twig" %}
+      </div>
+      <!--侧栏菜单-->
+      <div class="layui-side layui-side-menu">
+          {% include "Admin/Common/left_nav.twig" %}
+      </div>
+
+      <!--主体内容-->
+      <div class="layui-body">
+        <div class="layadmin-tabsbody-item layui-show">
+          <!--面包屑-->
+            {% block main_content %}
+            {% endblock %}
+        </div>
+      </div>
+  </div>
+</div>
+{% block extra %}
+{% endblock %}
+{% block js_end %}
+{% endblock %}
+{% block footer %}
+{% endblock %}
+</body>
+</html>

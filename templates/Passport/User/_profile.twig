@@ -1,0 +1,203 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+  <style type="text/css">
+    input{height: 34px!important;}
+    .page-content{text-align: left;}
+    a:hover{opacity: .7;}
+    .head-portrait{position: relative;}
+    .uploadImage{position: absolute;top: 0;left: 0; width: 60px;height: 60px;overflow: hidden;}
+    .uploadImage img{width: 100%;height: 100%;}
+    #uploadImage{display: block; width: 60px;height: 60px!important;opacity: 0;cursor: pointer;}
+    .verify_failed{height: 100%;line-height: 34px;color: red}
+    .verify_successed{height: 100%;line-height: 34px;color: green}
+  </style>
+
+  <div class="m-wrapper">
+    <div class="title-block">
+      <h2 class="title-skin">账户信息</h2>
+    </div>
+    <div class="m-single">
+      <ul class="info-skin">
+        <li>
+          <div class="info-skin-left" style="margin-top: 15px;">头像</div>
+          <div class="info-skin-right">
+            <div class="head-portrait" style="border-radius: 50%;" title="点击上传头像">
+              <div class="uploadImage" >
+                <img id="head_img" style="border-radius: 50%;" src="{{ user.avatar_url }}" onerror="this.src='//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/img/default-head-portrait.jpg'" />
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">昵称</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <span class="info-skin-text">{{ user.nick_name }}</span>
+              <input type="text" id="nick_name" name="nick_name" value="{{ user.nick_name }}"  placeholder="请输入昵称" class="layui-input f-fnsna" style="display: none;"
+            </div>
+            <div class="info-skin-auxe">
+              <a href="javascript:void(0);" class="edit" data-value="{{ user.nick_name }}"> <i class="icon iconfont icon-czjl" style="color: grey"></i></a>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">狐豆帐号</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <span class="info-skin-text">{{ user.user_name }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">绑定手机</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+                <span class="info-skin-text">
+                    {{ user.mobile|mask_mobile }}
+                </span>
+            </div>
+            {% if user.mobile %}
+            <div class="info-skin-auxe">
+              <a href="/safe/user-inspect/safe-inspect?operation=1" target="_blank"><i class="icon iconfont icon-czjl" style="color: grey"></i></a>
+            </div>
+            {% elseif user.bind_mobile  %}
+            <div class="info-skin-auxe">
+              <a href="/safe/user-inspect/safe-inspect?operation=11" target="_blank">设为登录帐号</a>
+              <a href="/safe/user-inspect/safe-inspect?operation=1" target="_blank"><i class="icon iconfont icon-czjl" style="color: grey"></i></a>
+            </div>
+           {% else %}
+            <div class="info-skin-auxe">
+              <a href="//safe.foxdou.com/safe/user-inspect/safe-inspect?operation=8" target="_blank">绑定</a>
+            </div>
+            {% endif %}
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">邮箱账户</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+                        <span class="info-skin-text">
+                          {{ user.bind_email ? user.bind_email|mask_email : "未绑定" }}
+                        </span>
+            </div>
+            {% if user.email %}
+            <div class="info-skin-auxe">
+              <a href="/safe/user-inspect/safe-inspect?operation=2" target="_blank"><i class="icon iconfont icon-czjl" style="color: grey"></i></a>
+            </div>
+            {% elseif user.bind_email %}
+            <div class="info-skin-auxe">
+              <a href="/safe/user-inspect/safe-inspect?operation=12" target="_blank">设为登录帐号</a>
+              <a href="/safe/user-inspect/safe-inspect?operation=2" target="_blank"><i class="icon iconfont icon-czjl" style="color: grey"></i></a>
+            </div>
+            {% else %}
+            <div class="info-skin-auxe">
+              <a href="//safe.foxdou.com/safe/user-inspect/safe-inspect?operation=7" target="_blank">绑定</a>
+            </div>
+            {% endif %}
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">账户性质</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <span class="info-skin-text">{{ user.getTypeText() }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">实名认证</div>
+          <div class="info-skin-right">
+            <div class="info-skin-auxe">
+              {{ user.getRealNameStatusText() }}
+              {% if user.real_name_status != 1 %}
+                <a href="#"> | <span class="" >实名认证信息</span></a>
+              {% endif %}
+            </div>
+          </div>
+        </li>
+
+        {% if user.type != constant('App\\Common\\Model\\User\\User::TYPE_INDIVIDUAL') %}
+          {% set info = user.realNameInfo %}
+        <li>
+          <div class="info-skin-left">公司名称</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <span class="info-skin-text">{{ info.business_name|default('-') }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">法人名称</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <span class="info-skin-text">{{ info.legal_person_name|default('-')|mask_real_name }}</span>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="info-skin-left">企业地址</div>
+          <div class="info-skin-right">
+            <div class="info-skin-inline">
+              <span class="info-skin-text">{{ info.business_address|default('-') }}</span>
+            </div>
+          </div>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+//      upload_alios_img('#head_img','.user_head_portrait,#head_img',{});
+      layui.use(['layer'], function(){
+          var layer = layui.layer;
+
+          $('.edit').click(function(){
+              if($(this).text() !='完成'){
+                  $(this).text('完成');
+                  edit(this);
+              }else{
+                  save(this);
+              }
+          });
+
+          function edit(this_dom){
+              var value = $(this_dom).data('value');
+              $(this_dom).parents('li').find('.info-skin-text').hide();
+              $(this_dom).parents('li').find('input').fadeIn();
+              $(this_dom).parents('li').find('input').val(value);
+          }
+
+          function save(this_dom){
+              var origin_value = $(this_dom).data('value');
+              var value = $(this_dom).parents('li').find('input').val();
+              if(origin_value === value){
+                  $(this_dom).parents('li').find('input').hide();
+                  $(this_dom).parents('li').find('.info-skin-text').show();
+                  $('.edit').html('<i class="icon iconfont icon-czjl" style="color: grey"></i>');
+              }
+
+              $.ajax('{{ path('passport_user_profile_update') }}',{
+                  type:'post'
+                  ,data:{nick_name:value,'_token':'{{ csrf_token("passport_user_profile_update") }}'}
+                  ,success:function (data) {
+                      layer.msg(data.msg);
+                      if(!data.status){
+                          layer.msg(data.msg);
+                          return false;
+                      }
+
+                      $(this_dom).parents('li').find('input').hide();
+                      $(this_dom).parents('li').find('.info-skin-text').show();
+                      $(this_dom).parents('li').find('.info-skin-text').html(value);
+                      $('.edit').html('<i class="icon iconfont icon-czjl" style="color: grey"></i>');
+                      $(this_dom).data('value', value);
+                  }
+                  ,error:function () {
+                      layer.msg('网络或系统异常，请稍候再试')
+                  }
+              });
+          }
+      });
+
+  </script>

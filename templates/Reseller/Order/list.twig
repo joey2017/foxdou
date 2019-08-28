@@ -1,0 +1,156 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% set title = '我的订单-充值订单-' %}
+
+{% block css %}
+    <style type="text/css">
+        .page-content { border: 1px solid #E0E0E0; text-align: left }
+        .m-side-nav .icon-nav { display: inline-block; width: 24px; height: 24px; font-size: 24px; }
+        .m-side-nav .nav-title { padding: 0 26px; }
+        .m-side-nav .nav-title span { width: 90px; margin-left: 15px; font-size: 14px; }
+        .m-right { padding: 20px 0; }
+        .m-table-total { height: auto; margin: 10px; padding: 10px; background: #d9efff; border: 1px solid #E0E0E0; }
+        .m-table-total li { float: left; margin: 0 20px; }
+        .m-screen { text-align: left; }
+        .m-screen-item { padding-bottom: 25px; }
+        .m-screen .rq { display: inline-block; margin-right: 10px; }
+        .m-time input { width: 300px !important; }
+        .m-tab-btn .layui-btn-small { height: 34px; }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    <div class="page-content">
+        {#{% include "/Common/_productCategories.twig" %}#}
+        {% if app.request.get('product_cate_id') != constant('App\\Constants::PRODUCT_CATE_TENCENT') %}
+        {% include "Common/icp_carriers.twig" %}
+        {% endif %}
+        <div class="m-screen-item">
+            {% include "Reseller/Order/_form.twig" %}
+        </div>
+        <div class="m-tab-btn">
+            <button class="layui-btn layui-btn-small f-fnsna" onclick="count_order(this);">查看统计</button>
+            <button class="layui-btn layui-btn-small f-fnsna" onclick="export_cvs();">导出订单</button>
+        </div>
+        <div class="m-table-total" id="count_order_box" style="display: none;">
+            <span id="count_wait_info">正在统计中，请稍候...</span>
+            <ul class="g-bdc" id="count_ul_box" style="display: none">
+                <li>成功订单：<span id="success_count">0</span>笔（<span id="success_sum">0</span>元,利润<span id="success_lirun">0</span>元）
+                </li>
+                <li>失败订单：<span id="loser_count">0</span>笔（<span id="loser_sum">0</span>元）</li>
+                <li>充值中订单：<span id="recharge_count">0</span>笔（<span id="recharge_sum">0</span>元）</li>
+                <li>待付款订单：<span id="nopay_count">0</span>笔（<span id="nopay_sum">0</span>元）</li>
+            </ul>
+        </div>
+        <div class="m-table g-bdc">
+            <table class="layui-hide f-fl" id="data-table"></table>
+        </div>
+    </div>
+    <script>
+
+        laydate.render( {
+            elem: '#from'
+            ,type: 'date'
+        });
+
+        laydate.render({
+            elem: '#to'
+            ,type: 'date'
+        });
+
+        var columns = [
+            [
+                {"field": "id", "title": "订单编号", "width": 250},
+                {"field": "product_name", "title": "商品名称", "width": 200},
+                {"field": "product_face_value", "title": "商品面值", "width": 100},
+                {"field": "buy_num", "title": "数量", "width": 80},
+                {"field": "recharge_amount", "title": "充值金额", "width": 100},
+                {"field": "sell_price", "title": "成本", "width": 100},
+                {"field": "real_sell_price", "title": "零售价", "width": 100},
+                {"field": "profit", "title": "利润", "width": 100},
+                {"field": "phone_number", "title": "充值号码", "width": 120},
+                {"field": "status", "title": "订单状态", "width": 150},
+                {"field": "add_time", "title": "订单时间", "width": 150},
+                {"field": "pay_time", "title": "付款时间", "width": 150},
+                {"field": "end_time", "title": "完成时间", "width": 150},
+                {"field": "note", "title": "备注", "width": 100},
+                {"field": "actions", "title": "操作", "toolbar": "#actions"}
+            ]
+        ];
+
+        get_data();
+
+        function get_data() {
+            var params = $('#form').serialize();
+            var url        = '?' + params;
+            rander_table('#data-table', url, columns);
+        }
+
+        function rander_table(elem, url, columns) {
+            table.render({
+                elem:       elem
+                , url:      url
+                , cols:     columns
+                , page:     { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                    layout:   ['prev', 'page', 'next', 'skip', 'limit', 'count'] //自定义分页布局
+                    , limits: [10, 25, 50, 100]
+                    , limit:  50
+                }
+                , size:     'sm'
+            });
+
+            table.on('tool(row-actions)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+                var data = obj.data; //获得当前行数据
+                if (obj.event === 'set_default') {
+                }
+            });
+        }
+
+        var count_num=1;
+        function count_order(dom) {
+            if($(dom).text()=='查看统计'){
+                $('#count_order_box').show();
+                $('#count_wait_info').show();
+                if(count_num==1){
+                    $.get('',$('#form').serialize()+'&count=yes',function (data) {
+                        count_num=1;
+                        $('#success_count').text(data.data.success[0].count);
+                        //$('#success_profit').text(data.data.success[0].profit||0);
+                        $('#loser_count').text(data.data.loser[0].count);
+                        $('#recharge_count').text(data.data.recharge[0].count);
+                        $('#nopay_count').text(data.data.nopay[0].count);
+
+                        $('#success_sum').text(data.data.success[0].recharge_amount?data.data.success[0].recharge_amount:0);
+                        $('#loser_sum').text(data.data.loser[0].recharge_amount?data.data.loser[0].recharge_amount:0);
+                        $('#recharge_sum').text(data.data.recharge[0].recharge_amount?data.data.recharge[0].recharge_amount:0);
+                        $('#nopay_sum').text(data.data.nopay[0].recharge_amount?data.data.nopay[0].recharge_amount:0);
+
+                        $('#count_wait_info').hide();
+                        $('#count_ul_box').show();
+                    });
+                }else {
+                    $('#count_wait_info').hide();
+                    $('#count_ul_box').show();
+                }
+                $(dom).text('收起统计');
+            }else {
+                $('#count_order_box').hide();
+                $('#count_wait_info').hide();
+                $('#count_ul_box').hide();
+                $(dom).text('查看统计');
+            }
+        }
+
+        function export_cvs(){
+            /*if($('#count_data_num').text()==0){
+                layer.msg('无数据不能导出');
+                return;
+            }*/
+            var params=$('#form').serialize();
+            //var url=location.href;
+            //location.href=location.href+(url.indexOf('?')!=-1?'&':'?')+params+'&export=yes';
+            location.href = '{{ path("reseller_orders_export") }}?' + params;
+
+        }
+    </script>
+
+{% endblock %}

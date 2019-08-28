@@ -1,0 +1,32 @@
+{% set current_group = app.request.get('group') %}
+{% set open_menus = params("open_menus") %}
+<div class="layui-logo">
+    <span>狐豆开放平台</span>
+</div>
+<!--头部导航-->
+<ul class="layui-nav layui-layout-left">
+    {% for group_id, group in open_menus %}
+        {% set is_current_group = false %}
+        <li class="layui-nav-item {{ group_id == current_group ? 'layui-this' : '' }}">
+            <a href="{{ menu_path(group) }}">{{ group.name }}</a>
+        </li>
+    {% endfor %}
+</ul>
+<ul class="layui-nav layui-layout-right">
+    <li class="layui-nav-item">
+        <span>&yen;</span>
+        <span>{{ user.OpenPlatformAccount.balance|default(0)|number_format(2) }}</span>
+    </li>
+    <li class="layui-nav-item layadmin-nav-item">
+        <a href="javascript:;">
+            <img src="{{ asset('/assets/common/' ~ user.head_img) }}" class="layui-nav-img"> {{ user.user_name }}
+            <span class="layui-nav-more"></span>
+        </a>
+        <dl class="layadmin-nav-child">
+            <dd>
+                <a href="{{ path('passport_logout') }}">退出</a>
+            </dd>
+        </dl>
+    </li>
+</ul>
+

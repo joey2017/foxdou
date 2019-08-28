@@ -1,0 +1,62 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+{% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+
+<div class="layui-card-header">供应商平台设置</div>
+<div class="layui-card-body">
+    <div class="layui-collapse  layadmin-form-body">
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">押金设置</h2>
+            <div class="layui-colla-content layui-show">
+                {{ sf.text(form.deposit_amount, '押金标准', {'tips': '元（必须保证满足该设定金额才能发起提现）'}) }}
+                {{ sf.text(form.min_deposit_amount, '失败扣款最低扣至', {'tips': '元（失败扣款结算时优先扣除余额账户金额，当余额账户小于等于 0 时，从押金账户扣至该设定金额后，再重新对余额账户进行扣除）'}) }}
+            </div>
+        </div>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">余额提现设置</h2>
+            <div class="layui-colla-content layui-show">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">提现手续费：</label>
+                    <div class="layui-input-block">
+                        <div class="layui-input-inline">
+                            {{ sf.radio_raw(form.withdraw_fee_rate_type, {'0': '不收取手续费'}) }}
+                        </div>
+                    </div>
+                    <div class="layui-input-block">
+                        <div class="layui-input-inline">
+                            {{ sf.radio_raw(form.withdraw_fee_rate_type, {'1': '按费率收取'}) }}
+                        </div>
+                        <div class="layui-input-inline">
+                            {{ sf.text_raw(form.withdraw_fee_rate_percent, {'placeholder': '比例费率'}) }}
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">%</div>
+                    </div>
+                    <div class="layui-input-block">
+                        <div class="layui-input-inline">
+                            {{ sf.radio_raw(form.withdraw_fee_rate_type, {'2': '按单笔收取固定金额'}) }}
+                        </div>
+                        <div class="layui-input-inline">
+                            {{ sf.text_raw(form.withdraw_fee_rate_fixed, {'placeholder': '固定费率'}) }}
+                        </div>
+                        <div class="layui-form-mid layui-word-aux">元</div>
+                    </div>
+                </div>
+
+                {{ sf.text(form.max_withdraw_times_per_day, '每日最大申请提现次数', {'tips': '次'}) }}
+                <div class="layui-form-item">
+                    {{ sf.text(form.min_withdraw_amount, '单次可提现范围', {'outer': null, 'inner': 'inline'}) }}
+                    <div class="layui-form-mid layui-word-aux"> ~</div>
+                    {{ sf.text(form.max_withdraw_amount, null, {'outer': null, 'inner': 'inline'}) }}
+                    <div class="layui-input-inline" style="">
+                        <div class="layui-form-mid layui-word-aux">元</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-colla-item">
+            <h2 class="layui-colla-title">员工模块设置</h2>
+            <div class="layui-colla-content layui-show">
+                {{ sf.text(form.invite_employee_expires_time, '邀请员工等待确认时间', {'tips': '次'}) }}
+            </div>
+        </div>
+    </div>
+</div>

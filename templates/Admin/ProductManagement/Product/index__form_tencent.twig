@@ -1,0 +1,9 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<div>
+    <div class="layui-inline" style="margin-bottom: 0;">
+        <label class="layui-form-label">商品属性筛选</label>
+        {{ sf.select('face_value_type', null, to_options('App\\ProductConstants::FACE_VALUE_TYPES', "面值类型"), {'outer': null}) }}
+        {{ sf.select('category_id', null, to_options(categories, "适用范围"), {'outer': null}) }}
+    </div>
+</div>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>批量增加商品</title>
+	<link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+
+<body>
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<!-- 头部区域 -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layadmin-flexible">
+						<a href="javascript:;" title="侧栏伸缩">
+							<i class="layui-icon layui-icon-shrink-right"></i>
+							<i class="layui-icon layui-icon-spread-left"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">运营数据</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">用户管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">订单管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">服务管理</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<a href="javascript:;">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">平台审核</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">内容管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">财务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">系统设置</a>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<div class="layui-form layui-header-switch">
+							<input type="checkbox" name="" lay-skin="switch" lay-text="开启语音|关闭语音" checked>
+						</div>						
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;" title="通知">
+							<i class="layui-icon layui-icon-notice"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<cite>安郁</cite>
+							<span class="layui-nav-more"></span>
+						</a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="javascript:;">基本资料</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">修改密码</a>
+							</dd>
+							<hr />
+							<dd style="text-align: center;">
+								<a href="javascript:;">退出</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+			<!--侧栏菜单-->
+			<div class="layui-side layui-side-menu">
+				<div class="layui-side-scroll">
+					<a href="javascript:;" class="layui-logo">
+						<span>狐豆后台管理系统</span>
+					</a>
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-chart"></i>
+								<cite>话费充值</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd class="layui-this"><a href="javascript:;">手机话费充值商品</a></dd>
+					      		<dd><a href="javascript:;">固话宽带充值商品</a></dd>
+					      		<dd><a href="javascript:;">手机号码归属地管理</a></dd>
+					      		<dd><a href="javascript:;">地区及区号管理</a></dd>
+					      		<dd><a href="javascript:;">虚商运营商管理<span class="layui-badge">6</span></a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-rmb"></i>
+								<cite>腾讯业务充值</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">腾讯业务充值商品</a></dd>
+					      		<dd><a href="javascript:;">腾讯业务品类管理</a></dd>
+						    </dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--主体内容-->
+			<div class="layui-body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<!--面包屑-->
+					<div class="layui-card layadmin-header">
+						<div class="layui-breadcrumb">
+							<a href="javascript:;">主页</a>
+							<a href="javascript:;">商品管理管理</a>
+							<a href="javascript:;">话费充值</a>
+							<a><cite>新增商品</cite></a>
+						</div>
+					</div>
+					<div class="layui-fluid">
+						<div class="layui-card">
+							<div class="layui-card-header">详情</div>
+							<div class="layui-card-body">								
+								<div class="layui-foldapse">
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>商品类型（新增后无法修改）</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">运营商类别：</label>
+													<div class="layui-input-block">
+											        	<input type="radio" name="a" value="0" title="移动">
+											        	<input type="radio" name="a" value="1" title="联通">
+											        	<input type="radio" name="a" value="2" title="电信">
+											        	<input type="radio" name="a" value="3" title="虚商">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">快充/慢充：</label>
+													<div class="layui-input-block">
+											        	<input type="radio" name="b" value="0" title="快充">
+											        	<input type="radio" name="b" value="1" title="慢充">
+										          	</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>面值</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">面值类型：</label>
+													<div class="layui-input-block">
+											        	<input type="checkbox" name="" value="" title="固定面值" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="任意冲" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="其他金额" lay-skin="primary">
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">快充/慢充：</label>
+													<div class="layui-input-block">
+											        	<input type="checkbox" name="" value="" title="全选" lay-skin="primary"><br/>
+											        	<input type="checkbox" name="" value="" title="10元" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="20元" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="50元" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="100元" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="200元" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="300元" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="500元" lay-skin="primary">
+										          	</div>
+												</div>												
+												<div class="layui-form-item">
+													<label class="layui-form-label">任意冲：</label>
+													<div class="layui-input-inline layui-inline-400">
+											        	<input type="text" placeholder="" class="layui-input">
+										          	</div>
+										          	<div class="layui-form-mid layui-word-aux">例：1~500,501,603~605</div>
+												</div>												
+												<div class="layui-form-item">
+													<label class="layui-form-label">其它金额：</label>
+													<div class="layui-input-inline layui-inline-400">
+											        	<input type="text" placeholder="" class="layui-input">
+										          	</div>
+										          	<div class="layui-form-mid layui-word-aux">例：501,502,503</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>商品适用地区（选择虚商时不出现）（新增后无法修改）</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<!--.layadmin-remove-color移除tr：hover颜色变化-->
+												<table class="layui-table layadmin-remove-color">
+													<colgroup>
+													    <col width="15%">
+													    <col width="15%">
+													    <col >
+												  	</colgroup>
+													<thead>
+														<tr>
+															<td>全国范围使用</td>
+															<td>全省范围使用</td>
+															<td>城市范围使用</td>
+														</tr>
+													</thead>
+													<tbody>
+														<tr>
+															<td rowspan="99">
+																<input type="checkbox" name="" value="" title="全国" lay-skin="primary">
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<input type="checkbox" name="" value="" title="省份1" lay-skin="primary">
+															</td>
+															<!--layui-checkbox-arrange控制成堆复选框出现的排列样式-->
+															<td class="layui-checkbox-arrange">
+																<input type="checkbox" name="" value="" title="城市1" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市2" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市3" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市4" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市5" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市6" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市7" lay-skin="primary">
+															</td>
+														</tr>
+														<tr>
+															<td>
+																<input type="checkbox" name="" value="" title="省份2" lay-skin="primary">
+															</td>
+															<td class="layui-checkbox-arrange">
+																<input type="checkbox" name="" value="" title="城市1" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市2" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市3" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市4" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市5" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市6" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市7" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市8" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市9" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市10" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市11" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市12" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市13" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市14" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市15" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市16" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市17" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市18" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市19" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市20" lay-skin="primary">
+															</td>												
+														</tr>
+														<tr>
+															<td>
+																<input type="checkbox" name="" value="" title="省份3" lay-skin="primary">
+															</td>
+															<td class="layui-checkbox-arrange">
+																<input type="checkbox" name="" value="" title="城市1" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市2" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市3" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市4" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市5" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市6" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市7" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市8" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市9" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市10" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市11" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市12" lay-skin="primary">
+															</td>												
+														</tr>
+														<tr>
+															<td>
+																<input type="checkbox" name="" value="" title="省份4" lay-skin="primary">
+															</td>
+															<td class="layui-checkbox-arrange">
+																<input type="checkbox" name="" value="" title="城市1" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市2" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市3" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市4" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市5" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市6" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市7" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市8" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市9" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市10" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市11" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市12" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市13" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市14" lay-skin="primary">
+																<input type="checkbox" name="" value="" title="城市15" lay-skin="primary">
+															</td>												
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="layui-form">
+									<div class="layui-form-item">
+										<div class="layui-input-block" style="margin-left: 170px;">
+											<button class="layui-btn">下一步</button>
+											<button class="layui-btn layui-btn-primary">返回</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/js/jquery.js"></script>
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/layui/layui.all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/common.js" ></script>	
+</body>
+</html>

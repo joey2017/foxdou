@@ -1,0 +1,17 @@
+/*\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+ luara
+ version 0.1  2014-8-21
+\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\*/
+
+/*example*/
+.xSlider{}
+.xSlider ol{position:relative;display: block; width: 80px;height: 20px;top:-25px;left: 85%;}
+.xSlider ol li{float:left;width: 8px;height: 8px;border-radius: 50%; margin: 4px 3px;background: rgba(255,255,255,.5);}
+.xSlider ol li.seleted{background: #1AA4CA;}
+
+
+/*左滑*/
+.luara-left{position:relative;padding:0;overflow: hidden;}
+.luara-left ul{position: relative;padding: inherit;margin: 0;}
+.luara-left ul li{float: left;padding: inherit;margin: inherit;list-style: none;}
+.luara-left ul li img{width: inherit;height: inherit;}

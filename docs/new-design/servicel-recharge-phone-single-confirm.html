@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的服务-人工充值-手机充值-确认充值</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="layui/css/layui.css"  media="all">
+	<link rel="stylesheet" href="font/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<style type="text/css">
+		
+		.foxdou-form-page .layui-input-block {margin-left: 120px;}
+		
+		/*确认充值按钮部分*/
+		.foxdou-btn-group {border-top: 2px dashed #E0E0E0; margin-top: 20px; padding-top: 20px;text-align: center;}
+	</style>
+</head>
+
+<body>
+	
+	<div class="foxdou-box">
+		<div class="foxdou-header">
+			<div class="foxdou-top">
+				<div class="foxdou-logo"></div>
+				<div class="foxdou-attr">开发平台</div>
+				<div class="foxdou-link">
+					<a href="">解决方案</a>
+					<a href="">常见问题</a>
+					<a href="">文档中心</a>
+					<a href="">开发者服务</a>
+					<a href="">服务市场</a>
+				</div>
+				<ul class="layui-nav layui-layout-right foxdou-nav-user">
+			    	<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="image/hdimg1.jpg" class="layui-nav-img"> 广西你行我动科技有限公司
+							<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="">基本资料</a>
+							</dd>
+							<dd>
+								<a href="">安全设置</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item foxdou-nav-item" title="点击刷新" style="cursor: default;">
+						<a>账户余额：60000元</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-tuichu"></i>
+						<a href="">退出</a>
+					</li>
+				</ul>
+			</div>
+			<ul class="layui-nav foxdou-nav">
+				<li class="layui-nav-item">
+					<a href="index.html">控制台</a>
+				</li>
+				<li class="layui-nav-item layui-this">
+					<a href="servicel-recharge-order.html">我的服务</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="servicel-index.html">我的服务2</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="panel-financial-account.html">我的API</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">解决方案</a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a href="">移动模块</a>
+						</dd>
+						<dd>
+							<a href="">后台模版</a>
+						</dd>
+						<dd>
+							<a href="">电商平台</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+		<div class="foxdou-side">
+			<div class="foxdou-side-scroll">
+				<ul class="layui-nav layui-nav-tree foxdou-nav foxdou-side-icon">
+			        <li class="layui-nav-item">
+			        	<i class="icon iconfont icon-caiwu"></i>
+						<a class="" href="javascript:;">充值/缴费/服务<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">话费充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">固话充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">流量充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-youhuicuxiao"></i>
+						<a class="" href="javascript:;">充值卡/礼品卡<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">话费充值卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">游戏充值卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">京东礼品卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">淘宝优惠券</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-piaowuguanliicon"></i>
+						<a class="" href="javascript:;">票务类业务<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-922chuxing"></i>
+						<a class="" href="javascript:;">车辆/出行<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-jinlingyingcaiwangtubiao09"></i>
+						<a class="" href="javascript:;">金融/基金<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-youxi"></i>
+						<a class="" href="javascript:;">娱乐/体育问答<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-shenghuo"></i>
+						<a class="" href="javascript:;">生活/天气/健康<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-gongjukuaidi"></i>
+						<a class="" href="javascript:;">开发工具<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="foxdou-body">
+			<div class="foxdou-tab">
+				<ul>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-order.html">订单管理</a>
+					</li>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-cost.html">商品成本</a>
+					</li>
+					<li class="foxdou-tab-item foxdou-this">
+						<a href="servicel-recharge-phone-single.html">人工充值</a>
+					</li>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-api.html">API管理</a>
+					</li>
+				</ul>
+			</div>
+			<div class="layui-clear" style="padding: 15px; padding-top: 50px;">
+				<div class="foxdou-row foxdou-row-notm">
+					<div class="foxdou-form-row foxdou-form-page">
+						<fieldset class="layui-elem-field layui-field-title">
+						  	<legend>请检查订单信息，并确认充值</legend>
+						</fieldset>
+						<div class="foxdou-confirm">
+							<div class="layui-form-item">
+								<span>充值号码：</span>
+								<span>15678527068</span>
+							</div>
+							<div class="layui-form-item">
+								<span>商品名称：</span>
+								<span>广西移动话费20元快充</span>
+							</div>
+							<div class="layui-form-item">
+								<span>充值金额：</span>
+								<span>15678527068</span>
+								<span class="foxdou-blue">进价：19.8元</span>
+							</div>
+							<div class="layui-form-item">
+								<span>订单编号：</span>
+								<span>S0196314574560041</span>
+							</div>
+							<div style="padding-top: 10px; border-top: 1px dashed #E0E0E0; text-align: right;">
+								<span>共计：</span>
+								<span class="foxdou-red" style="font-size: 18px;">19.8</span>
+								<span>元</span>
+							</div>
+						</div>
+						<div class="layui-form-item layui-form-pane" style="margin-top: 20px;">
+							<label class="layui-form-label">支付密码</label>
+							<div class="layui-input-inline">
+					            <input type="password" name="title" placeholder="" class="layui-input" />
+					        </div>
+						</div>
+						<div class="foxdou-btn-group">
+					    	<button class="layui-btn layui-btn-normal">确认充值</button>
+					    	<button class="layui-btn layui-btn-primary">重新下单</button>
+					    </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="foxdou-footer">
+			Copyright ©你行我动科技
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script src="js/jquery v2.1.4.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		/*
+		 * layui组件或模块载入
+		 * 【表单、导航（选项卡）】
+		 */
+		layui.config({
+			base: 'js/'
+		}).use('index');
+		
+		
+		/*
+		 * layui组件或模块载入
+		 * 【分页、日期】
+		 */
+		layui.use('laypage', function(){
+		    var laypage = layui.laypage;
+		    
+		    //完整的分页功能
+		    laypage.render({
+			    elem: 'demo7'
+			    ,count: 100
+			    ,theme: '#1E9FFF'
+			    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+			    ,jump: function(obj){
+			    	console.log(obj)
+		    	}
+		    });
+		    
+		});
+		
+		
+		/*
+		 * 选择面额
+		 */
+		$('.foxdou-lis-item').click(function(){
+			$(this).addClass('foxdou-this').siblings().removeClass('foxdou-this');
+		});
+		
+		
+		/*
+		 * 查看统计
+		 */
+		$('#statistics').click(function(){
+			var dom = $('.foxdou-elem-quote');
+			dom.slideDown();
+		});
+	</script>
+	
+</body>
+</html>

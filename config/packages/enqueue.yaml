@@ -1,0 +1,11 @@
+enqueue:
+    default:
+        transport: '%env(resolve:ENQUEUE_DSN)%'
+        client: ~
+
+        async_commands:
+            enabled: false
+
+        consumption:
+            # the time in milliseconds queue consumer waits for a message (100 ms by default)
+            receive_timeout: 100

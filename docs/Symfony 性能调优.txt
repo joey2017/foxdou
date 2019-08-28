@@ -1,0 +1,22 @@
+Symfony 性能调优：
+
+1. 安装并启用 OPcache 代码缓存扩展，然后做如下配置：
+    
+    opcache.memory_consumption=256
+    opcache.max_accelerated_files=20000
+
+    在正式环境下，可以选择性启用下面这个选项以得到最高性能（代价是每次更新代码后都需要手动重启 PHP-FPM，
+    如果不想重启，则可以手动调用 apc_clear_cache() 或者 opcache_reset() 来清空缓存）
+
+    opcache.validate_timestamps=0
+
+
+2. 配置 PHP 的 realpath 缓存：
+    
+    realpath_cache_size=4096K
+    realpath_cache_ttl=600
+
+3. 优化 Composer Autoloader （建议仅在生产环境下使用，否则每次安装新组件包后需要重新运行一次）：
+
+    composer dump-autoload --optimize --no-dev --classmap-authoritative
+

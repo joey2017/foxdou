@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>基本管理-基本信息-联系信息</title>
+    <link rel="stylesheet" href="/assets/admin/h/css/common.css" />
+    <script type="text/javascript" src="/assets/admin/js/jquery.min.js"></script>
+</head>
+
+<body>
+<div class="main-box">
+    <ul class="h-tab">
+        <li><a href="{{ path('admin_user_details_reseller_platform_basic_info',{id:user.id}) }}">基本信息</a></li>
+        <li class="tab-this"><a href="{{ path('admin_user_details_reseller_platform_contact',{id:user.id}) }}">联系信息</a></li>
+    </ul>
+    <div class="h-details-box">
+        <ul class="h-details clearfloat">
+            <li>
+                <div class="details-title">店铺名称</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text inp-val">{{ user.shop_name }}</span>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title">店铺地址</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text inp-val">{{ user.shop_address }}</span>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

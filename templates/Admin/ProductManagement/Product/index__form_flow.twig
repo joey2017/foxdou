@@ -1,0 +1,14 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<div>
+    <div class="layui-inline" style="margin-bottom: 0;">
+        <label class="layui-form-label">商品属性筛选</label>
+        {{ sf.select('face_value_type', null, to_options('App\\ProductConstants::FACE_VALUE_TYPES', "面值类型"), {'outer': null}) }}
+        {{ sf.select('sale_region', null, to_options('App\\ProductConstants::PRODUCT_SALE_REGIONS', "适用范围"), {'outer': null}) }}
+        {{ sf.select('operator_id', null, to_options(top_operators, '运营商'), {'outer': null}) }}
+        {{ sf.select('duration', null, to_options('App\\ProductConstants::DURATIONS', "有效时间"), {'outer': null}) }}
+        {{ sf.select('effective_time', null, to_options('App\\ProductConstants::EFFECTIVE_TIMES', "生效时间"), {'outer': null}) }}
+        {{ sf.select('cross_month', null, to_options('App\\ProductConstants::CROSS_MONTH_TYPES', "是否跨月"), {'outer': null}) }}
+        {{ sf.text('mproax_recharge_num', null, {'outer': null}, {'placeholder': '当月限充次数，0为不限'}) }}
+    </div>
+</div>

@@ -1,0 +1,35 @@
+# These lines define a route using YAML configuration. The controller used by
+# the route (FrameworkBundle:Template:template) is a convenient shortcut when
+# the template can be rendered without executing any logic in your own controller.
+# See https://symfony.com/doc/current/cookbook/templating/render_without_controller.html
+error_403:
+    path: /error/403.html
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    defaults:
+        template: /Common/403.twig
+error_404:
+    path: /error/404.html
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    defaults:
+        template: /Common/404.twig
+error_500:
+    path: /error/500.html
+    controller: Symfony\Bundle\FrameworkBundle\Controller\TemplateController::templateAction
+    defaults:
+        template: /Common/500.twig
+
+frontpage:
+    path: /
+    controller: App\Common\Controller\FrontpageController::indexAction
+
+login:
+    path: /login
+    controller: App\Passport\Controller\LoginController::loginAction
+logout:
+    path: /logout
+    controller: App\Passport\Controller\LoginController::logoutAction
+
+#register:
+#    path: /register
+#    controller: App\Passport\Controller\RegisterController::registerAction
+

@@ -1,0 +1,33 @@
+<!-- 常见问题 -->
+<div class="layui-col-md3">
+    <div class="layui-card">
+        <div class="layui-card-header">常见问题</div>
+        <div class="layui-card-body">
+            <ul class="layui-news-list layadmin-problem-list" id="common-question">
+                暂无数据
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- /常见问题 -->
+
+<script type="text/javascript">
+
+    $.ajax('{{ path('open_question_common_questions') }}',{
+        success: function (data) {
+            if (data.length > 0) {
+                set_question_list(data);
+            }
+        },
+        error: function () {
+            layer.msg('获取常见问题列表失败');
+        }
+    });
+    function set_question_list(data) {
+        var dom = '';
+        $.each(data,function (k, article) {
+            dom += '<li><a href="{{ path('open_question_detail') }}?id=' + article.id + '" target="_blank">' + article['title'] + '</a></li>';
+        });
+        $('#common-question').html(dom);
+    }
+</script>

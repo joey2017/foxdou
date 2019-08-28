@@ -1,0 +1,184 @@
+body {background-color: #F5F8FA;}
+
+.layui-form-mid .icon {position: relative; top: 1px; margin-right: 5px;}
+.layui-table[lay-size=lg] td, .layui-table[lay-size=lg] th {padding: 12px 10px;}
+.layui-table[lay-size=lg] th {padding: 10px; background: #F0F0F0;}
+.layui-form-radio i:hover, .layui-form-radioed i {color: #1E9FFF;}
+.layui-btn-primary:hover {border-color: #1E9FFF;}
+
+/*容器*/
+.foxdou-box {width: auto;}
+.foxdou-row {position: relative; box-sizing: border-box; margin-bottom: 15px; padding: 10px; background: #fff; border-radius: 2px;
+	box-shadow: 0 2px 3px rgba(43,59,82,.1);}
+.foxdou-row-notm {padding: 0;}
+
+/*浮动*/
+.foxdou-left {float: left;}
+.foxdou-right {float: right;}	
+
+/*状态色*/
+.foxdou-red {color: #F05654!important;}
+.foxdou-green {color: #21A675!important;}
+.foxdou-blue {color: #1E9FFF!important;}
+.foxdou-orange{color: #FA8C35!important;}
+
+/*处于form列表里的文本span格式*/
+.foxdou-form-page .layui-form {padding:30px 10px 10px 10px;}
+.foxdou-form-page .layui-form-label {padding: 9px 20px!important; color: #666;}
+.foxdou-form-page .foxdou-input-span {display: inline-block; width: auto!important; margin-right: 30px;}
+.foxdou-form-page .foxdou-form-mid {color: #1E9FFF; cursor: pointer;}
+.foxdou-form-page .foxdou-form-mid:hover {opacity: .8;}
+.foxdou-form-page .lyui-btn {background-color: #1E9FFF!important;}
+.foxdou-form-page .foxdou-text {display: inline-block; height: 38px; line-height: 38px;}
+.layui-form-mid {position: relative!important; top: 2px!important;}
+.foxdou-row .layui-form-pane .layui-form-label {padding: 9px 10px!important}
+
+/*选择商品*/
+.foxdou-lis {width: auto; height: 38px;}
+.foxdou-lis-item {float: left; width: 70px; height: 38px; box-sizing: border-box; margin: 0 10px 10px 0; border: 1px solid #ddd; border-radius: 2px;
+	line-height: 38px; text-align: center;}
+.foxdou-lis-item:hover {border-color: #ccc;}
+.foxdou-lis-item a {display: block; padding: 0 5px;}
+.foxdou-lis-input {float: left; padding: 0;}
+.foxdou-lis-input .layui-input {border: none; height: 36px;}
+.foxdou-lis .foxdou-arrow {background: url(image/weihu.png) no-repeat; background-position: right top;}
+.foxdou-lis .foxdou-this {border-color: #1E9FFF!important;}
+.foxdou-lis .foxdou-this a {color: #1E9FFF;}
+
+/*文本连接色*/
+.foxdou-text-link {color: #1E9FFF; cursor: pointer;}
+
+/*侧栏icon*/
+.foxdou-side-icon .icon {position: absolute; top: 1px; left: 25px; color: #2B3B52;}
+
+/*表单容器，有内边距*/
+.foxdou-form-row {padding: 15px; border-bottom: 1px solid #E0E0E0;}
+
+/*去除表单里，layui-form-item行容器的有下边距*/
+.foxdou-form-row .layui-form-item {margin-bottom: 0!important;}
+
+/*通屏的表单里，layui-form-item行容器没有边距*/
+.foxdou-form-page .layui-form-item {margin-bottom: 10px!important;}
+
+/*人工充值-确认充值订单*/
+.foxdou-confirm {padding: 15px 20px; border: 1px solid #E0E0E0; background-color: #F5F5F5; color: #666; line-height: 24px;}
+.foxdou-confirm .layui-form-item:last-child {margin-bottom: 0!important;}
+.foxdou-confirm span {margin-right: 10px;}
+
+/*表格与分页*/
+.foxdou-table-page {padding: 15px;}
+.foxdou-table {margin-bottom: 0;}
+.foxdou-table th {color: #333;}
+.foxdou-table input[type="checkbox"],.foxdou-table input[type="radio"] {position: relative; top: 2px; width: 14px; height: 14px; margin-right: 3px;}
+.foxdou-td-img img {display: inline-block; width: 34px; height: 34px; margin-right: 10px;}
+
+.foxdou-page {padding: 0 10px; border: 1px solid #E5E5E5; border-top: none; text-align: center;}
+.foxdou-page .layui-laypage {margin-top: 15px;}
+
+/*select容器宽-重置*/
+.foxdou-select-length {width: 182px;}
+
+/*提示信息-小篇幅*/
+.foxdou-elem-quote {border-color: #1E9FFF; background-color: #F2F7F9; color: #333;}
+.foxdou-elem-quote .layui-inline {margin-right: 30px;}
+.foxdou-elem-quote span {margin: 0 5px;} 
+
+/*提示信息-大篇幅*/
+.foxdou-elem-text {margin: 5px 10px; border: none; background-color: #f5f5f5; line-height: 24px;}
+
+/*白色背景下的下拉小三角*/
+.foxdou-nav .layui-nav-more {border-color:#333 transparent transparent;border-top-color:rgba(0, 0, 0, .7);}
+.foxdou-nav .layui-nav-mored, .layui-nav-itemed .layui-nav-more { border-color: transparent transparent #333;}
+.foxdou-nav .layui-this:after, .layui-nav-bar, .layui-nav-tree .layui-nav-itemed:after {background-color:#1E9FFF}
+
+/*row模块标题*/
+.foxdou-row-title {margin-bottom: 10px;}
+.foxdou-row-title span {position: relative; top: 1px; display: inline-block; width: 6px; height: 14px; background: #1E9FFF;}
+.foxdou-row-title h3 {position: relative; left: 5px; right: 15px; display: inline-block; color: #2B3B52;}
+.foxdou-row-title .more {float: right; margin-right: 5px; color: #999;}
+.foxdou-row-title .more:hover {color: #1E9FFF;}
+
+/*右侧内容区域顶部的大选项卡*/
+.foxdou-tab {position: fixed; z-index: 998; width: 100%; height: 38px; margin-top: 10px; background-color: #fff; border-top: 1px solid #eee;
+	border-bottom: 1px solid #ccc; /*box-shadow: 0 2px 3px rgba(43,59,82,.1);*/}
+.foxdou-tab ul {margin-left: 15px; }
+.foxdou-tab-item {float: left; display: inline-block;}
+.foxdou-tab-item a {display: block; line-height: 38px; padding: 0 20px; color: #666;}
+.foxdou-tab .foxdou-this a {background-color: #2B3B52; color: #fff;}
+
+.foxdou-padtop {padding: 15px; padding-top: 60px;}
+
+/*右侧内容区域的小选项卡*/
+.foxdou-smtab {padding: 15px; border-bottom: 1px solid #E0E0E0;}
+.foxdou-smtab-item {display: inline-block; margin-right: 10px;}
+.foxdou-smtab-item:hover {opacity: .9;}
+.foxdou-smtab-item a {display: block; padding: 6px 12px; border-radius: 2px; background-color: #EEE; color: #333;}
+.foxdou-smtab .foxdou-this a {background-color: #1E9FFF; color: #fff;}
+
+
+/*头部*/
+.foxdou-header {position: relative; z-index: 1000; height: 60px;}
+.foxdou-top {height: 60px; background: #2B3B52;}
+.layui-nav {background-color: #2B3B52}
+.foxdou-logo {position: absolute; top: 7px; left: 10px; width: 200px; height: 45px; background: url(image/logo.png) no-repeat; background-position: center;}
+.foxdou-attr {margin-left: 150px; display: none; padding: 0 20px; line-height: 60px; font-size: 20px; color: #FFF;}
+.foxdou-link {display: inline-block;margin-left: 250px; line-height: 60px;}
+.foxdou-link a {margin: 0 5px; color: rgba(255,255,255,.8);}
+.foxdou-link a:hover {color: rgba(30,159,255,.9);transition:all .3s; -webkit-transition:all .3s;}
+.foxdou-header .foxdou-nav {text-align: center; background: #FFF; box-shadow: 0 0 6px rgba(43,59,82,.2);}
+.foxdou-header .foxdou-nav .layui-nav-item {line-height: 50px;}
+.foxdou-header .foxdou-nav * {font-size: 16px;}
+.foxdou-header .foxdou-nav .layui-nav-child {top: 55px;}
+.foxdou-header .foxdou-nav .layui-nav-child a {font-size: 14px;}
+.foxdou-header .foxdou-nav .layui-nav-item a:hover, .foxdou-header .foxdou-nav .layui-this a { color: #1E9FFF }
+.foxdou-nav-user {background-color: transparent; padding-right: 10px;}
+.foxdou-nav-user .icon {position: absolute; top: 1px; font-size: 14px;}
+.foxdou-nav-user .layui-nav-item {}
+
+.foxdou-nav .layui-nav-item a {color: #333; color: rgba(0,0,0,.8);}
+
+/*侧栏*/
+.foxdou-side {position: fixed; top: 60px; left: 0; bottom: 0; z-index: 999; width: 200px; overflow-x: hidden; background: #2B3B52;
+	box-shadow: 2px 0 6px rgba(43,59,82,.1);padding-top: 15px;}
+.foxdou-side-scroll {width: 220px; height: 100%; overflow-x: hidden;}
+.foxdou-side .foxdou-nav .icon {font-size: 18px;}
+.foxdou-side .foxdou-nav {margin-top: 20px; background: #fff;}
+.foxdou-side .foxdou-nav .layui-nav-item {margin-bottom: 5px;}
+.foxdou-side .foxdou-nav .layui-nav-item>a {padding-left: 60px; font-size: 15px;}
+.foxdou-side .foxdou-nav .layui-nav-item a:hover{color: #1E9FFF}
+.foxdou-side .foxdou-nav .layui-nav-item:hover .icon {color: #1E9FFF;}
+.foxdou-side .foxdou-nav .layui-this a {color: #fff;}
+.foxdou-side .foxdou-nav .layui-this:hover .icon {color: #1E9FFF!important}
+.foxdou-side .foxdou-nav .layui-nav-item .layui-this>a, .foxdou-side .foxdou-nav .layui-this .icon{color: #fff!important;}		
+.foxdou-side .layui-nav-tree .layui-nav-child a {padding-left: 55px; color: #777;}
+.foxdou-side .layui-nav-child {border-radius: 0; background-color:rgba(0, 0, 0, .03)!important}
+.foxdou-side .layui-nav-itemed>a:hover {color: #333!important;}
+.foxdou-side .layui-nav-tree .layui-nav-child dd.layui-this,
+.foxdou-side .layui-nav-tree .layui-nav-child dd.layui-this a,
+.foxdou-side .layui-nav-tree .layui-nav-child dd.layui-this a,
+.foxdou-side .layui-nav-tree .layui-this,
+.foxdou-side .layui-nav-tree .layui-this>a,
+.foxdou-side .layui-nav-tree .layui-this>a:hover {background-color: #2B3B52;}
+/*.foxdou-side .layui-nav-tree .layui-nav-item>a:hover { background-color: #fff;}*/
+.foxdou-side .layui-nav-tree .layui-nav-bar {background-color: #1E9FFF;}
+
+
+/*主体*/
+.foxdou-body {position: absolute; top: 60px; left: 200px; bottom: 40px; z-index: 998; width: calc(100% - 200px); width: -moz-calc(100% - 200px);
+	width: -webkit-calc(100% - 200px); overflow: hidden; overflow-y: auto; box-sizing: border-box;}	
+	
+/*最新公告*/
+.foxdou-news{height: 180px;}
+.foxdou-news .news-lis {padding: 5px 5px 0 15px;}
+.foxdou-news .news-lis li {position: relative;}
+.foxdou-news .news-lis a {display: block; line-height: 34px; color: #666;}			
+.foxdou-news .news-lis p {display: block; padding-right: 70px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.foxdou-news .news-lis p:hover {color: #1E9FFF;}
+.foxdou-news .news-lis span {position: absolute;top: 0; right: 0; color: #999;}
+
+/*尾部*/
+.foxdou-footer {position: fixed; left: 200px; right: 0; bottom: 0; height: 40px; line-height: 40px; padding: 0 15px; background-color: #fff;
+	box-shadow: 0 0 10px rgba(43,59,82,.2);}
+
+
+.foxdou-block {float: left; display: block; width: 100%; height: auto; min-height: 36px;}

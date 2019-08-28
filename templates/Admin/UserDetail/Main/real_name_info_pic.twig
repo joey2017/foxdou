@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1" />
+    <title>基本管理-实名认证-证件照片</title>
+    <link rel="stylesheet" href="/assets/admin/h/css/common.css" />
+    <script type="text/javascript" src="/assets/admin/js/jquery.min.js"></script>
+</head>
+<style>
+    img{
+        height: 200px;
+    }
+</style>
+<body>
+<div class="main-box">
+    <ul class="h-tab">
+        <li><a href="{{ path('admin_user_details_main_real_name_info',{id:user.user_id}) }}">认证信息</a></li>
+        <li class="tab-this"><a href="{{ path('admin_user_details_main_real_name_info_pic',{id:user.user_id}) }}">证件照片</a></li>
+        <li><a href="{{ path('admin_user_details_main_real_name_info_history',{id:user.user_id}) }}">历史认证</a></li>
+    </ul>
+    <div class="h-details-box">
+        <ul class="h-details clearfloat">
+            <li>
+                <div class="details-title">身份证正面照片</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text"><img src="{{ user.positive }}"></span>
+                        <input type="text" name="positive" value="{{ user.positive }}" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title">身份证反面照片</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text"><img src="{{ user.negative }}"></span>
+                        <input type="text" name="negative" value="{{ user.negative }}" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="details-title">手持身份证照片</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text"><img src="{{ user.hand_photo }}"></span>
+                        <input type="text" name="hand_photo" value="{{ user.hand_photo }}" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            {% if user.user_type != 'I' %}
+            <li>
+                <div class="details-title">营业执照照片</div>
+                <div class="detail-content">
+                    <div class="h-input-inline">
+                        <span class="h-input-text"><img src="{{ user.business_license }}"></span>
+                        <input type="text" name="business_license" value="{{ user.business_license }}" class="h-input-ing" style="display: none;" />
+                    </div>
+                </div>
+            </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+</body>
+</html>

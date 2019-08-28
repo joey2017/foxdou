@@ -1,0 +1,84 @@
+{% extends 'Supplier/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+    <style>
+        .margin-set{
+            margin-bottom: 15px;
+        }
+        .layui-input-inline{
+            width:300px;
+        }
+        .layui-form-label{
+            width:90px;
+        }
+    </style>
+    <div class="foxdou-row foxdou-row-notm">
+        <div class="foxdou-form-row" style="margin-left: 200px;">
+            <form class="layui-form" action="{{ path('supplier_finance_add_withdraw') }}">
+                <input type="hidden" name="_token" value="{{ csrf_token('supplier_finance_add_withdraw') }}">
+                <input type="hidden" name="sup_users_id" value="{{ supplier.id }}">
+                <div class="margin-set">
+                    <label class="layui-form-label">可用余额</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="available_cash" autocomplete="off" readonly value="{{ supplier.balance }}" class="layui-input">
+                    </div>
+                </div>
+                <div class="margin-set">
+                    <label class="layui-form-label">提现账户</label>
+                    <div class="layui-input-inline">
+                        <select name="account_id" id="account_id">
+                            <option value="">--请选择提现账户--</option>
+                            {% for item in account %}
+                                <option value="{{ item.id }}">{{ item.account_user }},{{ item.account_num }} ({{ item.account_bank_name }})</option>
+                            {% endfor %}
+                        </select>
+
+                    </div>
+                </div>
+                <div class="margin-set">
+                    <label class="layui-form-label">提现金额</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="get_cash" id="get_cash" lay-verify="required" placeholder="请输入提现金额" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <div class="margin-set">
+                    <label class="layui-form-label">确认提现金额</label>
+                    <div class="layui-input-inline">
+                        <input type="number" name="re_get_cash" id="re_get_cash" lay-verify="required" placeholder="请输入提现金额" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="margin-set">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">手续费</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="shouxu_cash" id="shouxu_cash" readonly value="0" lay-verify="required" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="margin-set">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">预计到账金额</label>
+                        <div class="layui-input-inline">
+                            <input type="text" name="actual_cash" id="actual_cash" readonly autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="margin-set">
+                    <label class="layui-form-label">备注</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="info" id="info" placeholder="请输入备注信息" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <button style="margin: 20px;" type="submit" class="layui-btn layui-btn-normal submit">提交</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Supplier/Finance/add_withdraw_js.twig" %}
+{% endblock %}

@@ -1,0 +1,15 @@
+*{padding: 0;margin: 0;border: 0;}
+body{font:normal normal normal 14px/1.5em "微软雅黑", Arial;}
+body,html{width: 100%;height: 100%;}
+a{text-decoration: none;}
+li{list-style-type: none;}
+input,button{outline: none;}
+
+.sidenav-box{width: 150px;height: 100%;box-sizing: border-box; padding: 2px 0; background: #FFFFFF;border-right: 1px solid #E0E0E0;}
+.sidenav{width: 100%;text-align: center;}
+.sidenav li{width: 100%; line-height: 30px; margin: 5px 0;box-sizing: border-box;}
+.sidenav li a{color: #666666;}
+.sidenav li:hover{border-right: 1px solid #7bcaea;}
+.sidenav li:hover a{color: #7bcaea;}
+.sidenav .sidenav-this{border-right: 1px solid #0294e8!important;}
+.sidenav .sidenav-this a{display: block; color: #0294e8!important;}

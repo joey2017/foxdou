@@ -1,0 +1,61 @@
+<script>
+
+    form.render();
+
+    $(document).on('click', function (e) {
+        var target = $(e.target);
+        if (target.is('.submit')) {
+            var account_id   = $('#account_id').val();
+            var get_cash     = $('#get_cash').val();
+            var re_get_cash  = $('#re_get_cash').val();
+            if (account_id === '') {
+                nxwd.showMsg('请选择提现账户');
+                return false;
+            }
+            if (get_cash === '') {
+                nxwd.showMsg('请输入提现金额');
+                return false;
+            }
+            if (re_get_cash === '') {
+                nxwd.showMsg('请输入确认提现金额');
+                return false;
+            }
+            if (get_cash !== re_get_cash) {
+                nxwd.showMsg('两次输入提现金额不一致');
+                return false;
+            }
+            if (get_cash > '{{ supplier.balance }}') {
+                nxwd.showMsg('提现金额不能大于可用余额');
+                return false;
+            }
+            $("form:first").submit();
+        }
+    });
+
+    $('#get_cash').blur(function(){
+        var value = $(this).val();
+        $('#actual_cash').val(value);
+        if (isNaN(value)) {
+            nxwd.showMsg('提现金额值类型错误');
+            return false;
+        }
+        var loading = null;
+        var before = function(){
+            loading = layer.load();
+        }
+        var error = function(){
+            layer.close(loading);
+            nxwd.showMsg('服务器未响应，请稍后重试','danger');
+        }
+        var success = function(data){
+            layer.close(loading);
+            if (data.status) {
+                $('#shouxu_cash').val(data.data);
+            } else {
+                nxwd.showMsg(data.msg,'danger');
+            }
+        }
+        nxwd.ajaxRequest('{{ path("supplier_finance_get_withdraw_fee") }}','POST',{widthdraw:value},'json',success,before,error);
+    })
+
+</script>

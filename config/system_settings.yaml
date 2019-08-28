@@ -1,0 +1,187 @@
+system:
+    site_name:
+        label: "网站名称"
+        type: string
+        default: "狐豆"
+    beian_info:
+        label: "备案信息"
+        type: string
+        default: ""
+    maintenance_mode:
+        label: "维护模式"
+        type: bool
+        default: false
+    maintenance_note:
+        label: "维护模式提示信息"
+        type: string
+        default: "系统维护中，暂时无法访问，请稍候再来。"
+
+passport:
+    individual_requires_identity:
+        label: "注册时"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "注册时不需要填写身份信息"}
+            - {value: 1, label: "注册时需要填写身份信息"}
+
+    individual_activation_method:
+        label: "注册后"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "注册后无需审核身份信息自动激活"}
+            - {value: 1, label: "注册后需审核身份信息才自动激活"}
+
+    individual_identity_verify_method:
+        label: "身份审核方式"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "后台人工"}
+            - {value: 1, label: "接口校验（调取失败转人工）"}
+
+    individual_open_platform_create_account_method:
+        label: "开放平台账户开户方式"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "激活通行证自动开户"}
+            - {value: 1, label: "身份信息过审自动开户"}
+            - {value: 2, label: "需完成身份信息审核后，额外申请开户并通过"}
+
+    individual_reseller_platform_create_account_method:
+        label: "代理商平台账户开户方式"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "激活通行证自动开户"}
+            - {value: 1, label: "身份信息过审自动开户"}
+            - {value: 2, label: "需完成身份信息审核后，额外申请开户并通过"}
+
+    individual_supplier_platform_create_account_method:
+        label: "供应商平台账户开户方式"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "激活通行证自动开户"}
+            - {value: 1, label: "身份信息过审自动开户"}
+            - {value: 2, label: "需完成身份信息审核后，额外申请开户并通过"}
+
+    business_activation_method:
+        label: "注册后"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "注册后完成邮箱验证，无需审核身份信息自动激活"}
+            - {value: 1, label: "注册后完成邮箱验证，需审核身份信息才自动激活"}
+    business_identity_verify_method:
+        label: "身份审核方式"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "后台人工"}
+            - {value: 1, label: "接口校验（调取失败转人工）"}
+
+    business_open_platform_create_account_method:
+        label: "开放平台账户开户方式"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "激活通行证自动开户"}
+            - {value: 1, label: "身份信息过审自动开户"}
+            - {value: 2, label: "需完成身份信息审核后，额外申请开户并通过"}
+
+    business_reseller_platform_create_account_method:
+        label: "代理商平台账户开户方式"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "激活通行证自动开户"}
+            - {value: 1, label: "身份信息过审自动开户"}
+            - {value: 2, label: "需完成身份信息审核后，额外申请开户并通过"}
+
+    business_supplier_platform_create_account_method:
+        label: "代理商平台账户开户方式"
+        type: integer
+        default: 1
+        options:
+            - {value: 0, label: "激活通行证自动开户"}
+            - {value: 1, label: "身份信息过审自动开户"}
+            - {value: 2, label: "需完成身份信息审核后，额外申请开户并通过"}
+    max_password_errors_per_day:
+        label: "每日最多允许输错密码次数"
+        type: integer
+        default: 10
+    suspend_period:
+        label: "通行证冻结时间（小时）"
+        type: integer
+        default: 2
+
+reseller_platform:
+    max_withdraw_times_per_day:
+        label: "每日最大申请提现次数"
+        type: integer
+        default: 10
+    min_withdraw_amount:
+        label: "最低单次提现提现金额"
+        type: float
+        default: 1000
+    max_withdraw_amount:
+        label: "最高单次提现提现金额"
+        type: float
+        default: 10000
+
+    invite_employee_expires_time:
+        label: "邀请员工等待确认时间"
+        type: integer
+        default: 72
+
+    allow_place_order_with_null_source:
+        label: "允许空渠道下单"
+        type: bool
+        default: false
+
+supplier_platform:
+    deposit_amount:
+        label: "押金标准"
+        type: integer
+        default: 5000
+    min_deposit_amount:
+        label: "失败扣款最低扣至"
+        type: integer
+        default: 4000
+
+    withdraw_fee_rate_type:
+        label: "提现手续费"
+        type: integer
+        default: 2
+        options:
+            - {value: 0, label: "不收取手续费"}
+            - {value: 1, label: "按费率收取"}
+            - {value: 2, label: "按单笔收取固定金额"}
+    withdraw_fee_rate_percent:
+        label: "按费率收取"
+        type: float
+        default: 0.006
+    withdraw_fee_rate_fixed:
+        label: "按单笔收取固定金额"
+        type: float
+        default: 1
+    max_withdraw_times_per_day:
+        label: "每日最大申请提现次数"
+        type: integer
+        default: 10
+    min_withdraw_amount:
+        label: "最低单次提现提现金额"
+        type: float
+        default: 1000
+    max_withdraw_amount:
+        label: "最高单次提现提现金额"
+        type: float
+        default: 10000
+    invite_employee_expires_time:
+        label: "邀请员工等待确认时间"
+        type: integer
+        default: 72
+

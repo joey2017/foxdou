@@ -1,0 +1,111 @@
+{% extends '/Passport/layout.twig' %}
+{% block main_content %}
+<div class="after-login">
+  <div class="wrapper-left">
+    <div class="my-info">
+      <div class="index-face">
+        <img src="{{ user.avatar_url }}" onerror="this.src='{{ asset('/assets/common/img/default-avatar.jpg') }}'"/>
+      </div>
+      <dl>
+        <dt>昵&nbsp;&nbsp;称：</dt><dd>{{ user.displayName }}</dd>
+        <dt>帐&nbsp;&nbsp;号：</dt><dd>{{ user.user_name }}</dd>
+      </dl>
+    </div>
+    <div class="my-last-login-time">
+      <h3>最近登录</h3>
+      <p>
+        <span >{{ user.last_login_time|date('Y-m-d H:i:s') }}</span>
+        <span id="ip-info">{{ user.last_login_ip|default('-') }}</span>
+
+        <span>{% if login_log.platform_id is defined %}{{ constant('App\\Platform::PLATFORMS')[login_log.platform_id] }}{% else %}暂无记录{% endif %}</span>
+      </p>
+    </div>
+    <div class="middel">
+      <div class="hidden" id="safe-inspect-result">
+        <div class="testing" style="background: url({{ asset('/assets/passport/img/testing-2.gif') }}) no-repeat;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper-right" style="margin-top: -50px;">
+    <div class="wrapper">
+      <div class="title">我的密保工具</div>
+      <div class="tool-list">
+        {% if user.bind_mobile %}
+          <dl>
+            <a href="{{ path('passport_tool_index') }}">
+              <dt>
+                <img src="{{ asset('/assets/passport/img/rk2.png') }}">密保手机
+              </dt>
+              <dd>已绑定密保手机</dd>
+            </a>
+          </dl>
+        {% endif %}
+        {%  if user.bind_email %}
+          <dl>
+            <a href="{{ path('passport_tool_index',{'type':'email'}) }}">
+              <dt>
+                <img src="{{ asset('/assets/passport/img/rk3.png') }}">密保邮箱
+              </dt>
+              <dd>已绑定密保邮箱</dd>
+            </a>
+
+          </dl>
+        {% endif %}
+        {%  if questions %}
+          <dl>
+            <a href="{{ path('passport_tool_index',{'type':'question'}) }}">
+              <dt>
+                <img src="{{ asset('/assets/passport/img/rk1.png') }}">密保问题
+              </dt>
+              <dd>已设置密保问题</dd>
+            </a>
+
+          </dl>
+        {% endif %}
+      </div>
+      <div class="title">常见问题</div>
+      <div class="tool-list">
+        {% for question in common_questions %}
+        <dl>
+          <a href="{{ path('passport_question_common_questions',{'id':question.id}) }}">
+            <dt>
+              <img src="{{ asset('/assets/passport/img/rk1.png') }}">{{ question.title }}
+            </dt>
+            <dd>{{ question.abstract }}</dd>
+          </a>
+        </dl>
+        {%  endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block js_end %}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+
+        var success = function(data){
+            if(data.status){
+                $('#ip-info').text(data.data[0].location+'({{ user.last_login_ip }})')
+            }
+        }
+        nxwd.ajaxRequest('{{ path("passport_home_ip_query") }}','POST',{},'json',success);
+        safe_inspect();
+    });
+    function safe_inspect() {
+
+        var success = function (data) {
+            $('#safe-inspect-result').html(data);
+            /*
+             * 展开所有项
+             */
+            $('.open-item').click(function(){
+                $('.my-yes-col').slideToggle();
+            });
+        }
+        nxwd.ajaxRequest('{{ path("passport_home_safe_inspect") }}','POST',{},'html',success);
+    }
+
+</script>
+{% endblock %}

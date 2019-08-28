@@ -1,0 +1,183 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '文章公告分类管理' %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
+                <form class="layui-form-item" id="categories">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">平台</label>
+                        <div class="layui-input-inline">
+                            {{ sf.select_raw('portal_id', to_options(constant('App\\Platform::PLATFORMS'), "全部"), {'id': 'all_portals', ' lay-filter': "portal_id"}) }}
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <div class="layui-input-block layui-input-block-margin">
+                            <button type="button" class="layui-btn layuiadmin-btn-useradmin" onclick="reload_table('categories')">
+                                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="layui-card-body">
+                <div style="padding: 5px 0;">
+                    <button class="layui-btn layuiadmin-btn-useradmin" onclick="show_category_edit_dialog(null)">新增分类
+                    </button>
+                </div>
+
+                <table id="categories" class="layui-table" lay-data="{url:'{{ path('admin_system_administration_articles_categories', {'_format': 'json'}) }}', page:true, id:'categories', method:'get'}" lay-filter="table">
+                    <thead>
+                    <tr>
+                        <th lay-data="{field:'id', width:50, align: 'center'}">ID</th>
+                        <th lay-data="{field:'portal_name', width:240, align: 'center'}">平台</th>
+                        <th lay-data="{field:'parent_cate_name', width:120, align: 'center'}">父分类名称</th>
+                        <th lay-data="{field:'name', align: 'center'}">分类名称</th>
+                        <th lay-data="{align:'center', toolbar: '#actions', width:100}">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+                <script type="text/html" id="actions">
+                    <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+                    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+                </script>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra %}
+    <div id="edit-form-dlg" class="layui-card" style="display: none;">
+        <div class="layui-card-body">
+            <form id="edit-form" class="layui-form" lay-filter="edit-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label"></label>
+                    <div class="layui-input-inline">
+                        带 * 号的为必填项
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">平台 *</label>
+                    <div class="layui-input-inline">
+                        {{ sf.select_raw('portal_id', to_options(constant('App\\Platform::PLATFORMS'), "全部"), {'lay-filter': "portal_id"}) }}
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">父分类 *</label>
+                    <div class="layui-input-inline">
+                        <select name="parent_id" id="parent_id">
+                            <option value=""></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">分类名称 *</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="name" class="layui-input">
+                    </div>
+                </div>
+                <input type="hidden" name="id" value="">
+                <input type="hidden" name="_token" value="{{ csrf_token('admin_system_administration_articles_categories_save') }}">
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_end %}
+    <script>
+        {% include "/Admin/SystemAdministration/ArticleCategory/article_category.js.twig" %}
+
+        function save_category(callback) {
+            $.post('{{ path('admin_system_administration_articles_categories_save') }}',
+                $('#edit-form').serialize(),
+                function (data) {
+                    if (data.status) {
+                        callback(true);
+                        reload_table('categories');
+                        layer.msg(data.msg, {time: 1500});
+                    }
+
+                    layer.msg(data.msg);
+                    callback(false);
+
+                    if (data.errors) {
+                        $.each(data.errors, function (key, error) {
+                            createAlertMsg($('#' + key), '* 填写错误', false);
+                        });
+                    }
+                }, 'json'
+            );
+        }
+
+        function show_category_edit_dialog(data) {
+            $('#edit-form')[0].reset();
+            $('.error').html('');
+            $('.error').hide();
+            $('.tips').show();
+
+            if (data) {
+                get_categories(data.portal_id, function (cates) {
+                    layui.form.val("edit-form", {
+                        "id":          data.id
+                        , "portal_id": data.portal_id
+                        , "parent_id": data.parent_id
+                        , "name":      data.name
+                    });
+
+                    form.render('select'); //这个很重要
+                });
+            }
+
+            layer.open({
+                title:    data ? '编辑分类' : '新增分类',
+                type:     1,
+                area:     ['500px', '400px'],
+                content:  $('#edit-form-dlg'),
+                closeBtn: false,
+                btn:      ['保存', '取消'],
+                yes:      function (index, layero) {
+                    save_category(function (succeed) {
+                        if (succeed) {
+                            layer.close(index);
+                            $('#edit-form-dlg').toggle();
+                        }
+                    });
+                },
+                btn2:     function (index, layero) {
+                    layer.close(index);
+                    $('#edit-form-dlg').toggle();
+                }
+            });
+        }
+
+        layui.table.on('tool(table)', function (row) {
+            var data = row.data;
+            if (row.event === 'edit') {
+                console.log(row.data);
+                show_category_edit_dialog(row.data);
+            } else if (row.event === 'del') {
+                layer.confirm('确认要删除吗？', function (index) {
+                    $.post('{{ path('admin_system_administration_articles_categories_delete') }}',
+                        {id: data.id, _token: '{{ csrf_token('admin_system_administration_articles_categories_delete') }}'},
+                        function (data) {
+                            if (!data.status) {
+                                layer.alert(data.msg);
+                                return;
+                            }
+
+                            reload_table('categories');
+                            layer.msg(data.msg, {time: 1500});
+                        }, 'json'
+                    );
+
+                    layer.close(index);
+                });
+            }
+        });
+
+    </script>
+{% endblock %}

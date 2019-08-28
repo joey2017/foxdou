@@ -1,0 +1,62 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '批量更新商品价格' %}
+
+{% set mode = 'edit' %}
+
+{% block css %}
+    {% include "/Admin/ProductManagement/Product/product_common_css.twig" %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+        <form class="layui-form" id="edit-form" lay-filter="edit-form">
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 0;padding: 10px;">
+                    <button type="button" class="layui-btn layui-btn-normal" onclick="batch_save()">保存</button>
+                    <a href="{{ path('admin_product_management_products_index', {'product_type': app.request.get('product_type')}) }}" class="layui-btn layui-btn-primary">取消</a>
+                </div>
+            </div>
+
+            {% include "/Admin/ProductManagement/Product/_product_form_edit_user_group_settings.twig" %}
+
+            <div class="layui-form-item">
+                <div class="layui-input-block" style="margin-left: 0;padding: 10px;">
+                    <button type="button" class="layui-btn layui-btn-normal" onclick="batch_save()">保存</button>
+                    <a href="{{ path('admin_product_management_products_index', {'product_type': app.request.get('product_type')}) }}" class="layui-btn layui-btn-primary">取消</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Admin/ProductManagement/Product/product_common_js.twig" %}
+    {% include "/Admin/ProductManagement/Product/_product_form_edit_user_group_settings_js.twig" %}
+    {% include "/Admin/ProductManagement/Product/_product_form_edit_user_group_settings_sync_js.twig" %}
+
+    <script>
+        function batch_save() {
+            var loading = layer.load();
+
+            var data = $('#edit-form').serializeJson();
+            axios_json.post('{{ path('admin_product_management_products_batch_save', {'product_type': app.request.get('product_type'), 'mode': mode}) }}', data)
+                .then(function (response) {
+                    layer.close(loading);
+                    if (response.data.msg) {
+                        layer.msg(response.data.msg);
+                    }
+
+                    if (response.data.status) {
+                        window.location.href = response.data.next;
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    layer.close(loading);
+                    layer.msg('服务器响应错误，请稍后重试');
+                });
+        }
+    </script>
+{% endblock %}

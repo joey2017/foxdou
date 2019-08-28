@@ -1,0 +1,376 @@
+{% extends 'Supplier/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+{% block main_content %}
+    <style>
+        .source_price,.percent{height:28px}
+    </style>
+<div style="margin-left: 200px;padding:15px">
+    {% if add_exist_product %}
+        {#<div style="font-size: 16px;">添加已有商品</div>#}
+    {% else %}
+        {#<button class="layui-btn layui-btn-normal add-exist">添加已有商品</button>#}
+        <button class="layui-btn layui-btn-normal add-new">创建新商品并添加</button>
+    {% endif %}
+</div>
+<div class="foxdou-row foxdou-row-notm">
+    <div class="foxdou-form-row" style="margin-left: 200px;">
+        <form class="layui-form layui-form-pane" action="" id="mobile-template-list">
+            <div class="layui-form-item">
+                <div class="layui-inline">
+                    <label class="layui-form-label">面值类型</label>
+                    <div class="layui-input-block foxdou-select-length">
+                        {{ sf.select_raw('face_value_type', to_options(constant("App\\ProductConstants::FACE_VALUE_TYPES"), '全部'), {"class": "layui-input"}) }}
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品适用范围</label>
+                    <div class="layui-input-block foxdou-select-length">
+                        {{ sf.select_raw('range', to_options(constant("App\\Common\\Model\\Product\\SourceGroup::AUTO_REFUND_STATUSES"), '全部'), {"class": "layui-input"}) }}
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">运营商类别</label>
+                    <div class="layui-input-block foxdou-select-length">
+                        {{ sf.select_raw('cate_id', to_options(constant("App\\Constants::CARRIERS"), '全部'), {"class": "layui-input"}) }}
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">虚拟运营商</label>
+                    <div class="layui-input-block foxdou-select-length">
+                        {{ sf.select_raw('mvno', to_options(constant("App\\Common\\Model\\Product\\SourceGroup::AUTO_REFUND_STATUSES"), '全部'), {"class": "layui-input"}) }}
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">快充/慢充</label>
+                    <div class="layui-input-block foxdou-select-length">
+                        {{ sf.select_raw('speed', to_options(constant("App\\Constants::RECHARGE_SPEED_TYPES"), '全部'), {"class": "layui-input"}) }}
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品上下架状态</label>
+                    <div class="layui-input-block foxdou-select-length">
+                        {{ sf.select_raw('status', to_options(constant("App\\Common\\Model\\Product\\ProductMobileSource::STATUSES"), '全部'), {"class": "layui-input"}) }}
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品审核状态</label>
+                    <div class="layui-input-block foxdou-select-length">
+                        {{ sf.select_raw('review_status', to_options(constant("App\\ProductConstants::REVIEW_STATUSES"), '全部'), {"class": "layui-input"}) }}
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品在模板中的启用状态</label>
+                    <div class="layui-input-block foxdou-select-length">
+                        {{ sf.select_raw('sell_status', to_options(constant("App\\Common\\Model\\Product\\ProductMobileSource::SELL_STATUSES"), '全部'), {"class": "layui-input"}) }}
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">日期范围</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="" class="layui-input" id="timeFrame" placeholder="">
+                        <input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                        <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品编号</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="id" placeholder="请输入商品编号" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">商品名称</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="name" placeholder="请输入商品名称" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-normal query">立即查询</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="foxdou-table-page" style="padding: 15px;margin-left: 200px;">
+        <div class="layui-form-item">
+            <div class="layui-inline foxdou-left">
+                <button class="layui-btn layui-btn-sm layui-btn-normal reverse-select">反选</button>
+                <button class="layui-btn layui-btn-sm layui-btn-success upper">上架</button>
+                <button class="layui-btn layui-btn-sm layui-btn-warm lower">下架</button>
+                <button class="layui-btn layui-btn-sm layui-btn-success enable">启用</button>
+                <button class="layui-btn layui-btn-sm layui-btn-warm disable">停用</button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger remove">移除</button>
+            </div>
+        </div>
+        <table class="layui-table" id="mobile-list-table" lay-filter="mobile-list-table">
+
+        </table>
+        {% if add_exist_product %}
+            <div class="layui-inline">
+                <button class="layui-btn layui-btn layui-btn-normal confirm">确定</button>
+                <button class="layui-btn layui-btn layui-btn-normal cancel">返回</button>
+            </div>
+        {% endif %}
+    </div>
+    <script id="actions" type="text/html">
+              <%# if (d.sell_status != 1) { %>
+                <a class="layui-btn layui-btn-success layui-btn-xs" lay-event="enable">启用</a>
+          <%# } %>
+          <%# if (d.sell_status != 0) { %>
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="disable">停用</a>
+          <%# } %>
+          <%# if (d.status != 1) { %>
+                <a class="layui-btn layui-btn-success layui-btn-xs" lay-event="upper">上架</a>
+          <%# } %>
+
+          <%# if (d.status != 0) { %>
+                <a class="layui-btn layui-btn-warm layui-btn-xs" lay-event="lower">下架</a>
+          <%# } %>
+          <%# if (d.review_status == 3) { %>
+                <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="remove">移除</a>
+          <%# } %>
+        <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="syncdown">比例向下同步</a>
+        </script>
+</div>
+
+{% endblock %}
+{% block js_end %}
+<script>
+    $(function(){
+        var url = '{{ path("supplier_product_source_groups_products_list") }}?template_id={{ template_id }}&product_cate_id=1&add_exist_product={{ add_exist_product }}';
+        var face_value_types = JSON.parse('{{ constant("App\\ProductConstants::FACE_VALUE_TYPES")|json_encode|raw }}');
+        var operator_ids = JSON.parse('{{ constant("App\\Constants::CARRIERS")|json_encode|raw }}');
+        var speeds = JSON.parse('{{ constant("App\\Constants::RECHARGE_SPEED_TYPES")|json_encode|raw }}');
+        var sell_statuses = JSON.parse('{{ constant("App\\Common\\Model\\Product\\ProductMobileSource::SELL_STATUSES")|json_encode|raw }}');
+        var statuses = JSON.parse('{{ constant("App\\Common\\Model\\Product\\ProductMobileSource::STATUSES")|json_encode|raw }}');
+        var review_statuses = JSON.parse('{{ constant("App\\ProductConstants::REVIEW_STATUSES")|json_encode|raw }}');
+        var columns = [[
+            {"field": "", "title": "", type: "checkbox", "width": 50},
+            {"field": "id", "title": "商品编号", "width": 100},
+            {"field": "name", "title": "商品名称", "width": 150},
+            {"field": "face_value", "title": "面值"},
+            {
+                "field": "face_value_type", "title": "面值类型", "width": 100, templet: function (d) {
+                    return face_value_types[d.face_value_type];
+                }
+            },
+            {
+                "field": "range", "title": "商品使用范围", "width": 120, templet: function (d) {
+                    return d.province_name ? d.province_name : d.city_name;
+                }
+            },
+            {
+                "field": "operator_id", "title": "运营商类别", "width": 100, templet: function (d) {
+                    return operator_ids[d.operator_id];
+                }
+            },
+            {
+                "field": "mvno", "title": "虚拟运营商", "width": 100, templet: function (d) {
+                    return d.operator_name;
+                }
+            },
+            {
+                "field": "speed", "title": "快充/慢充", "width": 100, templet: function (d) {
+                    return speeds[d.speed];
+                }
+            },
+            {
+                "field": "source_price", "title": "供货价", "width": 130, templet: function (d) {
+                    return '<input type="number" name="source_price" data-face-value="'+ d.face_value +'" data-id="'+ d.id +'" data-type="1" class="layui-input source_price" value="'+ d.source_price +'">';
+                }
+            },
+            {
+                "field": "source_cost", "title": "供货价/面值", "width": 120, templet: function (d) {
+                    return '<input type="text" name="percent" class="layui-input percent" value="'+ d.source_price/d.face_value +'">';
+                }
+            },
+            {
+                "field": "status", "title": "商品上下架状态", templet: function (d) {
+                    return statuses[d.status];
+                }
+            },
+            {
+                "field": "review_status", "title": "商品审核状态（狐豆控制）", templet: function (d) {
+                    return review_statuses[d.review_status];
+                }
+            },
+            {
+                "field": "sell_status", "title": "商品在模板中的启用状态", templet: function (d) {
+                    return sell_statuses[d.sell_status];
+                }
+            },
+            {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 210}
+        ]];
+
+        form.render('select');
+
+        var callBack = function(){
+            $('.source_price').on('blur',function(e){
+                var target = $(e.target);
+
+                var args = {id: target.attr('data-id'), product_cate_id: target.attr('data-type')};
+
+                args.source_price = target.val();
+
+                if (args.source_price === '') {
+                    nxwd.showMsg('数值不能为空');
+                    return false;
+                }
+
+                var loading = null;
+                var before = function () {
+                    loading = layer.load();
+                }
+                var error = function () {
+                    layer.close(loading);
+                    nxwd.showMsg('服务器未响应，请稍后重试');
+                }
+
+                var success = function (res) {
+                    layer.close(loading);
+                    if (res.status) {
+                        nxwd.showMsg(res.msg, 'success');
+                        var face_value = target.attr('data-face-value');
+                        target.parents('td').next().find('input.percent').val(args.source_price/face_value);
+                        //location.reload();
+                    } else {
+                        nxwd.showMsg(res.msg, 'danger');
+                    }
+                }
+                nxwd.ajaxRequest('{{ path("supplier_product_source_groups_change_cost") }}', 'POST', args, 'json', success, before, error);
+            })
+        };
+        rander_table('#mobile-list-table',url,columns,callBack);
+
+        table.on('tool(mobile-list-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            if (layEvent === 'enable') { //启用
+                productOperation('{{ path("supplier_product_source_groups_change_sell_status") }}',data.id,1);
+            }
+            if (layEvent === 'disable') { //停用
+                productOperation('{{ path("supplier_product_source_groups_change_sell_status") }}',data.id,0);
+            }
+            if (layEvent === 'upper') { //上架
+                productOperation('{{ path("supplier_product_source_groups_product_change_status") }}',data.id,1);
+            }
+            if (layEvent === 'lower') { //下架
+                productOperation('{{ path("supplier_product_source_groups_product_change_status") }}',data.id,0);
+            }
+            if (layEvent === 'remove') { //移除
+                nxwd.ajaxDelete('{{ path("supplier_product_source_groups_remove") }}?product_cate_id=1',this,false,data.id);
+            }
+            if (layEvent === 'syncdown') { //比例向下同步
+                var loading = null;
+                var before = function () {
+                    loading = layer.load();
+                }
+                var error = function () {
+                    layer.close(loading);
+                    nxwd.showMsg('服务器未响应，请稍后重试');
+                }
+
+                var success = function (res) {
+                    layer.close(loading);
+                    if (res.status) {
+                        nxwd.showMsg(res.msg, 'success');
+                        location.reload();
+                    } else {
+                        nxwd.showMsg(res.msg, 'danger');
+                    }
+                }
+                nxwd.ajaxRequest('{{ path("supplier_product_source_groups_syncdown") }}', 'POST', {id:data.id,product_cate_id:1}, 'json', success, before, error);
+            }
+        });
+
+        var checked_ids = [];
+        table.on('checkbox(mobile-list-table)', function (obj) {
+            if (obj.checked) {
+                checked_ids.push(obj.data.id);
+            } else {
+                checked_ids.remove(obj.data.id);
+            }
+        });
+
+        $(document).on('click',function(e){
+           var target = $(e.target);
+           if (target.is('.reverse-select') || target.parents().is('.reverse-select')) {
+               $('.layui-table-box').find('input:checkbox').next().each(function () {
+                   $(this).toggleClass('layui-form-checked');
+               })
+           } else if (target.is('.upper') || target.parents().is('.upper')) {
+               productOperation('{{ path("supplier_product_source_groups_product_change_status") }}',checked_ids,1);
+           } else if (target.is('.lower') || target.parents().is('.lower')) {
+               productOperation('{{ path("supplier_product_source_groups_product_change_status") }}',checked_ids,0);
+           } else if (target.is('.enable') || target.parents().is('.enable')) {
+               productOperation('{{ path("supplier_product_source_groups_change_sell_status") }}',checked_ids,1);
+           } else if (target.is('.disable') || target.parents().is('.disable')) {
+               productOperation('{{ path("supplier_product_source_groups_change_sell_status") }}',checked_ids,0);
+           } else if (target.is('.remove') || target.parents().is('.remove')) {
+               if (target.parents().is('.remove')){
+                   e.target = target.parents('.remove')
+               }
+               nxwd.ajaxDelete('{{ path("supplier_product_source_groups_remove") }}?product_cate_id=1',e.target,true);
+           } else if (target.is('.query') || target.parents().is('.query')) {
+               if (target.parents().is('.query')){
+                   e.target = target.parents('.query')
+               }
+               var param = $('form#mobile-template-list').serialize();
+               var base_url = '{{ path("supplier_product_source_groups_products_list") }}?template_id={{ template_id }}&product_cate_id=1&add_exist_product={{ add_exist_product }}';
+               base_url += '&' + param;
+               rander_table('#mobile-list-table',base_url,columns,callBack);
+               return false;
+           } else if (target.is('.add-exist') || target.parents().is('.add-exist')) {
+               window.location.href = '{{ path("supplier_product_source_groups_products_list") }}?template_id={{ template_id }}&product_cate_id=1&add_exist_product=1';
+           } else if(target.is('.add-new') || target.parents().is('.add-new')) {
+               window.location.href = '{{ path("supplier_product_source_groups_add_new_product") }}?template_id={{ template_id }}&product_cate_id=1';
+           }
+        });
+    });
+
+    /**
+     * 模板商品启用/停用
+     * @param url           // 请求url
+     * @param id            // 项目ID
+     * @param status        // 上架或下架 1,0 | 停止或启用 0,1
+     */
+    function productOperation(url, id, status) {
+
+        if (id === '' || typeof id == 'undefined' || id == null) {
+            nxwd.showMsg('项目id不能为空');
+            return false;
+        }
+
+        if (status === '') {
+            nxwd.showMsg('参数有误');
+            return false;
+        }
+
+        var loading = null;
+        var before = function () {
+            loading = layer.load();
+        }
+        var error = function () {
+            layer.close(loading);
+            nxwd.showMsg('服务器未响应，请稍后重试');
+        }
+
+        var success = function(res){
+            layer.close(loading);
+            if (res.status) {
+                nxwd.showMsg(res.msg,'success');
+                location.reload();
+            } else {
+                nxwd.showMsg(res.msg,'danger')
+            }
+        }
+
+        var ok = layer.confirm('您确定要执行该操作吗？', {icon: 3, title: '系统提示'}, function () {
+            layer.close(ok);
+            nxwd.ajaxRequest(url, 'POST', {id: id, status: status, product_cate_id: 1}, 'json', success, before, error);
+        });
+    }
+
+</script>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "/Test/SimpleFormDemo/layout.twig" %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block page_content %}
+    <div class="foxdou-note">
+        <div class="foxdou-row">
+            <div class="foxdou-row-title">
+                <span></span>
+                <h3><strong>整行布局</strong></h3>
+            </div>
+            <p>适合于快速生成要求不高的、整行显示的表单</p>
+        </div>
+    </div>
+    <div class="foxdou-content">
+        <div class="layui-tab layui-tab-card">
+            <ul class="layui-tab-title">
+                <li class="layui-this">显示效果</li>
+                <li>代码</li>
+            </ul>
+            <div class="layui-tab-content" style="">
+                <div class="layui-tab-item layui-show">
+                    {% include "/Test/SimpleFormDemo/full_row_form.twig" %}
+                </div>
+                <div class="layui-tab-item">
+                    <pre><code class="twig">{{ source("/Test/SimpleFormDemo/full_row_form.twig")|e }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+    <div class="layui-card layadmin-log">
+        <div class="layui-card-body">
+            <form action="" id="logs-list">
+            <div class="layui-form layadmin-form-diy layuiadmin-card-text">
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作时间</label>
+                    <div class="layui-inline layadmin-time-content">
+                        <input id="timeFrame" type="text" name="" class="layui-input" placeholder="开始时间 - 结束时间" />
+                        <input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                        <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作详情</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="info" value="" placeholder="请输入操作详情" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作IP</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="ip" value="" placeholder="请输入操作ip" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <label class="layui-form-label">操作人</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="user_name" value="" placeholder="请输入用户名" class="layui-input" />
+                    </div>
+                </div>
+                <div class="layui-inline">
+                    <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="get_data();return false;">查 询</button>
+                </div>
+            </div>
+            </form>
+            <table class="layui-table layadmin-table" id="logs-list-table" lay-filter="logs-list-table">
+
+            </table>
+        </div>
+        <script id="add_time" type="text/html">
+            <%#
+            var date = new Date();
+            date.setTime(d.add_time*1000);
+            return date.Format("yyyy-MM-dd hh:mm:ss");
+            %>
+        </script>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Open/Dashboard/operation_logs_js.twig" %}
+{% endblock %}

@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重新充值</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+
+    <link rel="shortcut icon" href="favicon.ico">
+    {{ use_assets([
+        '/assets/admin/h/css/bootstrap.min14ed.css',
+        '/assets/admin/h/css/font-awesome.min93e3.css',
+        '/assets/admin/h/css/plugins/iCheck/custom.css',
+        '/assets/admin/h/css/plugins/dataTables/dataTables.bootstrap.css',
+        '/assets/admin/h/css/style.min862f.css',
+    ]) }}
+    <style>
+        th, td {text-align: center}
+    </style>
+</head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>重新充值</h5>
+                </div>
+                <div class="ibox-content">
+                    <p class="row" style="color: red; text-align: center;">
+                        <span>注意！请认真检查这些订单是否真的需要重新充值，否则一旦发生亏损将由你承担</span>
+                    </p>
+
+                    <table class="table table-striped table-bordered table-hover" id="editable">
+                        <!--表标题头-->
+                        <thead>
+                        <tr>
+                            <th>序号</th>
+                            <th>订单编号</th>
+                            <th>商品名称</th>
+                            <th>充值号码</th>
+                            <th>充值金额</th>
+                            <th>价格</th>
+                            <th>订单状态</th>
+                            <th>充值次数</th>
+                            <th>原货源</th>
+                            <th>原成本</th>
+                            <th>原利润</th>
+                            <th>新成本</th>
+                            <th>新利润</th>
+                            <th>用户</th>
+                            <th>选择新货源</th>
+                        </tr>
+                        </thead>
+                        <!--表正文数据-->
+                        <tbody>
+                        {% for k,v in data %}
+                            <tr class="item" data="{{ v.id }}">
+                                <td style="text-align: center">{{ k+1 }}</td>
+                                <td style="text-align: center">{{ v.id }}</td>
+                                <td style="text-align: center">{{ v.product_name }}</td>
+                                <td style="text-align: center">{{ v.phone_number }}</td>
+                                <td style="text-align: center">{{ v.recharge_amount }}</td>
+                                <td class="sell_price">{{ v.sell_price }}</td>
+                                <td style="text-align: center">{{ constant('App\\Common\\Model\\Order\\OrderRecharge::STATUSES')[v.status] }}</td>
+                                <td style="text-align: center">{{ v.recharge_sequence }}</td>
+                                <td class="old_source_id">{{ v.source_id ? v.source_id : '空' }}</td>
+                                <td class="old_cost" style="text-align: center">{{ v.sell_price }}</td>
+                                <td class="old_profit" style="text-align: center">{{ v.profit }}</td>
+                                <td class="new_cost" style="color: orangered;text-align: center">0</td>
+                                <td class="new_profit" style="color: orangered;text-align: center">0</td>
+                                <td style="text-align: center">{{ v.nick_name }}<br/>({{ v.user_name }})</td>
+                                <td>
+                                    <select class="source_id form-control">
+                                        <option value="">{% if source is defined %}请选择货源{% else %}抱歉!无可用货源{% endif %}</option>
+                                        {% if source[k] is defined %}
+                                            {% for vv in source[k] %}
+                                                <option value="{{ vv.source_id }}">{{ vv.cost }}
+                                                    -{{ vv.province_name }}{% if vv.city_name is defined %}{{ vv.city_name }}{% else %}{% endif %}{{ vv.operator_name }}{{ vv.face_value }}{{ vv.unit_name }}
+                                                    ({{ vv.source_id }}-{{ vv.template_name }}-{{ vv.sell_nick_name }}
+                                                    -{{ vv.sell_user_name }})
+                                                </option>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </select>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                        <!--表底部统计-->
+                        <tfoot>
+
+                        </tfoot>
+                    </table>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="dataTables_info" id="editable_info" role="alert" aria-live="polite" aria-relevant="all">
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="dataTables_paginate paging_simple_numbers" id="editable_paginate">
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-3" style="float: right;display: none">
+                            <div class="input-group m-b"><span class="input-group-addon">使用统一的货源进行充值：</span>
+                                <select class="form-control" id="select_source_id">
+                                    <option value="">请选择货源</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-sm-2" style="float: right">
+                            <div class="input-group m-b">
+                                <label class="checkbox-inline i-checks "><input type="checkbox" id="original"> 统一使用原货源充值</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center;padding-left: 40%">
+                        <div class="col-sm-4">
+                            <div class="input-group m-b"><span class="input-group-addon">验证密码</span>
+                                <input class="form-control product-price" value="" name="password" id="password" type="password">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" style="text-align: center;">
+                        <button class="btn btn-primary  btn-sm" onclick="submit(this)">确认提交</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ use_assets([
+    '/assets/admin/h/js/jquery.min.js',
+    '/assets/admin/h/js/bootstrap.min.js',
+    '/assets/admin/h/js/plugins/jeditable/jquery.jeditable.js',
+    '/assets/admin/h/js/plugins/dataTables/jquery.dataTables.js',
+    '/assets/admin/h/js/plugins/dataTables/dataTables.bootstrap.js',
+    '/assets/admin/h/js/plugins/iCheck/icheck.min.js',
+    '/assets/admin/h/js/plugins/layer/layer.min.js',
+    '/assets/common/layui/layui.all.js',
+    '/assets/admin/js/common.js',
+    '/assets/common/js/ajaxRequest.js',
+]) }}
+<script>
+
+    //初始化.form-group .i-checks样式
+    $(".i-checks").iCheck({checkboxClass: "icheckbox_square-green"});
+    $('#original').on('ifChecked', function (event) {
+        $(this).val('yes');
+        $('.item').each(function () {
+            $(this).find('.source_id').val('');
+            $(this).find('.source_id').attr('disabled', 'disabled');
+            $(this).find('td.new_cost').text($(this).find('td.old_cost').text());
+            $(this).find('td.new_profit').text($(this).find('td.old_profit').text());
+        });
+    });
+    $('#original').on('ifUnchecked', function (event) {
+        $(this).val('no');
+        $('.item').each(function () {
+            $(this).find('.source_id').removeAttr('disabled');
+            $(this).find('td.new_cost').text('0');
+            $(this).find('td.new_profit').text('0');
+        });
+    });
+
+    function get_item() {
+        var item = new Array;
+        $('.item').each(function () {
+            var row       = {};
+            row.id        = $(this).attr('data');
+            row.source_id = $(this).find('.source_id').val();
+            item.push(row);
+        });
+        return item;
+    }
+
+
+    $(".source_id").change(function () {
+        var id = $(this).val();
+
+        var new_cost_dom   = $(this).parents('tr').find('td.new_cost');
+        var new_profit_dom = $(this).parents('tr').find('td.new_profit');
+        var sell_price_dom = $(this).parents('tr').find('td.sell_price');
+        var sell_price     = sell_price_dom.text();
+        if (!id) {
+            new_cost_dom.text('');
+            new_profit_dom.text('');
+            return;
+        }
+        $.get('{{ path('admin_orders_get_source_info') }}', {id: id}, function (data) {
+            if (data.status) {
+                new_cost_dom.text(data.data.source_cost);
+                new_profit_dom.text((sell_price - data.data.source_cost).toFixed(5));
+            } else {
+                new_cost_dom.text('货源不存在');
+            }
+        });
+
+    });
+
+    function submit(obj) {
+        var that = $(obj);
+        var txt = that.text();
+
+        var args = {
+            item:     get_item(),
+            source:   $('#select_source_id').val(),
+            original: $('#original').val(),
+            password: $('#password').val(),
+        };
+        var before = function(){
+            that.attr('disabled',true).text('处理中');
+        }
+        var error = function(){
+            that.removeAttr('disabled').text(txt);
+        }
+        var success = function(data){
+            that.removeAttr('disabled').text(txt);
+            $('#password').val('');
+            if (!data.status) {
+                nxwd.showMsg(data.msg,'warning');
+            } else {
+                nxwd.showMsg(data.msg,'success');
+                location.reload();
+            }
+        }
+        nxwd.ajaxRequest('','POST',args,'json',success,before,error);
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% set current_route = app.request.attributes.get('_route') %}
+{% set tabs = tabs|default(constant("App\\Platform::PLATFORMS")|keys) %}
+<div class="tabs-container">
+  <ul class="nav nav-tabs" id="platform_tabs">
+    {% set current_tab = app.request.get('tab', '') %}
+    {% if 0 in tabs %}
+      <li class="{{ '' == current_tab ? 'active' : '' }}" data-tab="">
+        <a href="{{ path(current_route) }}">全部</a>
+      </li>
+    {% endif %}
+    {% for id, name in constant('App\\Platform::PLATFORMS') %}
+      {% if id in tabs %}
+      <li class="{{ id == current_tab ? 'active' : '' }}" data-tab="{{ id }}">
+        <a href="{{ path(current_route, {'tab': id}) }}">{{ name }}</a>
+      </li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+  <div class="tab-content m-b">
+  </div>
+</div>

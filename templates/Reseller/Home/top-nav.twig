@@ -1,0 +1,21 @@
+{%
+set top_nav = [
+  {"name": "首页",    "route": "reseller_home"},
+  {"name": "最新公告", "route": "reseller_home_announcements"},
+  {"name": "招商加盟", "route": "reseller_home_recruitment"},
+  {"name": "常见问题", "route": "reseller_home_faqs"},
+]
+%}
+
+<ul class="agent-nav-ul">
+  {% for nav in top_nav %}
+    {% set is_current = nav.route == current_route %}
+    <li class="agent-nav-li {{ is_current ? 'link-this' : '' }}">
+      <a href="{{ path(nav.route) }}">
+        <span class="link-bg link-bg-l"></span>
+        <span class="txt">{{ nav.name }}</span>
+        <span class="link-bg link-bg-r"></span>
+      </a>
+    </li>
+  {% endfor %}
+</ul>

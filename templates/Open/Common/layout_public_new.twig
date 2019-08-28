@@ -1,0 +1,92 @@
+{% set user = app.user %}
+{% set current_route = app.request.attributes.get('_route') %}
+{% set current_path  = app.request.pathinfo %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %} {{ title|default("狐豆云数据") }} {% endblock %}</title>
+
+  {{ use_assets([
+    '/assets/open/css/index.css',
+    '/assets/open/css/common.css',
+    '/assets/open/css/font-icon/iconfont.css',
+    '/assets/open/js/slideBanner/css/fullSlide.css',
+    '/assets/common/js/jquery.min.js',
+    '/assets/open/js/slideBanner/js/superslide.2.1.js',
+  ]) }}
+  <style type="text/css">
+
+    .appitem-main h2,.appitem-main p{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+
+    /*在线客服浮窗*/
+    #service{width:161px;height:290px;position:fixed;top:350px;right:0px; z-index:100;}
+    *html #service{margin-top:258px;position:absolute;top:expression(eval(document.documentElement.scrollTop));}
+    #service li{width:161px;height:60px;}
+    #service li img{float:right;}
+    #service li a{height:49px;float:right;display:block;min-width:47px;max-width:161px;}
+    #service li a .shows{display:block;}
+    #service li a .hides{margin-right:-143px;cursor:pointer;cursor:hand;}
+    #service li a.weixin_area .hides{display:none;position:absolute;right:143px;}
+    #service li a.weixin_area .weixin{display:none;position:absolute;right:0;top:48px}
+    #p2{width:112px;background-color:#A7D2A9;height:47px;margin-left:47px;border:1px solid #8BC48D;text-align:center;line-height:47px}
+    #p3{width:112px;background-color:#EC9890;height:47px;margin-left:47px;border:1px solid #E6776C;text-align:center;line-height:47px}
+    #p1{width:47px;height:49px;float:left}
+
+
+    /*合作流程*/
+    .cooperation {width: 100%; height: auto; margin-top: 60px; background: url({{ asset('assets/open/images/hzlc-bg.jpg') }}) no-repeat; background-color: #36393b; background-position: center;}
+    .cooperation-location {width: 1200px; height: 500px; margin: 0 auto;}
+    .cooperation-location h2 {color: #fff;}
+    .cooperation-main {position: relative; height: 320px;}
+    .cooperation-axis {position: absolute; top: 150px; left: 0; right: 0; text-align: center;}
+    .cooperation-axis li {position: relative; top: -7px; display: inline-block; width: 200px; height: 1px; background-color: rgba(255,255,255,.5);}
+    .cooperation-axis li:nth-child(even) {position: initial; width: 14px; height: 14px; border-radius: 50%; margin: 0 8px;}
+
+    .cooperation-bubble {position: absolute; top: 20px; display: block; width: 200px; height: auto;}
+    .bubble { position:relative; display: inline-block; width:100%; padding: 10px; background:rgba(255,255,255,.6); border-radius:4px;
+      box-shadow: 0 3px 8px rgba(0,0,0,.1); cursor: default;}
+    .bubble p {line-height: 20px; color: #444355; font-size: 14px; text-align: left;}
+    .bubble .arrow { position:absolute; bottom: -16px; left:43%; width:0; height:0; font-size:0; border:solid 8px;
+      border-color:rgba(255,255,255,.6) transparent transparent transparent; }
+
+    .cm-col2 .bubble {background:rgba(255,204,0,.6);}
+    .cm-col2 .arrow {top: -16px; border-color:transparent transparent rgba(255,204,0,.6) transparent;}
+    .cm-col3 .bubble {background:rgba(15,181,216,.6);}
+    .cm-col3 .arrow {bottom: -16px; border-color:rgba(15,181,216,.6) transparent transparent transparent;}
+
+    .cooperation-bubble .cm-text {position: relative; padding: 7px;}
+    .cooperation-bubble .cm-text em {position: absolute; top: 0; left: 0; display: block; font-family: arial;
+      font-size: 64px; line-height: 64px; color: #fff;}
+    .cooperation-bubble .cm-text h1, .cooperation-bubble .cm-text p {padding-left: 45px;}
+    .cooperation-bubble .cm-text h1 {display: block; height: 24px; margin-bottom: 10px; font-size: 24px; color: #fff; font-weight: normal;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+    .cooperation-bubble .cm-text p {display: block; height: 40px; color: #fff; overflow: hidden;}
+
+    .cm-col1 {left: 260px;}
+    .cm-col2 {top: 200px; left: 500px;}
+    .cm-col3 {right: 265px;}
+  </style>
+
+  {% block css %}
+  {% endblock %}
+  {% block js %}
+  {% endblock %}
+  {% block validation_scripts %}
+  {% endblock %}
+
+</head>
+<body>
+
+<div class="g-head">
+  {% include "/Open/Common/topNav.twig" %}
+</div>
+
+{% block main_content %}
+{% endblock %}
+{% block extra %}
+{% endblock %}
+{% block js_end %}
+{% endblock %}
+</body>
+</html>

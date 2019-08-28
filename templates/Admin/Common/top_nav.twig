@@ -1,0 +1,173 @@
+{% set user = app.user %}
+{% set current_group = app.request.get('group') %}
+
+{% set admin_menus = params("admin_menus") %}
+
+<div class="layui-card" id="change-password-dialog" style="display: none;">
+  <div class="layui-card-body" style="padding-right: 50px;">
+    <form id="change-password-form" class="layui-form" lay-filter="edit-form">
+      <div class="layui-form-item">
+        <label class="layui-form-label">旧密码：</label>
+        <div class="layui-input-block">
+          <input type="password" class="layui-input" name="old_password" autocomplete />
+        </div>
+        <div class="layui-form-mid layui-word-aux error" id="tips_old_password"></div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">新密码：</label>
+        <div class="layui-input-block">
+          <input type="password" class="layui-input" name="new_password" autocomplete/>
+        </div>
+        <div class="layui-form-mid layui-word-aux error" id="tips_new_password"></div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">新密码确认</label>
+        <div class="layui-input-block">
+          <input type="password" class="layui-input" name="new_password_confirm" autocomplete/>
+        </div>
+        <div class="layui-form-mid layui-word-aux error" id="tips_new_password_confirm"></div>
+      </div>
+      <input type="hidden" name="_token" value="{{ csrf_token('admin_profile_change_password') }}">
+    </form>
+  </div>
+</div>
+
+<div class="layui-header">
+  <ul class="layui-nav layui-layout-left">
+    <li class="layui-nav-item layadmin-flexible">
+      <a href="javascript:;" title="侧栏伸缩">
+        <i class="layui-icon layui-icon-shrink-right"></i>
+        <i class="layui-icon layui-icon-spread-left"></i>
+      </a>
+    </li>
+    {% for group_id, group in admin_menus %}
+      {% set is_current_group = false %}
+      <li class="layui-nav-item {{ group_id == current_group ? 'layui-this' : '' }}">
+        <a href="{{ menu_path(group) }}">{{ group.name }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+  <ul class="layui-nav layui-layout-right">
+    <li class="layui-nav-item">
+      <div class="layui-form layui-header-switch">
+        <input type="checkbox" name="" lay-skin="switch" lay-filter="switchVoice" lay-text="开启语音|关闭语音" {% if app.session.get('admin_speek_notice') == 1 %}checked{% endif %}>
+      </div>
+    </li>
+    <li class="layui-nav-item">
+      <a href="javascript:;" title="通知">
+        <i class="layui-icon layui-icon-notice"></i>
+      </a>
+    </li>
+    <li class="layui-nav-item layadmin-nav-item">
+      <a href="javascript:;">
+        <cite>{{ user.user_name }}</cite>
+        <span class="layui-nav-more"></span>
+      </a>
+      <dl class="layadmin-nav-child">
+        <dd>
+          <a href="javascript:;">基本资料</a>
+        </dd>
+        <dd>
+          <a href="javascript:show_edit_dialog();">修改密码</a>
+        </dd>
+        <hr/>
+        <dd style="text-align: center;">
+          <a href="{{ path('admin_logout') }}">退出</a>
+        </dd>
+      </dl>
+    </li>
+  </ul>
+</div>
+<script>
+    function save_password(callback) {
+        $('#change-password-dialog .layui-word-aux').text('');
+        $.post('{{ path('admin_profile_change_password') }}',
+            $('#change-password-form').serialize(),
+            function (data) {
+                if (!data.status) {
+                    if (data.errors) {
+                        $.each(data.errors, function (key, error) {
+                            $('#tips_' + key).text(error);
+                        });
+                    } else {
+                        layer.alert(data.msg);
+                    }
+
+                    callback(false);
+                    return;
+                }
+                callback(true);
+                layer.msg(data.msg, {time: 1500});
+            }, 'json'
+        );
+    }
+
+    function show_edit_dialog() {
+        layer.open({
+            title:   '修改密码',
+            type:    1,
+            area:    ['500px', '320px'],
+            content: $('#change-password-dialog'),
+            // closeBtn: true,
+            btn:     ['修改', '取消'],
+            yes:     function (index, layero) {
+                save_password(function (succeed) {
+                    if (succeed) {
+                        layer.close(index);
+                        $('#change-password-dialog').toggle();
+                    }
+                });
+            },
+            btn2:    function (index, layero) {
+                layer.close(index);
+                $('#change-password-dialog').toggle();
+            }
+        });
+    }
+
+    function get_notify_message() {
+        var success = function (data) {
+            if(data.status){
+                if(data.voice * 1 == 1){
+                    speek_notify(data.msg,1);
+                }
+            }
+        }
+        nxwd.ajaxRequest('{{ path("admin_notify_get_orders_total") }}','POST',{t:Math.random()},'json',success);
+    }
+    {% if app.session.get('admin_speek_notice') == 1 %}
+        var timer = setInterval(get_notify_message,100000);
+    {% endif %}
+
+    function speek_notify(msg,use_baidu){
+        use_baidu = use_baidu || false;
+
+        if(use_baidu){
+            var url = "https://fanyi.baidu.com/gettts?lan=zh&text="+encodeURI(msg)+"&spd=5&source=web"; // baidu
+        }
+        var n = new Audio(url);
+        n.src = url;
+        n.play();
+    }
+
+    $(function(){
+        form.on('switch(switchVoice)', function(data){
+            var status = data.elem.checked ? 1 : 0;
+
+            var success = function (data) {
+                if (data.status) {
+                    nxwd.showMsg(data.msg,'success');
+                } else {
+                    nxwd.showMsg(data.msg,'danger');
+                }
+                if (status == 1) {
+                    timer = setInterval(get_notify_message,100000);
+                } else {
+                    clearInterval(timer);
+                }
+            }
+            nxwd.ajaxRequest('{{ path("admin_notify_switch_voice") }}','POST',{status:status},'json',success);
+        });
+    });
+
+</script>

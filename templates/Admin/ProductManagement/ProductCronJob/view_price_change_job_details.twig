@@ -1,0 +1,165 @@
+{% extends ('/Admin/Common/layout.twig') %}
+
+{% set title = '定时改价任务详情' %}
+
+{% block css %}
+    <style>
+        .layui-table td, .layui-table th {
+            padding: 4px;
+        }
+        .table-label {
+            text-align: center;
+            width: 200px;
+        }
+        .table-header {
+            padding: 10px !important;
+            background-color: #eee;
+        }
+        /*批量设置价格*/
+        .layadmin-setup-form {
+            min-width: 200px;
+            padding-left: 5px;
+            padding-right: 5px;
+            padding-bottom: 5px;
+        }
+        .layadmin-setup-form input {
+            padding: 4px;
+        }
+        .layadmin-setup-form input.error {
+            border: solid 1px red !important;
+            background-color: #f7ecb5;
+        }
+        .layadmin-setup-form .error input:focus {
+            border: solid 1px red !important;
+            background-color: #f7ecb5;
+        }
+        .layadmin-setup-form .title {
+            padding: 8px 5px;
+            margin-bottom: 5px;
+            background-color: #F0F0F0;
+        }
+        .layadmin-setup-form .layui-form-item {
+            margin-bottom: 5px;
+        }
+        .layadmin-setup-form .layui-inline {
+            width: 80px;
+            margin-bottom: 0;
+            margin-right: 0;
+        }
+        .title .layui-checkbox-disbaled span {
+            color: #666;
+        }
+    </style>
+
+{% endblock %}
+
+{% block main_content %}
+<div class="layui-fluid">
+    <form class="layui-form" id="edit-form" lay-filter="edit-form">
+        <table class="layui-table layadmin-remove-color">
+            <tr>
+                <td class="table-header" colspan="2"><h2>计划生效时间</h2></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;text-align: center;">计划生效时间</td>
+                <td>{{ job.scheduled_at|date('Y-m-d H:i:s') }}</td>
+            </tr>
+        </table>
+
+        <table class="layui-table layadmin-remove-color">
+            <tr>
+                <td class="table-header" colspan="{{ (price_groups|length) + 1 }}"><h2>设置商品价格</h2></td>
+            </tr>
+            {% set strategy_options = constant('App\\ProductConstants::STRATEGIES') %}
+            {% set area_priority_options = {'1': '优先全国', '2': '优先省级', '3': '优先市级'} %}
+
+            {% for product in products %}
+                <tr id="item_{{ product.id }}" style="text-align: center;">
+                    <td style="min-width: 150px;">
+                        <p>{{ product.name }}</p>
+                        <p> - </p>
+                        <p>面值：{{ product.face_value }}</p>
+                    </td>
+                    <td style="width: 150px;text-align: center;">
+                    </td>
+
+                    {# 一般售价组特殊处理 #}
+                    <td class="group_column_0" style="text-align: center;min-width: 100px; background-color: #fafafa;color: #000;">
+                        <div class="layadmin-setup-form">
+                            <div class="title">
+                                默认售价
+                            </div>
+                            <div class="layui-form-item">
+                                {% set rate = product.price is defined ? ((product.price / product.face_value)|number_format(5)) : '' %}
+                                {{ product.price|default('') }} / {{ rate }}
+                            </div>
+                            <div class="layui-form-item">
+                                {% set selected_value = product.strategy|default('') %}
+                                {{ strategy_options[selected_value]|default('未知策略') }}
+                            </div>
+                            <div class="layui-form-item">
+                                {% set selected_value = product.area_priority|default('') %}
+                                {{ area_priority_options[selected_value]|default('未知优先区域') }}
+                            </div>
+                        </div>
+                    </td>
+
+                    {% if product.specific_user_settings is defined %}
+                        {# 特殊售价组也特殊处理 #}
+                        <td class="group_column_specific" style="text-align: center;min-width: 100px; display: none;">
+                            <div class="layadmin-setup-form">
+                                <div class="title">
+                                    特殊售价
+                                </div>
+                                <div class="layui-form-item">
+                                    {% set rate = product.specific_user_settings.price is defined ? ((product.specific_user_settings.price / product.face_value)|number_format(5)) : '' %}
+                                    {{ product.specific_user_settings.price|default('') }}/{{ product.specific_user_settings.rate|default('') }}
+                                </div>
+                                <div class="layui-form-item">
+                                    {% set selected_value = product.specific_user_settings.strategy|default('') %}
+                                    {{ strategy_options[selected_value]|default('未知策略') }}
+                                </div>
+                                <div class="layui-form-item">
+                                    {% set selected_value = product.specific_user_settings.area_priority|default('') %}
+                                    {{ area_priority_options[selected_value]|default('未知优先区域') }}
+                                </div>
+                            </div>
+                        </td>
+                    {% endif %}
+
+                    {% for group in price_groups %}
+                        {% set group_settings = product['group_settings'][group.id]|default(null) %}
+                        {#display: {{ group.is_default == 'Y' ? 'block' : 'none' }};#}
+                        <td class="group_column_{{ group.id }}" style="text-align: center;min-width: 100px; {{ group.checked ? '' : 'display: none;' }}">
+                            <div class="layadmin-setup-form">
+                                <div class="title">
+                                    默认售价
+                                </div>
+                                <div class="layui-form-item">
+                                    {% set rate = product.price is defined ? ((product.price / product.face_value)|number_format(5)) : '' %}
+                                    {{ product.price|default('') }} / {{ rate }}
+                                </div>
+                                <div class="layui-form-item">
+                                    {% set selected_value = product.strategy|default('') %}
+                                    {{ strategy_options[selected_value]|default('未知策略') }}
+                                </div>
+                                <div class="layui-form-item">
+                                    {% set selected_value = product.area_priority|default('') %}
+                                    {{ area_priority_options[selected_value]|default('未知优先区域') }}
+                                </div>
+                            </div>
+                        </td>
+                    {% endfor %}
+                </tr>
+
+            {% endfor %}
+        </table>
+        <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 0;padding: 10px;">
+                <a href="{{ path('admin_product_management_products_index', {'product_type': app.request.get('product_type')}) }}" class="layui-btn layui-btn-primary">返回</a>
+            </div>
+        </div>
+
+    </form>
+</div>
+{% endblock %}

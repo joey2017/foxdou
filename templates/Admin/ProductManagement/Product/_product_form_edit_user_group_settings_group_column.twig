@@ -1,0 +1,105 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set sell_statuses         = to_options('App\\ProductConstants::SELL_STATUSES', '上架状态') %}
+{% set refund_types          = to_options('App\\ProductConstants::REFUND_TYPES', '失败自动退款') %}
+{% set price_limit_types     = to_options('App\\ProductConstants::PRICE_LIMIT_TYPES', '限价设置') %}
+{% set strategy_options      = to_options('App\\ProductConstants::STRATEGIES', '策略类型') %}
+{% set area_priority_options = to_options('App\\ProductConstants::AREA_PRIORITIES', '地区优先级') %}
+{% set providers             = to_options('App\\Common\\ExternalService\\RechargeService\\RechargeServiceProviderMap::PROVIDERS', '默认供应商') %}
+
+<td class="group_column_{{ group_idx }}" style="text-align: center;min-width: 100px;">
+    <div class="layadmin-setup-form">
+        <div class="title">
+            {% if group_idx <= 1 %}
+                {{ group_name }}
+            {% else %}
+                {% set enabled = setting.enabled|default(false) %}
+                <input type="checkbox" name="{{ input_name_prefix }}.enabled" value="1" id="enabled_{{ product.id }}_group_{{ group_idx }}"
+                       class="layui-input enabled_{{ product.id }} enabled_group_{{ group_idx }} input_group_{{ group_idx }}"
+                       lay-skin="primary" title="{{ group_name }}" {{ enabled ? 'checked' : '' }}  {{ group.checked|default('false') ? '' : 'disabled' }} >
+            {% endif %}
+        </div>
+        <div class="layui-form-item price_rate_component">
+            <div class="layui-inline">
+                <input type="text" name="{{ input_name_prefix }}.price" value="{{ setting.price|default('') }}" id="price_{{ product.id }}_group_{{ group_idx }}"
+                       class="layui-input price_{{ product.id }} price_group_{{ group_idx }} input_group_{{ group_idx }} input_price"
+                       data-item-id="{{ product.id }}" data-group-idx="{{ group_idx }}"  data-face-value="{{ product.face_value }}" data-official-price="{{ product.official_price }}"
+                       placeholder="售价"  oninput="on_price_changed(this);"/>
+            </div>
+            <span>/</span>
+            <div class="layui-inline" style="">
+                {% set rate = setting.price is defined ? ((setting.price / product.face_value)|number_format(5)) : '' %}
+                <input type="text" value="{{ rate }}" id="rate_{{ product.id }}_group_{{ group_idx }}"
+                       class="layui-input rate_{{ product.id }} rate_group_{{ group_idx }} input_group_{{ group_idx }} input_rate"
+                       data-item-id="{{ product.id }}" data-group-idx="{{ group_idx }}"  data-face-value="{{ product.face_value }}" data-official-price="{{ product.official_price }}"
+                       placeholder="比例" oninput="on_rate_changed(this, '{{ group_idx }}', '{{ product.id }}', {{ product.official_price }});"/>
+            </div>
+            <span>%</span>
+        </div>
+
+        <div class="layui-form-item">
+            {% set selected_value = setting.sell_status|default('') %}
+            <select name="{{ input_name_prefix }}.sell_status" id="sell_status_{{ product.id }}_group_{{ group_idx }}"
+                    class="sell_status_{{ product.id }} sell_status_group_{{ group_idx }} input_group_{{ group_idx }}" data-item-id="{{ product.id }}">
+                {% for value, title in sell_statuses %}
+                    <option value="{{ value }}" {{ selected_value == value ? 'selected' : '' }}>{{ title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="layui-form-item">
+            {% set selected_value = setting.auto_refund|default('') %}
+            <select name="{{ input_name_prefix }}.auto_refund" id="auto_refund_{{ product.id }}_group_{{ group_idx }}"
+                    class="auto_refund_{{ product.id }} auto_refund_group_{{ group_idx }} input_group_{{ group_idx }}" data-item-id="{{ product.id }}">
+                {% for value, title in refund_types %}
+                    <option value="{{ value }}" {{ selected_value == value ? 'selected' : '' }}>{{ title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="layui-form-item">
+            {% set selected_value = setting.price_limit|default('') %}
+            <select name="{{ input_name_prefix }}.price_limit" id="price_limit_{{ product.id }}_group_{{ group_idx }}"
+                    class="price_limit_{{ product.id }} price_limit_group_{{ group_idx }} input_group_{{ group_idx }}" data-item-id="{{ product.id }}">
+                {% for value, title in price_limit_types %}
+                    <option value="{{ value }}" {{ selected_value == value ? 'selected' : '' }}>{{ title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="layui-form-item">
+            {% set selected_value = setting.strategy|default('') %}
+            <select name="{{ input_name_prefix }}.strategy" id="strategy_{{ product.id }}_group_{{ group_idx }}"
+                    class="strategy_{{ product.id }} strategy_group_{{ group_idx }} input_group_{{ group_idx }}" data-item-id="{{ product.id }}">
+                {% for value, title in strategy_options %}
+                    <option value="{{ value }}" {{ selected_value == value ? 'selected' : '' }}>{{ title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="layui-form-item">
+            {% set selected_value = setting.area_priority|default('') %}
+            <select name="{{ input_name_prefix }}.area_priority" id="area_priority_{{ product.id }}_group_{{ group_idx }}"
+                    class="area_priority_{{ product.id }} area_priority_group_{{ group_idx }} input_group_{{ group_idx }}" data-item-id="{{ product.id }}">
+                {% for value, title in area_priority_options %}
+                    <option value="{{ value }}" {{ selected_value == value ? 'selected' : '' }}>{{ title }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="layui-form-item">
+            {% set selected_value = setting.provider_id|default('') %}
+            <select name="{{ input_name_prefix }}.provider_id" id="provider_id_{{ product.id }}_group_{{ group_idx }}"
+                    class="provider_id_{{ product.id }} provider_id_group_{{ group_idx }} input_group_{{ group_idx }}" data-item-id="{{ product.id }}">
+                {% for value, title in providers %}
+                    <option value="{{ value }}" {{ selected_value == value ? 'selected' : '' }}>{{ value == '' ? title : constant(title ~ '::PROVIDER_NAME') }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="layui-form-item">
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="sync_down(this, '{{ product.id }}', '{{ group_idx }}', true)">
+                向下同步
+            </button>
+            <button type="button" class="layui-btn layui-btn-primary layui-btn-sm" onclick="sync_right(this, '{{ product.id }}', '{{ group_idx }}')">
+                向右同步
+            </button>
+        </div>
+    </div>
+</td>

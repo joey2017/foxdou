@@ -1,0 +1,29 @@
+body{background: #F3F3F3;}
+.wap{width: 100%; height: auto; box-sizing: border-box; padding: 30px; border-top: 4px solid #E0E0E0; background-color: #FFFFFF;}
+.listBox{width: 100%;height: auto;margin: 10px auto;box-sizing: border-box;border: 1px solid #E0E0E0;}
+.listBox .h-input-ing{height: 26px;border-color: #B6B6B6;color: #222222;}
+.btnGroup{height: 34px;}
+.listTitle{height: 30px;background: #F0F0F0;line-height: 30px;}
+.listTitle label input{float: left;width: 14px;height: 14px;margin: 9px 3px 0 0;}
+.listTitle li{float: left; padding: 0 10px;font-weight: 600;color: #444444;text-align: left;}		
+.listFiles .openIcon{float: left;display: inline-block;width: 27px;height: 23px;  margin-right: 10px;margin-left: 0;
+	background: url(img/zoomOut.png) no-repeat;background-position: center;cursor: pointer;
+}
+.secondLevel .openIcon{background: url(img/connect.png) no-repeat;background-position: center;margin-right: 0px;margin-left: 42px;}
+.secondLevel .btn{height: 30px;line-height: 28px;background: #FFFFFF;border-color: #B6B6B6;color: #999999;}
+.secondLevel .btn:hover{opacity: .8;}
+.listFiles .listItem{width: 100%;height: auto; box-sizing: border-box; border-top: 1px solid #E0E0E0; text-align: left;}
+.listFiles .listGroup{line-height: 26px;padding: 7px 0;}
+.listFiles .listGroup .move{padding-left: 18px;}
+.listFiles .listGroup .add{padding-left: 12px;}
+.listFiles .listGroup .operation{padding-left: 15px;}
+.listFiles .listGroup>div{float: left;padding: 0 10px;}
+.listFiles .listGroup>input{float: left;width: 14px;height: 14px;}
+.listFiles .listGroup div>a{margin-right: 10px; color: #1094FA;}
+.listFiles .listGroup div>a:hover{opacity: .8;}
+.listFiles .listGroup div>span{margin-right: 10px;color: #999999;cursor: pointer;}
+.listFiles .listGroup div>span:hover{color: #666666;}
+.widthB5{width: 5%;}
+.widthB14{width: 14%;}
+.widthB16{width: 16%;}
+.widthB36{width: 36%;}

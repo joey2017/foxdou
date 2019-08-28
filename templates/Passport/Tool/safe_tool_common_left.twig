@@ -1,0 +1,17 @@
+<div class="sildrtitle">
+    <em></em>
+    密保工具箱
+</div>
+{% set tool_type = app.request.get('type') %}
+<ul class="silderlist">
+    <li class="{% if tool_type == 'email' or tool_type == 'question' %} {% else %}link-this{% endif %}">
+        <a href="{{ path('passport_tool_index') }}">密保手机</a>
+    </li>
+    <li class="{% if tool_type == 'email' %}link-this{% endif %}">
+        <a href="{{ path('passport_tool_index',{'type':'email'}) }}">密保邮箱</a>
+    </li>
+    <li  class="{% if tool_type == 'question' %}link-this{% endif %}">
+        <a href="{{ path('passport_tool_index',{'type':'question'}) }}">密保问题</a>
+    </li>
+</ul>
+

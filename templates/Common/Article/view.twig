@@ -1,0 +1,77 @@
+{% set user = app.user %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="renderer" content="webkit">
+  <title>{{ title|default("狐豆") }}</title>
+  {{ use_assets([
+    '/assets/common/layui/css/layui.css',
+  ])}}
+  <style>
+    .agent-news-end {
+      text-align: center;
+      cursor: default;
+    }
+    .agent-news-end span {
+      display: inline-block;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: #f6fbff;
+      border: 1px solid #EEEEEE;
+      line-height: 80px;
+      font-size: 24px;
+      color: #779ebb;
+    }
+    .agent-news-time {
+      display: block;
+      padding-bottom: 20px;
+      border-bottom: 1px dashed #E0E0E0;
+      font-size: 14px;
+      color: #888;
+    }
+    .cover-image {
+      padding: 10px;
+      text-align: center;
+      border: dashed 1px #eee;
+    }
+    .cover-image img {
+      width: 100%;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="layui-layout">
+      <div class="layui-card">
+        <div class="layui-card-header" style="text-align: center;">
+          {% set platforms = constant('App\\Platform::PLATFORMS') %}
+          <h2>{{ platforms[article.portal_id]|default('狐豆') }}</h2>
+        </div>
+        <div class="layui-card-body">
+          <p style="">
+            <h1 style="text-align: center;margin: 20px 10px">{{ article.title }}</h1>
+          </p>
+          <div style="text-align: center;color: #888;">
+            <div class="agent-news-time">发布时间：{{ article.publish_time|date('Y-m-d H:i:s') }}</div>
+          </div>
+          {% if article.cover_image_url %}
+          <div class="cover-image">
+            <img src="{{ article.cover_image_url }}">
+          </div>
+          {% endif %}
+          <div style="margin-top: 30px;">
+            {{ article.content|raw }}
+          </div>
+
+
+        </div>
+      </div>
+        <div class="agent-news-end">
+          <span>完</span>
+        </div>
+  </div>
+</body>
+</html>

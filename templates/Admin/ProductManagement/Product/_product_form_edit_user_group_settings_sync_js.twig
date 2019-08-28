@@ -1,0 +1,90 @@
+<script>
+    function sync_down_all(sender, source_item_id) {
+        var loading = layer.load();
+
+        $('.rate_' + source_item_id).each(function (index, elem) {
+            var source_group_idx = $(elem).data('group-idx');
+            console.log('sync_down_all', index);
+
+            sync_down(sender, source_item_id, source_group_idx, false);
+        });
+
+        layui.form.render();
+
+        layer.close(loading);
+    }
+
+    function sync_down(sender, source_item_id, source_group_idx, render) {
+        var rate = parse_rate('#rate_' + source_item_id + '_group_' + source_group_idx);
+        if (rate === false) {
+            return;
+        }
+
+        var enabled       = source_group_idx === '0' ? true : $('#enabled_' + source_item_id + '_group_' + source_group_idx).prop('checked');
+        var sell_status   = $('#sell_status_'   + source_item_id + '_group_' + source_group_idx).val();
+        var auto_refund   = $('#auto_refund_'   + source_item_id + '_group_' + source_group_idx).val();
+        var price_limit   = $('#price_limit_'   + source_item_id + '_group_' + source_group_idx).val();
+        var strategy      = $('#strategy_'      + source_item_id + '_group_' + source_group_idx).val();
+        var area_priority = $('#area_priority_' + source_item_id + '_group_' + source_group_idx).val();
+        var provider_id   = $('#provider_id_'   + source_item_id + '_group_' + source_group_idx).val();
+
+        $('.rate_group_' + source_group_idx).each(function (index, elem) {
+            var target_item_id  = $(elem).data('item-id');
+            var official_price  = $(elem).data('official-price');
+            var price           = rate * official_price / 100;
+
+            if (target_item_id >= source_item_id) {
+                $('#rate_'  + target_item_id + '_group_' + source_group_idx).val(rate.toFixed(3));
+                $('#price_' + target_item_id + '_group_' + source_group_idx).val(price.toFixed(5));
+
+                $('#enabled_'       + target_item_id + '_group_' + source_group_idx).prop('checked', enabled);
+                $('#sell_status_'   + target_item_id + '_group_' + source_group_idx).val(sell_status);
+                $('#auto_refund_'   + target_item_id + '_group_' + source_group_idx).val(auto_refund);
+                $('#price_limit_'   + target_item_id + '_group_' + source_group_idx).val(price_limit);
+                $('#strategy_'      + target_item_id + '_group_' + source_group_idx).val(strategy);
+                $('#area_priority_' + target_item_id + '_group_' + source_group_idx).val(area_priority);
+                $('#provider_id_'   + target_item_id + '_group_' + source_group_idx).val(provider_id);
+            }
+        });
+
+        if (render !== false) {
+            layui.form.render();
+        }
+    }
+
+    function sync_right(sender, source_item_id, source_group_idx) {
+        var rate = parse_rate('#rate_' + source_item_id + '_group_' + source_group_idx);
+        if (rate === false) {
+            return;
+        }
+
+        var enabled       = source_group_idx === '0' ? true : $('#enabled_' + source_item_id + '_group_' + source_group_idx).prop('checked');
+        var status        = $('#sell_status_'   + source_item_id + '_group_' + source_group_idx).val();
+        var auto_refund   = $('#auto_refund_'   + source_item_id + '_group_' + source_group_idx).val();
+        var price_limit   = $('#price_limit_'   + source_item_id + '_group_' + source_group_idx).val();
+        var strategy      = $('#strategy_'      + source_item_id + '_group_' + source_group_idx).val();
+        var area_priority = $('#area_priority_' + source_item_id + '_group_' + source_group_idx).val();
+        var provider_id   = $('#provider_id_'   + source_item_id + '_group_' + source_group_idx).val();
+
+        $('.rate_' + source_item_id).each(function (index, elem) {
+            var official_price   = $(elem).data('official-price');
+            var target_group_idx = $(elem).data('group-idx');
+            var price            = rate * official_price / 100;
+
+            if (target_group_idx >= source_group_idx) {
+                $('#rate_'  + source_item_id + '_group_' + target_group_idx).val(rate.toFixed(3));
+                $('#price_' + source_item_id + '_group_' + target_group_idx).val(price.toFixed(5));
+
+                $('#enabled_'       + source_item_id + '_group_' + target_group_idx).prop('checked', enabled);
+                $('#sell_status_'   + source_item_id + '_group_' + target_group_idx).val(status);
+                $('#auto_refund_'   + source_item_id + '_group_' + target_group_idx).val(auto_refund);
+                $('#price_limit_'   + source_item_id + '_group_' + target_group_idx).val(price_limit);
+                $('#strategy_'      + source_item_id + '_group_' + target_group_idx).val(strategy);
+                $('#area_priority_' + source_item_id + '_group_' + target_group_idx).val(area_priority);
+                $('#provider_id_'   + source_item_id + '_group_' + target_group_idx).val(provider_id);
+            }
+        });
+
+        layui.form.render();
+    }
+</script>

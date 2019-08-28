@@ -1,0 +1,27 @@
+.page-wrapper{position: relative; height: 40px}
+/*分页，设置Go*/
+.set-go-box{position: absolute; top: 0; right: 0;}
+.set_go{float: right; display: inline-block;padding-top: 3px!important;}
+.set_go span{float: left; margin-top: 3px}
+.set_go input{float: left;width: 60px; height: 27px; border: 1px solid #e0e0e0; border-radius: 0px;text-align: center;}
+.set_go button{float: left;height: 27px; border: 1px solid #CCCCCC;border-left:none;color:#777; background: #ffffff;}
+.set_go button{border-bottom-right-radius: 4px;border-top-right-radius: 4px;}
+.set_go button:hover{background-color:#eee;}
+.set_go .unit_page_size{display: inline-block; height: 27px; padding: 0 8px; margin-top: 0; border-bottom: 1px solid #e0e0e0; border-right: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; line-height: 27px;}
+.set_go .set_page_size{display: inline-block; height: 27px; padding: 0 8px; margin-top: 0; border-bottom: 1px solid #e0e0e0; border-left: 1px solid #e0e0e0; border-top: 1px solid #e0e0e0; line-height: 27px;border-bottom-left-radius: 4px;border-top-left-radius: 4px;}
+/*中间部分*/
+.paging_simple_numbers{float: none!important; text-align: center;}
+/*开头部分*/
+.show_record{padding-top: 5px!important;}
+
+.page-current{position: absolute; top: 0; left: 0;}
+
+/*跳转*/
+.page-wrapper .col-sm-6{width: auto!important; display: block;}
+.center-page{ position: absolute; top: 50%; left: 50%;right: 0; width: auto!important;  transform: translate(-50%, -50%);}
+.center-page .pagination{float: left}
+.center-page .jump_page{float: left;margin-left: 10px;padding-top: 3px;}
+.center-page .jump_page .jump-page-skip{width: 60px; height: 27px!important; text-align: center;outline: none;border: 1px solid #e0e0e0;border-radius: 4px;}
+.center-page .jump_page .jump-page-btn{height: 27px; border: 1px solid #e0e0e0; border-radius: 4px; background: none; cursor: pointer;}
+.center-page .jump_page .jump-page-btn:hover{background-color:#eee;}
+

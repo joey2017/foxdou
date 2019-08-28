@@ -1,0 +1,24 @@
+{% extends 'Reseller/Common/layout.twig' %}
+
+{% set title = '平台公告' %}
+
+{% block css %}
+  <style type="text/css">
+    .m-wrapper{padding:10px 20px;text-align: left;}
+    .m-notice-box{}
+    .m-notice{padding: 25px 0;border-bottom: 1px dashed #E0E0E0;}
+    .m-notice:last-child{border: none;}
+    .m-notice h1{height: 40px;}
+    .title{font-size: 18px;font-weight: bold;}
+    .title a{color: #666666;}
+    .title a:hover{color: #1AB394;}
+    .info-text{font-size: 14px;color: #666666;line-height: 20px;}
+    .info-text p{padding-bottom: 10px;}
+    .info-foot{height:20px;line-height: 20px;color: #999999;}
+    .info-foot div{display: inline-block; margin-right:40px;}
+  </style>
+{% endblock %}
+
+{% block main_content %}
+  {{ render(controller('App\\Common\\Controller\\ArticleController::indexAction', { 'portal_id': constant('App\\Platform::RESELLER'), 'cate_id': 6, 'limit': 5, 'format': 'html' } )) }}
+{% endblock %}

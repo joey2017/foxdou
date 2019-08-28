@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>测试</title>
+	<link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+</head>
+
+<body>
+	<div class="">
+		<button class="layui-btn layuiadmin-btn-useradmin site-demo-layer" data-type="setSuccess">置成功</button>
+		<button class="layui-btn layuiadmin-btn-useradmin site-demo-layer" data-type="setFailure">置失败</button>
+	</div>
+	
+	<!--弹窗信息-->
+	<div>
+		<!--置成功-->
+		<div id="setSuccessDome" class="layui-form" style="display: none;">
+			123
+		</div>
+		<!--置失败-->
+		<div id="setFailureDome" class="layui-form" style="display: none;">
+			<div class="layui-block">
+				<input type="radio" name="a" value="1" title="对最新SUP订单置失败并结算" checked="">
+				<input type="radio" name="a" value="2" title="对最新SUP订单不进行任何操作">
+			</div>
+		</div>
+	</div>
+	
+	
+
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/js/jquery.js"></script>
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/layui/layui.all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/common.js" ></script>
+	<script type="text/javascript">
+		
+		var active = {
+			setSuccess: function(){
+				layer.open({
+					type: 1, 
+					title: ['置成功确认', 'font-weight:bold;'],
+					btn: ['确定', '取消'],
+					btnAlign: 'c',
+					content: $('#setSuccessDome') 
+				});
+			},
+			setFailure: function(){
+				layer.open({
+					title: '置失败确认',
+					btn: ['确定', '取消'],
+	    			btnAlign: 'c',
+	    			content: $('#setFailureDome')
+				});					
+			}
+		};
+		$('.site-demo-layer').on('click', function(){
+		    var type = $(this).data('type');
+		    active[type] ? active[type].call(this) : '';
+	    });
+	</script>
+</body>
+</html>

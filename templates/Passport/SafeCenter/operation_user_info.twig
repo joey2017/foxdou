@@ -1,0 +1,228 @@
+{% extends '/Passport/layout.twig' %}
+{% block css %}
+    <link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/x-autocomple.css"/>
+{% endblock %}
+{% block main_content %}
+    <div class="page-content">
+        <div class="tab-group-title">
+            <div class="title-item title-this">
+                <i class="iconfont">&#xe600;</i></br>
+                <span>验证身份</span>
+            </div>
+            <div class="line line-this"></div>
+            <div class="title-item title-this">
+                <i class="iconfont">&#xe603;</i></br>
+                <span>{{ operation[type]['name'] }}</span>
+            </div>
+            <div class="line"></div>
+            <div class="title-item">
+                <i class="iconfont">&#xe641;</i></br>
+                <span>完成</span>
+            </div>
+        </div>
+        <div class="tab-prompt">
+            <i class="iconfont ico-fs-16">&#xe625;</i>
+            <span>为了您的账户安全，请填写正确的信息。</span>
+        </div>
+        {% set val_type = operation[type]['common_view'] ? operation[type]['common_view'] : type %}
+        {% include '/Passport/SafeCenter/' ~ val_type ~ '.twig' %}
+    </div>
+{% endblock %}
+{% block js_end %}
+    {{ use_assets([
+        '/assets/common/js/jquery.form.min.js',
+        '/assets/common/js/common.js',
+    ]) }}
+<script type="text/javascript">
+    {% if type in [1,2,7,8] %}
+    {% if type in [2,7] %}
+        bind_input_event('email',function () {
+            check('email','#email');
+        });
+    {% else %}
+        bind_input_event('mobile',function () {
+            check('mobile','#mobile');
+        });
+    {% endif %}
+        $('#is_user').click(function() {
+            check('mobile','#mobile');
+        });
+        var inspect_status = false;
+        function check(type,dom) {
+            inspect_status = false;
+            var url;
+            var val = $(dom).val();
+            if(!val){
+                $(dom).parents('.sisi-input-item').find('.sisi-input-auxe').find('span').text('必填选项');
+                $(dom).attr('check','false');
+                return false;;
+            }else{
+                $(dom).parents('.sisi-input-item').find('.sisi-input-auxe').find('span').text('');
+                $(dom).removeAttr('check');
+            }
+
+            if(type == 'email'){
+                if(!/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(val)){
+                    return false;
+                }
+                url='{{ path("passport_safe_center_email_status",{'type':type}) }}&val='+val;
+            }else if(type == 'mobile'){
+                if(val.length < 11){
+                    return false;
+                }
+                if(val.length > 11){
+                    $(dom).parents('.sisi-input-item').find('.sisi-input-auxe').find('span').text("手机号码有误");
+                    return false;
+                }
+                if(val.length == 11){
+                    if(!(/^1[34578]\d{9}$/.test(val))){
+                        $(dom).parents('.sisi-input-item').find('.sisi-input-auxe').find('span').text("手机号码有误");
+                        return false;
+                    }
+                }
+                url='{{ path("passport_safe_center_mobile_status",{'type':type}) }}&val='+val;
+            }else{
+                return false;
+            }
+
+            if($('#is_user').prop('checked') == true){
+                var re_data = check_status(url);
+                if(!re_data.status){
+                    $(dom).parents('.sisi-input-item').find('.sisi-input-auxe').find('span').text(re_data.msg);
+                    $(dom).attr('check','false');
+                    return false;
+                }else{
+                    $(dom).parents('.sisi-input-item').find('.sisi-input-auxe').find('span').text('');
+                    $(dom).removeAttr('check');
+                }
+            }
+            inspect_status = true;
+        }
+        function checkSubmit() {
+            if($('#mobile').val() == ''){
+                layer.msg('手机号码不能为空');
+                return false;
+            }
+            if($('#email').val() == ''){
+                layer.msg('邮箱不能为空');
+                return false;
+            }
+            if(inspect_status == false){
+                layer.msg('确认失败，请检查错误');
+                return false;
+            }
+            if(!$('.verify-code').val() || !$('#verify_code').val()){
+                layer.msg('验证码不能为空');
+                return false;
+            }
+            return true;
+        }
+    {% endif %}
+    $('form').ajaxForm({
+        resetForm: true,
+        url:'{{ path("passport_safe_center_operation_exec",{'type':type}) }}',
+        beforeSerialize:function () {
+            if(window.change_data){
+                change_data();
+            }
+        },
+        beforeSubmit: function () {
+            if(window.checkSubmit){
+                if(checkSubmit() == false){
+                    return false;
+                }
+            }
+        },
+        dataType:'json',
+        success:function(data){
+            if(data.status){
+                location.href = '{{ path("passport_safe_center_operation_finish",{'type':type}) }}';
+                return;
+            }
+            layer.msg(data.msg);
+        }});
+
+    //发送验证码
+    function sendCode(type){
+        var verify_code = $('#verify_code').val();
+        if(!verify_code){
+            layer.msg('图形验证码不能为空');
+            return;
+        }
+        if($('#mobile').val() == ''){
+            layer.msg('手机号码不能为空');
+            return false;
+        }
+        if($('#email').val() == ''){
+            layer.msg('邮箱不能为空');
+            return false;
+        }
+        if(inspect_status == false){
+            layer.msg('发送失败，请检查错误');
+            return false;
+        }
+
+        if(type == 1){
+            if(!(/^1[34578]\d{9}$/.test($('#mobile').val()))){
+                layer.msg('手机号码格式错误');
+                return false;
+            }
+            var send_url = '{{ path("passport_safe_center_send_mobile_verify",{'type':type}) }}';
+            var params   = { verify_code:verify_code, mobile:$('#mobile').val()};
+        }else if(type == 2){
+            if(!/^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test($('#email').val())){
+                layer.msg('邮箱格式错误');
+                return false;
+            }
+            var send_url = '{{ path("passport_safe_center_send_email_verify",{'type':type}) }}';
+            var params   = { verify_code:verify_code, email:$('#email').val()};
+        }else {
+            layer.msg('发送失败');
+        }
+
+        var success = function(data){
+            if(data.status == true){
+                layer.msg('发送成功！');
+                setCountDown($('#send_mobile_code'),$('#mobile-time'),$('#mobile-time-span'),'');
+            }else{
+                layer.msg('发送失败！' + data.msg);
+                $('.verify_img').attr('src','{{ url('common_recaptcha_index',{'id':'verify_code'}) }}&' + Math.random());
+            }
+        };
+        nxwd.ajaxRequest(send_url,'POST',params,'json',success);
+    }
+
+
+    /**
+     * 设置倒计时
+     */
+    function setCountDown(dom_button,dom_span,dom_span_content,msg){
+        if(typeof msg=='undefined' ){
+            msg = '';
+        }
+        dom_span_content.text('秒后重新发送'+msg);
+        dom_button.attr('disabled',true);
+        jump(60,dom_span,function () {
+            dom_span_content.text('重新发送'+msg);
+            dom_button.removeAttr('disabled');
+        });
+    }
+
+
+    /**
+     * 系统设置倒计时
+     */
+    function jump(count,dom,callback) {
+        dom.text(count);
+        window.setTimeout(function(){
+            count--;
+            if(count >=0 ) {
+                jump(count,dom,callback);
+            }else{
+                dom.text('');
+                callback();
+            }
+        }, 1000);
+    }
+</script>
+{% endblock %}

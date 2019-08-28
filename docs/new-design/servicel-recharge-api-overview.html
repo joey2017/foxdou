@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的服务-API管理-概览</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="layui/css/layui.css"  media="all">
+	<link rel="stylesheet" href="font/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="css/api-admin.css"/>
+	<style type="text/css">
+		
+		/*API证书*/
+		.foxdou-api-book {position: relative; width: 100%;height: auto;box-sizing: border-box;border: 5px solid #FFE8E0;background: #FFFAF8;padding: 30px;margin: 10px auto;}
+		.foxdou-api-book h1 {margin: 0 0 20px 0;font-size: 20px;font-weight: bold;color: #333333;}
+		.foxdou-api-book .api-text {line-height: 40px;}
+		.foxdou-api-book .api-text dt {float: left;width: 120px;text-align: right;margin-right: 50px;}
+		.foxdou-api-book .api-text span {margin-right: 20px;}
+		.foxdou-api-book .api-text a {margin: 0 10px;color: #1E9FFF;cursor: pointer;}
+		.foxdou-api-book .api-sign {position: absolute;bottom: 30px;right: 150px;}
+		.foxdou-api-book .api-sign p {line-height: 40px;}
+		.foxdou-api-book .api-seal {position: absolute;bottom: 10px;right: 100px;width: 160px;height: 160px;background: url(image/seal.png) no-repeat;background-size: 160px;}
+		
+		/*功能场景*/
+		.foxdou-api-function h2{margin: 30px 0 20px 0;font-size: 20px;font-weight: bold;color: #333333;}
+		.foxdou-api-function table th {color: #333;}
+		.foxdou-api-function table a {color: #1E9FFF;}
+		.foxdou-api-function table a:hover {opacity: .8;}
+		.foxdou-api-function table td {padding: 12px 10px!important;}
+		.foxdou-api-function table tbody tr:hover {background-color: #fff!important;}
+		
+		.foxdou-demo-app, .foxdou-demo-warning {padding: 30px; border-bottom: 1px solid #eee; line-height: 22px; background-color: #FFFFFF; color: #777; font-weight: 300;}
+		.foxdou-demo-warning .layui-form-label{width: 100px!important;}
+		.foxdou-demo-app .icon {position: absolute; display: inline-block; font-size: 30px; color: #FFAD33;}
+		.foxdou-demo-app p {width: 300px; margin-left: 40px;word-wrap: break-word;}
+		.foxdou-demo-app p>span:first-child {display: block; margin-bottom: 10px; color: #3FAF56; font-size: 18px;}
+		.layui-layer-btn a {padding: 2px 20px!important;}
+		
+	</style>
+</head>
+
+<body>
+	
+	<div class="foxdou-box">
+		<div class="foxdou-header">
+			<div class="foxdou-top">
+				<div class="foxdou-logo"></div>
+				<div class="foxdou-attr">开发平台</div>
+				<div class="foxdou-link">
+					<a href="">解决方案</a>
+					<a href="">常见问题</a>
+					<a href="">文档中心</a>
+					<a href="">开发者服务</a>
+					<a href="">服务市场</a>
+				</div>
+				<ul class="layui-nav layui-layout-right foxdou-nav-user">
+			    	<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="image/hdimg1.jpg" class="layui-nav-img"> 广西你行我动科技有限公司
+							<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="">基本资料</a>
+							</dd>
+							<dd>
+								<a href="">安全设置</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item foxdou-nav-item" title="点击刷新" style="cursor: default;">
+						<a>账户余额：60000元</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-tuichu"></i>
+						<a href="">退出</a>
+					</li>
+				</ul>
+			</div>
+			<ul class="layui-nav foxdou-nav">
+				<li class="layui-nav-item">
+					<a href="index.html">控制台</a>
+				</li>
+				<li class="layui-nav-item layui-this">
+					<a href="servicel-recharge-order.html">我的服务</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="servicel-index.html">我的服务2</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="panel-financial-account.html">我的API</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">解决方案</a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a href="">移动模块</a>
+						</dd>
+						<dd>
+							<a href="">后台模版</a>
+						</dd>
+						<dd>
+							<a href="">电商平台</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+		<div class="foxdou-side">
+			<div class="foxdou-side-scroll">
+				<ul class="layui-nav layui-nav-tree foxdou-nav foxdou-side-icon">
+			        <li class="layui-nav-item">
+			        	<i class="icon iconfont icon-caiwu"></i>
+						<a class="" href="javascript:;">充值/缴费/服务<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">话费充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">固话充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">流量充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-youhuicuxiao"></i>
+						<a class="" href="javascript:;">充值卡/礼品卡<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">话费充值卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">游戏充值卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">京东礼品卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">淘宝优惠券</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-piaowuguanliicon"></i>
+						<a class="" href="javascript:;">票务类业务<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-922chuxing"></i>
+						<a class="" href="javascript:;">车辆/出行<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-jinlingyingcaiwangtubiao09"></i>
+						<a class="" href="javascript:;">金融/基金<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-youxi"></i>
+						<a class="" href="javascript:;">娱乐/体育问答<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-shenghuo"></i>
+						<a class="" href="javascript:;">生活/天气/健康<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-gongjukuaidi"></i>
+						<a class="" href="javascript:;">开发工具<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="foxdou-body">
+			<div class="foxdou-tab">
+				<ul>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-order.html">订单管理</a>
+					</li>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-cost.html">商品成本</a>
+					</li>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-phone-single.html">人工充值</a>
+					</li>
+					<li class="foxdou-tab-item foxdou-this">
+						<a href="servicel-recharge-api.html">API管理</a>
+					</li>
+				</ul>
+			</div>
+			<div class="layui-clear" style="padding: 15px; padding-top: 50px;">
+				<div class="foxdou-row foxdou-row-notm">
+					<ul class="foxdou-sidenav">
+						<li class="foxdou-sidenav-item foxdou-this">
+							<a href="servicel-recharge-api-overview.html">概览</a>
+						</li>
+						<li class="foxdou-sidenav-item">
+							<a href="servicel-recharge-api-info.html">应用基本信息</a>
+						</li>
+						<li class="foxdou-sidenav-item">
+							<a href="servicel-recharge-api-security.html">安全中心</a>
+						</li>
+						<li class="foxdou-sidenav-item">
+							<a href="servicel-recharge-api-report.html">报表中心</a>
+						</li>
+						<li class="foxdou-sidenav-item">
+							<a href="">消息服务</a>
+						</li>
+						<li class="foxdou-sidenav-item">
+							<a href="">SDK下载</a>
+						</li>
+					</ul>
+					<div class="foxdou-col-md">
+						<div class="foxdou-breadcrumb">
+							<span class="layui-breadcrumb" lay-separator="-">
+							    <a href="">应用管理</a>
+							    <a><cite>概览</cite></a>
+							</span>
+						</div>
+						<div class="foxdou-api-book">
+							<h1>API证书</h1>
+							<dl class="api-text">
+								<dt>API名称：</dt>
+									<dd>手机话费充值</dd>
+								<dt>App Key：</dt>
+									<dd>100001</dd>
+								<dt>App Secret：</dt>
+									<dd>
+										<span class="app-secret" style="display: none;">O6igYNTEFlVxeZvK3r5Jvn9h8dKQFhsF</span>
+										<a class="app-secret-none">显示</a>/<a class="site-demo-layer app-secret-reset" data-type="notice">重置</a>
+									</dd>
+								<dt>应用安全等级：</dt>
+									<dd>1级</dd>
+								<dt>证书流量：</dt>
+									<dd>50000次/天<a class="site-demo-layer" data-type="warning">预警配置</a></dd>
+								<dt>基础权限：</dt>
+									<dd><span>查询接口余额</span><span>话费服务</span></dd>
+								<dt>增值权限：</dt>
+									<dd>充值前查询话费余额</dd>
+							</dl>
+							<div class="api-sign">
+								<p>广西你行我动科技有限公司</p>
+								<p>颁发日期：2016-01-02</p>
+							</div>
+							<div class="api-seal"></div>
+						</div>
+						<div class="foxdou-api-function">
+							<h2>功能场景</h2>
+							<table  class="layui-table" lay-skin="line">
+								<colgroup>
+									<col>
+									<col>
+									<col>
+									<col>
+								</colgroup>
+						        <thead>
+						          <tr>	
+						            <th colspan="4"><b>提交订单</b></th>
+						          </tr> 
+						        </thead>
+						        <tbody>
+						            <tr>
+							            <td>提交订单</td>
+							            <td><a href="#">了解更多</a></td>
+							            <td>已获得</td>
+							            <td>
+							            	<a href="#">申请此场景</a>
+							            </td>
+						            </tr>
+						        </tbody>
+							</table>
+							
+							<table  class="layui-table" lay-skin="line">
+								<colgroup>
+									<col>
+									<col>
+									<col>
+									<col>
+								</colgroup>
+						        <thead>
+						          <tr>	
+						            <th colspan="4"><b>订单状态</b></th>
+						          </tr> 
+						        </thead>
+						        <tbody>
+						            <tr>
+							            <td>查询订单</td>
+							            <td><a href="#">了解更多</a></td>
+							            <td>已获得</td>
+							            <td>
+							            	<a href="#">申请此场景</a>
+							            </td>
+						            </tr>
+						            <tr>
+							            <td>回调订单</td>
+							            <td><a href="#">了解更多</a></td>
+							            <td>已获得</td>
+							            <td>
+							            	<a href="#">申请此场景</a>
+							            </td>
+						            </tr>
+						        </tbody>
+							</table>
+							
+							<table  class="layui-table" lay-skin="line">
+								<colgroup>
+									<col>
+									<col>
+									<col>
+									<col>
+								</colgroup>
+						        <thead>
+						          <tr>	
+						            <th colspan="4"><b>接口余额</b></th>
+						          </tr> 
+						        </thead>
+						        <tbody>
+						            <tr>
+							            <td>查询订单</td>
+							            <td><a href="#">了解更多</a></td>
+							            <td>已获得</td>
+							            <td>
+							            	<a href="#">申请此场景</a>
+							            </td>
+						            </tr>
+						            <tr>
+							            <td>回调订单</td>
+							            <td><a href="#">了解更多</a></td>
+							            <td>已获得</td>
+							            <td>
+							            	<a href="#">申请此场景</a>
+							            </td>
+						            </tr>
+						        </tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="foxdou-footer">
+			Copyright ©你行我动科技
+		</div>
+	</div>
+	
+	<!-- 重置AppSecret层 -->
+	<div class="foxdou-demo-app"  style="display: none;">
+		<i class="icon iconfont icon-wenhao"></i>
+		<p><span>重置AppSecret</span>
+		<span>确认重置？AppSecret在重置后，您必须要在项目中更新密钥的配置!</span></p>
+	</div>
+	<!-- /重置AppSecret层 -->
+	
+	<!-- 预警设置层 -->
+	<div class="foxdou-demo-warning" style="display: none;">
+		<form class="layui-form" action="">
+			<div class="layui-form-item">
+			    <label class="layui-form-label">告警开关：</label>
+			    <div class="layui-input-block">
+			        <input name="on-off" value="开启" title="开启" checked="" type="radio">
+			        <input name="on-off" value="关闭" title="关闭" type="radio">
+			    </div>
+			</div>
+			<div class="layui-form-item">
+			    <label class="layui-form-label">告警阀值：</label>
+			    <div class="layui-input-block">
+			        <input name="number" value="0" title="70%" checked="" type="radio">
+			        <input name="number" value="1" title="80%" type="radio">
+			        <input name="number" value="2" title="90%" type="radio">
+			    </div>
+			</div>
+			<div class="layui-form-item">
+			    <label class="layui-form-label">告警联系人：</label>
+			    <div class="layui-input-inline">
+			        <input name=""  class="layui-input inp-text f-fnsna" type="tel" placeholder="填写联系人手机号码">
+			    </div>
+			</div> 
+		</form>
+	</div>
+	<!-- /预警设置层 -->
+	
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script src="js/jquery v2.1.4.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		/*
+		 * layui组件或模块载入
+		 * 【表单、导航（选项卡）】
+		 */
+		layui.config({
+			base: 'js/'
+		}).use('index');
+		
+		
+		/*
+		 * layui组件或模块载入
+		 * 【分页、弹出层】
+		 */
+		layui.use(['laypage','layer'], function(){
+		    var laypage = layui.laypage,
+		    	layer = layui.layer;
+		    
+		    //完整的分页功能
+		    laypage.render({
+			    elem: 'demo7'
+			    ,count: 100
+			    ,theme: '#1E9FFF'
+			    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+			    ,jump: function(obj){
+			    	console.log(obj)
+		    	}
+		    });
+		    
+		    //弹出层
+		    var active = {
+		    	notice: function(){ //重置AppSecret层
+				    layer.open({
+				    	type: 1
+					    ,title: false
+					    ,closeBtn: false
+					    ,area: '400px'
+				        ,shade: 0.3  //遮罩透明度
+		        		,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+					    ,btn: ['确定', '取消']
+					    ,btnAlign: 'c'
+					    ,content: $('.foxdou-demo-app')
+					});
+				}
+		    	,warning: function(){  //预警设置层
+			        layer.open({
+				        type: 1
+				        ,title: ['API流量预警配置', 'font-size:14px;font-weight:bold;'] //不显示标题栏
+				        ,closeBtn: false
+				        ,area: '500px;'
+				        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+				        ,btn: ['确定', '取消']
+				        ,btnAlign: 'c'
+				        ,content: $('.foxdou-demo-warning')
+			        });
+			    }
+			}
+		    $('.site-demo-layer').on('click', function(){
+			    var type = $(this).data('type');
+			    active[type] ? active[type].call(this) : '';
+		    });
+		});
+		
+		
+		/*
+		 * App Secret 显示/隐藏
+		 */
+		$('.app-secret-none').click(function(){
+			if($(".app-secret").is(":hidden")){
+				$('.app-secret').css('display','inline-block');
+				$(this).html('隐藏');
+				return;
+			}
+			$('.app-secret').css('display','none');
+			$(this).html('显示');
+		});
+	</script>
+	
+</body>
+</html>

@@ -1,0 +1,12 @@
+[
+	{renyi:1,face_value:[10,20,50],speed:1,cate_id:1,regions_name:['北京','天津'],regions_id:[10000,11100],if_mvno:0,mvno:0}
+	{renyi:2,face_value:[1],speed:1,cate_id:1,regions_name:['北京','天津'],regions_id:[10000,11100],if_mvno:0,mvno:0,num:500}
+	{renyi:3,face_value:[155,209],speed:1,cate_id:1,regions_name:['北京','天津'],regions_id:[10000,11100],if_mvno:0,mvno:0}
+]
+
+
+[
+	{renyi:1,face_value:[10,20,50],speed:1,cate_id:4,if_mvno:1,mvno:5}
+	{renyi:2,face_value:[1],speed:1,cate_id:4,if_mvno:1,mvno:5,num:500}
+	{renyi:3,face_value:[155,209],speed:1,cate_id:4,if_mvno:1,mvno:5}
+]

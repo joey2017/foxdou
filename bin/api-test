@@ -1,0 +1,29 @@
+#!/usr/bin/env php
+<?php
+$loader = require __DIR__.'/../vendor/autoload.php';
+
+use App\OpenApi\Security\SignatureHelper;
+use Unirest\Request;
+
+$params = [
+    'app_id'     => '100000',
+    'method'     => 'foxdou.mobileBalance.Query',
+    'request_id' => 'dfg5634fsddfdsfsd',
+    'timestamp'  => date('Y-m-d H:i:s'),
+    'format'     => 'json',
+    'version'    => '1.0',
+    'mobile'    => '13687510143',
+];
+
+$params['sign'] = SignatureHelper::calcSignature($params, '123f282269890a5e3ed4ee3e9523e36c');
+
+$query = http_build_query($params);
+$url = "http://dev.1zbao.com/openapi/api/v2/gateway.do?{$query}";
+
+$result = Request::get($url);
+
+echo "result: \n";
+print_r($result->body);
+
+echo "sign={$params['sign']}\n";
+echo "url={$url}\n";

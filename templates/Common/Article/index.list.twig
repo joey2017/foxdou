@@ -1,0 +1,17 @@
+<ul class="article-list">
+  {% for item in articles %}
+    <li class="article-list-item">
+      <a href="javascript:view_article('{{ url("common_articles_view", {'id': item.id}) }}')">
+        <span class="article-list-title">{{ item.title }}</span>
+      </a>
+      <span>{{ item.publish_time }}</span>
+    </li>
+  {% endfor %}
+</ul>
+<script>
+    function view_article(url) {
+        var width = 1000;
+        var height = window.screen.availHeight;
+        window.open(url, '', 'scrollbars=0,width=' + width + ',height=' + height + ',top=' + (( (window.screen.availHeight) / 2 ) - (height / 2) ) + ',left=' + (( (window.screen.availWidth) / 2 ) - (width / 2)));
+    }
+</script>

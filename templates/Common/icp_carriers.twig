@@ -1,0 +1,29 @@
+{% set carriers = constant('App\\Constants::ISP_CARRIERS') %}
+{% set current_carrier = current_carrier|default(1) %}
+{% set product_cate_id = app.request.get('product_cate_id') %}
+
+<div class="m-tab-item">
+  <ul class="m-tab" id="isp_list">
+    <li class="tab-this isp_item " data-id=""><a href="javascript:void(0);" >全部</a></li>
+    {% for id, name in carriers[product_cate_id] %}
+      {% set params = {"carrier": current_carrier} %}
+    <li class="isp_item {{ id == current_carrier ? "layui-this" : "" }}" data-id="{{ id }}">
+      <a href="javascript:void(0);" >{{ name }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</div>
+<script>
+    $('li.isp_item').click(function () {
+        $(this).addClass('tab-this');
+        $(this).siblings().removeClass('tab-this');
+        var operator_id = $(this).data('id');
+        $('#operator_id').val(operator_id === undefined ? '' : operator_id);
+
+        if(get_data) {
+            get_data();
+        }else if(reload_table) {
+            reload_table();
+        }
+    });
+</script>

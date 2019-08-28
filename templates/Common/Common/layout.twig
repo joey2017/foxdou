@@ -1,0 +1,213 @@
+{% set user = app.user %}
+{% set current_route = app.request.attributes.get('_route') %}
+{% set current_path  = app.request.pathinfo %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>{% block title %} {{ title|default("狐豆云数据") }} {% endblock %}</title>
+  <link href="//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/css/layui.css" rel="stylesheet">
+  <link href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/nornmalize.css" rel="stylesheet">
+  <link href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/common.css" rel="stylesheet">
+  <link href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/iconfont/iconfont.css" rel="stylesheet">
+  <link href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/index.css" rel="stylesheet">
+
+  <!--        <link href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/skin/default/default.css" rel="stylesheet">-->
+  {#<link id="skin_link" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/skin/<?=$this->params['user_skin']?>/<?=$this->params['user_skin']?>.css" rel="stylesheet" onerror="this.href='//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/skin/default/default.css';">#}
+  <link id="skin_link" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/skin/default/default.css" rel="stylesheet">
+
+  <script src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/js/jquery.min.js" type="text/javascript"></script>
+  <script src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/js/jquery.form.min.js"></script>
+  <script src="//foxdou-public.oss-cn-shenzhen.aliyuncs.com/assets/common/layui/layui.all.js"></script>
+  <style type="text/css">
+    .m-right{overflow-y: scroll;}
+    /*input::-webkit-input-placeholder{font-size: 14px;line-height: 38px;font-weight:normal}*/
+
+  </style>
+
+  {% block css %}
+  {% endblock %}
+  {% block js %}
+  {% endblock %}
+  {% block validation_scripts %}
+  {% endblock %}
+</head>
+<body>
+{% if app.debug %}
+  <div style="background-color: darkred;height: 5px;"></div>
+{% endif %}
+<div class="g-head" style="">
+  <div class="m-head s-head">
+    <a class="m-logo" href="/reseller" ></a>
+    <div class="m-sort s-link">
+      <div class="bubble-item" id="select-skin" style="display: none;">
+        <div class="bubble">
+          <div class="bubble-arrow">
+            <em></em>
+            <span></span>
+          </div>
+          <p>请选择喜欢的皮肤：</p>
+          {% for skin in ['default', 'black', 'orange', 'green', 'purple', 'brown', 'blue-2',] %}
+          <a class="{{ skin }}" value="{{ skin }}" href="javascript:void (0);" onclick="change_skin('{{ skin }}');"></a>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="m-total s-link">
+      <span class="s-white">店铺名称：{{ user.resellerAccount.shop_name|default('') }}</span>
+      <span class="s-white">帐号：{{ user.user_name }}</span>
+      <span class="s-white">账户余额：<a href="/backend/balance-recharge" id="head_agent_user_momeny_balance" title="点击充值余额">{{ user.resellerAccount.balance|default(0)|number_format(2) }}</a>元</span>
+      <a href="javascript:void (0);" onclick="refresh_balance();"><i class="iconfont">&#xe62e;</i>刷新余额</a>
+      <!--                <a href="javascript:void (0);"><i class="iconfont">&#xe62d;</i>系统设置</a>-->
+      <a href="javascript:void (0);" class="lock-screen" id="lock-screen"><i class="iconfont">&#xea54;</i>锁屏</a>
+      <!--                <a href="javascript:void (0);"><i class="iconfont">&#xe62e;</i>交接班</a>-->
+      <!--                <a href="javascript:void (0);"><i class="iconfont">&#xe661;</i>网站导航</a>-->
+      <a href="<?=\yii\helpers\Url::to(['out'])?>"><i class="iconfont">&#xe642;</i>退出</a>
+    </div>
+  </div>
+  <div class="m-head-nav f-fs-16">
+    {% include "Open/Common/topNav.twig" %}
+  </div>
+</div>
+<!-- 主体 -->
+<div class="g-main">
+  <!-- 侧栏导航 -->
+  <div class="m-left">
+    {% include "Open/Common/left_nav_head.twig" %}
+  </div>
+  <!-- /侧栏导航 -->
+  <!-- 右侧内容区域 -->
+  <div class="m-right">
+    {% block main_content %}
+    {% endblock %}
+  </div>
+  <!-- /右侧内容区域 -->
+</div>
+<!--弹出层-锁屏-->
+<!-- /主体 -->
+<div id="notice_dialog" style="display: none">
+  <div style="padding: 50px; line-height: 22px; background-color: #393D49; color: #fff; font-weight: 300;" id="notice_dialog_content">
+
+  </div>
+</div>
+
+{% block footer %}
+{% endblock %}
+
+
+<script type="text/javascript">
+    var _CSRF='{{ csrf_token("print_settings") }}';
+    layui.use(['layer'], function(){
+        var layer = layui.layer;
+
+    });
+    notice_dialog();
+    function notice_dialog() {
+
+//        $.ajax('/get-dialog-notice',{
+//
+//            success:function (re) {
+//                if(!re.status){
+//                    return false;
+//                }
+//                $('#notice_dialog_content').html(re.data.content);
+//                layui.use(['layer'], function(){
+//                    var layer = layui.layer;
+//                    layer.open({
+//                        type: 1
+////                            ,title: re.data.title //不显示标题栏
+//                        ,title: false //不显示标题栏
+//                        ,closeBtn: false
+//                        ,area: '300px;'
+//                        ,shade: 0.8
+//                        ,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+//                        ,btn: ['知道了', '下次再看']
+//                        ,btnAlign: 'c'
+//                        ,moveType: 1 //拖拽模式，0或者1
+//                        ,content:$('#notice_dialog')
+//                        ,yes:function (index) {
+//                            setread(1,re.data.id);
+//                            layer.close(index);
+//                        }
+//                        ,btn2:function (index) {
+//                            setread(2,re.data.id);
+//                            layer.close(index);
+//                        }
+//                    });
+//                });
+//            }
+//        });
+
+    }
+
+    function setread(status,id) {
+        $.ajax('/read-notice',{
+            type:'post'
+            ,data:{id:id,status:status,'_token':_CSRF}
+            ,success:function () {
+                if(data.status){
+                    return true;
+                }
+                layer.msg('操作失败');
+            }
+        });
+    }
+
+
+
+
+
+    $('#lock-screen').click(function () {
+        $.ajax('/lock-screen/index',{
+            type:'post'
+            ,data:{'_token':_CSRF,url:location.href}
+            ,success:function (data) {
+                if(!data.status){
+                    layer.msg(data.msg);
+                    return false;
+                }
+                location.href=(data.url);
+            }
+        });
+    });
+
+    $('#select-skin').mouseleave(function () {
+        $(this).hide();
+    });
+    var this_user_skin='';
+    function change_skin(skin) {
+        if(skin==this_user_skin){
+            layer.msg('您正在使用这套皮肤哦！');
+            return false;
+        }
+        $.ajax('/backend/default/change-skin',{
+            type:'post'
+            ,data:{skin:skin,'_token':_CSRF}
+            ,success:function (data) {
+                layer.msg(data.msg);
+                if(!data.status){
+                    return false;
+                }
+                $('#skin_link').attr('href','//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/skin/'+skin+'/'+skin+'.css');
+                this_user_skin=skin;
+                //     location.reload();
+            }
+            ,error:function () {
+                layer.msg('网络异常或系统繁忙，请稍后再再试');
+            }
+        });
+    }
+    function refresh_balance() {
+        $.get('/get-agent-user-balance',{},function (data) {
+            $('#head_agent_user_momeny_balance').text(data.balance);
+            layer.tips('刷新成功','#head_agent_user_momeny_balance', {
+                tips: [3, '#9ACD32'],
+                time: 3000
+            });
+        });
+    }
+</script>
+</body>
+</html>

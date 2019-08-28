@@ -1,0 +1,6 @@
+simple_form:
+  csrf:
+    field_name: '_token'
+  validators:
+    recaptcha: '@App\Common\Validator\RecaptchaValidator'
+    verify_code: '@App\Common\Validator\VerifyCodeValidator'

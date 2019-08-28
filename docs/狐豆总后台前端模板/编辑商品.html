@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>编辑商品</title>
+	<link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+
+<body>
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<!-- 头部区域 -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layadmin-flexible">
+						<a href="javascript:;" title="侧栏伸缩">
+							<i class="layui-icon layui-icon-shrink-right"></i>
+							<i class="layui-icon layui-icon-spread-left"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">运营数据</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">用户管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">订单管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">服务管理</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<a href="javascript:;">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">平台审核</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">内容管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">财务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">系统设置</a>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<div class="layui-form layui-header-switch">
+							<input type="checkbox" name="" lay-skin="switch" lay-text="开启语音|关闭语音" checked>
+						</div>						
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;" title="通知">
+							<i class="layui-icon layui-icon-notice"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<cite>安郁</cite>
+							<span class="layui-nav-more"></span>
+						</a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="javascript:;">基本资料</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">修改密码</a>
+							</dd>
+							<hr />
+							<dd style="text-align: center;">
+								<a href="javascript:;">退出</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+			<!--侧栏菜单-->
+			<div class="layui-side layui-side-menu">
+				<div class="layui-side-scroll">
+					<a href="javascript:;" class="layui-logo">
+						<span>狐豆后台管理系统</span>
+					</a>
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-chart"></i>
+								<cite>话费充值</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd class="layui-this"><a href="javascript:;">手机话费充值商品</a></dd>
+					      		<dd><a href="javascript:;">固话宽带充值商品</a></dd>
+					      		<dd><a href="javascript:;">手机号码归属地管理</a></dd>
+					      		<dd><a href="javascript:;">地区及区号管理</a></dd>
+					      		<dd><a href="javascript:;">虚商运营商管理<span class="layui-badge">6</span></a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-rmb"></i>
+								<cite>腾讯业务充值</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">腾讯业务充值商品</a></dd>
+					      		<dd><a href="javascript:;">腾讯业务品类管理</a></dd>
+						    </dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--主体内容-->
+			<div class="layui-body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<!--面包屑-->
+					<div class="layui-card layadmin-header">
+						<div class="layui-breadcrumb">
+							<a href="javascript:;">主页</a>
+							<a href="javascript:;">商品管理管理</a>
+							<a href="javascript:;">话费充值</a>
+							<a><cite>新增商品</cite></a>
+						</div>
+					</div>
+					<div class="layui-fluid">
+						<div class="layui-card">
+							<div class="layui-card-header">详情</div>
+							<div class="layui-card-body">								
+								<div class="layui-foldapse">
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>商品基本属性</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">运营商类别：</label>
+													<div class="layui-input-block">
+											        	<div class="layui-text">
+											        		<span>移动/联通/电信/虚商</span>
+											        	</div>
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">快充/慢充：</label>
+													<div class="layui-input-block">
+											        	<div class="layui-text">
+											        		<span>快充/慢充</span>
+											        	</div>
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">面值类型：</label>
+													<div class="layui-input-block">
+														<div class="layui-text">
+											        		<span>固定面值/任意冲/其他金额</span>
+											        	</div>
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">面值：</label>
+													<div class="layui-input-block">
+														<div class="layui-text">
+											        		<span>a/b/c</span>
+											        	</div>
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">单次可购数量：</label>
+													<div class="layui-input-block">
+														<div class="layui-text">
+											        		<span>1 / x~y / 1</span>
+											        	</div>
+										          	</div>
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">商品适用范围：</label>
+													<div class="layui-input-block">
+														&nbsp;
+										          	</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>商品设置</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">商品名称：</label>
+													<div class="layui-input-block">
+														<input type="text" placeholder="" class="layui-input">
+														<div class="layui-form-mid layui-word-aux">默认名称（点击可修改，回车确认）</div>
+										          	</div>										          	
+												</div>												
+												<div class="layui-form-item">
+													<label class="layui-form-label">面向平台：</label>
+													<div class="layui-input-block">
+											        	<input type="checkbox" name="" value="" title="开发平台" lay-skin="primary">
+											        	<input type="checkbox" name="" value="" title="代理商平台" lay-skin="primary">
+										          	</div>
+												</div>											
+												<div class="layui-form-item">
+													<label class="layui-form-label">面值类型：</label>
+													<div class="layui-input-block">
+											        	<input type="checkbox" name="" value="" title="一般售价（面向平台全部用户售价，优先级最低）" lay-skin="primary"><br/>
+											        	<input type="checkbox" name="" value="" title="平台定价组售价（对面向平台不同用户等级所设售价，第二优先级）" lay-skin="primary"><br/>
+											        	<input type="checkbox" name="" value="" title="特殊售价（指定平台用户对其设置售价，最高优先级）" lay-skin="primary">
+										          	</div>
+												</div>	
+											</div>
+										</div>
+									</div>
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>狐豆开放平台售价设置（勾选时出现）</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">一般售价：</label>
+													<div class="layui-input-block">
+														<div class="layui-inline layui-inline-100">
+															<input type="text" placeholder="" class="layui-input">
+														</div>														
+														<div class="layui-inline layui-inline-100">
+															<input type="text" placeholder="" class="layui-input">
+														</div>
+										        	</div>										          	
+												</div>												
+												<div class="layui-form-item">
+													<label class="layui-form-label">平台定价组售价：</label>
+													<div class="layui-input-block">
+														<div class="layui-block">
+															<div class="layui-inline">
+															{级别}
+															</div>
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>														
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>
+												        	<input type="checkbox" name="" value="" title="启用" lay-skin="primary">
+														</div>
+														<div class="layui-block">
+															<div class="layui-inline">
+															{级别}
+															</div>
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>														
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>
+												        	<input type="checkbox" name="" value="" title="启用" lay-skin="primary">
+														</div>
+														<div class="layui-block">
+															<div class="layui-inline">
+															{级别}
+															</div>
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>														
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>
+												        	<input type="checkbox" name="" value="" title="启用" lay-skin="primary">
+														</div>
+										          </div>
+												</div>											
+												<div class="layui-form-item">
+													<label class="layui-form-label">特殊售价：</label>
+													<div class="layui-input-block">
+											        	<div class="layui-block">
+											        		<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>														
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>
+											        	</div>
+											        	<div class="layui-block">											        		
+															<div class="layui-inline">
+																指定用户:
+															</div><br/>
+															<div class="layadmin-card">
+																<div class="layui-block">
+																	<div class="layui-inline">
+																		<select name="leimu" lay-verify="">
+																		  	<option value="">用户级别</option>
+																		  	<option value="0">A</option>
+																		  	<option value="1">B</option>
+																		  	<option value="1">C</option>
+																		</select> 
+																	</div>
+																	<div class="layui-inline">
+																		<select name="leimu" lay-verify="">
+																		  	<option value="">账户状态</option>
+																		  	<option value="0">A</option>
+																		  	<option value="1">B</option>
+																		  	<option value="1">C</option>
+																		</select> 
+																	</div>
+																	<div class="layui-inline layui-inline-200">
+																		<input type="text" value="" name="" id="dateRange" placeholder="时间范围 -" class="layui-input" />
+																	</div>
+																	<div class="layui-inline">
+																		<input type="text" value="" name="" placeholder="" class="layui-input" />
+																	</div>
+																	<div class="layui-inline">
+																		<button class="layui-btn">搜索</button>
+																	</div>
+																</div>
+																<div class="layui-btn-group">
+																	<button class="layui-btn layui-btn-sm">全选</button>
+																	<button class="layui-btn layui-btn-sm">反选</button>
+																	<button class="layui-btn layui-btn-sm">移除</button>
+																</div>
+																<div style="float: right;">
+																	<button class="layui-btn layui-btn-normal layui-btn-sm">新增用户</button>
+																</div>
+																<table class="layui-table layui-table-quiet">
+																	<thead>
+																		<tr>
+																			<th>全选</th>
+																			<th>开放平台用户编号</th>
+																			<th>狐豆号</th>
+																			<th>通行证账号</th>
+																			<th>开放平台昵称</th>
+																			<th>平台定价组</th>
+																			<th>账户状态</th>
+																			<th>账户开通时间</th>
+																			<th>操作</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>															
+											        	</div>
+										          	</div>
+												</div>	
+											</div>
+										</div>
+									</div>
+									<div class="layui-folda-item">
+										<h2 class="layui-folda-title"><i class="layui-icon layui-icon-triangle-d"></i>代理商平台售价设置（勾选时出现）</h2>
+										<div class="layui-folda-content layui-folda-content-bg">
+											<div class="layui-form">
+												<div class="layui-form-item">
+													<label class="layui-form-label">经销商返现比例：</label>
+													<div class="layui-input-block">
+														<div class="layui-inline layui-inline-100">
+															<input type="text" placeholder="" class="layui-input">
+														</div>	
+										        	</div>										          	
+												</div>
+												<div class="layui-form-item">
+													<label class="layui-form-label">一般售价：</label>
+													<div class="layui-input-block">
+														<div class="layui-inline layui-inline-100">
+															<input type="text" placeholder="" class="layui-input">
+														</div>														
+														<div class="layui-inline layui-inline-100">
+															<input type="text" placeholder="" class="layui-input">
+														</div>
+										        	</div>										          	
+												</div>												
+												<div class="layui-form-item">
+													<label class="layui-form-label">平台定价组售价：</label>
+													<div class="layui-input-block">
+														<div class="layui-block">
+															<div class="layui-inline">
+															{级别}
+															</div>
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>														
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>
+												        	<input type="checkbox" name="" value="" title="启用" lay-skin="primary">
+														</div>
+														<div class="layui-block">
+															<div class="layui-inline">
+															{级别}
+															</div>
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>														
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>
+												        	<input type="checkbox" name="" value="" title="启用" lay-skin="primary">
+														</div>
+														<div class="layui-block">
+															<div class="layui-inline">
+															{级别}
+															</div>
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>														
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>
+												        	<input type="checkbox" name="" value="" title="启用" lay-skin="primary">
+														</div>
+										          </div>
+												</div>											
+												<div class="layui-form-item">
+													<label class="layui-form-label">特殊售价：</label>
+													<div class="layui-input-block">
+											        	<div class="layui-block">
+											        		<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>														
+															<div class="layui-inline layui-inline-100">
+																<input type="text" placeholder="" class="layui-input">
+															</div>
+											        	</div>
+											        	<div class="layui-block">											        		
+															<div class="layui-inline">
+																指定用户:
+															</div><br/>
+															<div class="layadmin-card">
+																<div class="layui-block">
+																	<div class="layui-inline">
+																		<select name="leimu" lay-verify="">
+																		  	<option value="">用户级别</option>
+																		  	<option value="0">A</option>
+																		  	<option value="1">B</option>
+																		  	<option value="1">C</option>
+																		</select> 
+																	</div>
+																	<div class="layui-inline">
+																		<select name="leimu" lay-verify="">
+																		  	<option value="">账户状态</option>
+																		  	<option value="0">A</option>
+																		  	<option value="1">B</option>
+																		  	<option value="1">C</option>
+																		</select> 
+																	</div>
+																	<div class="layui-inline">
+																		<input type="text" value="" name="" id="dateRange" placeholder="时间范围 -" class="layui-input" />
+																	</div>
+																	<div class="layui-inline">
+																		<input type="text" value="" name="" placeholder="" class="layui-input" />
+																	</div>
+																	<div class="layui-inline">
+																		<button class="layui-btn layui-btn-primary">搜索</button>
+																	</div>
+																</div>
+																<div class="layui-btn-group">
+																	<button class="layui-btn layui-btn-sm">全选</button>
+																	<button class="layui-btn layui-btn-sm">反选</button>
+																	<button class="layui-btn layui-btn-sm">移除</button>
+																</div>
+																<div style="float: right;">
+																	<button class="layui-btn layui-btn-normal layui-btn-sm">新增用户</button>
+																</div>
+																<table class="layui-table layui-table-quiet">
+																	<thead>
+																		<tr>
+																			<th>全选</th>
+																			<th>开放平台用户编号</th>
+																			<th>狐豆号</th>
+																			<th>通行证账号</th>
+																			<th>开放平台昵称</th>
+																			<th>平台定价组</th>
+																			<th>账户状态</th>
+																			<th>账户开通时间</th>
+																			<th>操作</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																		<tr>
+																			<td>
+																				<input type="checkbox" name="" value="" title="" lay-skin="primary">
+																			</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>&nbsp;</td>
+																			<td>
+																				<button class="layui-btn layui-btn-danger layui-btn-xs">移除</button>
+																			</td>
+																		</tr>
+																	</tbody>
+																</table>
+															</div>															
+											        	</div>
+										          	</div>
+												</div>	
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="layui-form">
+									<div class="layui-form-item">
+										<div class="layui-input-block" style="margin-left: 170px;">
+											<button class="layui-btn">下一步</button>
+											<button class="layui-btn layui-btn-primary">返回</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/js/jquery.js"></script>
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/layui/layui.all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/common.js" ></script>	
+</body>
+</html>

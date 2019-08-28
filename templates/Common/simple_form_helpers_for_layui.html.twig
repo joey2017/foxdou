@@ -1,0 +1,421 @@
+
+{#
+把simple_form_helpers_raw.html.twig 里面的 macro 导入进来，
+这样页面使用的时候可以 sf.text(field, ...)，也可以 sf.text_raw(name, ...) ，方便使用
+#}
+
+{% macro label_raw(for, label_text, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {{ sfr.label_raw(for, label_text, attrs) }}
+{% endmacro %}
+{% macro input_raw(type, name, value, attrs={}, raw=false) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {{ sfr.input_raw(type, name, value, attrs, raw) }}
+{% endmacro %}
+{% macro text_raw(field, attrs={}, raw=false) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set value = field.value is defined ? field.value : (attrs.value is defined ? attrs.value : '') %}
+    {% set attrs = {'class': 'layui-input'}|merge(attrs) %}
+    {{ sfr.text_raw(name, value, attrs, raw) }}
+{% endmacro %}
+{% macro password_raw(field, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set value = field.value is defined ? field.value : (attrs.value is defined ? attrs.value : '') %}
+    {{ sfr.password_raw(name, value, attrs) }}
+{% endmacro %}
+{% macro hidden_raw(field, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set value = field.value is defined ? field.value : (attrs.value is defined ? attrs.value : '') %}
+    {{ sfr.hidden_raw(name, value, attrs) }}
+{% endmacro %}
+{% macro file_raw(field, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {{ sfr.file_raw(name, attrs) }}
+{% endmacro %}
+{% macro checkbox_raw(field, choices, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set checked_values = field.value is defined ? field.value : (attrs.values is defined ? attrs.values : null) %}
+
+    {{ sfr.checkbox_raw(name, choices, checked_values, attrs) }}
+{% endmacro %}
+{% macro radio_raw(field, choices, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set selected_value = field.value is defined ? field.value : (attrs.value is defined ? attrs.value : null) %}
+    {{ sfr.radio_raw(name, choices, selected_value, attrs) }}
+{% endmacro %}
+{% macro select_raw(field, choices, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set selected_value = field.value is defined ? field.value : (attrs.value is defined ? attrs.value : null) %}
+    {{ sfr.select_raw(name, choices, selected_value, attrs) }}
+{% endmacro %}
+{% macro textarea_raw(field, attrs={}, value=null, raw=false) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set value = field.value is defined ? field.value : (attrs.value is defined ? attrs.value : '') %}
+    {{ sfr.textarea_raw(name, value, attrs, raw) }}
+{% endmacro %}
+{% macro button_raw(field, title, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set value = field.value is defined ? field.value : (attrs.value is defined ? attrs.value : '') %}
+    {{ sfr.button_raw(name, title, value, attrs) }}
+{% endmacro %}
+{% macro submit_raw(field, title, attrs={}) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set name = field.name is defined ? field.name : field %}
+    {% set value = field.value is defined ? field.value : (attrs.value is defined ? attrs.value : '') %}
+    {{ sfr.submit_raw(name, title, value, attrs) }}
+{% endmacro %}
+
+{% macro label(field, label_text, attrs={}, mark_required=' *') %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+    {% set field_name = field.name is defined ? field.name : field %}
+    {% set attrs = {'for': field_name, 'class': 'layui-form-label'}|merge(attrs) %}
+    <label {{ sfr.attrs_raw(attrs) }}>
+        {{ label_text }}{{ field.required is defined and field.required and mark_required ? mark_required : '' }}
+    </label>
+{% endmacro %}
+
+{% macro error(field, translate=true) %}
+    {% set field_name = field.name is defined ? field.name : field %}
+    {% set error      = field.error|default('') %}
+    <div class="layui-form-mid layui-word-aux error {{ field_name ? 'error_' ~ field_name : '' }}" style="display: {{ error ? 'block' : 'none' }}">{{ translate ? (error|trans) : error }}</div>
+{% endmacro %}
+
+{% macro input(field, type, value=null, attrs={}, raw_value=false) %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+
+    {% set field_name = field.name is defined ? field.name : field %}
+    
+    {% if field.form is defined %}
+    {% do field.form.setRendered(field.name, true) %}
+    {% endif %}
+    
+    {% set field_value = value is not same as (null) ? value : (field.value is defined ? field.value : '') %}
+
+    {% if attrs.id is not defined %}
+        {#{% set attrs = {'id': field.name }|merge(attrs) %}#}
+    {% endif %}
+
+    {% set class = attrs.class|default("layui-input") %}
+    {% if field.error is defined and field.error %}
+        {% set class = class ~ " error" %}
+    {% endif %}
+
+    {% set attrs = {'class': class }|merge(attrs) %}
+
+    {% if field.required is defined and field.required %}
+        {% set attrs = {'required': 'true', 'lay-verify': 'required'}|merge(attrs) %}
+    {% endif %}
+
+    <input name="{{ field_name }}" value="{{ raw_value ? field_value|raw : field_value }}" type="{{ type }}" {{ sfr.attrs_raw(attrs) }} />
+
+{% endmacro %}
+
+{% macro field_begin(field, label, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null}) %}
+    {% import _self as sf %}
+
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false}|merge(options) %}
+
+    {% set field_name = field.name is defined ? field.name : field %}
+    {% if options.outer is same as (null) %}
+        {# no wrapper #}
+    {% elseif options.outer is same as ('inline') %}
+        <div class="layui-inline outer_{{ field_name }} {{ field.error is defined ? 'form-item-error' : '' }}">
+    {% else %}
+        <div class="layui-form-item outer_{{ field_name }} {{ field.error is defined ? 'form-item-error' : '' }}">
+    {% endif %}
+
+    {% if label is not same as (null) %}
+        {{ sf.label(field, label, {'class': 'layui-form-label label_' ~ field_name}) }}
+    {% endif %}
+
+    {% if options.inner is same as (null) %}
+        {# no wrapper #}
+    {% elseif options.inner is same as ('block') %}
+        <div class="layui-input-block inner_{{ field_name }}">
+    {% else %}
+        <div class="layui-input-inline inner_{{ field_name }}">
+    {% endif %}
+{% endmacro %}
+
+{% macro field_end(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null}) %}
+    {% import _self as sf %}
+
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null}|merge(options) %}
+
+    {% if options.inner is same as (null) %}
+        {# no wrapper #}
+    {% elseif options.inner is same as ('block') %}
+        </div>
+    {% else %}
+        </div>
+    {% endif %}
+
+    {% if options.show_error %}
+        {{ sf.error(field, true) }}
+    {% endif %}
+
+    {% if options.tips is same as (null) %}
+        {# no tips #}
+    {% else %}
+        {% set field_name = field.name is defined ? field.name : field %}
+        <div class="layui-form-mid layui-word-aux tips {{ field_name ? 'tips_' ~ field_name : '' }}">{{ options.tips }}</div>
+    {% endif %}
+
+    {% if options.outer is same as (null) %}
+        {# no wrapper #}
+    {% elseif options.outer is same as ('inline') %}
+        </div>
+    {% else %}
+        </div>
+    {% endif %}
+{% endmacro %}
+
+{% macro text(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}, attrs={}) %}
+    {% import _self as sf %}
+
+    {% if label and attrs.placeholder is not defined %}
+        {% set attrs = {'placeholder': '请输入' ~ label }|merge(attrs) %}
+    {% endif %}
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}|merge(options) %}
+    {% set field_value = options.value is not same as (null) ? options.value : (field.value is defined ? field.value : '') %}
+
+    {{ sf.field_begin(field, label, options) }}
+
+    {{ sf.input(field, 'text', field_value, attrs, options.raw) }}
+
+    {{ sf.field_end(field, label, options) }}
+{% endmacro %}
+
+{% macro password(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}, attrs={}) %}
+    {% import _self as sf %}
+
+    {% if attrs.placeholder is not defined %}
+        {% set attrs = {'placeholder': '请输入' ~ label }|merge(attrs) %}
+    {% endif %}
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}|merge(options) %}
+    {% set field_value = options.value is not same as (null) ? options.value : (field.value is defined ? field.value : '') %}
+
+    {{ sf.field_begin(field, label, options) }}
+
+    {{ sf.input(field, 'password', field_value, attrs, true) }}
+
+    {{ sf.field_end(field, label, options) }}
+{% endmacro %}
+
+{% macro hidden(field, attrs={}) %}
+    {% import _self as sf %}
+    {{ sf.input(field, 'hidden', field.value, attrs, false) }}
+{% endmacro %}
+
+{% macro file(field, label=null, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false}, attrs={}) %}
+    {% import _self as sf %}
+
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false}|merge(options) %}
+
+    {{ sf.field_begin(field, label, options) }}
+
+    {{ sf.input(field, 'file', '', attrs, true) }}
+
+    {{ sf.field_end(field, label, options) }}
+{% endmacro %}
+
+{% macro checkbox(field, label, choices, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'values': []}, attrs={}) %}
+    {% import _self as sf %}
+
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'values': []}|merge(options) %}
+
+    {{ sf.field_begin(field, label, options) }}
+
+    {% set field_value = field.value is defined ? field.value : '' %}
+    {% set field_value = "%s"|format(field_value) %}
+    {% for opt_value, title in choices %}
+        {% set opt_value = "%s"|format(opt_value) %}
+        {#{% set attrs = {'id': field.name ~ '_' ~ loop.index0}|merge(attrs) %}#}
+        {% set item_attrs = attrs|merge({'title': title }) %}
+
+        {# do a strict comparison #}
+        {% set checked = false %}
+        {% if opt_value is same as (field_value) %}
+            {% set checked = true %}
+        {% else %}
+            {% for checked_value in options.values if not checked %}
+                {% set checked_value = "%s"|format(checked_value) %}
+                {% if opt_value is same as (checked_value) %}
+                    {% set checked = true %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        {% if checked %}
+            {% set item_attrs = {'checked': 'checked' }|merge(item_attrs) %}
+        {% endif %}
+        {{ sf.input(field, 'checkbox', opt_value, item_attrs, options.raw) }}
+    {% endfor %}
+
+    {{ sf.field_end(field, label, options) }}
+{% endmacro %}
+
+{% macro radio(field, label, choices, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}, attrs={}) %}
+    {% import _self as sf %}
+
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}|merge(options) %}
+
+    {{ sf.field_begin(field, label, options) }}
+
+    {% set field_value = options.value is not same as (null) ? options.value : (field.value is defined ? field.value : '') %}
+    {% set field_value = "%s"|format(field_value) %}
+    {% for opt_value, title in choices %}
+        {% set opt_value = "%s"|format(opt_value) %}
+
+        {% set item_attrs = {}|merge(attrs) %}
+        {% set item_attrs = item_attrs|merge({'title': title }) %}
+        {% if opt_value is same as (field_value)  %}
+            {% set item_attrs = {'checked': 'checked' }|merge(item_attrs) %}
+        {% endif %}
+        {% set item_attrs = {'field_value': field_value,  'options_value': options.value}|merge(item_attrs) %}
+        {{ sf.input(field, 'radio', opt_value, item_attrs, options.raw) }}
+    {% endfor %}
+
+    {{ sf.field_end(field, label, options) }}
+{% endmacro %}
+
+{% macro select(field, label, choices, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}, attrs={}) %}
+    {% import _self as sf %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+
+    {% set field_name = field.name is defined ? field.name : field %}
+    {% if field.form is defined %}
+        {% do field.form.setRendered(field.name, true) %}
+    {% endif %}
+
+
+    {% if attrs.id is not defined %}
+        {#{% set attrs = {'id': field.name}|merge(attrs) %}#}
+    {% endif %}
+    {% if field.required is defined and field.required %}
+        {% set attrs = {'required': 'true', 'lay-verify': 'required'}|merge(attrs) %}
+    {% endif %}
+    {% set attrs = {'class': 'layui-select'}|merge(attrs) %}
+
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}|merge(options) %}
+
+    {{ sf.field_begin(field, label, options) }}
+
+    {% set field_value = options.value is not same as (null) ? options.value : (field.value is defined ? field.value : '') %}
+    {% set field_value = "%s"|format(field_value) %}
+    <select name="{{ field_name }}" {{ sfr.attrs_raw(attrs) }}>
+        {% for opt_value, opt_text in choices %}
+            {% set opt_value = "%s"|format(opt_value) %}
+            <option value="{{ opt_value }}" {{ opt_value is same as(field_value) ? 'selected' : '' }}>{{ opt_text }}</option>
+        {% endfor %}
+    </select>
+
+    {{ sf.field_end(field, label, options) }}
+{% endmacro %}
+
+{% macro textarea(field, label=null, options={'outer': 'form-item', 'inner': 'block', 'show_error': true, 'tips': null, 'raw': false, 'value': null}, attrs={}) %}
+    {% import _self as sf %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+
+    {% set field_name = field.name is defined ? field.name : field %}
+    {% if field.form is defined %}
+        {% do field.form.setRendered(field.name, true) %}
+    {% endif %}
+
+    {% if attrs.id is not defined %}
+        {% set attrs = {'class': 'layui-textarea ' ~ field_name }|merge(attrs) %}
+        {#{% set attrs = {'id': field.name, 'class': 'layui-textarea' }|merge(attrs) %}#}
+    {% endif %}
+    {% if attrs.placeholder is not defined %}
+        {% set attrs = {'placeholder': '请输入' ~ label }|merge(attrs) %}
+    {% endif %}
+    {% if field.required is defined and field.required %}
+        {% set attrs = {'required': 'true', 'lay-verify': 'required'}|merge(attrs) %}
+    {% endif %}
+
+    {% set options = {'outer': 'form-item', 'inner': 'block', 'show_error': true, 'tips': null, 'raw': false, 'value': null}|merge(options) %}
+    {% set field_value = options.value is not same as (null) ? options.value : (field.value is defined ? field.value : '') %}
+
+    {{ sf.field_begin(field, label, options) }}
+
+    <textarea name="{{ field_name }}" {{ sfr.attrs_raw(attrs) }}>{{ options.raw ? (field_value|raw) : field_value }}</textarea>
+
+    {{ sf.field_end(field, label, options) }}
+{% endmacro %}
+
+{% macro _button(field, title, label=null, type, options={}, attrs={}) %}
+    {% import _self as sf %}
+    {% import ('/Common/simple_form_helpers_raw.html.twig') as sfr %}
+
+    {% set options = {'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}|merge(options) %}
+
+    {% set field_name = field.name is defined ? field.name : field %}
+    {% set field_value = options.value is not same as (null) ? options.value : (field.value is defined ? field.value : '') %}
+
+    {% if field.form is defined %}
+        {% do field.form.setRendered(field.name, true) %}
+    {% endif %}
+
+
+    {% if attrs.id is not defined and field_name %}
+        {#{% set attrs = {'id': field_name }|merge(attrs) %}#}
+    {% endif %}
+    {% if field %}
+        {% set attrs = {'name': field_name, 'value': field_value }|merge(attrs) %}
+    {% endif %}
+    {% set attrs = {'class': 'layui-btn layui-btn-primary'}|merge(attrs) %}
+
+
+    {{ sf.field_begin(field, label, options) }}
+
+    <button type="{{ type }}" {{ sfr.attrs_raw(attrs) }}>{{ title }}</button>
+
+    {{ sf.field_end(field, label, options) }}
+{% endmacro %}
+
+{% macro button(title, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}, attrs={}, label='', field=null) %}
+    {% import _self as sf %}
+
+    {% set attrs = {'class': 'layui-btn layui-btn-primary'}|merge(attrs) %}
+    {{ sf._button(field, title, label, 'button', options, attrs) }}
+{% endmacro %}
+
+{% macro submit(title, options={'outer': 'form-item', 'inner': 'inline', 'show_error': true, 'tips': null, 'raw': false, 'value': null}, attrs={}, label='', field=null) %}
+    {% import _self as sf %}
+
+    {% set attrs = {'class': 'layui-btn layui-btn layui-btn-normal'}|merge(attrs) %}
+    {{ sf._button(field, title, label, 'submit', options, attrs) }}
+{% endmacro %}
+
+{% macro rest(form, type='hidden', options={'raw': false}, attrs={}) %}
+    {% import _self as sf %}
+
+    {% set options = {'raw': false}|merge(options) %}
+
+    {% set rest_fields = form.getUnrenderedFields() %}
+
+    {% for field in rest_fields %}
+        {{ sf.input(field, type, field.value, attrs, options.raw) }}
+    {% endfor %}
+{% endmacro %}
+
+{% macro rules(form) %}
+    {% set rules = form.generateRules() %}
+    {% if rules %}
+        {{ rules|json_encode|raw }}
+    {% endif %}
+{% endmacro %}
+
+{% macro csrf(token_id, token_field_name = '_token') %}
+    <input type="hidden" name="{{ token_field_name }}" value="{{ csrf_token(token_id) }}" />
+{% endmacro %}
+

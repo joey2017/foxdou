@@ -1,0 +1,165 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '文章管理' %}
+
+{% block main_content %}
+  <div class="layui-fluid">
+    <div class="layui-card">
+      <div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
+        <form class="layui-form-item" id="form">
+          <div class="layui-inline">
+            <label class="layui-form-label">平台</label>
+            <div class="layui-input-inline">
+              {{ sf.select_raw('portal_id', to_options(constant('App\\Platform::PLATFORMS'), "全部"), {'id': 'all_portals', ' lay-filter': "portal_id"}) }}
+            </div>
+          </div>
+          <div class="layui-inline">
+            <label class="layui-form-label">类别</label>
+            <div class="layui-input-inline">
+              <select name="cate_id" id="cate_id">
+                <option value=""></option>
+              </select>
+            </div>
+          </div>
+          <div class="layui-inline">
+            <div class="layui-input-block layui-input-block-margin">
+              <button type="button" class="layui-btn layuiadmin-btn-useradmin" onclick="reload_table()">
+                <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="layui-card-body">
+        <div style="padding: 5px 0;">
+          <a class="layui-btn layuiadmin-btn-useradmin" href="{{ path('admin_system_administration_articles_edit') }}" target="_blank">新增文章</a>
+        </div>
+
+            <script type="text/html" id="article_link_tpl">
+          <a href="#" onclick="view_article_popup(event, '<% d.id %>', '<% d.title %>')" class="layui-table-link" title="按 Shift 在新窗口打开连接"><%= d.title %></a>
+        </script>
+
+        <table id="table" class="layui-table" lay-data="{url:'{{ path('admin_system_administration_articles_index', {'_format': 'json'}) }}', page:true, id:'table', method:'get'}" lay-filter="table">
+          <thead>
+          <tr>
+            {#<th lay-data="{type:'checkbox', fixed: 'left', width:'5%'}"></th>#}
+            <th lay-data="{field:'id', width:50, align: 'center'}">ID</th>
+            <th lay-data="{field:'portal_name', width:120, align: 'center'}">平台</th>
+            <th lay-data="{field:'cate_name', width:120, align: 'center'}">类别</th>
+            <th lay-data="{field:'title', templet:'#article_link_tpl'}">标题</th>
+            <th lay-data="{field:'source', width:120, align: 'center'}">来源</th>
+            <th lay-data="{field:'editor_name', width:80, align: 'center'}">编辑者</th>
+            <th lay-data="{field:'view_count', width:80, align: 'center'}">点击次数</th>
+            <th lay-data="{field:'publish_time', width:150, align: 'center'}">发布时间</th>
+            <th lay-data="{align:'center', toolbar: '#actions', width:100}">操作</th>
+          </tr>
+          </thead>
+        </table>
+        <script type="text/html" id="actions">
+          <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit">编辑</a>
+          <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block extra %}
+  {#<div class="layui-card" id="edit-user" style="display: none;">#}
+    {#<div class="layui-card-body">#}
+      {#<form id="edit-form" class="layui-form" lay-filter="edit-form">#}
+        {#<div class="layui-form-item">#}
+          {#<label class="layui-form-label"></label>#}
+          {#<div class="layui-input-inline layui-inline-400">#}
+            {#带 * 号的为必填项#}
+          {#</div>#}
+        {#</div>#}
+
+        {#{{ sf.field(form.roles,       'select',   '权限组：',     {'options': to_options(constant('App\\Admin\\Model\\AdminUser::ADMIN_ROLES'), "全部")}) }}#}
+        {#{{ sf.field(form.user_name,   'text',     '用户名：',     {'attrs': {'placeholder': '请输入用户名'}}) }}#}
+        {#{{ sf.field(form.name,        'text',     '名字：',      {'attrs': {'placeholder': '请输入名字'}}) }}#}
+        {#{{ sf.field(form.password,    'password', '密码：',      {'attrs': {'placeholder': '留空则不修改'}}) }}#}
+        {#{{ sf.field(form.mobile,      'text',     '手机号：',     {'attrs': {'placeholder': '请输入手机号'}}) }}#}
+        {#{{ sf.field(form.title,       'text',     '职务：',      {'attrs': {'placeholder': '请输入职务'}}) }}#}
+
+        {#{{ sf.rest(form) }}#}
+        {#<input type="hidden" name="_token" value="{{ csrf_token('admin_system_administration_administrator_save') }}">#}
+      {#</form>#}
+    {#</div>#}
+  {#</div>#}
+
+  {#<input type="text" name="user_name" placeholder="搜索..." autocomplete="off" class="layui-input">#}
+
+{% endblock %}
+
+
+{% block js_end %}
+  <script>
+    function view_article_popup(event, id, title) {
+        var url = '{{ url('common_articles_view') }}?id=' + id
+
+        var new_window = !!event.shiftKey;
+        if(new_window) {
+            window.open(url)
+        } else {
+            layer.open({
+                type: 2,
+                title: title,
+                shadeClose: true,
+                shade: 0.8,
+                area: ['800px', '90%'],
+                content: url
+            });
+        }
+    }
+
+      function get_categories(portalId) {
+          $.getJSON("{{ path('admin_system_administration_articles_categories') }}.json?portal_id="+portalId, function(data){
+              var optionstring = "";
+              $.each(data.data, function(i,item){
+                  optionstring += "<option value=\"" + item.id + "\" >" + item.name + "</option>";
+              });
+              $("#cate_id").html('<option value=""></option>' + optionstring);
+              form.render('select'); //这个很重要
+          });
+      }
+
+      layui.form.on('select(portal_id)', function(data){
+          get_categories(data.value);
+      });
+
+      get_categories("");
+
+      layui.table.on('tool(table)', function (row) {
+          var data = row.data;
+          if (row.event === 'edit') {
+              var url = '{{ path('admin_system_administration_articles_edit') }}?id=' + data.id;
+              window.open(url)
+          } else if (row.event === 'del') {
+              layer.confirm('确认要删除吗？', function (index) {
+                  $.post('{{ path('admin_system_administration_articles_delete') }}',
+                      {id: data.id, _token: '{{ csrf_token('admin_system_administration_articles_delete') }}'},
+                      function (data) {
+                          if (!data.status) {
+                              layer.alert(data.msg);
+                              return;
+                          }
+
+                          reload_table();
+                          layer.msg(data.msg, {time: 1500});
+                      }, 'json'
+                  );
+
+                  layer.close(index);
+              });
+          }
+      });
+
+      function reload_table() {
+          table.reload('table', {
+              where: $('#form').serializeJson()
+          });
+      }
+  </script>
+{% endblock %}

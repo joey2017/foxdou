@@ -1,0 +1,254 @@
+{% extends 'Open/Common/layout_public.twig' %}
+{% set title = '狐豆云数据-服务市场' %}
+
+{% block main_content %}
+<div id="slide" class="fullSlide">
+    <div class="bd">
+        <ul>
+            <li _src="url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/slideBanner/images/1.jpg)"
+                style="background:#242627 center 0 no-repeat;"><a href="javascript:;"></a></li>
+            <li _src="url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/slideBanner/images/2.jpg)"
+                style="background:#242627 center 0 no-repeat;"><a href="javascript:;"></a></li>
+            <li _src="url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/slideBanner/images/3.jpg)"
+                style="background:#242627 center 0 no-repeat;"><a href="javascript:;"></a></li>
+        </ul>
+    </div>
+    <div class="hd">
+        <ul></ul>
+    </div>
+    <span class="prev"></span>
+    <span class="next"></span>
+</div>
+
+<div class="g-content">
+    <!-- 搜索 -->
+    {#<div class="search">#}
+    {#<div class="search-location">#}
+    {#<form action="/goods/list", method="get" id="form-search">#}
+    {#<div class="search-group">#}
+    {#<a href="javascript:void(0)" onclick="formSubmit()"><i class="icon iconfont icon-sousuo"></i></a>#}
+    {#<input type="text" value="{{ app.request.get('keywords') }}" name="keywords"#}
+    {#placeholder="请输入关键字搜索您需要的服务"/>#}
+    {#</div>#}
+    {#</form>#}
+    {#</div>#}
+    {#</div>#}
+    <!-- 最适合您的数据接口 -->
+    <div class="g-main">
+        <div class="plate-title">
+            <span style="background: url({{ asset('/assets/open/frontpage/css/img/zhuangshi-left.png') }}) no-repeat;"></span>
+            <h2>最适合您的数据接口</h2>
+            <span style="background: url({{ asset('/assets/open/frontpage/css/img/zhuangshi-right.png') }}) no-repeat;"></span>
+        </div>
+        <div class="plate-content clearfloat">
+            {#{% for service in services %}#}
+            {#<div class="appitem-group">#}
+            {#<a href="" target="_blank">#}
+            {#<div class="appitem-main">#}
+            {#<img src="<?=\common\models\servicemall\ImgUploadCheck::getServiceUploadParams($v['id'],'thumb')['fullUrl']?>" onerror="this.src='/img/service-goods-default.png'"/>#}
+            {#<img src=""/>#}
+            {#<h2>{{ service.name }}</h2>#}
+            {#<p><{{ service.intro }}</p>#}
+            {#<span><{{ service.yinxiao_price }}</span>#}
+            {#</div>#}
+            {#<div class="appitem-link"><a href="" target="_blank">立即申请</a></div>#}
+            {#</a>#}
+            {#</div>#}
+            {#{% endfor %}#}
+            <div class="appitem-group">
+                <div class="appitem-main">
+                    <img src="{{ asset('/assets/open/frontpage/images/huafei.png') }}"/>
+                    <h2>手机话费充值</h2>
+                    <p>移动联通电信虚拟运营商话费快速充值，适合各种网站、电商平台，个人、企业均可，移动联通电信虚拟运营商话费快速充值，</p>
+                    <span>按实际订单扣费</span>
+                </div>
+                <div class="appitem-link"><a href="{{ path('open_interface_mobile') }}">立即申请</a></div>
+            </div>
+            <div class="appitem-group">
+                <div class="appitem-main">
+                    <img src="{{ asset('/assets/open/frontpage/images/qq.png') }}"/>
+                    <h2>腾讯业务充值</h2>
+                    <p>Q币、QQ黄钻、QQ会员等腾讯业务充值</p>
+                    <span>按实际订单扣费</span>
+                </div>
+                <div class="appitem-link"><a href="{{ path('open_interface_tencent') }}">立即申请</a></div>
+            </div>
+            <div class="appitem-group">
+                <div class="appitem-main">
+                    <img src="{{ asset('/assets/open/frontpage/images/ghkdcz.png') }}"/>
+                    <h2>固话充值</h2>
+                    <p>全国电信固话宽带充值</p>
+                    <span>按实际订单扣费</span>
+                </div>
+                <div class="appitem-link"><a href="{{ path('open_interface_telephone') }}">立即申请</a></div>
+            </div>
+            <div class="appitem-group">
+                <div class="appitem-main">
+                    <img src="{{ asset('/assets/open/frontpage/images/sjllcz.png') }}"/>
+                    <h2>手机流量充值</h2>
+                    <p>即时快速到账，永绝后患！</p>
+                    <span>按实际订单扣费</span>
+                </div>
+                <div class="appitem-link"><a href="{{ path('open_interface_flow') }}">立即申请</a></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="cooperation">
+        <div class="cooperation-location">
+            <div class="plate-title">
+                <span style="background: url({{ asset('/assets/open/frontpage/css/img/zhuangshi-left.png') }}) no-repeat;"></span>
+                <h2>合作流程</h2>
+                <span style="background: url({{ asset('/assets/open/frontpage/css/img/zhuangshi-right.png') }}) no-repeat;"></span>
+            </div>
+            <div class="cooperation-main">
+                <div class="cooperation-bubble cm-col1">
+                    <div class="bubble">
+                        <div class="arrow"></div>
+                        <div class="cm-text">
+                            <em>1</em>
+                            <h1>免费注册</h1>
+                            <p>进入狐豆官网，<a href="https://register.foxdou.com" target="_blank">点击注册>>></a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="cooperation-bubble cm-col2">
+                    <div class="bubble">
+                        <div class="arrow"></div>
+                        <div class="cm-text">
+                            <em>2</em>
+                            <h1>申请服务</h1>
+                            <p>选择适合您的服务，创建应用</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="cooperation-bubble cm-col3">
+                    <div class="bubble">
+                        <div class="arrow"></div>
+                        <div class="cm-text">
+                            <em>3</em>
+                            <h1>上线运营</h1>
+                            <p>接口对接完成，上线运营</p>
+                        </div>
+                    </div>
+                </div>
+                <ul class="cooperation-axis">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="new">
+        <div class="new-location">
+            <div class="plate-title">
+                <span style="background: url({{ asset('/assets/open/frontpage/css/img/zhuangshi-left.png') }}) no-repeat;"></span>
+                <h2>最新动态</h2>
+                <span style="background: url({{ asset('/assets/open/frontpage/css/img/zhuangshi-right.png') }}) no-repeat;"></span>
+            </div>
+            <div class="new-main clearfloat" style="text-align: center;font-size: 16px;">
+                ----- 暂无动态 -----
+                {#<div class="new-group">#}
+                    {#<div class="new-topline">#}
+                        {#<div class="new-topline-photo">#}
+                            {#<img src="{{ asset('/assets/open/frontpage/images/new1.jpg') }}"/>#}
+                        {#</div>#}
+                        {#<div class="new-topline-title"><a href="#"><span>【行业】</span>视频直播推流拉流慢、卡顿解决方案卡顿解决方案卡顿解决方案</a>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<ul class="new-list">#}
+                        {#<li><a href="#"><span>【行业】</span>如何判断一个产品是否真的使用了AI技术。</a></li>#}
+                        {#<li><a href="#"><span>【行业】</span>Docker在沪江落地的实践</a></li>#}
+                        {#<li><a href="#"><span>【行业】</span>当前服务器配置能承受多大的QPS？如何评估？</a></li>#}
+                    {#</ul>#}
+                {#</div>#}
+                {#<div class="new-group">#}
+                    {#<div class="new-topline">#}
+                        {#<div class="new-topline-photo">#}
+                            {#<img src="{{ asset('/assets/open/frontpage/images/new2.jpg') }}"/>#}
+                        {#</div>#}
+                        {#<div class="new-topline-title"><a href="#"><span>【热门】</span>视频直播推流拉流慢、卡顿解决方案卡顿解决方案卡顿解决方案</a>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<ul class="new-list">#}
+                        {#<li><a href="#"><span>【热门】</span>如何判断一个产品是否真的使用了AI技术。</a></li>#}
+                        {#<li><a href="#"><span>【热门】</span>Docker在沪江落地的实践</a></li>#}
+                        {#<li><a href="#"><span>【热门】</span>当前服务器配置能承受多大的QPS？如何评估？</a></li>#}
+                    {#</ul>#}
+                {#</div>#}
+                {#<div class="new-group">#}
+                    {#<div class="new-topline">#}
+                        {#<div class="new-topline-photo">#}
+                            {#<img src="{{ asset('/assets/open/frontpage/images/new3.jpg') }}"/>#}
+                        {#</div>#}
+                        {#<div class="new-topline-title"><a href="#"><span>【公告】</span>视频直播推流拉流慢、卡顿解决方案卡顿解决方案卡顿解决方案</a>#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#<ul class="new-list">#}
+                        {#<li><a href="#"><span>【公告】</span>如何判断一个产品是否真的使用了AI技术。</a></li>#}
+                        {#<li><a href="#"><span>【公告】</span>Docker在沪江落地的实践</a></li>#}
+                        {#<li><a href="#"><span>【公告】</span>当前服务器配置能承受多大的QPS？如何评估？</a></li>#}
+                    {#</ul>#}
+                {#</div>#}
+            </div>
+            {#<pre class="new-more"><a href="javascript:;">MORE →</a></pre>#}
+        </div>
+    </div>
+</div>
+
+{% include "/Open/Common/loginDialog.twig" %}
+  {% include "/Open/Common/footer.twig" %}
+  {% include "/Open/Common/contactIM.twig" %}
+
+<script type="text/javascript">
+
+    /*
+     * 首页轮播图
+     */
+    $(".fullSlide").hover(function () {
+            $(this).find(".prev,.next").stop(true, true).fadeTo("show", 0.5);
+        },
+        function () {
+            $(this).find(".prev,.next").fadeOut();
+        });
+    $(".fullSlide").slide({
+        titCell:  ".hd ul",
+        mainCell: ".bd ul",
+        effect:   "fold",
+        autoPlay: true,
+        autoPage: true,
+        trigger:  "click",
+        startFun: function (i) {
+            var curLi = jQuery(".fullSlide .bd li").eq(i);
+            if (!!curLi.attr("_src")) {
+                curLi.css("background-image", curLi.attr("_src")).removeAttr("_src");
+            }
+        }
+    });
+
+    /*
+     * 数据接口鼠标经过效果
+     */
+    $('.appitem-group').mouseenter(function () {
+        $(this).addClass('hover-api');
+    });
+    $('.appitem-group').mouseleave(function () {
+        $(this).removeClass('hover-api');
+    });
+
+
+    /*
+     *搜索的小图标，按下就提交表单
+     */
+    function formSubmit() {
+        $("#form-search").submit();
+    }
+
+</script>
+{% endblock %}

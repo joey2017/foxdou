@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>邮件验证通过 - 狐豆通行证</title>
+    {{ use_assets([
+        '/assets/common/js/jquery.min.js',
+        '/assets/common/layui/css/layui.css',
+        '/assets/passport/css/login.css',
+    ])}}
+
+    <style>
+        .layadmin-user-login-main {
+            width: 650px;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        .layadmin-user-login-header p {
+            color: #000;
+        }
+    </style>
+</head>
+
+<body>
+<div class="layadmin-tabspage-none">
+    <div class="layadmin-user-login layadmin-user-display-show">
+        <div class="layadmin-user-login-main">
+            <div class="layadmin-user-login-box layadmin-user-login-header">
+                <h2>邮箱地址验证</h2>
+                <p>您的账号 {{ app.user.email|mask_email }} 已经验证成功，现在可以使用您的邮箱和密码来登录账户了</p>
+            </div>
+            <div class="layadmin-user-login-box layadmin-user-login-body layui-form">
+                <div class="layui-form-item" style="text-align: center;">
+                    <a class="layui-btn layui-btn-normal" style="margin-top: 7px;" href="{{ target_url ? target_url : url('passport_login') }}">下一步，登录账户</a>
+                </div>
+            </div>
+        </div>
+        <div class="layui-trans layadmin-user-login-footer">
+            <p>
+                &copy; 2018 &nbsp;
+                <a href="http://www.foxdou.cn">foxdou.cn</a>
+                <span>广西你行我动科技有限公司</span>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function show_input_box() {
+        $('#email-input-box').show();
+    }
+</script>
+
+</body>
+</html>
+

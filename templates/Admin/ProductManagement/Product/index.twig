@@ -1,0 +1,277 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '商品管理' %}
+
+{% block css %}
+    {% include "/Admin/ProductManagement/Product/product_common_css.twig" %}
+{% endblock %}
+
+{% block main_content %}
+    <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form search-form" id="search-form">
+                    {% include "/Admin/ProductManagement/Product/index__form_" ~ app.request.get('product_type') ~ ".twig" %}
+                    {% include "/Admin/ProductManagement/Product/index__form_common.twig" %}
+                </form>
+
+                <script type="text/html" id="toolbar">
+                    <div class="layui-btn-container">
+                        <a class="layui-btn layui-btn-normal layui-btn-sm" href="{{ path('admin_product_management_products_add_step_1', {'product_type': app.request.get('product_type')}) }}">新增商品</a>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="check_all()">全选</button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="check_reverse()">反选</button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="enabled" data-value="1">
+                                启用
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="enabled" data-value="0">
+                                禁用
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="sell_status" data-value="SELL">
+                                上架
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="sell_status" data-value="NO_SELL">
+                                下架并可见
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="sell_status" data-value="HIDDEN">
+                                下架不可见
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="auto_refund" data-value="AUTO">
+                                失败自动退款
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="auto_refund" data-value="MANUAL">
+                                不自退款
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="margin-right: 10px;">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="price_limit" data-value="LIMITED">
+                                限价
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="price_limit" data-value="UNLIMITED">
+                                不限价
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="price_limit" data-value="SAME_AS_COST">
+                                平价
+                            </button>
+                        </div>
+
+                        {#<button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update_source_settings">#}
+                            {#按供货模板修改货源属性#}
+                        {#</button>#}
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_provider">设置供应商
+                        </button>
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_strategy">设置货源策略
+                        </button>
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_change_rebate">返现比例
+                        </button>
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_change_price">修改价格
+                        </button>
+                        <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete_selected">删除</button>
+                    </div>
+                </script>
+
+                <script type="text/html" id="id">
+                    <a href="{{ path('admin_product_management_products_edit', {'product_type': app.request.get('product_type')}) }}?id=<%= d.id %>" target="_blank" style="color: #01AAED;" title="点击链接编辑商品"><%= d.id %></a>
+                </script>
+                <script type="text/html" id="name">
+                    <a href="{{ path('admin_product_management_products_edit', {'product_type': app.request.get('product_type')}) }}?id=<%= d.id %>" target="_blank" style="color: #01AAED;" title="点击链接编辑商品"><%= d.name %></a>
+                </script>
+                <script type="text/html" id="num">
+                    <%# if(d.face_value_type == 'ARBIT') { %>
+                        <input type="text" name="num" value="<%= d.num %>" class="layui-input input_num" />
+                    <%# } else { %>
+                        <%= d.num %>
+                    <%# } %>
+                </script>
+                <script type="text/html" id="source_num">
+                    <div style="cursor: pointer;color: #01AAED;">
+                        <a href="{{ path('admin_product_management_source_groups_index', {'product_type': app.request.get('product_type')}) }}?product_id=<%= d.id %>" style="cursor: pointer;color: #01AAED;" target="_blank"><%=
+                            d.source_num %></a>
+                    </div>
+                </script>
+
+                <script type="text/html" id="subject_name">
+                    <div style="">
+                        <% d.subject_name %>
+                    </div>
+                </script>
+                <script type="text/html" id="subject_enabled">
+                    <div style="">
+                        <% d.subject_enabled == 1 ? '<span class="layui-badge layui-bg-green">启用</span>' : '<span class="layui-badge layui-bg-orange">禁用</span>' %>
+                    </div>
+                </script>
+                <script type="text/html" id="subject_sell_status">
+                    <% d.subject_sell_status == 'SELL' ? '<span class="layui-badge layui-bg-green">上架</span>' :
+                          (d.subject_sell_status == 'NO_SELL' ? '<span class="layui-badge layui-bg-orange">下架并可见</span>' : '<span class="layui-badge layui-bg-red">下架不可见</span>')
+                    %>
+                </script>
+                <script type="text/html" id="subject_auto_refund">
+                    <% d.subject_auto_refund == 'AUTO' ? '<span class="layui-badge layui-bg-green">是</span>' : '
+                    <span class="layui-badge layui-bg-orange">否</span>' %>
+                </script>
+                <script type="text/html" id="subject_price_limit">
+                    <% d.subject_price_limit == 'LIMITED' ? '<span class="layui-badge layui-bg-green">限价</span>' :
+                        d.subject_price_limit == 'SAME_AS_COST' ? '<span class="layui-badge layui-bg-orange">平价</span>' : '<span class="layui-badge layui-bg-red">不限价</span>'
+                    %>
+                </script>
+                <script type="text/html" id="subject_strategy">
+                    <div style="cursor: pointer;color: #01AAED;">
+                        <%= d.subject_strategy_text %> / <%= d.subject_area_priority_text %>
+                    </div>
+                </script>
+                <script type="text/html" id="subject_price">
+                    <div class="price_rate_component">
+                        <div class="layui-inline" style="width: 80px;margin-right: 0;">
+                            <input type="text" name="price" value="<%= d.subject_price %>" oninput="on_price_changed(this);" class="layui-input input_price" data-official-price="<%= d.official_price %>" placeholder="售价"/>
+                        </div>
+                        <span>/</span>
+                        <div class="layui-inline" style="width: 80px;margin-right: 0;">
+                            <input type="text" name="rate" value="<%= d.subject_price / d.official_price * 100 %>" oninput="on_rate_changed(this);" class="layui-input input_rate" data-official-price="<%= d.official_price %>" placeholder="比例"/>
+                        </div>
+                        <span>%</span>
+                    </div>
+
+                </script>
+                <script type="text/html" id="actions">
+                    <div>
+                        <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="save_current_row_settings">保存</button>
+                        {#<button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="sync_down">向下同步</button>#}
+                        <a class="layui-btn layui-btn-normal layui-btn-xs" href="{{ url('admin_product_management_specific_user_settings', {'product_type': app.request.get('product_type')}) }}?product_id=<%= d.id %>" target="_blank">特殊用户</a>
+                    </div>
+                </script>
+
+                <table id="table" class="layui-table layadmin-table layui-form list-table" lay-filter="table"
+                       lay-data="{url:'{{ path(current_route, {'product_type': app.request.get('product_type'), 'search_product': app.request.get('search_product')}) }}', page:true, id:'table', method:'get', toolbar: '#toolbar', defaultToolbar: [], done: 'on_table_render_done()'}">
+                    <thead>
+                    <tr>
+                        {% if app.debug and app.request.get('debug') %}
+                        <th lay-data="{width:90,  field:'setting_id'}">SID</th>
+                        {% endif %}
+                        <th lay-data="{width:40,  field:'checkbox', type: 'checkbox'}"></th>
+                        <th lay-data="{width:80,  field:'id',                  templet: '#id'}">商品编号</th>
+                        <th lay-data="{           field:'name',                templet: '#name'}">商品名称</th>
+                        <th lay-data="{width:60,  field:'face_value'}">面值</th>
+                        <th lay-data="{width:80,  field:'num',                 templet: '#num'}">可购数量</th>
+                        <th lay-data="{width:70,  field:'source_num',          templet: '#source_num'}">可用货源</th>
+
+                        <th lay-data="{width:100,  field:'subject_name',        templet: '#subject_name'}">当前选择<br/>操作对象</th>
+                        <th lay-data="{width:80,  field:'subject_provider_name'}">操作对象<br/>供应商</th>
+                        <th lay-data="{width:70,  field:'subject_enabled',     templet: '#subject_enabled'}">操作对象<br/>启用状态</th>
+                        <th lay-data="{width:75,  field:'subject_sell_status', templet: '#subject_sell_status'}">操作对象<br/>上架状态</th>
+                        <th lay-data="{width:95,  field:'subject_auto_refund', templet: '#subject_auto_refund'}">操作对象<br/>失败自动退款</th>
+                        <th lay-data="{width:70,  field:'subject_price_limit', templet: '#subject_price_limit' }">操作对象<br/>限价设置</th>
+                        <th lay-data="{width:90,  field:'subject_strategy',    templet: '#subject_strategy', event: 'update_single_strategy'}">操作对象<br/>策略/优先级</th>
+                        <th lay-data="{width:210, field:'subject_price',       templet: '#subject_price'}">操作对象<br/>售价/比例</th>
+                        {#<th lay-data="{width:120, field:'subject_rebate',      templet: '#subject_rebate'}">操作对象<br/>经销商返现/比例</th>#}
+                        <th lay-data="{width:120, field:'action',              templet: '#actions'}"></th>
+                    </tr>
+                    </thead>
+                </table>
+                </form>
+            </div>
+        </div>
+{% endblock %}
+
+{% block extra %}
+    {% include "/Admin/ProductManagement/Product/_product_dialog_edit_strategy.twig" %}
+
+    <div class="layui-card" id="update_source_settings_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="update_source_settings_form" class="layui-form" lay-filter="update_source_settings_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;padding: 5px;">
+                            <div style="padding: 5px;">对所选商品包含来自模板：</div>
+                        </td>
+                        <td>
+                            <div style="padding: 5px;">
+                                {{ sf.select_raw('source_group_id', {}) }}
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;text-align: center;">排序设置为：</td>
+                        <td>
+                            {{ sf.text_raw('sort', {'placeholder': '请输入排序序号'}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;text-align: center;">分流常数设置为：</td>
+                        <td>
+                            {{ sf.text_raw('weight', {'placeholder': '请分流常数'}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 150px;text-align: center;">对商品启用状态：</td>
+                        <td>
+                            {{ sf.checkbox_raw('enabled', {'1': '启用'}, { 'lay-skin': 'primary'}) }}
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div class="layui-card" id="sync_down_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="sync_down_form" class="layui-form" lay-filter="sync_down_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;padding: 5px;">
+                            <div style="padding: 5px;">选择需要同步的项：</div>
+                        </td>
+                        <td>
+                            <div style="padding: 5px;">
+                                <input type="checkbox" name="attributes[]" value="sell_status" title="上下架设置" lay-skin="primary">
+                                <input type="checkbox" name="attributes[]" value="auto_refund" title="失败自动退款设置" lay-skin="primary">
+                                <input type="checkbox" name="attributes[]" value="price_limit" title="限价设置" lay-skin="primary">
+                                <input type="checkbox" name="attributes[]" value="strategy" title="货源策略设置" lay-skin="primary">
+                                <input type="checkbox" name="attributes[]" value="price" title="售价" lay-skin="primary">
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    <div class="layui-card" id="batch_update_provider_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="batch_update_provider_form" class="layui-form" lay-filter="batch_update_provider_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;padding: 5px;">
+                            <div style="padding: 5px;">修改供应商为：</div>
+                        </td>
+                        <td>
+                            <div style="padding: 5px;">
+                                {{ sf.select_raw('provider_id', to_options('App\\Common\\ExternalService\\RechargeService\\RechargeServiceProviderMap::PROVIDER_NAMES', '选择供应商')) }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Admin/ProductManagement/Product/product_common_js.twig" %}
+
+    <script>
+    {% include "/Admin/ProductManagement/Product/index.js.twig" %}
+    </script>
+
+{% endblock %}

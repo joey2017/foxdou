@@ -1,0 +1,78 @@
+/*common.css----------------------------------------------------------------------------------------------*/
+/*首页顶部导航-触发效果*/
+.m-head-nav .head-nav-this{border-bottom-color: #FF8C00;color: #FF8C00;}
+/*侧栏皮肤*/
+.m-side-nav .nav-title:hover{border-right-color: #FF8C00;}
+.m-side-nav .nav-title:hover span{color: #FF8C00;}
+.m-side-nav .nav-title-this{border-right-color: #FF8C00;color: #FF8C00!important;}
+.m-side-nav .nav-title-this span{color: #FF8C00;}
+/*主体内容分类选项卡*/
+.m-tab li:hover{background: #FF8C00;}
+.m-tab .tab-this{background: #FF8C00!important;}
+.m-screen .layui-this{background: #FF8C00;}
+/*充值面额-触发效果*/
+.m-denomination .denomination-this{border-color: #FF8C00;}
+.m-denomination input:focus{border-color: #FF8C00;}
+/*分页*/
+.m-page-sel a{color: #FF8C00;}
+/*表格*/
+table tr:hover{background:#EEEEEE;color:#666!important;}
+table tr a{color: #999999;}
+table th strong{color: #FF8C00!important;}
+/*皮肤*/
+.s-head{background-color: #FF8C00;}
+.s-blue2{color: #3CB371;}
+.s-orange{color: #FF8C00;}
+/*账户信息小标题颜色*/
+.title-skin{border-left-color: #FF8C00;}
+/*平台公告-新闻标题hover颜色*/
+.title a:hover{color: #FF8C00!important;}
+.info-foot a{border-color: #FF8C00!important;color: #FF8C00!important;}
+/*日历*/
+.cal-detailed{color: #888;}
+/*安全中心*/
+.h-tab .tab-this{border-bottom-color: #FF8C00!important;}
+.h-tab .tab-this a{color: #FF8C00;}
+
+
+/*index.css--------------------------------------------------------------------------------------------*/
+/*快捷入口*/
+.application-title i{color: #FF8C00;}
+.manager-item h3{color: #FF8C00;}
+.app-renewal{color: #CCCCCC;}
+.m-container .more{color: #CCCCCC;}
+.m-item .item-money .layui-btn{background-color: #00b279!important;}
+/*最新公告*/
+.pgn-lis a:hover {color: #FF8C00!important;}
+.container-title a:hover {color: #FF8C00;}
+/*我的财务-我的账户-触发颜色*/
+.panel-nav-this{border-color: #FF8C00!important;}
+.panel-nav-this a{color: #FF8C00;}
+
+
+
+/*financial-my-account-recharge.css-----------------------------------------------------------------------*/
+.pay-way-tab .pay-way-this i,.pay-way-tab .pay-way-this strong{color: #FF8C00;}
+.pay-way-tab .pay-way-tab-li:hover{border-color: #FF8C00!important;}
+
+/*font-icon.css-------------------------------------------------------------------------------------------*/
+.icon-nav2{color:#FF8C00;}
+
+
+/*layui.css-----------------------------------------------------------------------------------------------*/
+.layui-bg-blue {background-color: #FF8C00!important;}
+.tab-item-item .layui-this{background: #FF8C00!important;color: #FFFFFF!important;}
+.layui-tab-title .layui-this{color: #FF8C00!important;}
+.layui-tab-title li{color: #888888;}
+.layui-tab-brief .layui-tab-more li.layui-this:after,
+.layui-tab-brief .layui-this:after{border-bottom-color: #FF8C00;}
+.layui-laypage .layui-laypage-curr .layui-laypage-em{background: #FF8C00;}
+
+.layui-btn{background-color: #FF8C00;}
+.layui-btn-primary {background-color: #FFFFFF;}
+.layui-input:focus, .layui-textarea:focus{border-color: #FF8C00!important;}
+.layui-form-select dl dd.layui-this{background-color: #FF8C00}
+.layui-form-radio i:hover, .layui-form-radioed i{color:#FF8C00}
+
+.problem li:hover a{color: #FF8C00;}
+.container-title{color: #FF8C00;}

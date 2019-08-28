@@ -1,0 +1,145 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+  <h2>直充商品</h2>
+  <div class="hz-single hz-single-mn">
+    <div class="hz-table-block">
+      <dl class="hz-dl hz-title">
+        <dt>&nbsp;</dt>
+        <dd>
+          {{ sf.text_raw(form.title_content, {'class': 'layui-input print_view_content',  'placeholder': '在这里输入标题'}) }}
+          {{ sf.checkbox_raw(form.title, {'1': '显示'}, {'class': 'show_and_hide hz-dl layui-btn', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+        </dd>
+      </dl>
+      <ul class="hz-ul">
+        <li>订单号：S541515464615
+          {{ sf.checkbox_raw(form.order_id, {'1': '显示'}, {'class': 'show_and_hide hz-dl layui-btn', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+        </li>
+        <li>交易日期：2018-03-22
+          {{ sf.checkbox_raw(form.add_time, {'1': '显示'}, {'class': 'show_and_hide hz-dl layui-btn', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+        </li>
+      </ul>
+      <table class="hz-table">
+        <colgroup>
+          <col width="15%">
+          <col width="35%">
+          <col width="15%">
+          <col width="35%">
+        </colgroup>
+        <tbody>
+        <tr>
+          <td>
+            <b>充值号码</b>
+          </td>
+          <td>
+            <span>13815153434</span>
+          </td>
+          <td>
+            <b>业务类型</b>
+          </td>
+          <td>
+            <div class="layui-input-inline">
+              {{ sf.text_raw(form.product_type_content,  {'class': 'layui-input print_view_content',  'placeholder': '在这里输入说明信息'}) }}
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>商品名称</b>
+          </td>
+          <td>
+            <span>江苏移动话费50元快充</span>
+
+          </td>
+          <td>
+            <b>付款方式</b>
+          </td>
+          <td>
+            <span>现金支付</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            <dl class="hz-dl hz-dl-mn">
+              <dt>充值号码：</dt>
+              <dd>
+                <span>1381513434</span>
+                  {{ sf.checkbox_raw(form.on, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+              </dd>
+              <dt>充值前帐号信息：</dt>
+              <dd>
+                <span>11元</span>
+                {{ sf.checkbox_raw(form.on_before_info, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+              </dd>
+              <dt>充值金额：</dt>
+              <dd>
+                <span>50元</span>
+                {{ sf.checkbox_raw(form.pay_money, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+              </dd>
+              <dt>充值时间：</dt>
+              <dd>
+                <span>2018-03-21 16:40</span>
+                <!--                                        <button type="button" class="layui-btn layui-btn-primary layui-btn-sm show_and_hide">隐藏</button>-->
+              </dd>
+            </dl>
+          </td>
+          <td colspan="2">
+            {{ sf.textarea_raw(form.print_info_content,  {'class': 'layui-textarea print_view_content',  'placeholder': '在这里输入业务类型'}) }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <b>大写金额</b>
+          </td>
+          <td>
+            <span>伍拾圆整</span>
+          </td>
+          <td>
+            <b>小写金额</b>
+
+          </td>
+          <td>
+            <span>50元</span>
+            {{ sf.checkbox_raw(form.pay_money, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <ul class="hz-ul">
+        <li>
+          <dl class="hz-dl hz-dl-mn">
+            <dt>网点名称：</dt>
+            <dd>
+              {{ sf.text_raw(form.shop_name_content,  {'class': 'layui-input print_view_content',  'placeholder': '在这里输入地址'}) }}
+              {{ sf.checkbox_raw(form.shop_name, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+            </dd>
+          </dl>
+        </li>
+        <li>
+          <dl class="hz-dl hz-dl-mn">
+            <dt>收银员：</dt>
+            <dd>
+              <span>{{ user.realNameInfo.business_name|default("张三") }}</span>
+              {{ sf.checkbox_raw(form.cashier, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+            </dd>
+          </dl>
+        </li>
+      </ul>
+    </div>
+    <div class="layui-input-block">
+      <button class="layui-btn layui-btn-sm" lay-submit="" lay-filter="submit" id="sub">保&nbsp;存</button>
+    </div>
+  </div>
+
+<div hidden>
+  {{ sf.checkbox_raw(form.product_name, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+
+  {{ sf.text_raw(form.contact_mobile_content,  {'class': 'layui-input print_view_content',  'placeholder': '在这里输入联系电话'}) }}
+  {{ sf.checkbox_raw(form.contact_mobile, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+
+  {{ sf.text_raw(form.shop_address_content,  {'class': 'layui-input print_view_content',  'placeholder': '在这里输入地址'}) }}
+  {{ sf.checkbox_raw(form.shop_address, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+
+  {{ sf.text_raw(form.foot_content,  {'class': 'layui-input foot_content',  'placeholder': '在这里输入页脚内容'}) }}
+  {{ sf.checkbox_raw(form.foot, {'1': '显示'}, {'class': 'show_and_hide', 'lay-skin': 'switch', 'lay-text': '显示|隐藏'}) }}
+</div>

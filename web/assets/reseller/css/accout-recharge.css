@@ -1,0 +1,45 @@
+.m-information{width: auto;height: 55px;box-sizing: border-box;padding: 0 20px;border-radius:2px;border-bottom: 1px solid #E0E0E0; line-height: 55px; background: #FFFFFF;color: #333333;}
+.panel-item{float: left; width: calc(100% - 380px);height: auto;}
+.pay-main{width: 100%;height: auto; box-sizing: border-box;padding: 30px 20px 0 20px; background: #FFFFFF;}
+.pay-item{width: 100%;height: auto;}
+.pay-way-tab{float: left;width: 100%;}
+.pay-way-tab .pay-way-tab-li{float: left; width: 300px;height: 80px;box-sizing: border-box;border: 2px dashed #EEEEEE;padding: 10px 20px;background: #F8F8F8;margin-right: 20px;line-height: 60px; cursor: pointer;}
+.pay-way-tab .pay-way-tab-li:hover{border-color:#E0E0E0;}
+.pay-way-tab .pay-way-tab-li i{float: left;margin-right:20px; font-size: 40px;color: #BBBBBB;}
+.pay-way-tab .pay-way-tab-li strong{color: #444444;}
+.pay-way-tab .pay-way-this i,.pay-way-tab .pay-way-this strong{}
+.pay-item-content{float: left; width: 100%;height: auto;margin-top: 30px;}
+
+.wrapper {}
+.wap-tab {position: relative; height: 38px;}
+.wap-title {position: absolute; left: 10px; display: inline-block; line-height: 38px;}
+.wap-tab-ul {display: inline-block; height: 38px; margin-left: 90px; border-right: 1px solid #DDDDDD; border-top: 1px solid #DDDDDD;}
+.wap-tab-ul li {float: left; height: 38px; padding: 0 20px; background-color: #F5F5F5; box-sizing: border-box; border-bottom: 1px solid #DDDDDD; border-left: 1px solid #DDDDDD;
+	font-size: 14px; line-height: 38px; cursor: default;}
+.wap-tab-ul li.wap-this {border-bottom: none; background-color: #FFF;} 
+.wap-main {width: 100%; height: auto; background-color: #FFF; border: 1px solid #DDDDDD;}
+.wap-main>div {display: none; padding: 30px;}
+
+.quick-pay{width: 370px;height: 35px; background: url(img/quick-pay.png) no-repeat;margin: 10px 0 30px 0;} 		
+.tabs-item{width: 100%;box-sizing: border-box;}
+.tabs-item-blank{}
+.tabs-item-blank li{display: inline-block; width: auto;height: auto;margin: 0 20px 10px 0;}
+.tabs-item-blank label {display: block;}
+.tabs-item-blank input{float: left;margin: 15px 10px 0 0;}
+.tabs-item-blank .blank-pic{float: left; width: 190px;height: 40px;box-sizing: border-box; border: 1px solid #E0E0E0; overflow: hidden;}
+.tabs-item-blank .blank-pic img{margin: 0!important;}
+
+/*支付宝扫码转账*/
+.alipay-row {margin: 0 auto;}
+.alipay-row h5 {padding: 5px 0; color: #999;}
+.alipay-left-row, .alipay-right-row {float: left; width: 50%; box-sizing: border-box; padding: 0 20px;}
+.alipay-left-row>p {text-align: center; color: #666;}
+.alipay-left-row .alipay-number {padding-top: 5px; padding: 5px 0; font-size: 18px; color: #1E9FFF;}
+.alipay-right-row .layui-form-item {margin-top: 20px; padding-top: 20px; border-top: 1px dashed #DDDDDD;}
+.alipay-right-row .layui-form-label {width: auto; padding-left: 0; text-align: left;}
+.alipay-text {margin-bottom: 30px;}		
+.alipay-item {width: 180px; height:auto; margin: 0 auto; box-shadow: 2px 2px 3px rgba(0,0,0,.1); box-sizing: border-box; padding: 10px 10px 0 10px; border: 1px solid #DDDDDD; margin-bottom: 20px;}
+.alipay-item>img {width: 100%;}
+.alipay-tip {position: relative; margin: 15px auto; font-size: 12px;}
+.alipay-tip img {position: absolute; top: 0; left: 10px;}
+.alipay-tip p {padding-left: 50px; line-height: 16px;}

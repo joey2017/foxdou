@@ -1,0 +1,156 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% block main_content %}
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md8">
+            <div class="layui-row layui-col-space15">
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-user-pannel">
+                            <div class="layui-user-headimg">
+                                <img src="{{ asset('/assets/common/' ~ user.head_img) }}">
+                            </div>
+                            <div class="layui-user-info">
+                                <div class="name">你好，
+                                    <span>{{ user.user_name }}</span>
+                                    {% if user.real_name_status == 'VERIFIED' %}
+                                        <p class="ident">
+                                            <i class="icon iconfont icon-shimingrenzhengchenggong"></i>
+                                            <span>已验证</span>
+                                        </p>
+                                    {% endif %}
+                                </div>
+                                <div class="news">
+                                    <p>消息（<span class="news-number">{{ message }}</span>）</p>
+                                    <p>上次登录时间：<span>{{ user.last_login_time|date('Y-m-d H:i:s') }}</span></p>
+                                </div>
+                                <div class="balance">
+                                    <p>
+                                        账户余额（元）:<span>{{ user.OpenPlatformAccount.balance|default(0)|number_format(2) }}</span><a href="{{ path('open_finance_add_balance') }}">充
+                                            值</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-md12">
+                    <div class="layui-card">
+                        <div class="layui-card-header">应用</div>
+                        <div class="layui-card-body">
+                            <ul class="layui-row layui-col-space10 layui-have-api">
+                                <li class="layui-col-xs6">
+                                    <div class="layui-card-lump">
+                                        <img src="{{ asset('/assets/open/images/sjhgsd.png') }}"/>
+                                        <div class="info">
+                                            <h3>手机话费充值</h3>
+                                            {#<p>申请时间<span>2017-10-20</span></p>#}
+                                            {#<p>剩余<span style="color: #E60012;">200</span>次</p>#}
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <a href="{{ path('open_service_mobile',{'type_tab':'order'}) }}">进入服务</a>
+                                    </div>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <div class="layui-card-lump">
+                                        <img src="{{ asset('/assets/open/images/quyxcz.png') }}"/>
+                                        <div class="info">
+                                            <h3>腾讯业务充值</h3>
+                                            {#<p>申请时间<span>2017-10-20</span></p>#}
+                                            {#<p>剩余<span style="color: #E60012;">200</span>次</p>#}
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <a href="{{ path('open_service_tencent',{'type_tab':'order'}) }}">进入服务</a>
+                                    </div>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <div class="layui-card-lump">
+                                        <img src="{{ asset('/assets/open/images/sjllcz.png') }}"/>
+                                        <div class="info">
+                                            <h3>手机流量充值</h3>
+                                            {#<p>申请时间<span>2017-10-20</span></p>#}
+                                            {#<p>剩余<span style="color: #E60012;">200</span>次</p>#}
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <a href="{{ path('open_service_flow',{'type_tab':'order'}) }}">进入服务</a>
+                                    </div>
+                                </li>
+                                <li class="layui-col-xs6">
+                                    <div class="layui-card-lump">
+                                        <img src="{{ asset('/assets/open/images/sjhgsd.png') }}"/>
+                                        <div class="info">
+                                            <h3>固话业务充值</h3>
+                                            {#<p>申请时间<span>2017-10-20</span></p>#}
+                                            {#<p>剩余<span style="color: #E60012;">200</span>次</p>#}
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <a href="{{ path('open_service_telephone',{'type_tab':'order'}) }}">进入服务</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-card">
+                <div class="layui-card-body layui-slide">
+                    <div class="layui-carousel" id="Shuffling">
+                        <div carousel-item>
+                            <div>
+                                <a href="javascript:;" style="background-color: #252628; background-image: url('{{ asset('/assets/open/images/slider-1.jpg') }}');"></a>
+                            </div>
+                            <div>
+                                <a href="javascript:;" style="background-color: #252628; background-image: url('{{ asset('/assets/open/images/slider-2.jpg') }}');"></a>
+                            </div>
+                            <div>
+                                <a href="javascript:;" style="background-color: #252628; background-image: url('{{ asset('/assets/open/images/slider-3.jpg') }}');"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="layui-card">
+                <div class="layui-card-header">联系客服</div>
+                <div class="layui-card-body">
+                    <div class="layui-custom-service">
+                        <div class="phone">
+                            <i class="icon iconfont icon-dianhua"></i>
+                            热线电话：<span>15678527068</span>
+                        </div>
+                        <a href="http://wpa.qq.com/msgrd?v=3&uin=406126623&site=qq&menu=yes" class="online-qq">
+                            <i class="icon iconfont icon-qie"></i>
+                            <span>在线客服</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // $.ajax('',{async:true,type:'POST',dataType:'json',data:{},
+            //     success:function (data) {
+            //         if(data.status){
+            //             $('#ip_address').text('('+data.address+')')
+            //         }
+            //     },
+            //     error: function(e){
+            //         //console.log(e);
+            //     }
+            // });
+            //常规轮播
+            carousel.render({
+                elem:   '#Shuffling',
+                arrow:  'hover',
+                width:  '100%',
+                height: '130px'
+            });
+        });
+
+    </script>
+{% endblock %}

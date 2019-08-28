@@ -1,0 +1,64 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% set title = '我的财务-我的账户' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+
+{% block css %}
+    {{ use_assets('/assets/open/css/finance.css') }}
+{% endblock %}
+{% block main_content %}
+  <div class="layui-row layui-col-space15">
+    <div class="layui-col-md9">
+      <div class="layui-card">
+        <div class="layadmin-finance-info">
+          <h2>你好！<span>{{ user.realNameInfo.biz_legal_representative_name|default("未实名认证")  }}</span></h2>
+          <div class="layadmin-finance-money">
+            <i class="icon iconfont icon-yue"></i>
+            <span>账户金额（元）：</span>
+            <span class="money">{{ user.OpenPlatformAccount.balance|default(0)|number_format(2) }}</span>
+            <a href="{{ path('open_finance_add_balance') }}" class="layui-btn layui-btn-xs layui-btn-normal">在线充值</a>
+          </div>
+        </div>
+        <div class="layui-card-body">
+          <table lay-even class="layui-table layadmin-table layadmin-table-finance">
+            <thead>
+            <tr>
+              <th colspan="5">
+                <h3><strong>最近交易记录</strong></h3>
+              </th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if trades %}
+            <tr>
+            <td style="width: 200px;">交易时间</td>
+            <td>交易事由</td>
+            <td>交易金额</td>
+            <td>交易状态</td>
+            <td>操作</td>
+            </tr>
+            {% set statuses = constant('App\\Common\\Model\\Payment\\UserMoneyTradeLog::TRADE_STATUSES') %}
+            {% for t in trades %}
+            <tr>
+            <td>{{ t.trade_time|date("Y-m-d H:i:s") }}</td>
+            <td>{{ t.name }}</td>
+            <td>{{ t.amount|number_format(2) }}</td>
+            <td>{{ statuses[t.trade_status]|default('未知状态(' ~ t.trade_status ~ ')') }}</td>
+            <td>
+            <a href="javascript:void(0);">详情</a>
+            </td>
+            </tr>
+            {% endfor %}
+            {% else %}
+                <tr><td colspan="5" align="center">暂无数据</td></tr>
+            {% endif %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    {% include 'Open/Common/right-panel.twig' %}
+  </div>
+{% endblock %}

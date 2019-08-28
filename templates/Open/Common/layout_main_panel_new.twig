@@ -1,0 +1,53 @@
+{% set user = app.user %}
+{% set current_route = app.request.attributes.get('_route') %}
+{% set current_path  = app.request.pathinfo %}
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}狐豆开发平台{% endblock %}</title>
+	<link rel="icon" type="image/x-icon" href="favicon.ico"/>
+	{{ use_assets([
+        '/assets/common/layui/css/layui.css',
+        '/assets/open/font/iconfont.css',
+        '/assets/open/css/common.css',
+        '/assets/open/css/index.css',
+        '/assets/common/js/jquery.min.js',
+        '/assets/common/layui/layui.all.js',
+        '/assets/common/js/ajaxRequest.js',
+        '/assets/admin/js/common.js',
+	]) }}
+
+    {% block css %}
+    {% endblock %}
+    {% block js %}
+    {% endblock %}
+</head>
+<body>
+{% include "/Common/_flash_messages.html.twig" %}
+<div class="layui-layout layui-layout-admin">
+		<!--头部区域-->
+		<div class="layui-header">
+            {% include "Open/Common/topNav_new.twig" %}
+		</div>
+		<!--侧栏-->
+		<div class="layui-side layui-side-menu">
+            {% include "Open/Common/left_nav_head_new.twig" %}
+		</div>
+		<!--主体内容-->
+		<div class="layui-body">
+			<div class="layadmin-tabsbody-item layui-show">
+				<div class="layui-fluid">
+                    {% block main_content %}
+					{% endblock %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+    {% block footer %}
+    {% endblock %}
+    {% block js_end %}
+    {% endblock %}
+</body>
+</html>

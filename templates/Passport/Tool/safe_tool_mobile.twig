@@ -1,0 +1,43 @@
+{% extends '/Passport/layout.twig' %}
+{% block main_content %}
+<style type="text/css">
+    .page-content{height: 740px; padding: 0;}
+    .sildrtitle em{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/t1.png) no-repeat;}
+</style>
+<div class="page-content">
+    <div class="sildebar">
+        {% include "/Passport/Tool/safe_tool_common_left.twig" %}
+    </div>
+    <div class="mainbar">
+        <h2 class="title">密保手机</h2>
+        <div class="banner-info">
+            <div class="text">
+                {% if user %}
+                    {% if user.bind_mobile %}
+                        <style type="text/css">.banner-info{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/a1.png) no-repeat;}</style>
+                            您已绑定手机，如需更换手机请点击下方按钮“修改手机”。
+                        <a href="{{ path('passport_safe_center_identity_verify_way',{'type':1}) }}">修改手机</a>
+                    {% else %}
+                        <style type="text/css">.banner-info{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/a1-1.png) no-repeat;}</style>
+                            狐豆用户的首选密保工具，可及时接收异常通知、快速找回帐号密码等。为了您的账户安全，请及时绑定手机号码
+                        <a href="{{ path('passport_safe_center_identity_verify_way',{'type':8}) }}">绑定手机</a>
+                    {% endif %}
+                {% else %}
+                    <style type="text/css">.banner-info{background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/img/a1-1.png) no-repeat;}</style>
+                    狐豆用户的首选密保工具，可及时接收异常通知、快速找回帐号密码等，登录后可查看您的账户是否已绑定手机。
+                    <a href="{{ path('passport_home_index') }}">请登录后操作</a>
+                {% endif %}
+            </div>
+
+        </div>
+        <h2 class="title">温馨提示</h2>
+        <div class="problem" style="height: 150px;">
+            <p>手机停用或无法收到短信的情况下若需要修改手机号码，可在点击修改手机之后选择其他身份验证方式，也可以联系在线客服为您解决。</p>
+        </div>
+        <h2 class="title">常见问题</h2>
+        <div class="problem">
+            无
+        </div>
+    </div>
+</div>
+{% endblock %}

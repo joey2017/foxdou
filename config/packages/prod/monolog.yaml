@@ -1,0 +1,21 @@
+monolog:
+    handlers:
+        main:
+            type: fingers_crossed
+            action_level: error
+            handler: nested
+            excluded_http_codes: [404]
+        nested:
+            type: rotating_file
+            path: '%kernel.logs_dir%/%kernel.environment%.log'
+            level: info
+        console:
+            type:   console
+            process_psr_3_messages: false
+            channels: ['!event', '!doctrine']
+            formatter: App\Common\Logging\ConsoleFormatter
+        worker:
+            type: rotating_file
+            path: '%kernel.logs_dir%/worker-%kernel.environment%.log'
+            level: info
+            channels: ['worker']

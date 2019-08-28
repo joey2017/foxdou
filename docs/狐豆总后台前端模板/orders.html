@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>订单管理管理</title>
+	<link rel="stylesheet" type="text/css" href="https://foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/anyu-new-media/layui-v2.4.5/css/layui.css"/>
+	<link rel="stylesheet" type="text/css" href="css/admin.css"/>
+</head>
+
+<body>
+	<div class="layadmin-tabspage-none">
+		<div class="layui-layout layui-layout-admin">
+			<div class="layui-header">
+				<!-- 头部区域 -->
+				<ul class="layui-nav layui-layout-left">
+					<li class="layui-nav-item layadmin-flexible">
+						<a href="javascript:;" title="侧栏伸缩">
+							<i class="layui-icon layui-icon-shrink-right"></i>
+							<i class="layui-icon layui-icon-spread-left"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">运营数据</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">用户管理</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<a href="javascript:;">订单管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">服务管理<span class="layui-badge">6</span></a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">商品管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">平台审核</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">内容管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">财务管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">系统设置</a>
+					</li>
+				</ul>
+				<ul class="layui-nav layui-layout-right">
+					<li class="layui-nav-item">
+						<div class="layui-form layui-header-switch">
+							<input type="checkbox" name="" lay-skin="switch" lay-text="开启语音|关闭语音" checked>
+						</div>						
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;" title="通知">
+							<i class="layui-icon layui-icon-notice"></i>
+						</a>
+					</li>
+					<li class="layui-nav-item">
+						<a href="javascript:;">
+							<cite>安郁</cite>
+							<span class="layui-nav-more"></span>
+						</a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="javascript:;">基本资料</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">修改密码</a>
+							</dd>
+							<hr />
+							<dd style="text-align: center;">
+								<a href="javascript:;">退出</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+			<!--侧栏菜单-->
+			<div class="layui-side layui-side-menu">
+				<div class="layui-side-scroll">
+					<a href="javascript:;" class="layui-logo">
+						<span>狐豆后台管理系统</span>
+					</a>
+					<ul class="layui-nav layui-nav-tree">
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-chart"></i>
+								<cite>手机话费</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd class="layui-this"><a href="javascript:;">充值主订单<span class="layui-badge">99+</span></a></dd>
+					      		<dd><a href="javascript:;">SUP订单</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-rmb"></i>
+								<cite>固话宽带</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">充值主订单</a></dd>
+					      		<dd><a href="javascript:;">SUP订单</a></dd>
+						    </dl>
+						</li>
+						<li class="layui-nav-item layui-nav-itemed">
+							<a href="javascript:;">
+								<i class="layui-icon layui-icon-read"></i>
+								<cite>腾讯业务</cite>
+							</a>
+						    <dl class="layui-nav-child">
+				      			<dd><a href="javascript:;">充值主订单</a></dd>
+					      		<dd><a href="javascript:;">SUP订单</a></dd>
+						    </dl>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<!--主体内容-->
+			<div class="layui-body">
+				<div class="layadmin-tabsbody-item layui-show">
+					<!--面包屑-->
+					<div class="layui-card layadmin-header">
+						<div class="layui-breadcrumb">
+							<a href="javascript:;">主页</a>
+							<a href="javascript:;">订单管理</a>
+							<a><cite>正文</cite></a>
+						</div>
+					</div>
+					<div class="layui-fluid">
+						<div class="layui-card">
+							<div class="layui-tab layui-tab-brief layadmin-tab" lay-filter="docDemoTabBrief">
+							  	<ul class="layui-tab-title">
+								    <li class="layui-this">超时2分钟<span class="layui-badge">99+</span></li>
+								    <li>卡单<span class="layui-badge">99+</span></li>
+								    <li>待人工处理<span class="layui-badge">99+</span></li>
+								    <li>失败可疑<span class="layui-badge">99+</span></li>
+							  	</ul>
+							  	<div class="layui-tab-content">
+						  		    <div class="layui-tab-item layui-show">
+						  		    	<div class="layui-form layadmin-bgcolor">
+						  		    		<div class="layui-inline">
+						  		    			<label class="layui-form-label" style="width: 90px; padding: 9px 10px;">空渠道下单：</label>
+						  		    			<div class="layui-input-block">
+						  		    				<input type="checkbox" name="close" lay-skin="switch" lay-text="ON|OFF">
+						  		    			</div>
+						  		    		</div>
+						  		    	</div>
+						  		    	<div class="layui-form layui-form-pane layui-card-header layuiadmin-card-header-auto">
+											<div class="layui-form-item">
+												<div class="layui-inline">
+										            <label class="layui-form-label">订单来源</label>
+										            <div class="layui-input-block">
+										            	<select name="rzzt">
+													        <option value="">请选择</option>
+													        <option value="0">北京</option>
+													        <option value="1">上海</option>
+													    </select>
+										            </div>
+									        	</div>
+												<div class="layui-inline">
+										            <label class="layui-form-label">订单状态</label>
+										            <div class="layui-input-block">
+										            	<select name="hdkfptktzt">
+													        <option value="">请选择</option>
+													        <option value="0">北京</option>
+													        <option value="1">上海</option>
+													    </select>
+										            </div>
+									        	</div>
+												<div class="layui-inline">
+										            <label class="layui-form-label">充值状态</label>
+										            <div class="layui-input-block">
+										            	<select name="dlsptktzt">
+													        <option value="">请选择</option>
+													        <option value="0">北京</option>
+													        <option value="1">上海</option>
+													    </select>
+										            </div>
+									        	</div>
+												<div class="layui-inline">
+										            <label class="layui-form-label">用户结算状态</label>
+										            <div class="layui-input-block">
+										            	<select name="gysptktzt">
+													        <option value="">请选择</option>
+													        <option value="0">北京</option>
+													        <option value="1">上海</option>
+													    </select>
+										            </div>
+									        	</div>
+												<div class="layui-inline">
+										            <label class="layui-form-label">SUP订单结算状态</label>
+										            <div class="layui-input-block">
+										            	<select name="gysptktzt">
+													        <option value="">请选择</option>
+													        <option value="0">北京</option>
+													        <option value="1">上海</option>
+													    </select>
+										            </div>
+									        	</div>
+												<div class="layui-inline">
+										            <label class="layui-form-label">日期范围</label>
+										            <div class="layui-input-block">
+										            	<input type="text" class="layui-input" id="dateRange" placeholder=" - ">
+										            </div>
+									        	</div>
+												<div class="layui-inline">
+							            			<label class="layui-form-label">搜索</label>
+										            <div class="layui-input-block">
+										            	<input type="text" name="id" placeholder="搜索..." autocomplete="off" class="layui-input">
+										            </div>
+									        	</div>
+									        	<div class="layui-inline">
+										            <div class="layui-input-block layui-input-block-margin">
+										            	<button class="layui-btn layuiadmin-btn-useradmin">
+												            <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
+											          	</button>
+										            </div>
+									        	</div>
+											</div>
+										</div>
+										<div class="layui-card-body">
+											<div style="padding: 5px 0;">
+												<button class="layui-btn layuiadmin-btn-useradmin">点击右边按钮出现弹窗</button>
+												<button class="layui-btn layuiadmin-btn-useradmin site-demo-layer" data-type="setSuccess">置成功</button>
+												<button class="layui-btn layuiadmin-btn-useradmin site-demo-layer" data-type="setFailure">置失败</button>
+												<button class="layui-btn layuiadmin-btn-useradmin site-demo-layer" data-type="settlement">结算</button>
+												<button class="layui-btn layuiadmin-btn-useradmin site-demo-layer" data-type="againRecharge">重新充值</button>
+											</div>
+											<table class="layui-table" lay-data="{url:'https://easy-mock.com/mock/5be506123f52ab2b28805e7f/user', page:true, id:'idTest', method:'post'}" lay-filter="demo">
+											  	<thead>
+												    <tr>
+												      	<th lay-data="{type:'checkbox', fixed: 'left', width:'5%'}"></th>
+												      	<th lay-data="{field:'id', width:'6%', align: 'center'}">ID</th>
+												      	<th lay-data="{field:'number', width:'7%', align: 'center'}">编号</th>
+												      	<th lay-data="{field:'staffName', width:'7%', align: 'center'}">姓名</th>
+											      		<th lay-data="{field:'phone', width:'13%', align: 'center'}">联系电话</th>
+												      	<th lay-data="{field:'city', width:'8%', align: 'center'}">城市</th>
+												      	<th lay-data="{field:'dateOnBoard', sort: true, width:'10%', align: 'center'}">入职日期</th>
+												      	<th lay-data="{field:'department', width:'10%', align: 'center'}">部门</th>      
+												      	<th lay-data="{field:'position', width:'12%', align: 'center'}">职务</th>
+												      	<th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo', width:'22%'}">操作</th>
+												    </tr>
+											  	</thead>
+											</table>
+											<script type="text/html" id="barDemo">
+												<div class="layui-table-cell laytable-cell-4-0-9">
+													<a class="layui-btn layui-btn-normal layui-btn-xs">置成功</a>
+										  			<a class="layui-btn layui-btn-danger layui-btn-xs">删除</a>
+												</div>						  		
+											</script>
+										</div>
+						  		    </div>
+								    <div class="layui-tab-item">2</div>
+								    <div class="layui-tab-item">3</div>
+								    <div class="layui-tab-item">4</div>
+							  	</div>
+							</div>  			
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<!--弹窗信息------------------------>
+	
+	<!--置成功提示-->
+	<div id="setSuccessDome" class="layer-demo layui-form" style="display: none;">
+		<input type="radio" name="a" value="1" title="对最新SUP订单置成功并结算">
+		<input type="radio" name="a" value="2" title="对最新SUP订单置成功，暂不结算">
+		<input type="radio" name="a" value="3" title="对最新SUP订单不进行任何操作">
+	</div>
+	<!--置失败提示-->
+	<div id="setFailureDome" class="layer-demo layui-form" style="display: none;">
+		<input type="radio" name="a" value="1" title="对最新SUP订单置失败并结算" checked="">
+		<input type="radio" name="a" value="2" title="对最新SUP订单不进行任何操作">
+	</div>
+	<!--重新充值操作提示-->
+	<div id="settlementDome" class="layer-demo layui-form" style="display: none;">
+		<input type="radio" name="a" value="1" title="对当前SUP订单置失败并结算" checked="">
+		<input type="radio" name="a" value="2" title="对当前SUP订单不进行任何操作">
+	</div>
+	
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/js/jquery.js"></script>
+	<script type="text/javascript" src="https://foxdou-public.oss-cn-shenzhen.aliyuncs.com/layui/layui.all.js"></script>
+	<script type="text/javascript" charset="utf-8" src="js/common.js" ></script>	
+	<script type="text/javascript">
+		//日期范围
+		laydate.render({
+		    elem: '#dateRange'
+		    ,range: true
+		});
+		
+		
+		var active = {
+			setSuccess: function(){
+				layer.open({
+					type: 1, 
+					title: '置成功确认',
+					btn: ['确定', '取消'],
+					btnAlign: 'c',
+					content: $('#setSuccessDome')
+				});				
+			},
+			setFailure: function(){
+				layer.open({
+					type: 1,
+					title: '置失败确认',
+					btn: ['确定', '取消'],
+	    			btnAlign: 'c',
+	    			content: $('#setFailureDome')
+				});					
+			},
+			settlement: function(){
+				layer.open({
+					type: 1,
+					title: '结算确认',
+					btn: ['确定', '取消'],
+	    			btnAlign: 'c',
+	    			content: $('#settlementDome')
+				});					
+			},
+			againRecharge: function(){
+				layer.open({
+					title: false,
+					btn: ['确定', '取消'],
+	    			btnAlign: 'c',
+	    			closeBtn: 0,
+	    			content:'确定对所选订单对应最新SUP订单进行结算？ '
+				});					
+			}
+		};			
+		$('.site-demo-layer').on('click', function(){
+		    var type = $(this).data('type');
+		    active[type] ? active[type].call(this) : '';
+	    });
+  
+	</script>
+</body>
+</html>

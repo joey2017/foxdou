@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的服务2</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="layui/css/layui.css"  media="all">
+	<link rel="stylesheet" href="font/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<style type="text/css">		
+		
+		.foxdou-tab-alone {margin-top: 0; border-top: 2px solid #1E9FFF;}
+		.foxdou-tab-alone .layui-tab-title {padding: 0 15px; background-color: #f5f5f5;}
+		.foxdou-tab-alone .layui-tab-title .layui-this {background-color: #fff; color: #1E9FFF;}
+		.foxdou-tab-alone .layui-tab-content {padding: 10px 15px 15px 15px;}
+		
+		.foxdou-extend{position: relative;display: inline-block;}
+		.foxdou-extend-pro{display: inline-block; padding-right: 20px; cursor: pointer;}
+		.foxdou-extend-pro .layui-nav-more {content: ''; width: 0; height: 0; border-style: solid dashed dashed; border-color: #333 transparent transparent;
+			overflow: hidden; cursor: pointer; transition:all .2s; -webkit-transition:all .2s; position: absolute; top: 50%; right: 5px;
+			margin-top: -3px; border-width: 5px; border-top-color: rgba(0, 0, 0, .6);}
+		.foxdou-extend-pro .layui-nav-mored {margin-top: -8px; border-style: dashed dashed solid; border-color: transparent transparent #333; opacity: .7;}
+		.foxdou-extend-ul{position: absolute;top: 25px; left: 0; width: 90px; height: auto; padding: 5px 0; border: 1px solid #eee; border-radius: 2px; 
+			box-shadow: 0 0 10px rgba(0, 0, 0, .1); background-color: #FFFFFF;z-index: 999;}
+		.foxdou-extend-ul li{display: block;text-align: center;}
+		.foxdou-extend-ul li:hover{background-color: #F5F5F5;}
+		.foxdou-extend-ul li a{display: block; padding: 7px 10px;}
+	</style>
+</head>
+
+<body>
+	
+	<div class="foxdou-box">
+		<div class="foxdou-header">
+			<div class="foxdou-top">
+				<div class="foxdou-logo"></div>
+				<div class="foxdou-link">
+					<a href="">开发者服务</a>
+					<a href="">申请服务</a>
+					<a href="">帐号注册</a>
+				</div>
+				<ul class="layui-nav layui-layout-right foxdou-nav-user">
+			    	<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="image/hdimg1.jpg" class="layui-nav-img"> 广西你行我动科技有限公司
+							<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="">基本资料</a>
+							</dd>
+							<dd>
+								<a href="">安全设置</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item foxdou-nav-item" title="点击刷新" style="cursor: default;">
+						<a>账户余额：60000元</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-tuichu"></i>
+						<a href="">退出</a>
+					</li>
+				</ul>
+			</div>
+			<ul class="layui-nav foxdou-nav">
+				<li class="layui-nav-item">
+					<a href="index.html">控制台</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="servicel-recharge-order.html">我的服务</a>
+				</li>
+				<li class="layui-nav-item layui-this">
+					<a href="servicel-index.html">我的服务2</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="panel-financial-account.html">我的API</a>
+				</li>
+			</ul>
+		</div>
+		<div class="foxdou-side">
+			<div class="foxdou-side-scroll">
+				<ul class="layui-nav layui-nav-tree foxdou-nav foxdou-side-icon">
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-yingyong1"></i>
+						<a href="">API列表</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-dengdai"></i>
+						<a href="">等待续费</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-rizhidianjihou"></i>
+						<a href="">API列表</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="foxdou-body">
+			<div class="layui-clear" style="padding: 15px;">
+				<div class="foxdou-row foxdou-row-notm">
+					<div class="foxdou-form-row" style="border-bottom: none;">
+						<form class="layui-form layui-form-pane" action="">
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<div class="layui-input-inline">
+							            <input type="text" name="title" placeholder="搜索应用" class="layui-input" >
+							        </div>
+								</div>
+								<div class="layui-inline">
+									<label class="layui-form-label">服务状态</label>
+									<div class="layui-input-block foxdou-select-length">
+							            <select>
+									        <option value="">请选择</option>
+									        <option value="0">写作</option>
+									        <option value="1">阅读</option>
+									    </select>
+							        </div>
+								</div>
+								<div class="layui-inline">
+									<button class="layui-btn layui-btn-normal">查&nbsp;&nbsp;询</button>
+									<button class="layui-btn layui-btn-primary">申请API</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="layui-tab foxdou-tab-alone">
+					  	<ul class="layui-tab-title">
+						    <li class="layui-this">全部</li>
+						    <li>充值/缴费服务</li>
+						    <li>生活/天气/地理</li>
+						    <li>其他</li>
+					  	</ul>
+					  	<div class="layui-tab-content">
+						    <div class="layui-tab-item layui-show">
+						    	<table lay-even lay-size="lg" class="layui-table foxdou-table">
+									<!--colgroupke 可对应控制列的宽度，例如：<col width="70">-->
+									<colgroup>
+										<col>
+										<col>
+										<col>
+										<col>
+										<col>
+									</colgroup>
+									<thead>
+										<tr>
+											<th>服务名称</th>
+											<th>计费方式</th>
+											<th>应用数量</th>
+											<th>状态</th>
+											<th>操作</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+											<td>按需计费</td>
+											<td>3</td>
+											<td>
+												<div class="foxdou-extend">
+								            		<div class="foxdou-extend-pro">正常使用<span class="layui-nav-more"></span></div>
+								            		<ul class="foxdou-extend-ul" style="display: none;">
+								            			<li><a href="#">设置其他</a></li>
+								            			<li><a href="#">设置其他</a></li>
+								            		</ul>
+								            	</div>
+											</td>
+											<td>
+												<a href="" class="foxdou-text-link">进入服务</a>
+												<a href="" class="foxdou-text-link">应用管理</a>
+												<a href="" class="foxdou-text-link">创建应用</a>
+												<div class="foxdou-extend">
+								            		<div class="foxdou-extend-pro">更多<span class="layui-nav-more"></span></div>
+								            		<ul class="foxdou-extend-ul" style="display: none;">
+								            			<li><a href="#">设置其他</a></li>
+								            			<li><a href="#">设置其他</a></li>
+								            		</ul>
+								            	</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+											<td>按需计费</td>
+											<td>3</td>
+											<td>
+												<div class="foxdou-extend">
+								            		<div class="foxdou-extend-pro">正常使用<span class="layui-nav-more"></span></div>
+								            		<ul class="foxdou-extend-ul" style="display: none;">
+								            			<li><a href="#">设置其他</a></li>
+								            			<li><a href="#">设置其他</a></li>
+								            		</ul>
+								            	</div>
+											</td>
+											<td>
+												<a href="" class="foxdou-text-link">进入服务</a>
+												<a href="" class="foxdou-text-link">应用管理</a>
+												<a href="" class="foxdou-text-link">创建应用</a>
+												<div class="foxdou-extend">
+								            		<div class="foxdou-extend-pro">更多<span class="layui-nav-more"></span></div>
+								            		<ul class="foxdou-extend-ul" style="display: none;">
+								            			<li><a href="#">设置其他</a></li>
+								            			<li><a href="#">设置其他</a></li>
+								            		</ul>
+								            	</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+											<td>按需计费</td>
+											<td>3</td>
+											<td>
+												<div class="foxdou-extend">
+								            		<div class="foxdou-extend-pro">正常使用<span class="layui-nav-more"></span></div>
+								            		<ul class="foxdou-extend-ul" style="display: none;">
+								            			<li><a href="#">设置其他</a></li>
+								            			<li><a href="#">设置其他</a></li>
+								            		</ul>
+								            	</div>
+											</td>
+											<td>
+												<a href="" class="foxdou-text-link">进入服务</a>
+												<a href="" class="foxdou-text-link">应用管理</a>
+												<a href="" class="foxdou-text-link">创建应用</a>
+												<div class="foxdou-extend">
+								            		<div class="foxdou-extend-pro">更多<span class="layui-nav-more"></span></div>
+								            		<ul class="foxdou-extend-ul" style="display: none;">
+								            			<li><a href="#">设置其他</a></li>
+								            			<li><a href="#">设置其他</a></li>
+								            		</ul>
+								            	</div>
+											</td>
+										</tr>
+										<tr>
+											<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+											<td>按需计费</td>
+											<td>3</td>
+											<td>
+												<div class="foxdou-extend">
+								            		<div class="foxdou-extend-pro">正常使用<span class="layui-nav-more"></span></div>
+								            		<ul class="foxdou-extend-ul" style="display: none;">
+								            			<li><a href="#">设置其他</a></li>
+								            			<li><a href="#">设置其他</a></li>
+								            		</ul>
+								            	</div>
+											</td>
+											<td>
+												<a href="" class="foxdou-text-link">进入服务</a>
+												<a href="" class="foxdou-text-link">应用管理</a>
+												<a href="" class="foxdou-text-link">创建应用</a>
+												<div class="foxdou-extend">
+								            		<div class="foxdou-extend-pro">更多<span class="layui-nav-more"></span></div>
+								            		<ul class="foxdou-extend-ul" style="display: none;">
+								            			<li><a href="#">设置其他</a></li>
+								            			<li><a href="#">设置其他</a></li>
+								            		</ul>
+								            	</div>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<div class="foxdou-page">
+									<div id="demo7"></div>
+								</div>
+						    </div>
+						    <div class="layui-tab-item">
+						    	<ul class="foxdou-smtab" style="padding: 10px 15px 10px 0; border-bottom: none;">
+									<li class="foxdou-smtab-item foxdou-this">
+										<a href="javascript:;">全部</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">移动话费</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">联通话费</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">电信话费</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">虚商话费</a>
+									</li>
+								</ul>
+								<div class="layui-tab-item layui-show">
+							    	<table lay-even lay-size="lg" class="layui-table foxdou-table">
+										<!--colgroupke 可对应控制列的宽度，例如：<col width="70">-->
+										<colgroup>
+											<col>
+											<col>
+											<col>
+											<col>
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>服务名称</th>
+												<th>计费方式</th>
+												<th>应用数量</th>
+												<th>状态</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="foxdou-page">
+										<div id="demo7"></div>
+									</div>
+							    </div>
+						    </div>
+						    <div class="layui-tab-item">
+						    	<ul class="foxdou-smtab" style="padding: 10px 15px 10px 0; border-bottom: none;">
+									<li class="foxdou-smtab-item foxdou-this">
+										<a href="javascript:;">全部</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">出行</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">去哪里</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">天气</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">美食</a>
+									</li>
+								</ul>
+								<div class="layui-tab-item layui-show">
+							    	<table lay-even lay-size="lg" class="layui-table foxdou-table">
+										<!--colgroupke 可对应控制列的宽度，例如：<col width="70">-->
+										<colgroup>
+											<col>
+											<col>
+											<col>
+											<col>
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>服务名称</th>
+												<th>计费方式</th>
+												<th>应用数量</th>
+												<th>状态</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="foxdou-page">
+										<div id="demo7"></div>
+									</div>
+							    </div>
+						    </div>
+						    <div class="layui-tab-item">
+						    	<ul class="foxdou-smtab" style="padding: 10px 15px 10px 0; border-bottom: none;">
+									<li class="foxdou-smtab-item foxdou-this">
+										<a href="javascript:;">全部</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">啦啦</a>
+									</li>
+									<li class="foxdou-smtab-item">
+										<a href="javascript:;">游戏</a>
+									</li>
+								</ul>
+								<div class="layui-tab-item layui-show">
+							    	<table lay-even lay-size="lg" class="layui-table foxdou-table">
+										<!--colgroupke 可对应控制列的宽度，例如：<col width="70">-->
+										<colgroup>
+											<col>
+											<col>
+											<col>
+											<col>
+											<col>
+										</colgroup>
+										<thead>
+											<tr>
+												<th>服务名称</th>
+												<th>计费方式</th>
+												<th>应用数量</th>
+												<th>状态</th>
+												<th>操作</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+											<tr>
+												<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+												<td>按需计费</td>
+												<td>3</td>
+												<td>正常使用</td>
+												<td>
+													<a href="" class="foxdou-text-link">进入服务</a>
+													<a href="" class="foxdou-text-link">应用管理</a>
+													<a href="" class="foxdou-text-link">创建应用</a>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="foxdou-page">
+										<div id="demo7"></div>
+									</div>
+							    </div>
+						    </div>
+					  	</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="foxdou-footer">
+			Copyright ©你行我动科技
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script src="js/jquery v2.1.4.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		/*
+		 * layui组件或模块载入
+		 * 【表单、导航（选项卡）】
+		 */
+		layui.config({
+			base: 'js/'
+		}).use('index');
+		
+		
+		/*
+		 * layui组件或模块载入
+		 * 【分页、日期】
+		 */
+		layui.use(['laypage', 'laydate'], function(){
+		    var laypage = layui.laypage,
+		    	laydate = layui.laydate;
+		    
+		    //完整的分页功能
+		    laypage.render({
+			    elem: 'demo7'
+			    ,count: 100
+			    ,theme: '#1E9FFF'
+			    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+			    ,jump: function(obj){
+			    	console.log(obj)
+		    	}
+		    });
+		    
+		    //日期时间范围
+		    laydate.render({
+			    elem: '#foxdou-time-1'
+			    ,range: true
+			});
+			
+			//日期时间范围
+		    laydate.render({
+			    elem: '#foxdou-time-2'
+			    ,range: true
+			});
+			
+			//日期时间范围
+		    laydate.render({
+			    elem: '#foxdou-time-3'
+			    ,range: true
+			});
+		});		
+		
+		
+		/*
+		 * 点击切换事件（全部、移动、联通、电信、虚商）
+		 */
+		$('.foxdou-smtab-item').click(function(){
+			$(this).addClass('foxdou-this').siblings().removeClass('foxdou-this');
+		});
+		
+		
+		/*
+		 * 点击切换事件（状态-正常选择）
+		 */
+		$('.foxdou-extend-pro').click(function(){
+			var triangle = $(this).find('span'),
+				dom = $(this).siblings('.foxdou-extend-ul'),
+				obj = $('.foxdou-extend-ul').css('display');
+			if(obj == 'none'){
+				triangle.addClass('layui-nav-mored');
+				dom.css('display','block');
+			}else{
+				triangle.removeClass('layui-nav-mored');
+				dom.css('display','none');
+			}
+		});
+	</script>
+	
+</body>
+</html>

@@ -1,0 +1,446 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '特殊售价及策略' %}
+
+{% block css %}
+    {% include "/Admin/ProductManagement/Product/product_common_css.twig" %}
+
+    <style>
+        .search-form .layui-form-label {
+            min-width: 130px;
+        }
+        .layui-table-cell {
+            word-wrap: break-word;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+
+        {% if product %}
+        <table class="layui-table layadmin-remove-color">
+            <tr>
+                <td class="table-header" colspan="2"><h2>商品信息</h2></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;text-align: center;">商品编号</td>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <td style="width: 150px;text-align: center;">商品名称</td>
+                <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+                <td style="width: 150px;text-align: center;">面值</td>
+                <td>{{ product.face_value }}</td>
+            </tr>
+        </table>
+        {% else %}
+            <table class="layui-table layadmin-remove-color">
+                <tr>
+                    <td class="table-header" colspan="2"><h2>所有商品特殊用户列表</h2></td>
+                </tr>
+            </table>
+        {% endif %}
+
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form search-form" id="search-form">
+                    <div>
+                        <div class="layui-inline" style="margin-bottom: 0;">
+                            {{ sf.select('enabled', null, to_options('App\\ProductConstants::SETTING_ENABLE_STATUSES', "启用状态"), {'outer': null}) }}
+                            {{ sf.select('group_id', null, to_options(groups, "用户定价组"), {'outer': null}) }}
+                            {{ sf.select('sell_status', null, to_options('App\\ProductConstants::SELL_STATUSES', "上架状态"), {'outer': null}) }}
+                            {{ sf.select('auto_refund', null, to_options('App\\ProductConstants::REFUND_TYPES', "失败自动退款"), {'outer': null}) }}
+                            {{ sf.select('price_limit', null, to_options('App\\ProductConstants::PRICE_LIMIT_TYPES', "限价状态"), {'outer': null}) }}
+                            {{ sf.select('strategy', null, to_options('App\\ProductConstants::STRATEGIES', "货源策略"), {'outer': null}) }}
+                            {{ sf.select('area_priority', null, to_options('App\\ProductConstants::AREA_PRIORITIES', "地区优先级"), {'outer': null}) }}
+                            {{ sf.text('search', null, {'outer': null}, {'placeholder': '搜索'}) }}
+                            {{ sf.button('搜索', {'outer': null}, {'class': 'layui-btn layui-btn-sm', 'style': 'width: 80px;', 'onclick': 'reload_table()'}, null) }}
+                        </div>
+                    </div>
+                </form>
+
+                <script type="text/html" id="toolbar">
+                    <div class="layui-btn-container">
+                        {% if product %}
+                        <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="add_specific_user">新增特殊用户</button>
+                        {% endif %}
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="check_all">全选</button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="check_reverse">反选</button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="enabled" data-value="1">
+                                启用
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="enabled" data-value="0">
+                                禁用
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="sell_status" data-value="SELL">
+                                上架
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="sell_status" data-value="NO_SELL">
+                                下架并可见
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="sell_status" data-value="HIDDEN">
+                                下架不可见
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="auto_refund" data-value="AUTO">
+                                失败自动退款
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="auto_refund" data-value="MANUAL">
+                                不自退款
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="margin-right: 10px;">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="price_limit" data-value="LIMITED">
+                                限价
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="price_limit" data-value="UNLIMITED">
+                                不限价
+                            </button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_product_settings" data-attribute="price_limit" data-value="SAME_AS_COST">
+                                平价
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_provider">设置供应商
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="batch_update_strategy">设置货源策略
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="batch_delete_selected_settings">删除</button>
+                        </div>
+                    </div>
+                </script>
+
+                <script type="text/html" id="subject_enabled">
+                    <div style="">
+                        <% d.subject_enabled == 1 ? '<span class="layui-badge layui-bg-green">启用</span>' : '<span class="layui-badge layui-bg-orange">禁用</span>' %>
+                    </div>
+                </script>
+                <script type="text/html" id="subject_sell_status">
+                    <% d.subject_sell_status == 'SELL' ? '<span class="layui-badge layui-bg-green">上架</span>' :
+                    (d.subject_sell_status == 'NO_SELL' ? '<span class="layui-badge layui-bg-orange">下架并可见</span>' : '<span class="layui-badge layui-bg-red">下架不可见</span>')
+                    %>
+                </script>
+                <script type="text/html" id="subject_auto_refund">
+                    <% d.subject_auto_refund == 'AUTO' ? '<span class="layui-badge layui-bg-green">是</span>' : '
+                    <span class="layui-badge layui-bg-orange">否</span>' %>
+                </script>
+                <script type="text/html" id="subject_price_limit">
+                    <% d.subject_price_limit == 'LIMITED' ? '<span class="layui-badge layui-bg-green">限价</span>' :
+                    d.subject_price_limit == 'SAME_AS_COST' ? '<span class="layui-badge layui-bg-orange">平价</span>' : '<span class="layui-badge layui-bg-red">不限价</span>'
+                    %>
+                </script>
+                <script type="text/html" id="subject_strategy">
+                    <div style="cursor: pointer;color: #01AAED;">
+                        <%= d.subject_strategy_text %> / <%= d.subject_area_priority_text %>
+                    </div>
+                </script>
+                <script type="text/html" id="subject_price">
+                    <div class="price_rate_component">
+                        <div class="layui-inline" style="width: 80px;margin-right: 0;">
+                            <input type="text" name="price" value="<%= d.subject_price %>" oninput="on_price_changed(this);" class="layui-input input_price" data-official-price="<%= d.official_price %>" placeholder="售价"/>
+                        </div>
+                        <span>/</span>
+                        <div class="layui-inline" style="width: 80px;margin-right: 0;">
+                            <input type="text" name="rate" value="<%= d.subject_price / d.official_price * 100 %>" oninput="on_rate_changed(this);" class="layui-input input_rate" data-official-price="<%= d.official_price %>" placeholder="售价"/>
+                        </div>
+                        <span>%</span>
+                    </div>
+
+                </script>
+
+                <script type="text/html" id="actions">
+                    <button class="layui-btn layui-btn-normal layui-btn-xs" lay-event="save_current_row_settings">保存</button>
+                    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete_single_specific_user_setting">移除</button>
+                </script>
+
+                <table id="table" class="layui-table layadmin-table layui-form list-table" lay-filter="table"
+                       lay-data="{url:'{{ path(current_route, {'product_type': app.request.get('product_type')}) }}?product_id={{ product ? product.id : '' }}', page:true, id:'table', method:'get', toolbar: '#toolbar', defaultToolbar: [], done: 'on_table_render_done()'}">
+                    <thead>
+                    <tr>
+                        {% if app.debug and app.request.get('debug') %}
+                            <th lay-data="{width:90,  field:'setting_id'}">SID</th>
+                        {% endif %}
+                        <th lay-data="{width:40, field:'checkbox',type: 'checkbox'}"></th>
+                        <th lay-data="{field:'subject_name', align: 'center'}">特殊售价对象</th>
+                        <th lay-data="{width:100, field:'group_name', align: 'center'}">用户所在定价分组</th>
+
+                        <th lay-data="{width:80,  field:'subject_provider_name'}">操作对象<br/>供应商</th>
+                        <th lay-data="{width:70,  field:'subject_enabled',     templet: '#subject_enabled'}">操作对象<br/>启用状态</th>
+                        <th lay-data="{width:80,  field:'subject_sell_status', templet: '#subject_sell_status'}">操作对象<br/>上架状态</th>
+                        <th lay-data="{width:95,  field:'subject_auto_refund', templet: '#subject_auto_refund'}">操作对象<br/>失败自动退款</th>
+                        <th lay-data="{width:70,  field:'subject_price_limit', templet: '#subject_price_limit' }">操作对象<br/>限价设置</th>
+                        <th lay-data="{width:150,  field:'subject_strategy',    templet: '#subject_strategy', event: 'update_single_strategy'}">操作对象<br/>策略/优先级</th>
+                        <th lay-data="{width:210, field:'subject_price',       templet: '#subject_price'}">操作对象<br/>售价/比例</th>
+
+                        <th lay-data="{width:150, field:'add_time', align: 'center'}">添加时间</th>
+                        <th lay-data="{width:100, align: 'center', templet: '#actions'}">
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra %}
+    {% if product %}
+    <div class="layui-card" id="add_specific_user_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="add_specific_user_form" class="layui-form" lay-filter="add_specific_user_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 180px;text-align: right;">
+                            商品名称
+                        </td>
+                        <td>
+                            {{ product.name }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            商品面值
+                        </td>
+                        <td>
+                            {{ product.face_value }}
+                        </td>
+                    </tr>
+                    <tr id="users_row">
+                        <td style="text-align: right;">
+                            <div style="padding: 5px;">指定用户</div>
+                        </td>
+                        <td>
+                            {{ sf.textarea_raw('user_names', {'class': 'layui-textarea', 'placeholder': '请输入需要指定用户的通行证，每行为一项。'}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <div style="padding: 5px;">商品对用户启用状态</div>
+                        </td>
+                        <td>
+                            {{ sf.select('enabled', null, to_options('App\\ProductConstants::SETTING_ENABLE_STATUSES', "启用状态"), {'outer': null}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <div style="padding: 5px;">商品对用户上架状态</div>
+                        </td>
+                        <td>
+                            {{ sf.select('sell_status', null, to_options('App\\ProductConstants::SELL_STATUSES', "上架状态"), {'outer': null}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <div style="padding: 5px;">商品对用户失败自动退款</div>
+                        </td>
+                        <td>
+                            {{ sf.select('auto_refund', null, to_options('App\\ProductConstants::REFUND_TYPES', "失败自动退款"), {'outer': null}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <div style="padding: 5px;">商品对用户限价设置</div>
+                        </td>
+                        <td>
+                            {{ sf.select('price_limit', null, to_options('App\\ProductConstants::PRICE_LIMIT_TYPES', "限价设置"), {'outer': null}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <div style="padding: 5px;">商品对用户货源策略</div>
+                        </td>
+                        <td>
+                            {{ sf.select('strategy', null, to_options('App\\ProductConstants::STRATEGIES', "货源策略"), {'outer': null}) }}
+                            {{ sf.select('area_priority', null, to_options('App\\ProductConstants::AREA_PRIORITIES', "地区优先级"), {'outer': null}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">
+                            <div style="padding: 5px;">商品对用户供应商设置</div>
+                        </td>
+                        <td>
+                            {{ sf.select('provider_id', null, to_options('App\\Common\\ExternalService\\RechargeService\\RechargeServiceProviderMap::PROVIDER_NAMES', "选择供应商"), {'outer': null}) }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: right;">售价/比例</td>
+                        <td>
+                            <div class="price_rate_component">
+                                <div class="layui-inline" style="width: 80px;margin-right: 0;">
+                                    <input type="text" name="price" value="" oninput="on_price_changed(this);" class="layui-input input_price" data-official-price="{{ product.official_price }}" placeholder="售价"/>
+                                </div>
+                                <span>/</span>
+                                <div class="layui-inline" style="width: 80px;margin-right: 0;">
+                                    <input type="text" name="rate" value="" oninput="on_rate_changed(this);" class="layui-input input_rate" data-official-price="{{ product.official_price }}" placeholder="比例"/>
+                                </div>
+                                <span>%</span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                {{ sf.hidden_raw('setting_ids') }}
+                {{ sf.hidden_raw('product_id', {'value': product.id}) }}
+                {{ sf.hidden_raw('face_value', {'value': product.face_value}) }}
+                {{ sf.csrf('admin_products') }}
+            </form>
+        </div>
+    </div>
+    {% endif %}
+
+
+    <div class="layui-card" id="batch_update_provider_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="batch_update_provider_form" class="layui-form" lay-filter="batch_update_provider_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;padding: 5px;">
+                            <div style="padding: 5px;">修改供应商为：</div>
+                        </td>
+                        <td>
+                            <div style="padding: 5px;">
+                                {{ sf.select_raw('provider_id', to_options('App\\Common\\ExternalService\\RechargeService\\RechargeServiceProviderMap::PROVIDER_NAMES', '选择供应商')) }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+
+    {% include "/Admin/ProductManagement/Product/_product_dialog_edit_strategy.twig" %}
+
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Admin/ProductManagement/Product/product_common_js.twig" %}
+    <script>
+        table.on('toolbar(table)', function (data) {
+            if(data.event === 'update_user_price_and_strategy') {
+                update_user_price_and_strategy();
+                return;
+            }
+
+            if (typeof window[data.event] === "function") {
+                window[data.event](data);
+                return;
+            }
+
+            console.log('Unhandled toolbar event: ' + data.event);
+        });
+
+        table.on('tool(table)', function (row) {
+            console.log(row);
+            var data  = row.data; //获得当前行数据
+            var event = row.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+            if (typeof window[row.event] === "function") {
+                window[row.event](row);
+                return;
+            }
+
+            console.log('Unhandled tool event: ' + data.event);
+        });
+
+        function reload_table() {
+            table.reload('table', {
+                url:   '{{ path(current_route, {'product_type': app.request.get('product_type')}) }}?product_id={{ product ? product.id : '' }}',
+                where: $('#search-form').serializeJson()
+            });
+        }
+
+        function delete_specific_user_settings(ids) {
+            layer.confirm('确认要移除选定的 ' + ids.length + ' 个特殊用户售价策略设置吗？', {icon: 3, title: '移除确认'}, function (index) {
+                layer.close(index);
+
+                axios_form.post('{{ path('admin_product_management_specific_user_settings_delete_specific_user_settings', {'product_type': app.request.get('product_type')}) }}', {ids: ids, _token: '{{ csrf_token('admin_products') }}'})
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+                        if (response.data.status) {
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            });
+        }
+
+        function add_specific_user(ctx) {
+            $('#add_specific_user_form')[0].reset();
+            $('.error').html('');
+            $('.error').hide();
+            $('.tips').show();
+
+            // $('input[name=setting_ids]').val(setting_ids.join(','));
+
+            layer.open({
+                title:    '设置特殊售价及策略',
+                type:     1,
+                area:     ['800px', '700px'],
+                content:  $('#add_specific_user_dialog'),
+                closeBtn: false,
+                btn:      ['确定', '取消'],
+                yes:      function (index, layero) {
+                    var post_data = $('#add_specific_user_form').serializeJson();
+                    axios_form.post('{{ path('admin_product_management_specific_user_settings_save_specific_user_settings', {'product_type': app.request.get('product_type')}) }}', post_data)
+                        .then(function (response) {
+                            if (response.data.msg) {
+                                layer.msg(response.data.msg);
+                            }
+
+                            if (response.data.status) {
+                                layer.close(index);
+                                reload_table();
+                            }
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        });
+
+                },
+                btn2:     function (index, layero) {
+                    layer.close(index);
+                },
+                end:      function () {
+                    $('#add_specific_user_dialog').toggle();
+                }
+            });
+
+        }
+
+        function delete_single_specific_user_setting(row) {
+            var ids = [row.data.setting_id];
+            delete_specific_user_settings(ids)
+        }
+        function batch_delete_selected_settings(ctx) {
+            var ids = get_selected_setting_ids(ctx)
+            delete_specific_user_settings(ids)
+        }
+    </script>
+{% endblock %}

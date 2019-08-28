@@ -1,0 +1,55 @@
+<table id="regions" class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header"><h2>  -  商品适用地区（新增后无法修改）</h2></td>
+    </tr>
+    <tr>
+        <td>
+            <table class="layui-table layadmin-remove-color">
+                <colgroup>
+                    <col width="15%">
+                    <col width="15%">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <td>全国范围使用</td>
+                    <td>全省范围使用 <button type="button" class="layui-btn layui-btn-normal layui-btn-xs" onclick="toggle_all(this, '.region-province')">全选所有省份</button></td>
+                    <td>城市范围使用 <button type="button" class="layui-btn layui-btn-normal layui-btn-xs" onclick="toggle_all(this, '.region-city')">全选所有城市</button></td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for province_code, province_name in provinces %}
+                    <tr>
+                        {% if loop.first %}
+                            <td rowspan="{{ loop.length }}" style="display: {{ loop.first ? 'table-cell' : 'none' }}; vertical-align: top;">
+                                <input type="checkbox" class="region-item region-country" name="area_codes[]" value="1:0" title="全国" lay-skin="primary">
+                            </td>
+                        {% endif %}
+                        <td>
+                            <input type="checkbox" class="region-item region-province" name="area_codes[]" value="{{ province_code }}:0" title="{{ province_name }}" lay-skin="primary">
+                        </td>
+                        <td class="layui-checkbox-arrange">
+                            {% if cities[province_code] is defined and  province_code != '110000' and province_code != '120000' and province_code != '310000' and province_code != '500000' %}
+                                <input type="checkbox" class="region-item region-city" data-province-code="{{ province_code }}" title="全选" lay-filter="select-cities" lay-skin="primary">
+                                <br>
+                                {% for city_id, city_name in cities[province_code] %}
+                                    <input type="checkbox" class="region-item region-city region-province-{{ province_code }}" name="area_codes[]" data-parentid="{{ province_code }}" data-province="{{ province_name }}" value="{{ province_code }}:{{ city_id }}" title="{{ city_name }}" lay-skin="primary">
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+
+<script>
+    $(document).ready(function () {
+        layui.form.on('checkbox(select-cities)', function(data){
+            var province_code = $(data.elem).data('province-code');
+            toggle_all(data.elem, '.region-province-' + province_code);
+        });
+    });
+</script>

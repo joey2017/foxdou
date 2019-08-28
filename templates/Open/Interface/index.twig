@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>狐豆云数据-接口产品-产品列表</title>
+    {{ use_assets([
+        '/assets/open/frontpage/css/layui.css',
+        '/assets/open/frontpage/css/nornmalize.css',
+        '/assets/open/frontpage/css/font-icon/iconfont.css',
+        '/assets/open/frontpage/css/common.css',
+        '/assets/open/frontpage/css/article-list.css',
+        '/assets/common/js/jquery.min.js',
+        '/assets/open/frontpage/js/layui.js',
+    ]) }}
+</head>
+
+<body>
+<div class="g-head">
+    {% include "/Open/Common/topNav.twig" %}
+    <div class="m-banner-ad banner-bg">
+        {#<div class="select-box">#}
+            {#<div class="select-group">#}
+                {#<input type="text" name="keyword" value="" placeholder="请用关键字进行搜索，例如: Q币充值"/>#}
+                {#<button type="button" class="quanbu">搜 索</button>#}
+            {#</div>#}
+        {#</div>#}
+    </div>
+</div>
+<div class="g-main">
+    <div class="condition-tab-item">
+        <div class="condition-tab clearfloat">
+            <span class="tab-name">服务分类</span>
+            <ul class="tab-label clearfloat">
+                {#<li class="tab-this">全部</li>#}
+                <li class="tab-this">充值/缴费服务</li>
+                {#<li>金融服务</li>#}
+                {#<li>查询类服务</li>#}
+                {#<li>系统服务</li>#}
+            </ul>
+        </div>
+        {#<div class="condition-tab clearfloat">#}
+            {#<span class="tab-name">应用分类</span>#}
+            {#<ul class="tab-label clearfloat">#}
+                {#<li class="tab-this">全部</li>#}
+                {#<li>话费充值</li>#}
+                {#<li>腾讯业务充值</li>#}
+                {#<li>固话充值</li>#}
+                {#<li>手机流量充值</li>#}
+            {#</ul>#}
+        {#</div>#}
+    </div>
+    <div class="product-list clearfloat" style="margin-bottom: 0;">
+        <div class="product-item">
+            <div>
+                <a href="mobile-article.html" class="clearfloat" style="padding: 30px 15px;">
+                    <div class="p-img"><img src="{{ asset('/assets/open/frontpage/images/sjhfcz.png') }}" /></div>
+                    <h1>手机话费充值</h1>
+                    <p>移动联通电信虚拟运营商话费快速充值，适合各种网站、电商平台，个人、企业均可，移动联通电信虚拟运营商话费快速充值，</p>
+                </a>
+            </div>
+            <div class="p-price">
+                <span class="s-red">按实际订单计费</span>
+            </div>
+            <div class="product-btn-item">
+                <span><i class="iconfont">&#xe662;</i>收藏</span>
+                <a href="{{ path('open_interface_mobile') }}">申请数据</a>
+            </div>
+        </div>
+        <div class="product-item">
+            <div>
+                <a href="tencent-article.html" class="clearfloat" style="padding: 30px 15px;">
+                    <div class="p-img"><img src="{{ asset('/assets/open/frontpage/images/txyw.png') }}" /></div>
+                    <h1>腾讯业务充值</h1>
+                    <p>Q币、QQ黄钻、QQ会员等腾讯业务充值</p>
+                </a>
+            </div>
+            <div class="p-price">
+                <span class="s-red">按实际订单计费</span>
+            </div>
+            <div class="product-btn-item">
+                <span><i class="iconfont">&#xe662;</i>收藏</span>
+                <a href="{{ path('open_interface_tencent') }}">申请数据</a>
+            </div>
+        </div>
+        <div class="product-item">
+            <div>
+                <a href="telephone-article.html" class="clearfloat" style="padding: 30px 15px;">
+                    <div class="p-img"><img src="{{ asset('/assets/open/frontpage/images/ghkdcz.png') }}" /></div>
+                    <h1>固话充值</h1>
+                    <p>全国电信固话宽带充值</p>
+                </a>
+            </div>
+            <div class="p-price">
+                <span class="s-red">按实际订单计费</span>
+            </div>
+            <div class="product-btn-item">
+                <span><i class="iconfont">&#xe662;</i>收藏</span>
+                <a href="{{ path('open_interface_telephone') }}">申请数据</a>
+            </div>
+        </div>
+        <div class="product-item">
+            <div>
+                <a href="article-article.html" class="clearfloat" style="padding: 30px 15px;">
+                    <div class="p-img"><img src="{{ asset('/assets/open/frontpage/images/sjllcz.png') }}" /></div>
+                    <h1>手机流量充值</h1>
+                    <p>即时快速到账，永绝后患！</p>
+                </a>
+            </div>
+            <div class="p-price">
+                <span class="s-red">按实际订单计费</span>
+            </div>
+            <div class="product-btn-item">
+                <span><i class="iconfont">&#xe662;</i>收藏</span>
+                <a href="{{ path('open_interface_flow') }}">申请数据</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% include "/Open/Common/footer.twig" %}
+
+<script>
+    /*
+     * 导航背景变色
+     */
+    $('.top').hover(
+        function(){
+            $(this).css('background','rgba(255,255,255,.1)');
+        },
+        function(){
+            $(this).css('background','none');
+        }
+    );
+
+
+    /*
+     * 导航下拉展示
+     */
+    $(".menu-list").find('.menu-item').first().addClass('menu-item-hover');
+    $(".menu-event").hover(
+        function () {
+            $(".menu-list").slideDown("fast");
+        },
+        function () {
+            $(".menu-list").stop(true).slideUp('fast');
+        }
+    );
+    $('.menu-title').mouseenter(function(){
+        $(this).parent().addClass('menu-item-hover').siblings().removeClass('menu-item-hover');
+        $(this).parent().find('.menu-body').hide();
+    });
+
+    /*
+     * 分类标签点击样式
+     */
+    $('.tab-label li').click(function(){
+        $(this).addClass('tab-this');
+        $(this).siblings('li').removeClass('tab-this');
+    });
+
+    /*
+     * 点击收藏，桃心❤变色
+     */
+    $('.product-btn-item span').click(function(){
+        $(this).find('i').html('&#xe663;');
+        $(this).css('color','#F7B824')
+    });
+
+</script>
+
+</body>
+</html>

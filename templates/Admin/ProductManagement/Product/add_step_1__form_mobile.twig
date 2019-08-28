@@ -1,0 +1,68 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="2"><h2>商品属性（新增后无法修改）</h2></td>
+    </tr>
+    <tr>
+        <td class="table-label">运营商</td>
+        <td>
+            <div>
+                <input type="checkbox" name="" title="全选" lay-skin="primary" lay-filter="toggle-all" data-target=".operator_ids">
+            </div>
+            <div class="layui-input-inline">
+                {{ sf.checkbox_raw('operator_ids[]', operators, {'lay-filter': 'operator_id', 'lay-skin': 'primary', 'class': 'operator_ids'}) }}
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="table-label">快充/慢充</td>
+        <td>{{ sf.radio_raw('speed', to_options('App\\ProductConstants::RECHARGE_SPEED_TYPES')) }}</td>
+    </tr>
+</table>
+<table class="layui-table layadmin-remove-color">
+    <tr>
+        <td class="table-header" colspan="2"><h2>面值（新增后无法修改）</h2></td>
+    </tr>
+    <tr>
+        <td class="table-label" rowspan="3">面值类型</td>
+        <td>{{ sf.checkbox_raw('face_value_types[]', {'1': '固定面值（面值为系统固定面值，单次可购1）'}, {'lay-skin': "primary", 'data-target': 'fixed_face_value', 'lay-filter': 'face_value_types_toggle'}) }}</td>
+    </tr>
+    <tr>
+        <td>{{ sf.checkbox_raw('face_value_types[]', {'2': '任意冲（面值为1元，需设置单次可购数量范围）'}, {'lay-skin': "primary", 'data-target': 'arbitrarily_face_value', 'lay-filter': 'face_value_types_toggle'}) }}</td>
+    </tr>
+    <tr>
+        <td>{{ sf.checkbox_raw('face_value_types[]', {'3': '其他金额（面值为人工设置面值，单次可购1）'}, {'lay-skin': "primary", 'data-target': 'other_face_value', 'lay-filter': 'face_value_types_toggle'}) }}</td>
+    </tr>
+    <tr id="fixed_face_value" style="display: none;">
+        <td class="table-label">固定面值</td>
+        <td>
+            <div>
+                <input type="checkbox" name="" title="全选" lay-skin="primary"  lay-filter="toggle-all" data-target=".fixed_face_value">
+            </div>
+            <div class="layui-input-inline">
+                {{ sf.checkbox_raw('fixed_face_values[]', {'10': '10元', '20': '20元', '30': '30元', '50': '50元', '100': '100元', '200': '200元', '300': '300元', '500': '500元'}, {'lay-skin': "primary", 'class': 'layui-input fixed_face_value'}) }}
+            </div>
+        </td>
+    </tr>
+    <tr id="arbitrarily_face_value" style="display: none;">
+        <td class="table-label">任意冲</td>
+        <td>
+            <div class="layui-input-inline">
+                {{ sf.text_raw('arbitrarily_face_value_ranges', {'lay-skin': "primary"}) }}
+            </div>
+            <div class="layui-input-inline">例如：1~500,501,603~605</div>
+        </td>
+    </tr>
+    <tr id="other_face_value" style="display: none;">
+        <td class="table-label">其他金额</td>
+        <td>
+            <div class="layui-input-inline">
+                {{ sf.text_raw('other_face_values', {'lay-skin': "primary"}) }}
+            </div>
+            <div class="layui-input-inline">例如：501,502,503</div>
+        </td>
+    </tr>
+</table>
+
+{% include "/Admin/ProductManagement/Product/_product_form_area_picker.twig" with {'provinces': provinces} %}
+

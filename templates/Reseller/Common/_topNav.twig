@@ -1,0 +1,23 @@
+{%
+    set top_nav = [
+    {'name': '控制面板', 'route': 'reseller_dashboard_index','icon': '',},
+    {'name': '充值业务', 'route': 'reseller_recharge_mobile_single','icon': '',},
+    {'name': '充值订单', 'route': 'reseller_orders_index','icon': '',},
+    {'name': '商品管理', 'route': 'reseller_product_index','icon': '',},
+    {'name': '财务明细', 'route': 'reseller_finance_index','icon': '',},
+    {'name': '推广管理', 'route': 'reseller_affiliate_index','icon': '',},
+    {'name': '员工管理', 'route': 'reseller_employee_index','icon': '',},
+    {'name': '安全中心', 'route': 'passport_home_index','icon': '',}
+]
+%}
+<ul class="m-head-title f-tac">
+  {% set current_path = app.request.pathinfo %}
+  {% for menu in top_nav %}
+    {% set url = menu_path(menu) %}
+    <li>
+      <a href="{{ url }}" class="head-nav {{ url in current_path ? 'head-nav-this' : '' }}">
+        {{ menu.name }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>

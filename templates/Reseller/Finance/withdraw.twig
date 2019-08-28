@@ -1,0 +1,232 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '我的财务-提取佣金' %}
+
+{% block title %}
+  {{ title }}
+{% endblock %}
+{% block css %}
+  <style type="text/css" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/transfer.css"></style>
+  <style type="text/css">
+    .panel-item {
+      float: left;
+      width: calc(100% - 380px);
+      height: auto;
+      box-sizing: border-box;
+      border-radius: 2px;
+      margin-bottom: 20px;
+      background: #FFFFFF;
+    }
+
+    .m-information {
+      width: auto;
+      height: 55px;
+      box-sizing: border-box;
+      padding: 0 20px;
+      border-radius: 2px;
+      border-bottom: 1px solid #E0E0E0;
+      line-height: 55px;
+      background: #FFFFFF;
+      color: #333333;
+    }
+
+    .m-table table th {
+      background: #F0F0F0;
+      font-weight: normal;
+      line-height: 30px;
+      font-size: 14px;
+      color: #333333;
+    }
+
+    .m-table table tr {
+      padding: 5px 10px;
+      line-height: 20px;
+    }
+
+    .m-table table td {
+      padding: 5px 10px;
+      line-height: 20px;
+    }
+
+    .financial-item .contact-icon {
+      width: 30px;
+      height: 20px;
+      line-height: 24px;
+      font-size: 24px;
+      color: #2CA9E1;
+      cursor: pointer;
+    }
+  </style>
+{% endblock %}
+
+{% block main_content %}
+  <div class="panel-item" style="min-height: 400px;">
+    <div class="m-information">
+      <span>佣金余额：<span class="f-fs-16 s-orange" id="rebate_balance">{{ app.user.resellerAccount.rebate_balance|default(0)|number_format(2) }}</span>元</span>
+      <a href="{{ path("reseller_finance_rebate_logs") }}" class="s-blue" style="margin: 0 30px;">查看佣金明细</a>
+    </div>
+    <div class="financial-item" style="padding-top: 15px;">
+      <div class="layui-form">
+            {{ sf.text(form.amount, '提取金额', {"autocomplete": "off",},{'id':'amount'}) }}
+            {{ sf.text(form.amount_confirm, '确认金额', {"autocomplete": "off",},{'id':'amount_confirm'}) }}
+            {{ sf.textarea(form.note, '备注', {'placeholder': '可根据您的需求，自定义输入内容（可空）'},{'class':'layui-input','style':'width:300px;height:100px;','id':'note'}) }}
+
+        {{ sf.submit('确认提取', {}, {"onclick": "sub();"}) }}
+      </div>
+    </div>
+  </div>
+  {% include "Reseller/Common/_rightPanel.twig" %}
+
+  <div class="layer-content " id="pay_password_dialog" style="display: none">
+    <div class="layui-input-block">
+      <input type="password" value="" name="" placeholder="请输入提现密码" id="pay_password" class="layui-input"/>
+      <div class="layui-form-mid">
+        <span id="indicator_pay_password" class="indicator"></span>
+      </div>
+    </div>
+    <div class="layer-btn">
+      <button type="button" id="btn_transfer_confirm" class="layui-btn layui-btn-normal layui-btn-sm">确定</button>
+      <button type="button" id="btn_cancel" class="layui-btn layui-btn-primary layui-btn-sm">取消</button>
+    </div>
+  </div>
+
+  <script type="text/javascript" src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/js/jquery.md5.js"></script>
+  <!-- /转账给好友店铺 -->
+  <script type="text/javascript">
+      var transfer_box;
+
+      $('#pay_password_dialog').on('click',function(e){
+          var target = $(e.target);
+          if (target.is('#btn_transfer_confirm')) {
+              transfer_do(e.target);
+          } else if (target.is('#btn_cancel')) {
+              $('#pay_password_dialog').hide();
+              layer.close(transfer_box);
+          }
+      });
+
+      function sub() {
+          $('.indicator').html("");
+
+          if (!check_data()) {
+              return false;
+          }
+          $('#pay_password').val('');
+          transfer_box = layer.open({
+              type: 1
+              , title: ['请输入提现密码', 'font-size:14px;font-weight:bold;'] //不显示标题栏
+              , closeBtn: 1
+              , area: ['400px']
+              , shade: 0.6
+              , moveType: 1 //拖拽模式，0或者1
+              , content: $('#pay_password_dialog'),
+              cancel: function(index){
+                  $('#pay_password_dialog').hide();
+                  layer.close(index);
+                  return false;
+              }
+          });
+      }
+
+      function transfer_do(_this) {
+          var data = check_data();
+          if (!data) {
+              return false;
+          }
+          var pay_password = $('#pay_password').val().trim();
+          if (!pay_password) {
+              nxwd.showMsg('请先输入转账密码');
+              return false;
+          }
+          data.pay_password = pay_password;
+
+          var txt = $(_this).text();
+          var before = function(){
+              $('.indicator').html("");
+              $('#pay_password').val('');
+              $(_this).attr('disabled', 'true').text('处理中');
+          }
+
+          var error = function(){
+              $('#btn_transfer_confirm').removeAttr('disabled').text(txt);
+              nxwd.showMsg('系统繁忙，请稍候再试','danger');
+          }
+
+          var success = function(data){
+              $('#btn_transfer_confirm').removeAttr('disabled').text(txt);
+
+              if (data.status) {
+                  layer.close(transfer_box);
+                  clear_form_val();
+                  //nxwd.showMsg(data.msg,'success');
+                  $('#rebate_balance').text(data.rebate_balance);
+                  layer.open({
+                      title: '温馨提醒'
+                      , content: '您的佣金提取已经成功，您可以'
+                      , btn: ['查看佣金明细', '继续转账']
+                      , yes: function () {
+                          location.href = '{{ path("reseller_finance_rebate_logs", {"rebate_type": 4}) }}';
+                      }
+                  });
+
+                  $('#pay_password_dialog').hide();
+                  return;
+              }
+
+              if(data.errors) {
+                  $.each(data.errors, function (field, errorMsg) {
+                      $("#indicator_" + field).html('<span style="color: red;">' + errorMsg + '</span>');
+                  });
+
+                  // 仅仅是提现密码错误的话，不关闭提现密码对话框，方便用户重新输入
+                  if(data.errors.pay_password && Object.keys(data.errors).length === 1) {
+                      return;
+                  }
+              }
+
+              $('#pay_password_dialog').hide();
+              layer.close(transfer_box);
+              nxwd.showMsg(data.msg,'danger');
+
+              return false;
+          }
+          nxwd.ajaxRequest('{{ path("reseller_finance_withdraw") }}','POST',data,'json',success,before,error);
+      }
+
+      function check_data() {
+
+          var amount = $('#amount').val();
+          var amount_confirm = $('#amount_confirm').val();
+          var note = $('#note').val();
+
+          if (!amount) {
+              nxwd.showMsg('请填写提现金额');
+              return false;
+          }
+          if (!amount_confirm) {
+              nxwd.showMsg('请填写确认提现金额');
+              return false;
+          }
+          if (amount !== amount_confirm) {
+              nxwd.showMsg('提现金额和确认提现金额不一致');
+              return false;
+          }
+
+          return {
+              _token: '{{ csrf_token("reseller_widthdraw") }}',
+              amount: amount,
+              amount_confirm: amount_confirm,
+              note: note
+          };
+      }
+
+      function clear_form_val() {
+          $('#amount').val('');
+          $('#amount_confirm').val('');
+          $('#note').val('');
+      }
+
+  </script>
+
+{% endblock %}

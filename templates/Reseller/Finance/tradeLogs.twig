@@ -1,0 +1,175 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '我的财务-交易记录' %}
+
+{% set statuses        = constant('App\\Common\\Model\\Payment\\UserMoneyTradeLog::TRADE_STATUSES') %}
+{% set trade_types     = constant('App\\Common\\Model\\Payment\\UserMoneyTradeLog::TRADE_TYPES') %}
+{% set payment_methods = constant('App\\PaymentConstants::PAYMENT_METHOD_CLASSES') %}
+
+{% block css %}
+  {% include "Reseller/Finance/commonCss.twig" %}
+{% endblock %}
+
+{% block main_content %}
+  <div class="caiwu-left" style="float: left; width: calc(100% - 380px);height: auto;border:1px solid #E0E0E0;">
+    <div class="panel-item g-bdc">
+      <div style="">
+        {% include "Reseller/Finance/financeTabs.twig" %}
+        <div class="m-screen-item">
+          <form action="" method="get" id="get-search" class="layui-form">
+              <div class="layui-form-item m-screen">
+                {{ sf.text(form.trade_id, null, {'outer': null}, {'placeholder': '流水号'}) }}
+                {{ sf.text(form.order_id, null, {'outer': null}, {'placeholder': '业务单号'}) }}
+                {{ sf.select(form.trade_type, null,  to_options(trade_types, '交易类型'), {'outer': null}) }}
+              </div>
+              <div class="layui-form-item m-screen">
+                  {{ sf.select(form.payment_method, null,  to_options(payment_methods, '支付方式'), {'outer': null}) }}
+                  {{ sf.select(form.trade_status, null,  to_options(statuses, '交易状态'), {'outer': null}) }}
+                  {{ sf.text(form.from, null, {'outer': null}, {'placeholder': '开始时间','id': 'from'}) }}
+                  {{ sf.text(form.to,  null, {'outer': null}, {'placeholder': '结束时间','id': 'to'}) }}
+              </div>
+              <div class="m-cx btn-location">
+                <button class="layui-btn" onclick="get_data();return false;">查 询</button>
+              </div>
+              <div style="clear: both;"></div>
+          </form>
+        </div>
+      </div>
+      <div class="m-tab-btn">
+        <button class="layui-btn layui-btn-small f-fnsna" onclick="show_count(this)">查看统计</button>
+        <button class="layui-btn layui-btn-small f-fnsna" onclick="export_cvs()">导出订单</button>
+      </div>
+
+      <div class="m-table-total" style="display: none;">
+        <ul class="g-bdc">
+          <li>待付款：<span id="no_pay_count"></span><span id="no_pay_sum_money"></span></li>
+          <li>交易中：<span id="trading_count"></span><span id="trading_sum_money"></span></li>
+          <li>交易成功：<span id="success_count"></span>(<span id="success_sum_money"></span>)</li>
+          <li>交易失败：<span id="loser_count"></span><span id="loser_sum_money"></span></li>
+        </ul>
+      </div>
+
+
+      <div class="record-table g-bdc" style="padding-top: 0">
+        {#<table class="">#}
+          {#<thead>#}
+          {#<tr>#}
+            {#<th>交易流水号</th>#}
+            {#<th>业务单号</th>#}
+            {#<th>交易名称</th>#}
+            {#<th>交易类型</th>#}
+            {#<th>金额</th>#}
+            {#<th>交易状态</th>#}
+            {#<th>支付方式</th>#}
+            {#<th>时间</th>#}
+          {#</tr>#}
+          {#</thead>#}
+          {#<tbody id="data-table">#}
+
+          {#{% for log in trade_logs %}#}
+            {#<tr>#}
+              {#<td>{{ log.id }}</td>#}
+              {#<td>{{ log.order_id }}</td>#}
+              {#<td>{{ log.name }}</td>#}
+              {#<td>{{ trade_types[log.trade_log_type]|default('未知状态（' ~ log.trade_log_type ~ '）') }}</td>#}
+              {#<td>{{ log.amount|number_format(2) }}</td>#}
+              {#<td>{{ statuses[log.trade_status]|default('未知状态(' ~ log.trade_status ~ ')') }}</td>#}
+              {#<td>{{ payment_methods[log.payment_class_id]|default('未知状态(' ~ log.payment_class_id ~ ')') }}</td>#}
+              {#<td>{{ log.add_time|date('Y-m-d H:i:s') }}</td>#}
+            {#</tr>#}
+          {#{% endfor %}#}
+          {#</tbody>#}
+        {#</table>#}
+
+          <table id="paged-table" class="layui-table" lay-filter="paged-table">
+
+          </table>
+          <script id="add_time" type="text/html">
+              <%#
+              var date = new Date();
+              date.setTime(d.add_time*1000);
+              return date.Format("yyyy-MM-dd hh:mm:ss");
+              %>
+          </script>
+      </div>
+    </div>
+  </div>
+  {% include "Reseller/Common/_rightPanel.twig" %}
+
+  <script type="text/javascript">
+      //日期选择器
+      laydate.render({
+          elem: '#from'
+      });
+      laydate.render({
+          elem: '#to'
+      });
+
+      var trade_types = JSON.parse('{{ constant("App\\Common\\Model\\Payment\\UserMoneyTradeLog::TRADE_TYPES")|json_encode|raw }}');
+      var payment_methods = JSON.parse('{{ constant("App\\PaymentConstants::PAYMENT_METHOD_CLASSES")|json_encode|raw }}');
+      var statuses = JSON.parse('{{ constant("App\\Common\\Model\\Payment\\UserMoneyTradeLog::TRADE_STATUSES")|json_encode|raw }}');
+      var url = "";
+      var columns = [[
+          {"field": "id", "title": "交易流水号", "width": 100},
+          {"field": "order_id", "title": "业务单号", "width": 150},
+          {"field": "name", "title": "交易名称", "width": 150},
+          {"field": "trade_log_type", "title": "交易类型", templet:function(d){
+                  return trade_types[d.trade_log_type] ? trade_types[d.trade_log_type] : '未知';
+              }},
+          {"field": "amount", "title": "金额"},
+          {"field": "trade_status", "title": "交易状态", templet:function(d){
+                  return statuses[d.trade_status] ? statuses[d.trade_status] : '未知';
+              }},
+          {"field": "payment_class_id", "title": "支付方式", templet:function(d){
+                  return payment_methods[d.payment_class_id] ? payment_methods[d.payment_class_id] : '未知';
+              }},
+          {"field": "add_time", "title": "时间", "width": 200, templet: "#add_time"},
+      ]];
+
+      function get_data() {
+          var params=$('form#get-search').serialize();
+          url = '?' + params;
+          rander_table('#paged-table', url, columns);
+      }
+
+      // 初始化
+      get_data();
+
+      function show_count(dom){
+          if($(dom).text()=='查看统计'){
+              $('.m-table-total').css('display','block');
+              var params=$('form').serialize();
+
+              $.get("{{ path("reseller_finance_trade_logs_summary") }}?" + params,'',function (data) {
+                  $('#no_pay_count').text(data.summary.no_pay+'笔');
+                  $('#trading_count').text(data.summary.trading+'笔');
+                  $('#success_count').text(data.summary.success.count+'笔');
+                  $('#loser_count').text(data.summary.loser+'笔');
+                  //  $('#no_pay_sum_money').text(data.data.no_pay.sum_money+'元');
+                  //  $('#trading_sum_money').text(data.data.trading.sum_money+'元');
+                  $('#success_sum_money').text(data.summary.success.sum_money+'元');
+                  //   $('#loser_sum_money').text(data.data.loser.sum_money+'元');
+              });
+
+              $(dom).text('关闭统计')
+          }else if($(dom).text()=='关闭统计'){
+              $('.m-table-total').css('display','none');
+              $(dom).text('查看统计')
+          }
+      }
+
+      function export_cvs(){
+          // if(count_data_num == 0){
+          //     layer.msg('无数据不能导出');
+          //     return;
+          // }
+
+          var params = $('form').serialize();
+          location.href="{{ path("reseller_finance_trade_logs_export") }}?" + params;
+      }
+
+
+
+  </script>
+{% endblock %}

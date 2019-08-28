@@ -1,0 +1,19 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% set title = '我的财务-余额充值-狐豆-代理商' %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/accout-recharge.css"/>
+  <style>
+
+    input::-webkit-outer-spin-button,input::-webkit-inner-spin-button{-webkit-appearance: none !important;}
+    #alipayshouxufei{width: auto!important;}
+  </style>
+{% endblock %}
+
+{% block main_content %}
+
+  {% include "/Common/Finance/Balance/_add_balance_form.twig" with { 'sub_account': user.resellerAccount, 'scene_id': constant('App\\PaymentConstants::SCENE_RESELLER_RECHARGE') } %}
+
+  {% include "/Reseller/Common/_rightPanel.twig" %}
+  <!-- /我的财务 -->
+{% endblock %}

@@ -1,0 +1,93 @@
+{% set cate_id  = app.request.get('cate_id', '') %}
+{% set sub_cate = app.request.get('sub_cate', '') %}
+<div class="top">
+    <div class="top-location">
+        <div class="top-logo"><a href="{{ path('open_frontpage_index') }}"></a></div>
+        <ul id="menu">
+            {#{% set top_nav = get_service_mall_nav_menus() %}#}
+            {#{% set current_path  = app.request.pathinfo %}#}
+            {#{% set current_group = app.request.get('group') %}#}
+            {#{% for nav in top_nav %}#}
+            {#<li class="{{ nav.id == current_group ? 'menu-this ' : '' }}  {{ nav.id == 'interface' ? 'menu-event ' : '' }}">#}
+            {#<a href="{{ nav.url }}">{{ nav.name }}</a>#}
+            {#{% if nav.subbusiness is defined %}#}
+            {#<div class="menu-list">#}
+            {#<div class="menu-list-location">#}
+            {#{% for idx, sub_nav in nav.subbusiness %}#}
+            {#{% if idx <= 7 %}#}
+            {#<div class="menu-item {{ cate_id == sub_nav.id ? 'menu-item-hover ' : '' }}">#}
+            {#<div class="menu-title">{{ sub_nav.name }}<i>>></i></div>#}
+            {#<div class="menu-body " style="top: -{{ 46 * idx }}px!important;">#}
+            {#{% for feature in sub_nav.subfeature %}#}
+            {#<a href="{{ feature.url }}" style="{{ feature.id == sub_cate ? 'background:#0FB5D8;' : ''}}">{{ feature.name }}</a>#}
+            {#{% endfor %}#}
+            {#</div>#}
+            {#</div>#}
+            {#{% endif %}#}
+            {#{% endfor %}#}
+            {#<pre><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/img/xiala-up.png"/></pre>#}
+            {#</div>#}
+            {#</div>#}
+            {#{% endif %}#}
+            {#</li>#}
+            {#{% endfor %}#}
+            <li class="menu-this"><a href="{{ path('open_frontpage_index') }}">服务市场</a></li>
+            <li class="menu-event">
+                <a href="{{ path('open_interface_index') }}">接口产品</a>
+                <div class="menu-list" style="display: none;">
+                    <div class="menu-list-location">
+                        <div class="menu-item">
+                            <div class="menu-title">充值缴费服务<i>&gt;&gt;</i></div>
+                            <div class="menu-body">
+                                <a href="{{ path('open_interface_mobile') }}">手机话费充值</a>
+                                <a href="{{ path('open_interface_tencent') }}">腾讯业务充值</a>
+                                <a href="{{ path('open_interface_telephone') }}">固话充值</a>
+                                <a href="{{ path('open_interface_flow') }}">手机流量充值</a>
+                            </div>
+                        </div>
+                        <pre><img src="{{ asset('/assets/open/frontpage/images/xiala-up.png') }}"/></pre>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="top-login">
+            <a href="/open/dashboard" class="btn btn-blue" target="_blank">控制台</a>
+            {% if is_granted('ROLE_OPEN_PLATFORM') %}
+                <a href="/open/dashboard" class="a" target="_blank">{{ app.user.nick_name }}</a>
+                <a href="{{ logout_path() }}" class="a">退出</a>
+            {% else %}
+                <a href="javascript:void(0);" onclick="login();" class="a">登录</a>
+                <a href="{{ path('passport_register') }}" class="a" target="_blank">注册</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+    {% if not cate_id and not sub_cate %}
+    $(".menu-list").find('.menu-item').first().addClass('menu-item-hover');
+    {% endif %}
+    $(".menu-event").hover(
+        function () {
+            $(".menu-list").slideDown("fast");
+        },
+        function () {
+            $(".menu-list").stop(true).slideUp('fast');
+        }
+    );
+    $('.menu-title').mouseenter(function () {
+        $(this).parent().addClass('menu-item-hover').siblings().removeClass('menu-item-hover');
+        $(this).parent().find('.menu-body').hide();
+    });
+
+    /*
+     * 点击“立即申请”按钮，弹出登录框
+     */
+    function login() {
+        $('.blackMask').show();
+        $('body').css({overflow: 'hidden'});    //禁用滚动条
+    }
+
+</script>
+

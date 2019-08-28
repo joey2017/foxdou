@@ -1,0 +1,77 @@
+/*布局*/
+.wrapper {height: 100%;}
+.agent-top {position: relative; height: 75px; border-top: 5px solid #008ef7; background-color: #FFFFFF; border-bottom: 1px solid #E0E0E0;}
+.agent-main {min-height: calc(100% - 415px);}
+.agent-header {position: absolute; top: 0; left: 50%; bottom: 0; width: 1100px; margin-left: -550px;}
+.agent-footer {}
+.agent-cols {width: 1100px; height: auto; padding: 60px 0; margin: 0 auto;}
+
+/*在线客服*/
+.agent-service {position: fixed; bottom: 330px; right: 10px; z-index: 9999;}
+.agent-service-icon {position: absolute; bottom: 0; right: 0; width: 50px; height: 50px; border-radius: 3px; background-color: #d2d2d2;background-repeat: no-repeat; background-position: center; cursor: pointer;}
+.agent-service-icon:hover {background-color: #008EF7;}
+.agent-service-body {display: none; position: absolute; bottom: 0; right: 0; width: 160px; height: 280px; background-color: #f5fbff; border: 1px solid #bce2ff;}
+.agent-service-close {position: absolute; top: -40px; right: 0; cursor: pointer;}
+.agent-sercice-info {padding: 10px 20px; text-align: center;}
+.agent-sercice-info h3 {padding: 4px 0 8px 0; border-bottom: 1px solid #E5E5E5; font-size: 18px; font-weight: bold; color: #333333;}
+.agent-sercice-info p {display: block; padding-top: 8px; font-size: 12px; color: #666;}
+.agent-sercice-info b {display: block; padding: 10px 0 5px 0; font-size: 14px;}
+.agent-sercice-info span {color: #008EF7; font-size: 14px;}
+.agent-sercice-info a {display: block; margin: 8px 0;}
+.agent-sercice-info a:hover {opacity: .9;}
+
+/*返回顶部*/
+.agent-backToTop {position: fixed; bottom: 270px; right: 10px; display: none; width: 50px; height: 50px; border-radius: 3px; background-color: #d2d2d2;background-repeat: no-repeat; background-position: center; cursor: pointer;}
+.agent-backToTop:hover {background-color: #FF5252;}
+
+/*文本溢出隐藏*/
+.agent-item h3,
+.agent-camp-item h3,
+.agent-camp-item p,
+.agent-prev-next li {overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+
+/*logo*/
+.agent-logo {float: left; width: 240px; height: 50px; margin-top: 9px; background-repeat: no-repeat; background-position: left center;}
+/*导航*/
+.agent-nav {float: right; width: calc(100% - 280px); height: 55px;}
+.agent-nav-ul {height: 100%; text-align: right;}
+.agent-nav-li {display: inline-block; width: auto; height: 100%;}
+.agent-nav-li a {display: block; height: 100%; font-size: 18px;}
+.agent-nav-li span {float: left; height: 100%;}
+.agent-nav-li .txt {padding: 20px 20px 0 20px;}
+.agent-nav-li:hover .txt {color: #008ef7;}
+.agent-nav-li .link-bg {width: 7px; height: 55px; overflow: hidden;}
+.agent-nav-ul .link-this .txt {background-color: #008ef7; color: #FFFFFF;}
+.agent-nav-ul .link-this .link-bg-l {background: url(images/link-this-l.png) no-repeat;}
+.agent-nav-ul .link-this .link-bg-r {background: url(images/link-this-r.png) no-repeat;}
+/*列表页标题*/
+.agent-page-title {height: 80px; background-color: #008ef7;}
+.agent-page-title h1 {display: block; width: 1100px; margin: 0 auto; padding: 24px 0; color: #FFFFFF; font-size: 24px;}
+
+/*文章列表*/
+.agent-list {margin-top: 30px;}
+.agent-item {position: relative; float: left; width: 520px; height: 100px; margin: 30px 60px 30px 0;}
+.agent-item:nth-child(2n) {margin-right: 0;}
+.agent-item a {display: block; padding-left: 160px;}
+.agent-item a:hover {color: #008EF7;}
+.agent-item a:hover p {color: #666;}
+.agent-item .img-view {position: absolute; top: 0; left: 0; width: 140px; height: 100px; background-color: #EEEEEE;}
+.agent-item h3 {font-size: 14px;}
+.agent-item p, .agent-item span {font-size: 12px; color: #999;}
+.agent-item p {display: block; height: 34px; margin: 15px 0; overflow: hidden; text-align:justify;}
+.agent-more {margin-top: 20px; text-align: center;}
+.agent-more a {color: #008EF7; font-size: 14px;}
+.agent-more a:hover {text-decoration: underline;}
+/*底部链接*/
+.agent-bottom {height: 260px; background-color: #333; color: #FFFFFF; font-size: 14px;}
+.agent-bottom-link {height: 60px; padding: 20px 0; background-color: #008EF7;}
+.agent-ul-link {width: 1100px; height: 100%; margin: 0 auto; text-align: center;}
+.agent-ul-link li {display: inline-block;}
+.agent-ul-link li.spacer {position: relative; top: 2px; width: 1px; height: 14px; margin: 0 12px; background-color: #FFFFFF;}
+.agent-ul-link a {display: block; color: #FFFFFF;}
+.agent-ul-link a:hover {text-decoration: underline; opacity: .8;}
+/*版权*/
+.agent-footer {width: 1100px; height: 200px; padding: 50px 0 30px 0; margin: 0 auto; text-align: center; font-size: 14px;}
+.agent-footer p {display: block; padding: 4px 0;}
+.agent-cus {margin-bottom: 10px;}
+.agent-cus a {margin: 0 5px;}		

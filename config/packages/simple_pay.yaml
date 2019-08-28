@@ -1,0 +1,36 @@
+parameters:
+    simple_pay:
+        alipay:
+            app_id: "2016082000295641"
+            notify_url: http://abc.com/notify.php
+            return_url: http://abc.com/return.php
+            ali_public_key: "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgSePE0b15i1CwJTDUyX6jPjOSCRN5pYCYFToTL6lNvYFjd+6p5rnv2Y+A0FcxM3t+T1oC3BEMxoKw461TncX8FMBJuWbAXMD8lvFMod2sV4PNmk1NcrRjpwvuUJKwaSC6A5J/SqA0B80Tdw1gjiLLb859I0nn1jyhF1FkWhlOnn7ibyfO7h5SAEZbDtlzlc9UhikWAkU7ToJuTlWOGuCZYz9jAv+ibj/ALH7ABZq5KwgBYCrECdEmfAmJUqT+zRmvhgvEI0dIk0pYNj/Mg6upuYOd4mEAvuWwyktzbPYvM9Ln1YK8NlQg1gWbBT1z6akxgaXM187myzZXb1KNzRnMwIDAQAB"
+            private_key: "MIIEowIBAAKCAQEA2VTIqO58JLPMSh6R6EBUvaLQBqDH5TvqJkxPdD4XVZO9uQ3JPxsKMr1Lt8U7cYOrsoYb7XV5/UgoVhuK1w/T1bjtK7AnL7PEJ8HcgGuLiP5UMvVW3iOWf0TwUrHp05oadE9Y6o0muFriPl6aUIf9hzCFPAC6RWHyJeqp6bAuY04wFNl6AThCV0JQlaH9/2iI/p8ff7gnjlkFnFkrjMOyQIS/084Bib5AsCKBn6T3Hn27gqkBDLRjgpUBQhvcgmb9oNuI39sL7sAmcIdNhSyjUPlN48JxHua9vHK4Fn2ZYg4c83w9cOBbOt56KW4kpaknxyJKyEIXyfDGq8BmJq1poQIDAQABAoIBAHO/S/9sxIFnoO34ygy/9mHpTJG7H7te5Z3wFoD6cMMLJIhiZ0RMymmrl6AQU1BpqBA0jLszTf0vaQwzLwbLTy8MhoQ2FSi6vUXPYfijTnVvvrhFIja9DXJK7ROd3cLs2BoKCHkjI/Qbs1M0X0t0ofpWRR9n480AFU9MY6IqSwpnpsDIVrGz8hGYB6d10bweTRq54ifn1Hh1XcI2p7XlQfO8ZaetSccW01ztER/lgZugla/9sq5NubFPcGrQXCzzVBqoLrH+ZDKjYi6fkGixX4X9GaIGKKqw/nzfouHv+jhyne0p+MTYMFx2t9V1+QakHnkDiile+5c/DAe9pvcQruECgYEA7jeESc2cLurrdoElt7XcMRO+NhtnE5CZGgtUQrOyPzK9Hth3ZfXE4Bm1xgUD/gedXkKT9hru9vLSrvi3j27NsKB9IIyEKlFBJxNlUEHHG7eaeUqUKsr5s16J2aNwq3qt2osxS9szrgohWWU0TahcCsVLoO9WMErqWHrGzhUKlMMCgYEA6Y4gvImqt45L/ODPpK54JnJd+LFmwX3iBgg3AQwjSa41wITo/eK2PB9toJO3FSC3wFk6okwRwrQwJhZ0vNBcVFnCJT5p58TAvLGrxA2UDruaVHVF5q5VECH1Ez7eBG6WQKYUGPbkcEBaZ52TNpiirtYNU1L1I3mqlGXUOjZtkcsCgYBxjmNwbyQ5tWDDX/Mj7PxnJLsyvcNYL0DcinQDS/f3am9+6b+ZChxsm7TsDW4GxYh964zu743kiIJoSEXwiOhif07GmlVSeuNtBjDwnjqU+uQXV7bj41g+6h0ac2/9PoDrwhigyYCMQWX+YGEbd9tQgxZ3REA4yy2FOhnVGXCu0wKBgQCnlW0V+648kWUi6Wj04J+j7rJRDXIO6rWw4FofbUcwykkVgAjyi6d5Uo/GBdf72AMhiKUS6YRg8gwOeFSBWvy1JcayFKvHOx2VB+OZBKk1PRXK/m8OzA6LSeJhUd3azkMP1ltbYmSdyv9Tk/Sa20D4NO1Q2Zi+QMHOQ5bZwk4yqwKBgG1JaBb1BqPktRZbfQnWE+mzxzGY2DVRcLzlmgWaz0D4xtbeLut5siKVNxcP+FfNxGP5f0J62xM+TcxZ8tP6Vab+G9rjnYeKzvzKmk8ecc342YlhW6Q+kIaeh5cdRSxVDvcl2ppA+QMIJO26d4N/Xn/EQE7Vu10DB+9EUbQdtGE/"
+            log:
+                file: "%kernel.project_dir%/var/log/alipay.log"
+                level: info
+                type: single
+                max_file: 30
+            http:
+                timeout: 5.000000
+                connect_timeout: 5.000000
+            mode: dev
+
+        wechat:
+            appid: wxb3fxxxxxxxxxxx
+            app_id: wxb3fxxxxxxxxxxx
+            miniapp_id: wxb3fxxxxxxxxxxx
+            mch_id: 14577xxxx
+            key: mF2suE9sU6Mk1Cxxxxxxxxxxx
+            notify_url: http://abc.com/notify.php
+            cert_client: ./cert/apiclient_cert.pem
+            cert_key: ./cert/apiclient_key.pem
+            log:
+                file: "%kernel.project_dir%/var/log/wechat.log"
+                level: info
+                type: single
+                max_file: 30
+            http:
+                timeout: 5.000000
+                connect_timeout: 5.000000
+            mode: dev

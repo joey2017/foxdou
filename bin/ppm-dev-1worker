@@ -1,0 +1,2 @@
+#!/bin/sh
+MAILER_URL=PLEASE_CHANGE_ME APP_SECRET=PLEASE_CHANGE_ME php -dzend_extension=xdebug.so ./vendor/bin/ppm start . --bootstrap=symfony --app-env=dev --logging=1 --debug=1 --workers=1 --bridge=HttpKernel -vv

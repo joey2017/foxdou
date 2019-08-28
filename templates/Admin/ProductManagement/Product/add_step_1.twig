@@ -1,0 +1,92 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '添加商品 - 步骤 1 - 批量设置基本属性' %}
+
+{% block css %}
+    <style>
+        .layui-table td, .layui-table th {
+            padding: 4px;
+        }
+        .table-label {
+            text-align: center;
+            width: 200px;
+        }
+        .table-header{
+            padding: 10px!important;
+            background-color: #eee;
+        }
+        .layui-form-checkbox {
+            width: 100px !important;
+        }
+    </style>
+{% endblock %}
+{% block main_content %}
+    <div class="layui-fluid">
+        <div class="layui-card">
+            <form class="layui-form foxdou-row" id="edit-form" lay-filter="edit-form">
+                {% set product_type = app.request.get('product_type') %}
+                {% include "/Admin/ProductManagement/Product/add_step_1__form_" ~ product_type ~ ".twig" %}
+                <input type="hidden" name="product_type" value="{{ product_type }}"/>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block" style="margin-left: 0;padding: 10px;">
+                        <button type="button" class="layui-btn layui-btn-normal" onclick="next_step()">下一步</button>
+                        <a href="{{ path('admin_product_management_products_index', {'product_type': app.request.get('product_type')}) }}" class="layui-btn layui-btn-primary">取消</a>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Admin/ProductManagement/Product/product_common_js.twig" %}
+
+    <script>
+        $(document).ready(function () {
+            layui.form.on('select(operator_id)', function(data){
+                console.log(data);
+                var isTopOperator = data.value === '1' || data.value === '2' || data.value === '3';
+                $('#regions').css('display', isTopOperator ? 'block' : 'none');
+            });
+
+            layui.form.on('checkbox(face_value_types_toggle)', function(data){
+                var target_id = $(data.elem).data('target');
+                console.log(data, target_id);
+                $('#' + target_id).css('display', data.elem.checked ? 'table-row' : 'none');
+            });
+
+            layui.form.on('checkbox(select_all_fixed_face_values)', function(data){
+                toggle_all(data.elem, '.fixed_face_value');
+            });
+
+            layui.form.on('checkbox(select-cities)', function(data){
+                var province_code = $(data.elem).data('province-code');
+                toggle_all(data.elem, '.region-province-' + province_code);
+            });
+        });
+
+        function next_step() {
+            var loading = layer.load();
+
+            axios_form.post('{{ path("admin_product_management_products_add_step_1", {'product_type': app.request.get('product_type')}) }}', $('#edit-form').serializeJson())
+                .then(function (response) {
+                    layer.close(loading);
+                    if (response.data.msg) {
+                        layer.msg(response.data.msg);
+                    }
+
+                    if (response.data.status) {
+                        window.location.href = response.data.next;
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    layer.msg('服务器响应错误，请稍后重试');
+                });
+
+        }
+    </script>
+{% endblock %}

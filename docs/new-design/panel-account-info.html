@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>账户信息</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="layui/css/layui.css"  media="all">
+	<link rel="stylesheet" href="font/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<link rel="stylesheet" type="text/css" href="css/media-all.css"/>
+	<style>
+		.foxdou-account {width: 50%;}
+		.foxdou-account .layui-form {padding: 10px 20px 0 0;}
+		.foxdou-account .layui-form-label {padding: 9px 15px!important; color: #888;}
+		.foxdou-account .layui-input-inline {display: inline-block; width: auto; margin-right: 30px;}
+		.foxdou-account .layui-form-mid {color: #1E9FFF; cursor: pointer;}
+		.foxdou-account .layui-form-mid:hover {opacity: .8;}
+		
+		.foxdou-contact {width: 45%; position: absolute; top: 10px; right: 20px;}
+		
+		.fouxdou-headimg {position: relative; top: -5px; width: 50px; height: 50px; border-radius: 50%; overflow: hidden; border: 1px solid #e0e0e0;font-size:0}
+		.fouxdou-headimg .uploadImage {position: absolute; top: 0; left: 0; right: 0; bottom: 0; width: 50px; height: 50px; border-radius: 50%; overflow: hidden;}
+		.fouxdou-headimg .uploadImage img {width: 100%; vertical-align:middle;}
+		.fouxdou-headimg input[type=file] {display: block; width: 50px; height: 50px; opacity: 0; cursor: pointer;}
+				
+	</style>
+</head>
+
+<body>
+	
+	<div class="foxdou-box">
+		<div class="foxdou-header">
+			<div class="foxdou-top">
+				<div class="foxdou-logo"></div>
+				<div class="foxdou-attr">开发平台</div>
+				<div class="foxdou-link">
+					<a href="">开发者服务</a>
+					<a href="">申请服务</a>
+					<a href="">帐号注册</a>
+				</div>
+				<ul class="layui-nav layui-layout-right foxdou-nav-user">
+			    	<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="image/hdimg1.jpg" class="layui-nav-img"> 广西你行我动科技有限公司
+							<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="">基本资料</a>
+							</dd>
+							<dd>
+								<a href="">安全设置</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item foxdou-nav-item" title="点击刷新" style="cursor: default;">
+						<a>账户余额：60000元</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-tuichu"></i>
+						<a href="">退出</a>
+					</li>
+				</ul>
+			</div>
+			<ul class="layui-nav foxdou-nav">
+				<li class="layui-nav-item layui-this">
+					<a href="index.html">控制台</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="servicel-recharge-order.html">我的服务</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="servicel-index.html">我的服务2</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="panel-financial-account.html">我的API</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">解决方案</a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a href="">移动模块</a>
+						</dd>
+						<dd>
+							<a href="">后台模版</a>
+						</dd>
+						<dd>
+							<a href="">电商平台</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+		<div class="foxdou-side">
+			<div class="foxdou-side-scroll">
+				<ul class="layui-nav layui-nav-tree foxdou-nav foxdou-side-icon">
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-iconwodegongzuotai"></i>
+						<a href="index.html">控制面板</a>
+					</li>
+					<li class="layui-nav-item layui-this">
+						<i class="icon iconfont icon-user-copy"></i>
+						<a href="panel-account-info.html">账户信息</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-yingyong"></i>
+						<a href="">我的应用</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-caiwu"></i>
+						<a href="panel-financial-account.html">我的财务</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-jilu"></i>
+						<a href="">我的工单</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-huiyuan"></i>
+						<a href="">IP白名单</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-manage_staff"></i>
+						<a href="">员工管理</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-piaowuguanliicon"></i>
+						<a href="">我的发票</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-youhuicuxiao"></i>
+						<a href="">我的优惠</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-rizhidianjihou"></i>
+						<a href="">操作日志</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-anquanzhongxin"></i>
+						<a href="">安全中心</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-gonggao"></i>
+						<a href="">系统公告</a>
+					</li>
+			        <li class="layui-nav-item">
+						<a class="" href="javascript:;">所有商品<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">列表一</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">列表二</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">列表三</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="foxdou-body">
+			<div class="layui-clear" style="padding: 15px;">
+				<div class="foxdou-row">
+					<div class="foxdou-account">
+						<fieldset class="layui-elem-field layui-field-title">
+						    <legend>账户信息</legend>
+						</fieldset>
+						<div class="layui-form foxdou-form-page">
+							<div class="layui-form-item">
+								<label class="layui-form-label">头像</label>
+								<div class="layui-input-block">
+									<div class="fouxdou-headimg">	
+										<div class="uploadImage">
+											<img src="image/hdimg1.jpg" id="headimg">
+										</div>					
+										<input type="file" id="uploadImage" name="photoimage" class="fimg1" />
+									</div>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">昵称</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">眉间雪</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+								<div class="layui-form-mid edit">修改</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">狐豆帐号</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">10086</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">绑定手机</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">1574689746</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+								<div class="layui-form-mid">修改</div>
+								<div class="layui-form-mid" style="position: relative; top: -1px; cursor: default; color: #666;">|</div>
+								<div class="layui-form-mid">关闭手机登录</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">邮箱账户</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">1241@qq.com</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+								<div class="layui-form-mid">修改</div>
+								<div class="layui-form-mid" style="position: relative; top: -1px; cursor: default; color: #666;">|</div>
+								<div class="layui-form-mid">关闭邮箱登录</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">帐户性质</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">企业</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">帐户性质</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">企业</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">实名认证</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">未认证</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">公司名称</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">你行我动科技</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">法人名称</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">刘超富</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">企业地址</label>
+								<div class="layui-input-inline">
+									<span class="foxdou-text">广西南宁</span>
+									<input type="text" name="" value="" placeholder="请输入昵称" class="layui-input" style="display: none;"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="foxdou-contact">
+						<fieldset class="layui-elem-field layui-field-title">
+						    <legend>联系人信息</legend>
+						</fieldset>
+						<div class="layui-form">
+							<div class="layui-form-item">
+								<label class="layui-form-label">姓名</label>
+								<div class="layui-input-inline">
+									<input type="text" name="" value="" placeholder="" class="layui-input" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">手机</label>
+								<div class="layui-input-inline">
+									<input type="text" name="" value="" placeholder="" class="layui-input" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">邮箱</label>
+								<div class="layui-input-inline">
+									<input type="text" name="" value="" placeholder="" class="layui-input" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">QQ</label>
+								<div class="layui-input-inline">
+									<input type="text" name="" value="" placeholder="" class="layui-input" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<label class="layui-form-label">地址</label>
+								<div class="layui-input-block">
+									<input type="text" name="" value="" placeholder="" class="layui-input" />
+								</div>
+							</div>
+							<div class="layui-form-item">
+								<div class="layui-input-block">
+									<button class="layui-btn layui-btn-normal">保 存</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="foxdou-footer">
+			Copyright ©你行我动科技
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script src="js/jquery v2.1.4.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+	
+		/*
+		 * layui组件或模块载入
+		 */
+		layui.config({
+			base: 'js/'
+		}).use('index'); 
+		
+		
+		/*
+		 * 上传头像
+		 */
+		layui.use('upload', function(){
+		    var $ = layui.jquery,
+		    	upload = layui.upload;
+		    	
+	    	var uploadInst = upload.render({
+			    elem: '#uploadImage'
+			    ,url: '/upload/'
+			    ,before: function(obj){
+			        //预读本地文件示例，不支持ie8
+			        obj.preview(function(index, file, result){
+			        	$('#headimg').attr('src', result); //图片链接（base64）
+			        });
+			    }
+			});
+		});
+		
+		
+		function edit(this_dom){
+			var pts = $(this_dom).parents('.layui-form-item'),
+				pts_txt = $(this_dom).parents('.layui-form-item').find('.foxdou-text').html();
+			
+			pts.find('.foxdou-text').hide();
+			pts.find('input').fadeIn();				
+			pts.find('input').val(pts_txt);
+		}
+		
+		function save(this_dom){
+			var pts = $(this_dom).parents('.layui-form-item'), 
+				pts_val = $(this_dom).parents('.layui-form-item').find('input').val();
+				
+			pts.find('input').hide();
+			pts.find('.foxdou-text').show();
+			pts.find('.foxdou-text').html(pts_val);	
+		}
+		
+		$('.edit').click(function(){
+			var htmlText = $('.edit').html();
+			if(htmlText == '修改'){
+				edit(this);
+				$('.edit').html('完成');
+			}else{
+				save(this);
+				$('.edit').html('修改');	
+			}
+		});
+		
+	</script>
+	
+</body>
+</html>

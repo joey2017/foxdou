@@ -1,0 +1,98 @@
+<script>
+    var statuses = JSON.parse('{{ constant("App\\Common\\Model\\User\\User::STATUSES")|json_encode|raw }}');
+    var real_name_statuses = JSON.parse('{{ constant("App\\Common\\Model\\User\\RealNameAuthenticationInfo::STATUSES")|json_encode|raw }}');
+    var types = JSON.parse('{{ constant("App\\Common\\Model\\User\\User::TYPES")|json_encode|raw }}');
+    ;
+
+    var url = "";
+    var columns = [[
+        {"field": "id", "title": "ID", "width": 30, type: "checkbox"},
+        {"field": "id", "title": "用户编号", "width": 80},
+        {"field": "user_name", "title": "登录名", "width": 150},
+        {"field": "pass", "title": "通行证账号", "width": 150},
+        {"field": "account", "title": "狐豆靓号", "width": 150},
+        {"field": "bind_mobile", "title": "绑定手机","width": 100},
+        {"field": "bind_email", "title": "绑定邮箱", "width": 150},
+        {
+            "field": "type", "title": "注册类型", "width": 150, templet: function (d) {
+                return types[d.type]
+            }
+        },
+        {
+            "field": "status", "title": "狐豆通行证账号状态", "width": 150, templet: function (d) {
+                return statuses[d.status]
+            }
+        },
+        {
+            "field": "is_entry_identity_info", "title": "狐豆通行证身份信息", "width": 150, templet: function (d) {
+                return d.is_entry_identity_info == '{{ constant('App\\Common\\Model\\User\\User::IDENTITY_STATUS_NO') }}' ? '未写入' : '已写入';
+            }
+        },
+        {
+            "field": "real_name_status", "title": "狐豆通行证实名认证", "width": 150, templet: function (d) {
+                return real_name_statuses[d.real_name_status]
+            }
+        },
+        {
+            "field": "is_open_platform", "title": "开放平台账户开通状态", "width": 180, templet: function (d) {
+                return d.is_open_platform == '{{ constant('App\\Common\\Model\\User\\User::OPENPLATFORM_STATUS_NO') }}' ? '未开通' : '已开通';
+            }
+        },
+        {
+            "field": "is_agent_platform", "title": "代理商平台账户开通状态", "width": 180, templet: function (d) {
+                return d.is_agent_platform == '{{ constant('App\\Common\\Model\\User\\User::AGENTPLATFORM_STATUS_NO') }}' ? '未开通' : '已开通';
+            }
+        },
+        {
+            "field": "is_supplier_platform", "title": "供应商平台账户开通状态", "width": 180, templet: function (d) {
+                return d.is_supplier_platform == '{{ constant('App\\Common\\Model\\User\\User::SUPPLIERPLATFORM_STATUS_NO') }}' ? '未开通' : '已开通';
+            }
+        },
+        {"field": "referrer_name", "title": "注册邀请人"},
+
+        {"field": "add_time", "title": "注册时间", "width": 145},
+        {"field": "actions", "title": "操作", "toolbar": "#actions", "width": 100}
+    ]];
+
+    function get_data() {
+        var params = $('#form').serialize();
+        url = '?' + params;
+        rander_table('#paged-table', url, columns);
+    }
+
+    // 初始化
+    get_data();
+    table.on('tool(paged-table)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+        var data = obj.data; //获得当前行数据
+        var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+
+        if (layEvent === 'detail') { //查看
+            openWin('{{ path('admin_user_details_index') }}?id=' + data.id, '', 1400, 900);
+        }
+    });
+
+    var checked_ids = [];
+    // 监听复选框选中事件
+    table.on('checkbox(paged-table)', function (obj) {
+        if (obj.checked) {
+            checked_ids.push(obj.data.id);
+        } else {
+            checked_ids.remove(obj.data.id);
+        }
+        //console.log(obj.type); //如果触发的是全选，则为：all，如果触发的是单选，则为：one
+        //console.log(checked_ids);
+    });
+
+    $('#pass-management').on('click', function (e) {
+        var target = $(e.target);
+
+        if (target.is('.reverse-select') || target.parents().is('.reverse-select')) {
+            $('.layui-table-box').find('input:checkbox').next().each(function () {
+                $(this).toggleClass('layui-form-checked');
+            })
+        } else if (target.is('.set-status') || target.parents().is('.set-status')) {
+            var status = target.attr('data-type');
+            frozenUserStatus('{{ path("admin_users_set_pass_status") }}', status, checked_ids);
+        }
+    });
+</script>

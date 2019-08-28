@@ -1,0 +1,21 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<div class="layui-card-header">系统设置</div>
+<div class="layui-card-body">
+  <div class="layui-collapse  layadmin-form-body">
+    <div class="layui-colla-item">
+      <h2 class="layui-colla-title">网站信息设置</h2>
+      <div class="layui-colla-content layui-show">
+          {{ sf.text(form.site_name,    '网站名字') }}
+          {{ sf.text(form.beian_info,    '网站备案信息') }}
+      </div>
+    </div>
+    <div class="layui-colla-item">
+      <h2 class="layui-colla-title">网站运行模式</h2>
+      <div class="layui-colla-content layui-show">
+          {{ sf.radio(form.maintenance_mode,    '运行模式', {'0': '正常运行模式', '1': '维护模式'}) }}
+          {{ sf.textarea(form.maintenance_note, '维护模式提示信息', {}, {'rows': 10, 'cols': 120, 'placeholder': '支持 HTML 代码，使用 HTML 代码时请注意安全问题。'}) }}
+      </div>
+    </div>
+  </div>
+</div>

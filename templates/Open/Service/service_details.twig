@@ -1,0 +1,862 @@
+{% extends 'Open/Common/layoutPublic.twig' %}
+{% set title = '狐豆云数据-服务市场-详情' %}
+
+{% block main_content %}
+  <div class="m-banner-ad"></div>
+  <div class="g-main clearfloat">
+    <div class="product-intro clearfloat">
+      <div class="f-fl">
+        <div class="product-booth">
+          <img src="{{ service.thumb }}" onerror=""/>
+        </div>
+      </div>
+      <div class="product-detail">
+        <div class="detail-arrt">
+          <h1>
+
+            <span>{{ service.name }}</span>
+            <div class="h-input-inline app-name">
+              <div id="xui-select" class="xui-select" style="width: 350px;"></div>
+            </div>
+          </h1>
+
+          <p class="s-gray s-gray1">{{ service.intro }}</p>
+
+          <p class="s-gray" id="pay_type">
+            <span>扣费方式：</span>
+            {% if app is defined %}
+              {% if renew_payment_type is defined %}
+              <a href="javascript:void(0);" class="promo-type-1 " key="{{ renew_payment_type.id }}<?= $renew_payment_type['id'] ?>"
+                 pay_type="{{ renew_payment_type.payment_type }}<?= $renew_payment_type['payment_type'] ?>" temp_id="{{ renew_payment_type.template_id }}<?= $renew_payment_type['template_id'] ?>"
+                 onclick="koufeifangshi(this);">{{ renew_payment_type.type_name }}</a>
+              {% endif %}
+
+            {% else %}
+
+              {% for payment_type in payment_types %}
+              <a href="javascript:void(0);" class="promo-type-1 " key="{{ payment_type.id }}"
+                 pay_type="{{ payment_type.payment_type }}" temp_id="{{ payment_type.template_id }}"
+                 onclick="koufeifangshi(this);">{{ payment_type.type_name }}</a>
+              {% endfor %}
+
+              {% endif %}
+
+          </p>
+          <div id="template">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="m-ad"></div>
+    <div class="left-side">
+      <div class="m-info">
+        <div class="m-info-title">
+          <h2><strong class="s-darkgray">推荐接口</strong></h2>
+        </div>
+        <div class="m-info-content">
+          <ul class="m-info-list clearfloat">
+            {% for item in recommended_service %}
+            <li class="list-belt">
+              <a href="{{ path('/open/service-mall/service-details', {'id': item.id}) }}" target="_blank">
+                <div class="list-pic">
+                  <img src="{{ item.thumb }}" onerror=""/>
+                </div>
+                <div class="list-info">
+                  <p>{{ item.name }}</p>
+                  <p class="f-fs-12 s-gray1">{{ item.intro }}</p>
+                </div>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="right-main">
+      <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin-top: 0px;">
+        <ul class="layui-tab-title">
+          <li class="layui-this">API</li>
+          <li>状态码参考</li>
+          {% for item in explains %}
+          <li>{{ item.name }}</li>
+          {% endfor %}
+        </ul>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">
+            <div class="details-api">
+              <div class="details-api-tab">
+                {% for idx, item in descriptions %}
+                <a href="javascript:void(0);" key="{{ idx }}" interface_id="{{ item.id }}"
+                   url="<?= Url::to(['', 'service_id' => {{ item.service_id'], 'interface_id' => $v['id }}]) ?>"
+                   class="details-api-tab-this">{{ idx + 1 }}.{{ item.name }}</a>
+                {% endfor %}
+              </div>
+
+              {% for idx, item in apis %}
+
+              <div class="details-api-content" key="<?= $k ?>">
+                <div class="goods-main">
+
+                  {% if item.is_dispay_notice_type %}
+                  <ul class="h-details clearfloat">
+                    <li>
+                      <div class="details-title">接口地址：</div>
+                      <div class="detail-content">
+                        <p>https://openapi.foxdou.com/gateway.do</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="details-title">接口名称：</div>
+                      <div class="detail-content">
+                        <p>{{ item.english_name }}</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="details-title">支持格式：</div>
+                      <div class="detail-content">
+                        <p>json</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="details-title">请求方式：</div>
+                      <div class="detail-content">
+                        <p>get/post</p>
+                      </div>
+                    </li>
+
+                    {% if item.explain %}
+                    <li>
+                      <div class="details-title">接口备注：</div>
+                      <div class="detail-content">
+                        <p>{{ item.explain }}</p>
+                      </div>
+                    </li>
+                    {% endif %}
+                    <li>
+                      <div class="details-title">调用样例及调试工具：</div>
+                      <div class="detail-content">
+                        <div class="h-input-block">
+                          <a href="/tool/index?id={{ item.id }}&interface_id={{ item.id }}]) ?>" target="_blank"
+                             style="line-height:34px;color: #0FB5D8;">API测试工具</a>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="details-title">请求示例：</div>
+                      <div class="detail-content request-example" style="word-break: break-all">
+                        <p>{{ item.request_demo }}</p>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="details2">
+                        <h4>公共请求参数：</h4>
+                        <div class="details2-content">
+                          <table class="table-1">
+                            <thead>
+                            <tr>
+                              <th style="width: 80px;">名称</th>
+                              <th style="width: 50px;" align="center">类型</th>
+                              <th style="width: 50px;" align="center">必填</th>
+                              <th>说明</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php foreach (\common\models\api\servicemall\Base::public_params as $kk=>$vv): ?>
+                            {% for  %}
+                            <tr>
+                              <td>
+                                <p><?= $kk ?></p>
+                              </td>
+                              <td align="center">
+                                <p>string</p>
+                              </td>
+                              <td align="center">
+                                <p><?= $vv['must']?'是':'否' ?></p>
+                              </td>
+                              <td>
+                                <p class="shuoming"><?= $kk=='method'?"接口名称，本接口请填写{{{ item.english_name']}":$vv['info }}?></p>
+                              </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+
+                      <div class="details2">
+                        <h4>业务请求参数：</h4>
+                        <div class="details2-content">
+                          <table class="table-1">
+                            <thead>
+                            <tr>
+                              <th style="width: 80px;">名称</th>
+                              <th style="width: 50px;" align="center">类型</th>
+                              <th style="width: 50px;" align="center">必填</th>
+                              <th>说明</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php if ({{ item.request_params }}): ?>
+                            <?php foreach ({{ item.request_params }} as $vv): ?>
+                            <tr>
+                              <td>
+                                <p><?= $vv['name'] ?></p>
+                              </td>
+                              <td align="center">
+                                <p>string</p>
+                              </td>
+                              <td align="center">
+                                <p><?= $vv['must']==0?'否':'是' ?></p>
+                              </td>
+                              <td>
+                                <p class="shuoming"><?= $vv['explain'] ?></p>
+                              </td>
+                            </tr>
+                            {% endfor %}
+                            <?php endif; ?>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="details2">
+                        <h4>公共返回参数说明：</h4>
+                        <div class="details2-content">
+                          <table class="table-1">
+                            <thead>
+                            <tr>
+                              <th style="width: 80px;">名称</th>
+                              <th style="width: 50px;" align="center">类型</th>
+                              <th>说明</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                              <td><p>msg</p></td>
+                              <td align="center"><p>string</p></td>
+                              <td><p class="shuoming">本次请求的说明信息</p></td>
+                            </tr>
+                            <tr>
+                              <td><p>code</p></td>
+                              <td align="center"><p>string</p></td>
+                              <td><p class="shuoming"><span style="color: red;">(本字段即将弃用，请以error_code为主)</span>请求状态码，返回“0”即代表业务请求/处理成功，其他请查阅状态码参考
+                                </p></td>
+                            </tr>
+                            <tr>
+                              <td><p>error_code</p></td>
+                              <td align="center"><p>string</p></td>
+                              <td><p class="shuoming">请求状态码，返回“0”即代表业务请求/处理成功，其他请查阅状态码参考</p></td>
+                            </tr>
+                            <tr>
+                              <td><p>time</p></td>
+                              <td align="center"><p>string</p></td>
+                              <td><p class="shuoming">当前响应时间</p></td>
+                            </tr>
+                            <tr>
+                              <td><p>result</p></td>
+                              <td align="center"><p>object</p></td>
+                              <td><p class="shuoming">业务请求结果集，其值受业务影响，具体请看业务返回参数</p></td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                      <div class="details2">
+                        <h4>业务返回参数说明：</h4>
+                        <div class="details2-content">
+                          <table class="foxdou-table foxdou-table-nob">
+                            <thead>
+                            <tr>
+                              <th class="td-4">名称</th>
+                              <th class="td-3">类型</th>
+                              <th class="td-5">示例值</th>
+                              <th class="td-8">描述</th>
+                            </tr>
+                            </thead>
+                            <tbody class="">
+                            <tr>
+                              <td colspan="4" class="foxdou-table-opentd">
+                                <!--二级伪表格-->
+                                <div class="foxdou-table-list <?='return_params_table_data_'.$k?>">
+
+                                </div>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                    </li>
+                    <li>
+                      <div class="details2">
+                        <h4>JSON返回示例：</h4>
+                        <div class="details2-content">
+                          <div class="jsonCallback">
+                            <pre class="prettyprint"><?= \common\models\tool\str::format_json({{ item.return_demo }})?></pre>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                  </ul>
+                  <?php else:?>
+                  <ul class="h-details clearfloat">
+
+                    <li>
+                      <div class="details-title">支持格式：</div>
+                      <div class="detail-content">
+                        <p>json</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div class="details-title">请求方式：</div>
+                      <div class="detail-content">
+                        <p>post</p>
+                      </div>
+                    </li>
+
+                    {% if{{ item.explain }}):?>
+                    <li>
+                      <div class="details-title">接口备注：</div>
+                      <div class="detail-content">
+                        <p>{{ item.explain }}</p>
+                      </div>
+                    </li>
+                    {% endif %}
+
+                    <li>
+                      <div class="details-title">请求示例：</div>
+                      <div class="detail-content request-example" style="word-break: break-all">
+                        <p><?= \yii\helpers\Html::encode({{ item.request_demo }})?></p>
+                      </div>
+                    </li>
+
+                    <li>
+                      <div class="details2">
+                        <h4>业务返回参数说明：</h4>
+                        <div class="details2-content">
+                          <table class="foxdou-table foxdou-table-nob">
+                            <thead>
+                            <tr>
+                              <th class="td-4">名称</th>
+                              <th class="td-3">类型</th>
+                              <th class="td-5">示例值</th>
+                              <th class="td-8">描述</th>
+                            </tr>
+                            </thead>
+                            <tbody class="">
+                            <tr>
+                              <td colspan="4" class="foxdou-table-opentd">
+                                <!--二级伪表格-->
+                                <div class="foxdou-table-list <?='return_params_table_data_'.$k?>">
+
+                                </div>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+
+                        </div>
+                      </div>
+                    </li>
+                    <li>
+                    </li>
+
+                  </ul>
+                  {% endif %}
+                </div>
+              </div>
+
+              {% endfor %}
+            </div>
+          </div>
+          <div class="layui-tab-item ">
+            <div class="details-api">
+              <div class="goods-main">
+                <ul class="h-details clearfloat">
+                  <li>
+                    <div class="details2">
+                      <h4>服务级错误码(error_code)：</h4>
+                      <div class="details2-content">
+                        <table class="table-1">
+                          <thead>
+                          <tr>
+                            <th style="width: 100px;">错误码</th>
+                            <th>说明</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <?php if ($service_view_codes): ?>
+                          <?php foreach ($service_view_codes as $v): ?>
+                          <tr>
+                            <td style="width: 300px;">
+                              <p>{{ item.code }}</p>
+                            </td>
+                            <td>
+                              <p class="shuoming"><?={{ item.msg }}?></p>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                          {% endif %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="details2">
+                      <h4>系统级错误码(error_code)：</h4>
+                      <div class="details2-content">
+                        <table class="table-1">
+                          <thead>
+                          <tr>
+                            <th style="width: 100px;">错误码</th>
+                            <th>说明</th>
+                          </tr>
+                          </thead>
+                          <tbody>
+                          <?php if ($system_view_codes): ?>
+                          <?php foreach ($system_view_codes as $v): ?>
+                          <tr>
+                            <td style="width: 300px;">
+                              <p>{{ item.code }}</p>
+                            </td>
+                            <td>
+                              <p class="shuoming">{{ item.msg }}</p>
+                            </td>
+                          </tr>
+                          {% endfor %}
+                          {% endif %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <?php foreach ($explain as $v): ?>
+          <div class="layui-tab-item">{{ item.content }}</div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /选择应用弹窗 -->
+
+  <!-- -->
+  <div id="app_chose" style="display: none;">
+    <div style="padding: 20px 30px 10px 30px;">
+      <p style="margin-bottom: 10px; color: #888888;">请选择要操作的应用：</p>
+
+      <div class="june-select">
+        <select class="app_id">
+          <option value="请选择">请选择</option>
+
+        </select>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!--    返回参数待复制dom-->
+  <div id="wait_copy_return_params_dom" style="display: none;">
+    <ul class="tr">
+      <li class="td td-4"><em class="xian"></em><em class="jiantou"></em><span class="name">message</span></li>
+      <li class="td td-3 "><span class="type"></span></li>
+      <li class="td td-5"><span class="example"></span></li>
+      <li class="td td-8"><span class="explain shuoming"></span></li>
+    </ul>
+  </div>
+
+  {% include "/Open/Common/loginDialog.twig" %}
+  {% include "/Open/Common/footer.twig" %}
+  {% include "/Open/Common/contactIM.twig" %}
+
+
+{% endblock %}
+
+{% block js_end %}
+  {#<script type="text/javascript">#}
+      {#set_return_params();#}
+      {#function set_return_params() {#}
+          {#var return_params=<?=json_encode($return_params)?>;#}
+          {#$.each(return_params,function (k,v) {#}
+              {#deal_return_params(v,0,'.return_params_table_data_'+k);#}
+          {#});#}
+      {#}#}
+      {#function deal_return_params(data,parent_id,dom,parent){#}
+          {#$.each(data,function (k,v) {#}
+              {#if(v['parent_id']==parent_id){#}
+                  {#var ul=$('#wait_copy_return_params_dom ul').clone();#}
+                  {#$(ul).find('.name').text(v['name']);#}
+                  {#$(ul).find('.type').text(v['type']);#}
+                  {#$(ul).find('.example').text(v['example']);#}
+                  {#$(ul).find('.explain').text(v['explain']);#}
+                  {#$(ul).addClass(v['name']+'_'+v['id']);#}
+                  {#if(v['parent_id']==0){#}
+                      {#$(dom).append($(ul).prop('outerHTML'));#}
+                  {#}else {#}
+                      {#var parent_dom=$(dom).find('.'+parent);#}
+                      {#parent_dom.addClass('tr foxdou-table-trigger foxdou-table-triggerin');#}
+                      {#parent_dom.find('li em.jiantou').addClass('triangle');#}
+                      {#$(ul).find('li em.xian').addClass('bridge');#}
+                      {#if(!parent_dom.next().is('.foxdou-table-list')){#}
+                          {#parent_dom.after('<div class="foxdou-table-list foxdou-table-listin"></div>');#}
+                      {#}#}
+                      {#parent_dom.next('.foxdou-table-list').append($(ul).prop('outerHTML'));//将来要写在div里面#}
+                  {#}#}
+                  {#deal_return_params(data,v['id'],dom,v['name']+'_'+v['id']);#}
+              {#}#}
+          {#});#}
+      {#}#}
+
+  {#</script>#}
+  {##}
+  {#<script type="text/javascript">#}
+
+      {#$('.s-gray .promo-type-1').eq(0).click();#}
+
+      {#function gotoservice() {#}
+          {#goto('<?=Url::to(['/open', 'left_url'=>'/open/service/left?service_id='.$data['id'], 'right_url'=>\common\models\product\ProductCate::get_url($data['product_type'],'open_list_url').'?service_id='.$data['id']])?>');#}
+      {#}#}
+
+      {#/*点击无边表格行，显示内嵌的伪表格ul*/#}
+      {#$('.foxdou-table-trigger').click(function(){#}
+          {#var triangle = $(this).find('em.jiantou');#}
+          {#//   $(this).nextAll('.child').wrapAll('<div class="foxdou-table-list foxdou-table-listin"></div>');#}
+          {#if(triangle.hasClass('triangle-open')){#}
+              {#triangle.removeClass('triangle-open');#}
+          {#}else{#}
+              {#triangle.addClass('triangle-open');#}
+          {#}#}
+          {#$(this).next().slideToggle();#}
+      {#});#}
+
+      {#/*#}
+       {#* 说明文字溢出隐藏，点击展开收缩#}
+       {#*/#}
+      {#$('.shuoming').mouseover(function(){#}
+          {#if (this.offsetWidth < this.scrollWidth) {#}
+              {#$(this).attr('title','点击展开');#}
+              {#$(this).css('cursor','pointer');#}
+          {#}#}
+      {#});#}
+      {#function more_p(t){#}
+          {#$(t).siblings('p').removeClass('open-p');#}
+          {#$(t).remove();#}
+      {#}#}
+      {#function shuoming(this_dom){#}
+          {#if (this_dom.offsetWidth < this_dom.scrollWidth) {#}
+              {#$(this_dom).addClass('open-p');#}
+              {#$(this_dom).after("<span class='more-p' onclick='more_p(this);'>收起</span>") ;#}
+          {#}#}
+      {#}#}
+      {#$('.shuoming').click(function(){#}
+          {#shuoming(this);#}
+      {#});#}
+
+
+
+
+
+
+      {#/*#}
+       {#* 代码修饰器#}
+       {#*/#}
+
+      {#prettyPrint();#}
+
+      {#/*#}
+       {#* 导航背景变色#}
+       {#*/#}
+      {#$('.top').hover(#}
+          {#function () {#}
+              {#$(this).css('background', '#242627');#}
+          {#},#}
+          {#function () {#}
+              {#$(this).css('background', 'none');#}
+          {#}#}
+      {#);#}
+
+      {#function app_chose() {#}
+          {#var pay_type=$('#pay_type a.promo-type-this').attr('pay_type');#}
+          {#var pay_type_name=$('#pay_type a.promo-type-this').text();#}
+          {#$.get('<?=Url::to(['get-app','service_id'=>\yii\helpers\Html::encode(\Yii::$app->request->get('id'))])?>','pay_type='+pay_type,function (data) {#}
+              {#if(data.status){#}
+                  {#$('#app_chose select').html('');#}
+                  {#$('#app_chose select').append("<option value=''>请选择</option>")#}
+                  {#for (var i=0;i<data.data.length;i++)#}
+                  {#{#}
+                      {#$('#app_chose select').append("<option value='"+data.data[i].app_id+"'>"+data.data[i].name+'(APPID:'+data.data[i].app_id+")</option>")#}
+                  {#}#}
+              {#}#}
+          {#});#}
+
+          {#layer.open({#}
+              {#title:'<?=$data['name']?>-续费或更改套餐('+pay_type_name+')'#}
+              {#,area:['500px','250px']#}
+              {#,type:1#}
+              {#,btnAlign: 'c'#}
+              {#,skin:'my'#}
+              {#,btn: ['确认', '取消']#}
+              {#,content: $('#app_chose')#}
+              {#,yes:function (index, layero) {#}
+                  {#var app_id=$('#app_chose select').val();#}
+                  {#if(app_id == '' || app_id == undefined || app_id == null){#}
+                      {#layer.msg('请选择应用');#}
+                      {#return;#}
+                  {#}#}
+                  {#location.href="<?=Url::to(['/servicemall/goods/index'])?>?id=<?=\yii\helpers\Html::encode(Yii::$app->request->get('id'))?>&app_id="+app_id;#}
+                  {#return;#}
+              {#}#}
+          {#});#}
+
+      {#}#}
+      {#/*#}
+       {#* 服务详情Tab标签的切换#}
+       {#*/#}
+      {#layui.use(['form','element'], function(){#}
+          {#var form = layui.form();#}
+          {#var element = layui.element(); //Tab的切换功能，切换事件监听等，需要依赖element模块#}
+          {#var interface_id='<?=$interface_id?>';#}
+          {#var flag=0;#}
+          {#$('.details-api-tab a').each(function (k) {#}
+              {#if($(this).attr('interface_id')==interface_id){#}
+                  {#$(this).click();#}
+                  {#flag=k;#}
+              {#}#}
+          {#});#}
+          {#$('.details-api-tab a').eq(flag).click();#}
+      {#});#}
+
+
+
+      {#/*#}
+       {#* 服务详情-API小分类切换#}
+       {#*/#}
+      {#$('.details-api-tab a').on('click', function () {#}
+          {#var key = $(this).attr('key');#}
+          {#$(this).addClass('details-api-tab-this');#}
+          {#$(this).siblings().removeClass('details-api-tab-this');#}
+          {#$('.details-api-content[key=' + key + ']').show();#}
+          {#$('.details-api-content').not('[key=' + key + ']').hide();#}
+
+      {#});#}
+
+
+      {#function load_template(temp_id, pay_type) {#}
+          {#var app_id;#}
+          {#var product_type='<?=$data['product_type']?>';#}
+      {#<?php if ($renew_payment_type && $app):?>#}
+          {#app_id='<?=$app['app_id']?>';#}
+      {#{% endif %}#}
+          {#$.get('<?=Url::to(['payment-type'])?>', {#}
+              {#service_id:<?=$data['id']?>,#}
+          {#template_id: temp_id,#}
+              {#pay_type: pay_type,#}
+              {#app_id:app_id,#}
+              {#product_type:product_type,#}
+      {#}, function (html) {#}
+              {#$('#template').html(html);#}
+              {#$('#template .promo-type-1').eq(0).click();#}
+          {#});#}
+      {#}#}
+
+
+      {#/*#}
+       {#* 加减按钮的递增递减#}
+       {#*/#}
+      {#function jia_jie(type, dom) {#}
+          {#var num = Number($(dom).val());#}
+          {#if (type == '+') {#}
+              {#num = num + 1;#}
+          {#} else if (type == '-') {#}
+              {#if (num > 0) {#}
+                  {#num = num - 1;#}
+              {#}#}
+          {#}#}
+          {#$(dom).val(num);#}
+      {#}#}
+      {#$('.add-input').click(function () {#}
+          {#jia_jie('+', '.num-input');#}
+      {#});#}
+      {#$('.reduce-input').click(function () {#}
+          {#jia_jie('-', '.num-input');#}
+      {#});#}
+
+
+      {#/*#}
+       {#*收藏图标添加点击样式#}
+       {#*/#}
+      {#function add_class_shoucang(dom) {#}
+          {#/**#}
+           {#* 不完整代码#}
+           {#var aa=$(dom).find('i').is('li-this');#}
+           {#*/#}
+          {#$(dom).find('i').addClass('li-this');#}
+      {#}#}
+
+
+      {#/*#}
+       {#* 扣费方式模块切换#}
+       {#*/#}
+      {#function koufeifangshi(this_dom) {#}
+          {#var temp_id = $(this_dom).attr('temp_id');#}
+          {#var pay_type = $(this_dom).attr('pay_type');#}
+
+          {#$(this_dom).addClass('promo-type-this');#}
+          {#$(this_dom).siblings().removeClass('promo-type-this');#}
+
+          {#if (temp_id) {#}
+              {#load_template(temp_id, pay_type)#}
+          {#}#}
+
+      {#{% if$app):?>#}
+          {#var pay_type=$('#pay_type a.promo-type-this').attr('pay_type');#}
+          {#$.get('<?=Url::to(['get-app','service_id'=>\yii\helpers\Html::encode(\Yii::$app->request->get('id'))])?>','pay_type='+pay_type,function (data) {#}
+              {#var app={};#}
+              {#if(data.status){#}
+                  {#for (var i=0;i<data.data.length;i++)#}
+                  {#{#}
+                      {#app[data.data[i].name+'(APPID:'+data.data[i].app_id+')']=data.data[i].app_id;#}
+                  {#}#}
+              {#}#}
+              {#xui.select($('#xui-select'),'sel-1',app,'input',{'content':'取消并返回','val':<?=\yii\helpers\Html::encode(\Yii::$app->request->get('app_id'))?>});#}
+              {#$('.app-name li:first').attr('data','');#}
+              {#$('#xui-select li').click(function () {#}
+                  {#var jumb_app_id=$('#sel-1').val();#}
+                  {#if (jumb_app_id){#}
+                      {#location.href='<?=\yii\helpers\Url::to(['/servicemall/goods/index'])?>?&id=<?=\yii\helpers\Html::encode(\Yii::$app->request->get('id'))?>&app_id='+jumb_app_id;#}
+                  {#}else {#}
+                      {#location.href='<?=\yii\helpers\Url::to(['/servicemall/goods/index'])?>?&id=<?=\yii\helpers\Html::encode(\Yii::$app->request->get('id'))?>';#}
+                  {#}#}
+              {#});#}
+          {#});#}
+
+      {#{% endif %}#}
+      {#}#}
+
+
+      {#function show_price(dom) {#}
+          {#var pay_type=$('#pay_type a.promo-type-this').attr('pay_type');#}
+          {#$(dom).siblings('.promo-type-1').removeClass('promo-type-this');#}
+          {#$(dom).addClass('promo-type-this');#}
+          {#if($('#price2').length>0){#}
+          {#}else{#}
+              {#$('#price').text($(dom).attr('price'));#}
+          {#}#}
+          {#$('#chaoprice').text($(dom).attr('chaoprice'));#}
+
+          {#if(app_pay_template){#}
+              {#var app_pinlv_id=app_pay_template.pinlv_id;#}
+              {#if($(dom).attr('pinlv_id')==app_pinlv_id){#}
+                  {#switch (pay_type) {#}
+                      {#case '2':#}
+                          {#$('#usepackge').show();#}
+                          {#$('#genghuan').hide();#}
+                          {#break;#}
+                      {#case '4':#}
+                          {#$('#usepackge span').text('当前您正在使用该套餐，若要更换请选择其他套餐');#}
+                          {#$('#usepackge').show();#}
+                          {#$('#genghuan .xufei').text('确定续费');#}
+                          {#break;#}
+                      {#default:#}
+                          {#break;#}
+                  {#}#}
+
+              {#}else {#}
+                  {#switch (pay_type) {#}
+                      {#case '2':#}
+                          {#$('#usepackge').hide();#}
+                          {#$('#genghuan').show();#}
+                          {#break;#}
+                      {#case '4':#}
+                          {#$('#genghuan .xufei').text('确定更换套餐');#}
+                          {#chang_package(4,$(dom).attr('pinlv_id'));#}
+                          {#break;#}
+                      {#default:#}
+                          {#break;#}
+                  {#}#}
+              {#}#}
+              {#if(pay_type=='5'){#}
+                  {#var app_ci_id=app_pay_template.ci_id;#}
+                  {#var ci_id= $(dom).attr('ci_id');#}
+                  {#var tianci_pinlv_id=$('#tian_ci_pinlv a.promo-type-this').attr('pinlv_id');#}
+                  {#$('.gobuy').remove();#}
+                  {#if(app_ci_id==ci_id && tianci_pinlv_id==app_pinlv_id){#}
+                      {#$('#usepackge span').text('当前您正在使用该套餐，若要更换请选择其他套餐');#}
+                      {#$('#usepackge').show();#}
+                      {#$('#genghuan .xufei').text('确定续费');#}
+                  {#}else {#}
+                      {#$('#genghuan .xufei').text('确定更换套餐');#}
+                      {#chang_package(5,tianci_pinlv_id,'',ci_id);#}
+
+                  {#}#}
+              {#}#}
+
+          {#}#}
+          {#if(pay_type!='2'){#}
+              {#out();#}
+          {#}#}
+      {#}#}
+      {#var zhouqiday=0;#}
+      {#function chang_package(pay_type,pinlv_id,num,ci_id) {#}
+      {#<?php if ($renew_payment_type && $app):?>#}
+          {#var app_id='<?=$app['app_id']?>';#}
+          {#var service_id='<?=$data['id']?>';#}
+          {#$.get('<?=Url::to(['change-package'])?>',{#}
+              {#service_id:service_id,#}
+              {#pay_type: pay_type,#}
+              {#pinlv_id: pinlv_id,#}
+              {#app_id:app_id,#}
+              {#num:num,#}
+              {#ci_id:ci_id,#}
+          {#}#}
+              {#,function (data) {#}
+              {#if(data.status){#}
+                  {#var old_residue_day=data.result.old_residue_day;//旧套餐用了多少天还剩多少天#}
+                  {#var old_residue_money=data.result.old_residue_money;//旧套餐还剩多少钱没用#}
+                  {#var new_day=data.result.new_day;//能换的天数#}
+                  {#var new_use_end_time=data.result.new_use_end_time;//新套餐到期时间#}
+                  {#$('#usepackge').show();#}
+                  {#$('#genghuan').show();#}
+                  {#$('#usepackge span').html('您现在更换可以用旧套餐兑换'+new_day+'天<span id="add_month"></span>');#}
+                  {#if(new_day>0){#}
+                      {#$('#zouqi').val('0');#}
+                      {#$('#sum_price').text('0');#}
+                      {#zhouqiday=new_day;#}
+                  {#}#}
+              {#}else{#}
+                  {#$('#usepackge span').text(data.msg);#}
+                  {#$('#usepackge').show();#}
+                  {#$('#usepackge .gobuy').remove();#}
+                  {#if(data.code==10004) {//不支持收费套餐更换为免费的套餐#}
+                      {#$('#genghuan').hide();#}
+                      {#$('#usepackge span').text('不支持收费套餐更换为免费的套餐,若要购买将创建一个新的应用');#}
+                      {#$('#usepackge').append('<a href="<?=\yii\helpers\Url::to(['/servicemall/goods/index','id'=>\yii\helpers\Html::encode(\Yii::$app->request->get('id'))])?>" class="gobuy" target="_blank" style="color:#0cabcc;">点击去购买 </a>')#}
+                  {#}#}
+              {#}#}
+          {#});#}
+      {#{% endif %}#}
+      {#}#}
+
+
+      {#function goto(url) {#}
+          {#$('body').append('<a href="" id="goto" target="_blank" hidden></a>').get(0);#}
+          {#$('#goto').attr('href', url);#}
+          {#$('#goto').get(0).click();#}
+      {#}#}
+
+
+
+
+  {#</script>#}
+{% endblock %}

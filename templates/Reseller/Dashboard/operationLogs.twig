@@ -1,0 +1,107 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '操作日志' %}
+
+{% block css %}
+    <style type="text/css">
+        .m-table-total {height: auto;margin: 10px; padding: 10px;background: #d9efff;border: 1px solid #E0E0E0;}
+        .m-table-total li {float: left;margin: 0 20px;}
+        .m-table-1 {padding: 10px;}
+        .m-table-1 img {width: 40px;height: 40px;}
+        .btn-location button {height: 34px;}
+        .layui-form-item {margin-bottom: 0px;}
+        .ipt-ml .layui-input {border-color: #E6E6E6;}
+        .m-screen-item {background-color: #ffffff}
+        .m-screen {display: -webkit-box}
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    <!-- 我的API -->
+    <div class="m-wrapper g-bdc">
+    <div class="m-screen-item">
+        <form action="{{ path(current_route) }}" method="get" class="layui-form">
+            <div class="layui-form-item m-screen">
+                {{ sf.text(form.user_name, '操作人', {'placeholder': '狐豆帐号'}) }}
+                {{ sf.text(form.info, '操作详情', {'placeholder': '操作详情'}) }}
+                {{ sf.text(form.ip, '操作IP', {'placeholder': '操作IP'}) }}
+                {{ sf.text(form.from, '操作时间', {'placeholder': '开始时间', 'style': ''}, {'id': 'from'}) }}
+                {{ sf.text(form.to, null, {}, {'placeholder': '结束时间','id': 'to'}) }}
+
+            </div>
+            <div class="m-cx">
+                <input type="submit" value="查询" class="layui-btn">
+            </div>
+            <div style="clear: both;"></div>
+        </form>
+    </div>
+    <div class="m-table-1 g-bdc">
+        <table class="f-fl">
+            <thead>
+            <tr>
+                <th>操作时间</th>
+                <th>操作详情</th>
+                <th>操作IP</th>
+                <th>操作人昵称</th>
+                <th>平台帐号</th>
+            </tr>
+            </thead>
+            <tbody id="data-table">
+            {% if operation_logs %}
+                {% for log in operation_logs %}
+                    <tr>
+                        <td>{{ log.add_time|date('Y-m-d H:i:s') }}</td>
+                        <td>{{ log.info|default('-') }}</td>
+                        <td>{{ log.ip|default('-') }}</td>
+                        <td>{{ log.nick_name|default('-') }}</td>
+                        <td>{{ log.user_name|default('-') }}</td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+            {% endif %}
+            </tbody>
+        </table>
+
+        <div id="page"></div>
+
+    </div>
+    <!-- /我的API -->
+    <script type="text/javascript">
+        layui.use(['laydate'], function () {
+            var laydate = layui.laydate;
+
+            laydate.render( {
+                elem: '#from'
+                ,type: 'date'
+            });
+
+            laydate.render({
+                elem: '#to'
+                ,type: 'date'
+            });
+        });
+
+
+        layui.use(['laypage'], function () {
+            var laypage = layui.laypage;
+            laypage.render({
+                elem:     'page'
+                , count: {{ row_count }}
+                , curr: {{ page }}
+                , limit: {{ page_size }} //每页要显示多少条
+                , limits: null
+                , first:  '首页'
+                , last:   '尾页'
+                , prev:   '<em>←</em>'
+                , next:   '<em>→</em>'
+                , layout: ['prev', 'page', 'next', 'limit']
+                , jump:   function (obj, first) {
+                    if (!first) {
+                        location.href = '?page=' + obj.curr;
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

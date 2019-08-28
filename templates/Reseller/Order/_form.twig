@@ -1,0 +1,26 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<form action="" class="layui-form" id="form">
+<input type="hidden" name="product_cate_id" value="{{ app.request.get('product_cate_id') }}">
+<input type="hidden" name="operator_id" id="operator_id" value="">
+  <div class="layui-form-item m-screen">
+      {{ sf.text(form.order_id, null, {'outer': null}, {'placeholder': '订单编号'}) }}
+      {{ sf.text(form.phone_number, null, {'outer': null}, {'placeholder': '充值号码'}) }}
+      {{ sf.select(form.status, null,  to_options('App\\Common\\Model\\Order\\OrderRecharge::USER_STATUSES', "全部"), {'outer': null}) }}
+      {{ sf.text(form.product_name, null, {'outer': null}, {'placeholder': '商品名称'}) }}
+  </div>
+  <div class="layui-form-item m-screen">
+      {{ sf.text(form.product_face_value, null, {'outer': null}, {'placeholder': '商品面值'}) }}
+      {{ sf.text(form.recharge_amount, null, {'outer': null}, {'placeholder': '商品面值'}) }}
+      {% if app.request.get('product_cate_id') != constant('App\\Constants::PRODUCT_CATE_TENCENT') %}
+      {{ sf.select(form.speed, null,  to_options({'1': '快充', '2': '慢充'}, "充值类型"), {'outer': null}) }}
+      {% else %}
+      {% endif %}
+      {{ sf.text(form.from, null, {'outer': null}, {'placeholder': '开始时间','id': 'from'}) }}
+      {{ sf.text(form.to,  null, {'outer': null}, {'placeholder': '结束时间','id': 'to'}) }}
+  </div>
+<div class="m-cx">
+  <input type="button" value="查询" class="layui-btn" onclick="get_data();return false;">
+</div>
+<div style="clear: both;"></div>
+</form>

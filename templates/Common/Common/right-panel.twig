@@ -1,0 +1,42 @@
+{% set weekDays = ['天','一','二','三','四','五','六'] %}
+<div class="right-calendar" style="float: right; width: 360px;height: auto;">
+  <!-- 日历 -->
+  <div class="panel-item-right calendar" style="border: 1px solid #E0E0E0;border-radius: 2px;">
+    <h1>{{ "now"|date("d") }}</h1>
+    <div class="cal-detailed">
+      <span>恭喜发财</span><span><?=date('Y-m-d')?><span>星期{{ weekDays["now"|date('w')] }}</span></span>
+    </div>
+  </div>
+  <!-- /日历 -->
+  <!-- 常见问题 -->
+  <div class="panel-item-right">
+    <div style="border: 1px solid #E0E0E0;border-radius: 2px;">
+      <h2 class="container-title"><strong class="s-orange">常见问题</strong></h2>
+      <ul class="problem" id="common-question">
+      </ul>
+    </div>
+  </div>
+  <!-- /常见问题 -->
+</div>
+
+<script type="text/javascript">
+
+    //localStorage.setItem("key", 1);  //设置键的值
+    //localStorage.getItem("key")     //获取键的值
+
+    $.ajax('{{ path('reseller_faq_index') }}',{
+        success:function (data) {
+            set_question_list(data);
+        }
+        ,error:function () {
+            layer.msg('获取常见问题列表失败');
+        }
+    });
+    function set_question_list(data) {
+        var dom='';
+        $.each(data,function (k, article) {
+            dom+='<li><a href="{{ path('reseller_faq_show') }}?id=' + article.id + '" target="_blank">' + article['title'] + '</a></li>';
+        });
+        $('#common-question').html(dom);
+    }
+</script>

@@ -1,0 +1,75 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% set title = '我的商品' %}
+
+{% block css %}
+  <style type="text/css">
+    .page-content { border: 1px solid #E0E0E0; text-align: left }
+    .m-side-nav .icon-nav { display: inline-block; width: 24px; height: 24px; font-size: 24px; }
+    .m-side-nav .nav-title { padding: 0 26px; }
+    .m-side-nav .nav-title span { width: 90px; margin-left: 15px; font-size: 14px; }
+    .m-right { padding: 20px 0; }
+    .m-table-total { height: auto; margin: 10px; padding: 10px; background: #d9efff; border: 1px solid #E0E0E0; }
+    .m-table-total li { float: left; margin: 0 20px; }
+    .m-screen { text-align: left; }
+    .m-screen-item { padding-bottom: 25px; }
+    .m-screen .rq { display: inline-block; margin-right: 10px; }
+    .m-time input { width: 300px !important; }
+    .m-tab-btn .layui-btn-small { height: 34px; }
+  </style>
+
+{% endblock %}
+
+{% block main_content %}
+  <div class="page-content">
+    {% include "Common/_productCategories.twig" %}
+    {% include "Common/_carriers.twig" %}
+    <div class="m-screen-item">
+      {% include "Reseller/Product/_form.twig" %}
+    </div>
+    <div class="m-table g-bdc">
+      <table class="layui-hide f-fl" id="data-table"></table>
+    </div>
+    <!-- /订单管理 -->
+  </div>
+
+  <script>
+      layui.use('table', function () {
+          get_data('');
+      });
+
+      function rander_table(url) {
+          var table = layui.table;
+          table.render({
+              elem:   '#data-table'
+              , url:  url
+              , cols: [
+                  [
+                      {"field": "product_id", "title": "编号", "width": 80},
+                      {"field": "name", "title": "商品名称"},
+                      {"field": "face_value", "title": "商品面值", "width": 100},
+                      {"field": "num", "title": "可购数量", "width": 90},
+                      {"field": "sell_price", "title": "成本", "width": 80},
+                      {"field": "real_sell_price", "title": "零售价", "width": 90},
+                      {"field": "status", "title": "商品状态", "width": 90},
+                      {"field": "speed", "title": "充值类型", "width": 90}
+                  ]
+              ]
+              , page: { //支持传入 laypage 组件的所有参数（某些参数除外，如：jump/elem） - 详见文档
+                  layout:   ['prev', 'page', 'next', 'skip', 'limit', 'count'] //自定义分页布局
+                  , first:  true //不显示首页
+                  , last:   false //不显示尾页
+                  , limits: [25, 50, 100]
+              }
+          });
+
+      }
+
+      function get_data(url) {
+          url = url ? url : "";
+          var params = $('#form').serialize();
+          var url    = url + '?' + params;
+          rander_table(url);
+      }
+  </script>
+
+{% endblock %}

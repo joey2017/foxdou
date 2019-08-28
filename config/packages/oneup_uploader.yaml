@@ -1,0 +1,62 @@
+# Read the documentation: https://github.com/1up-lab/OneupUploaderBundle/blob/master/Resources/doc/index.md
+oneup_uploader:
+    mappings:
+        # This is a mapping example, remove it and create your own mappings.
+        default:
+            frontend: dropzone # or any uploader you use in the frontend
+            max_size: "%default_max_upload_file_size%"
+            namer: App\Common\Service\FileUpload\UploadFileNamer
+            route_prefix: /uploads/files
+            endpoints:
+                upload: /common/uploader/default
+                #progress: ~
+                #cancel: ~
+            storage:
+                type: flysystem
+                directory: "%default_upload_save_path%"
+                filesystem: oneup_flysystem.default_filesystem
+            allowed_mimetypes:
+                image/jpeg: ['jpg', 'jpeg', 'jpe']
+                image/png: ['png']
+                image/gif: ['gif']
+                image/zip: ['zip']
+                image/doc: ['doc']
+                image/pdf: ['pdf']
+                image/txt: ['txt']
+                image/xls: ['xls']
+        admin_article:
+            frontend: dropzone # or any uploader you use in the frontend
+            max_size: "%admin_article_max_upload_file_size%"
+            namer: App\Common\Service\FileUpload\UploadFileNamer
+            route_prefix: /uploads/article
+            endpoints:
+                upload: /admin/uploader/article
+                #progress: ~
+                #cancel: ~
+            storage:
+                type: flysystem
+                directory: "%admin_article_upload_save_path%"
+                filesystem: oneup_flysystem.admin_article_filesystem
+            allowed_mimetypes:
+                image/jpeg: ['jpg', 'jpeg', 'jpe']
+                image/png: ['png']
+                image/gif: ['gif']
+                image/bmp: ['bmp']
+        identity_image:
+            frontend: dropzone # or any uploader you use in the frontend
+            max_size: "%identity_image_max_upload_file_size%"
+            namer: App\Common\Service\FileUpload\UploadFileNamer
+            route_prefix: /uploads/identity
+            endpoints:
+                upload: /common/uploader/identity
+                #progress: ~
+                #cancel: ~
+            storage:
+                type: flysystem
+                directory: "%identity_image_upload_save_path%"
+                filesystem: oneup_flysystem.identity_image_filesystem
+            allowed_mimetypes:
+                image/jpeg: ['jpg', 'jpeg', 'jpe']
+                image/png: ['png']
+                image/gif: ['gif']
+                image/bmp: ['bmp']

@@ -1,0 +1,41 @@
+security:
+    access_control:
+      - { path: '^/$',              roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/error/.*',       roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/test/',          roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/common/test/',   roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+      - { path: '^/login',                              roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/passport/register',                  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/passport/login',                     roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/passport/activation/',               roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/passport/tool',                     roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/passport/protect',                  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/passport/question',                 roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/passport/registerpassword-reset',   roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+      - { path: '^/common/articles',          roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/common/recaptcha',         roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/common/sms-verifier/',     roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/common/user/register',     roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/common/user/welcome',      roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/common/user/activate/.+',  roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/admin/login',              roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/openapi/notify',           roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+      - { path: '^/common/finance/balance/add-balance/alipay/notify',    roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+      - { path: '^/reseller[\/]*$',      roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/reseller/home/',      roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/open[\/]*$',          roles: IS_AUTHENTICATED_ANONYMOUSLY }
+      - { path: '^/supplier[\/]*$',      roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+      - { path: '^/passport/.*',         roles: IS_AUTHENTICATED_FULLY }
+      - { path: '^/common/uploader/*',   roles: IS_AUTHENTICATED_FULLY }
+
+      - { path: '^/admin',          roles: ROLE_ADMIN_ADMINISTRATOR }
+
+      - { path: '^/open/.*',        roles: ROLE_OPEN_PLATFORM }
+      - { path: '^/reseller/.*',    roles: ROLE_RESELLER }
+      - { path: '^/supplier/.*',    roles: ROLE_SUPPLIER }
+      - { path: '^/.*',             roles: ROLE_USER }

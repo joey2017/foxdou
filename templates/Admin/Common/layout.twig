@@ -1,0 +1,94 @@
+{% set user = app.user %}
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <title>{% block title %} {{ title|default("狐豆管理平台") }} {% endblock %}</title>
+    {{ use_assets([
+        '/assets/common/layui/css/layui.css',
+        '/assets/admin/css/admin.css',
+        '/assets/common/css/font-icon.css',
+    ]) }}
+    <style>
+        div.error {
+            color: #FF5722 !important;
+        }
+        .layui-body {
+             overflow: auto;
+        }
+
+    </style>
+    {% block css %}
+    {% endblock %}
+
+    {% block assets %}
+    {% endblock %}
+
+    {{ use_assets([
+        '/assets/common/js/jquery.min.js',
+    ]) }}
+</head>
+
+<body class="layui-layout layui-layout-admin">
+<!-- 头部区域 -->
+{% include "Admin/Common/top_nav.twig" %}
+
+<!--侧栏菜单-->
+<div class="layui-side layui-side-menu">
+    {% include "Admin/Common/left_nav.twig" %}
+</div>
+
+<!--主体内容-->
+<div class="layui-body main-body">
+    {% block main_content %}
+    {% endblock %}
+</div>
+{% block extra %}
+{% endblock %}
+
+{{ use_assets([
+    '/assets/common/js/axios.min.js',
+    '/assets/common/layui/layui.all.js',
+    '/assets/common/js/common.js',
+    '/assets/admin/js/common.js',
+    '/assets/common/js/ajaxRequest.js',
+    '/assets/common/js/jquery.serializejson.js',
+    '/assets/common/js/common-verify.js',
+]) }}
+
+<script>
+    axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+    axios_json = axios.create({
+        headers: {'Content-Type': 'application/json;charset=utf-8'}
+    });
+
+    axios_form = axios.create({
+        headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
+        transformRequest: [function (data, headers) {
+            if(typeof(data) !== 'object') {
+                return data;
+            }
+
+            var str = [];
+            $.each(data, function(key, value) {
+                str.push(encodeURIComponent(key) + "=" + encodeURIComponent(value));
+            });
+
+            return str.join("&");
+        }]
+    });
+
+    if(layui && layui.form) {
+        layui.form.render();
+    }
+</script>
+
+{% block footer %}
+{% endblock %}
+{% block js_end %}
+{% endblock %}
+</body>
+</html>

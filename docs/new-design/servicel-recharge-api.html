@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>我的服务-API管理</title>
+	<meta name="renderer" content="webkit">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<link rel="stylesheet" href="layui/css/layui.css"  media="all">
+	<link rel="stylesheet" href="font/iconfont.css" />
+	<link rel="stylesheet" type="text/css" href="css/common.css"/>
+</head>
+
+<body>
+	
+	<div class="foxdou-box">
+		<div class="foxdou-header">
+			<div class="foxdou-top">
+				<div class="foxdou-logo"></div>
+				<div class="foxdou-attr">开发平台</div>
+				<div class="foxdou-link">
+					<a href="">解决方案</a>
+					<a href="">常见问题</a>
+					<a href="">文档中心</a>
+					<a href="">开发者服务</a>
+					<a href="">服务市场</a>
+				</div>
+				<ul class="layui-nav layui-layout-right foxdou-nav-user">
+			    	<li class="layui-nav-item">
+						<a href="javascript:;">
+							<img src="image/hdimg1.jpg" class="layui-nav-img"> 广西你行我动科技有限公司
+							<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child layui-anim layui-anim-upbit">
+							<dd>
+								<a href="">基本资料</a>
+							</dd>
+							<dd>
+								<a href="">安全设置</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item foxdou-nav-item" title="点击刷新" style="cursor: default;">
+						<a>账户余额：60000元</a>
+					</li>
+					<li class="layui-nav-item">
+						<i class="icon iconfont icon-tuichu"></i>
+						<a href="">退出</a>
+					</li>
+				</ul>
+			</div>
+			<ul class="layui-nav foxdou-nav">
+				<li class="layui-nav-item">
+					<a href="index.html">控制台</a>
+				</li>
+				<li class="layui-nav-item layui-this">
+					<a href="servicel-recharge-order.html">我的服务</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="servicel-index.html">我的服务2</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="panel-financial-account.html">我的API</a>
+				</li>
+				<li class="layui-nav-item">
+					<a href="javascript:;">解决方案</a>
+					<dl class="layui-nav-child">
+						<!-- 二级菜单 -->
+						<dd>
+							<a href="">移动模块</a>
+						</dd>
+						<dd>
+							<a href="">后台模版</a>
+						</dd>
+						<dd>
+							<a href="">电商平台</a>
+						</dd>
+					</dl>
+				</li>
+			</ul>
+		</div>
+		<div class="foxdou-side">
+			<div class="foxdou-side-scroll">
+				<ul class="layui-nav layui-nav-tree foxdou-nav foxdou-side-icon">
+			        <li class="layui-nav-item">
+			        	<i class="icon iconfont icon-caiwu"></i>
+						<a class="" href="javascript:;">充值/缴费/服务<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">话费充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">固话充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">流量充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-youhuicuxiao"></i>
+						<a class="" href="javascript:;">充值卡/礼品卡<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">话费充值卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">游戏充值卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">京东礼品卡</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">淘宝优惠券</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-piaowuguanliicon"></i>
+						<a class="" href="javascript:;">票务类业务<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-922chuxing"></i>
+						<a class="" href="javascript:;">车辆/出行<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-jinlingyingcaiwangtubiao09"></i>
+						<a class="" href="javascript:;">金融/基金<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-youxi"></i>
+						<a class="" href="javascript:;">娱乐/体育问答<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-shenghuo"></i>
+						<a class="" href="javascript:;">生活/天气/健康<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+					<li class="layui-nav-item">
+			        	<i class="icon iconfont icon-gongjukuaidi"></i>
+						<a class="" href="javascript:;">开发工具<span class="layui-nav-more"></span></a>
+						<dl class="layui-nav-child">
+							<dd>
+								<a href="javascript:;">游戏充值</a>
+							</dd>
+							<dd>
+								<a href="javascript:;">加油卡</a>
+							</dd>
+						</dl>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="foxdou-body">
+			<div class="foxdou-tab">
+				<ul>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-order.html">订单管理</a>
+					</li>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-cost.html">商品成本</a>
+					</li>
+					<li class="foxdou-tab-item">
+						<a href="servicel-recharge-phone-single.html">人工充值</a>
+					</li>
+					<li class="foxdou-tab-item foxdou-this">
+						<a href="servicel-recharge-api.html">API管理</a>
+					</li>
+				</ul>
+			</div>
+			<div class="layui-clear foxdou-padtop">
+				<div class="foxdou-row foxdou-row-notm">
+					<div class="foxdou-form-row">
+						<form class="layui-form layui-form-pane" action="">
+							<div class="layui-form-item">
+								<div class="layui-inline">
+									<div class="layui-input-inline">
+							            <input type="text" name="title" placeholder="搜索应用" class="layui-input" >
+							        </div>
+								</div>
+								<div class="layui-inline">
+									<label class="layui-form-label">充值类型</label>
+									<div class="layui-input-block foxdou-select-length">
+							            <select>
+									        <option value="">请选择</option>
+									        <option value="0">写作</option>
+									        <option value="1">阅读</option>
+									        <option value="2">游戏</option>
+									        <option value="3">音乐</option>
+									        <option value="4">旅行</option>
+									    </select>
+							        </div>
+								</div>
+								<div class="layui-inline">
+									<label class="layui-form-label">审核状态</label>
+									<div class="layui-input-block foxdou-select-length">
+							            <select>
+									        <option value="">请选择</option>
+									        <option value="0">写作</option>
+									        <option value="1">阅读</option>
+									        <option value="2">游戏</option>
+									        <option value="3">音乐</option>
+									        <option value="4">旅行</option>
+									    </select>
+							        </div>
+								</div>
+								<div class="layui-inline">
+									<button class="layui-btn layui-btn-normal">查&nbsp;&nbsp;询</button>
+									<button class="layui-btn layui-btn-primary">申请API</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="foxdou-table-page" style="padding: 15px;">
+						<div class="layui-form-item">
+							<div class="layui-inline foxdou-left">
+								<button class="layui-btn layui-btn-sm layui-btn-normal" id="statistics">查看统计</button>
+							</div>
+							<div class="layui-inline foxdou-right">
+								<button class="layui-btn layui-btn-sm layui-btn-primary">导出交易记录表</button>
+							</div>
+						</div>
+						<blockquote class="layui-elem-quote foxdou-elem-quote layui-text" style="display: none;">
+						 	<div class="layui-inline">待付款：<span>0</span>笔（元）</div>
+						 	<div class="layui-inline">交易中：<span>0</span>笔（元）</div>
+						 	<div class="layui-inline">交易完成：<span>0</span>笔（元）</div>
+						 	<div class="layui-inline">交易失败：<span>0</span>笔（元）</div>
+						</blockquote>
+						<!--lay-even开启各行变色；lay-size="lg"单元格大尺寸-->
+						<table lay-even lay-size="lg" class="layui-table foxdou-table">
+							<!--colgroupke 可对应控制列的宽度，例如：<col width="70">-->
+							<colgroup>
+								<col>
+								<col>
+								<col>
+								<col>
+								<col>
+								<col>
+								<col>
+							</colgroup>
+							<thead>
+								<tr>
+									<th>API名称</th>
+									<th>API Key</th>
+									<th>审核状态</th>
+									<th>申请时间</th>
+									<th>服务类型</th>
+									<th>购买</th>
+									<th>操作</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+									<td>10086</td>
+									<td class="foxdou-green">已通过</td>
+									<td>2017-12-15 16:31:50</td>
+									<td>话费</td>
+									<td class="foxdou-orange">免费</td>
+									<td>
+										<a href="servicel-recharge-api-overview.html" class="foxdou-text-link">管理</a>
+										<a href="" class="foxdou-text-link">设置</a>
+										<a href="" class="foxdou-text-link">删除</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="foxdou-td-img"><img src="image/quyxcz.png"/>广西移动话费30元快充</td>
+									<td>10086</td>
+									<td class="foxdou-green">已通过</td>
+									<td>2017-12-15 16:31:50</td>
+									<td>话费</td>
+									<td class="foxdou-orange">免费</td>
+									<td>
+										<a href="servicel-recharge-api-overview.html" class="foxdou-text-link">管理</a>
+										<a href="" class="foxdou-text-link">设置</a>
+										<a href="" class="foxdou-text-link">删除</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="foxdou-td-img"><img src="image/sjyecx.png"/>广西移动话费30元快充</td>
+									<td>10086</td>
+									<td class="foxdou-red">未通过</td>
+									<td>2017-12-15 16:31:50</td>
+									<td>话费</td>
+									<td class="foxdou-orange">免费</td>
+									<td>
+										<a href="servicel-recharge-api-overview.html" class="foxdou-text-link">管理</a>
+										<a href="" class="foxdou-text-link">设置</a>
+										<a href="" class="foxdou-text-link">删除</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="foxdou-td-img"><img src="image/sjhgsd.png"/>广西移动话费30元快充</td>
+									<td>10086</td>
+									<td class="foxdou-green">已通过</td>
+									<td>2017-12-15 16:31:50</td>
+									<td>话费</td>
+									<td class="foxdou-orange">免费</td>
+									<td>
+										<a href="servicel-recharge-api-overview.html" class="foxdou-text-link">管理</a>
+										<a href="" class="foxdou-text-link">设置</a>
+										<a href="" class="foxdou-text-link">删除</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="foxdou-td-img"><img src="image/sfzyz.png"/>广西移动话费30元快充</td>
+									<td>10086</td>
+									<td class="foxdou-red">未通过</td>
+									<td>2017-12-15 16:31:50</td>
+									<td>话费</td>
+									<td class="foxdou-orange">免费</td>
+									<td>
+										<a href="servicel-recharge-api-overview.html" class="foxdou-text-link">管理</a>
+										<a href="" class="foxdou-text-link">设置</a>
+										<a href="" class="foxdou-text-link">删除</a>
+									</td>
+								</tr>
+								<tr>
+									<td class="foxdou-td-img"><img src="image/sfzgsyz.png"/>广西移动话费30元快充</td>
+									<td>10086</td>
+									<td class="foxdou-green">已通过</td>
+									<td>2017-12-15 16:31:50</td>
+									<td>话费</td>
+									<td class="foxdou-orange">免费</td>
+									<td>
+										<a href="servicel-recharge-api-overview.html" class="foxdou-text-link">管理</a>
+										<a href="" class="foxdou-text-link">设置</a>
+										<a href="" class="foxdou-text-link">删除</a>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="foxdou-page">
+							<div id="demo7"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="foxdou-footer">
+			Copyright ©你行我动科技
+		</div>
+	</div>
+	
+	<script type="text/javascript" src="layui/layui.js"></script>
+	<script src="js/jquery v2.1.4.js" type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript">
+		
+		/*
+		 * layui组件或模块载入
+		 * 【表单、导航（选项卡）】
+		 */
+		layui.config({
+			base: 'js/'
+		}).use('index');
+		
+		
+		/*
+		 * layui组件或模块载入
+		 * 【分页、日期】
+		 */
+		layui.use('laypage', function(){
+		    var laypage = layui.laypage;
+		    
+		    //完整的分页功能
+		    laypage.render({
+			    elem: 'demo7'
+			    ,count: 100
+			    ,theme: '#1E9FFF'
+			    ,layout: ['count', 'prev', 'page', 'next', 'limit', 'skip']
+			    ,jump: function(obj){
+			    	console.log(obj)
+		    	}
+		    });
+		    
+		});
+		
+		
+		/*
+		 * 查看统计
+		 */
+		$('#statistics').click(function(){
+			var dom = $('.foxdou-elem-quote');
+			dom.slideDown();
+		});
+	</script>
+	
+</body>
+</html>

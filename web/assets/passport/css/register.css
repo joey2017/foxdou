@@ -1,0 +1,43 @@
+.layui-btn{background-color:#1e9fff;}
+.layui-btn-primary{background-color:#ffffff;}
+.layui-btn-warm{background-color:#F7B824;}
+.layui-btn-primary:hover {border-color:#1e9fff;}
+.register-main{width: 1000px;min-height: 650px;height: auto; box-sizing: border-box;background: #FFFFFF;border: 1px solid #E0E0E0;margin: 60px auto;}
+.register-main-bgimg{width: 100%;min-height: 650px;height: auto;background:  url(img/zb-bg2.png) no-repeat;background-position: bottom center;}
+.register-title h2{width: 100%;line-height: 44px;box-sizing: border-box;padding: 0 20px;font-size: 18px;color: #333;border-bottom: 1px solid #EEEEEE;}
+.register-pro{height: 50px; line-height: 50px;text-align: center;color: #BBBBBB;font-size: 16px; margin: 50px auto  110px;background: url(img/zc-bg.png) no-repeat;background-position: center;}
+.register-warp{width: 980px;height: auto; margin: 0 auto;}
+.register-warp li{float: left;width: 300px;height: 160px;box-sizing: border-box;border: 1px solid #E0E0E0;margin-right: 40px;}
+.register-warp li:last-child{margin-right: 0;}
+.register-warp li+li+li{margin-right: 0;}/*兼容IE8*/
+.register-warp .register-item:hover{background: #fcfcfc;border-color: #1e9fff;}
+.register-warp .register-item a{display: block;width: 100%;height: 100%;}
+.register-warp .register-item h2{display: block;margin: 0 auto;width: 150px;padding: 25px 0; line-height: 40px;}
+.register-warp .register-item em{display: inline-block;float: left; width: 40px;height: 40px;margin-right: 20px;}
+.register-warp .register-item .reg-icon-1{background: url(img/icon2.png) no-repeat;}
+.register-warp .register-item .reg-icon-2{background: url(img/icon3.png) no-repeat;}
+.register-warp .register-item .reg-icon-3{background: url(img/icon4.png) no-repeat;}
+.register-warp .register-item span{float: left;font-size: 18px;color: #333333;}
+.register-warp .register-item p{padding: 0px 40px;color: #CCCCCC;}
+
+.register-content{width: 100%;height: auto;box-sizing: border-box;padding: 30px 30px;}
+.register-progress{width: 700px;box-sizing: border-box; background: #F8F8F8; margin: 0 auto;border: 1px solid #E0E0E0;}
+.register-progress{padding: 10px 50px;}
+.register-progress .reg-bar{float: left; height: 30px;line-height: 30px;margin-right: 100px;}
+.register-progress .reg-bar:last-child{margin-right: 0;}
+.register-progress .reg-bar:first-child +li+li{margin-right: 0;}/*兼容IE8*/
+.register-progress .reg-bar i{display: inline-block;float: left; width: 30px;height: 30px;font-size: 30px;color: #999999;margin-right: 10px;}
+.register-progress .reg-bar span{float: left;font-size: 16px;color: #999999;}
+.register-progress .reg-this{}
+.register-progress .reg-this i, .register-progress .reg-this span{color: #18A689;}
+
+.register-content .layui-form{margin-top: 50px;}
+.register-content .layui-form-item{}
+.register-content .layui-input-inline{width: auto;}
+.register-content .layui-form-mid i{float: left;}
+.register-content .layui-form-mid span{float: left;}
+.register-content .layui-select-title{width: 140px;}
+
+.register-item-1 .select-box .layui-select-title{width: 120px;}
+.register-item-2 .select-box .layui-select-title{width: 120px;}
+.register-item-3{margin-top: 40px;padding: 40px 100px;color: #666666;line-height: 30px;}

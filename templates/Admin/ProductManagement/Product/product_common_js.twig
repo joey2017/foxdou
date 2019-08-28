@@ -1,0 +1,267 @@
+<script>
+    $(document).ready(function () {
+        layui.form.on('checkbox(toggle-all)', function(data){
+            var target = $(data.elem).data('target');
+            toggle_all(data.elem, target);
+        });
+    });
+
+    function toggle_all(sender, selector) {
+        if($(sender).data('all_checked')) {
+            $(selector).prop('checked', false);
+            $(sender).data('all_checked', false);
+        } else {
+            $(selector).prop('checked', true);
+            $(sender).data('all_checked', true);
+        }
+
+        layui.form.render('checkbox');
+    }
+
+    function on_price_changed(sender) {
+        var rate_input = $(sender).parents('div.price_rate_component').find('input.input_rate');
+        var price_str = $(sender).val();
+        if (price_str === '') {
+            rate_input.val('');
+            $(sender).removeClass('error');
+            return;
+        }
+        if (isNaN(price_str)) {
+            rate_input.val('');
+            $(sender).addClass('error');
+            return;
+        }
+
+        var price          = parseFloat(price_str);
+        var official_price = $(sender).data('official-price');
+
+        if (isNaN(price) || price <= 0) {
+            layer.tips(isNaN(price_str) ? '格式不正确' : '价格必须大于 0', sender, {tips: 1});
+            $(sender).addClass('error');
+            rate_input.val('');
+            return;
+        }
+        $(sender).removeClass('error');
+        rate_input.removeClass('error');
+
+        var rate       = price / official_price * 100;
+        rate_input.val(rate.toFixed(5));
+    }
+
+    function on_rate_changed(sender) {
+        var price_input = $(sender).parents('div.price_rate_component').find('input.input_price');
+
+        var rate_str = $(sender).val();
+        if (rate_str === '') {
+            price_input.val('');
+            $(sender).removeClass('error');
+            return false;
+        }
+        if (isNaN(rate_str)) {
+            price_input.val('');
+            $(sender).addClass('error');
+            return;
+        }
+
+        var rate = parseFloat(rate_str);
+        if (isNaN(rate) || rate <= 0) {
+            layer.tips(isNaN(rate) ? '格式不正确' : '比例必须大于 0', sender, {tips: 1});
+            price_input.val('');
+            $(sender).addClass('error');
+            return false;
+        }
+        $(sender).removeClass('error');
+        price_input.removeClass('error');
+
+        var official_price = $(sender).data('official-price');
+        var price       = rate * official_price / 100;
+        price_input.val(price.toFixed(5));
+    }
+
+    function get_selected_product_ids(data) {
+        var ids   = [];
+        var checkStatus = table.checkStatus(data.config.id);
+        $.each(checkStatus.data, function (index, item) {
+            ids.push(item.id);
+        });
+
+        return ids;
+    }
+
+    function get_selected_setting_ids(data) {
+        var setting_ids   = [];
+        var checkStatus = table.checkStatus(data.config.id);
+        $.each(checkStatus.data, function (index, item) {
+            setting_ids.push(item.setting_id);
+        });
+
+        return setting_ids;
+    }
+
+
+    function check_all() {
+        $("table input[type='checkbox']").prop('checked', true);
+        form.render('checkbox');
+    }
+
+    function check_reverse() {
+        $("table input[type='checkbox']").each(function (idx, item) {
+            $(item).prop('checked', !$(item).prop('checked'));
+        });
+
+        var checkStatus = table.checkStatus('table');
+        $("table input[type='checkbox']").each(function (idx, item) {
+            if ($(item).attr('lay-filter') === "layTableAllChoose") {
+                $(item).prop('checked', checkStatus.isAll);
+            }
+        });
+
+        form.render('checkbox');
+
+    }
+
+    function save_current_row_settings(row) {
+        var numInput = $(row.elem).parents('tr').find('input.input_num');
+        var numText = numInput.val();
+        if(!numText) {
+            layer.msg('可购数量格式不正确');
+            numInput.addClass('error');
+            return;
+        }
+
+        var priceInput = $(row.elem).parents('tr').find('input.input_price');
+        var priceText = priceInput.val();
+        var price = parseFloat(priceText);
+        if(!price || isNaN(price) || price < 0) {
+            layer.msg('价格格式不正确');
+            priceInput.addClass('error');
+            return;
+        }
+
+        var product_ids = [row.data.id];
+        do_batch_update_product_attributes(product_ids, {'num': numText});
+
+        var setting_ids = [row.data.setting_id];
+        do_batch_update_product_settings(setting_ids, {'price': price});
+    }
+
+    function do_batch_update_product_attributes(product_ids, attributes) {
+        if (!product_ids) {
+            layer.msg('请先选中要操作的商品');
+            return;
+        }
+
+        attributes['product_ids'] = product_ids;
+        attributes['_token']   = '{{ csrf_token('admin_products') }}';
+
+        axios_form.post('{{ path('admin_product_management_products_batch_update_attributes', {'product_type': app.request.get('product_type')}) }}', attributes)
+            .then(function (response) {
+                if (response.data.msg) {
+                    layer.msg(response.data.msg);
+                }
+                if (response.data.status) {
+                    reload_table();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function do_batch_update_product_settings(setting_ids, attributes) {
+        if (!setting_ids) {
+            layer.msg('请先选中要操作的商品');
+            return;
+        }
+
+        attributes['setting_ids'] = setting_ids;
+        attributes['_token']   = '{{ csrf_token('admin_products') }}';
+
+        axios_form.post('{{ path('admin_product_management_products_batch_update_settings', {'product_type': app.request.get('product_type')}) }}', attributes)
+            .then(function (response) {
+                if (response.data.msg) {
+                    layer.msg(response.data.msg);
+                }
+                if (response.data.status) {
+                    reload_table();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+    function batch_update_product_settings(data) {
+        var setting_ids = get_selected_setting_ids(data);
+
+        var attribute = $(data.elem).data('attribute');
+        var value     = $(data.elem).data('value');
+
+        console.log(setting_ids, attribute, value);
+
+        if (!attribute) {
+            layer.msg('操作失败');
+            console.log('attribute 为空');
+            return;
+        }
+
+        var attributes = {};
+        attributes[attribute] = value;
+
+        do_batch_update_product_settings(setting_ids, attributes);
+    }
+
+
+    function batch_update_provider(ctx) {
+        var setting_ids = get_selected_setting_ids(ctx);
+
+        if(!setting_ids || setting_ids.length < 1) {
+            layer.msg('请先选择商品');
+            return;
+        }
+
+        $('#batch_update_provider_form')[0].reset();
+        $('.error').html('');
+        $('.error').hide();
+        $('.tips').show();
+
+        layer.open({
+            title:    '将已选中的 ' + setting_ids.length + ' 个商品的供应商设置为',
+            type:     1,
+            area:     ['500px', '400px'],
+            content:  $('#batch_update_provider_dialog'),
+            closeBtn: false,
+            btn:      ['保存', '取消'],
+            yes:      function (index, layero) {
+                var post_data = {
+                    setting_ids: setting_ids,
+                    provider_id: $('#batch_update_provider_form select[name=provider_id]').val(),
+                    _token:      '{{ csrf_token('admin_products') }}'
+                };
+
+                axios_form.post('{{ path('admin_product_management_products_update_provider', {'product_type': app.request.get('product_type')}) }}', post_data)
+                    .then(function (response) {
+                        if (response.data.msg) {
+                            layer.msg(response.data.msg);
+                        }
+
+                        if (response.data.status) {
+                            layer.close(index);
+                            reload_table();
+                        }
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+
+            },
+            btn2:     function (index, layero) {
+                layer.close(index);
+            },
+            end:      function () {
+                $('#batch_update_provider_dialog').toggle();
+            }
+        });
+    }
+
+</script>

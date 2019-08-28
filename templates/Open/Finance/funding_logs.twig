@@ -1,0 +1,167 @@
+{% extends 'Open/Common/layout_main_panel_new.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '我的财务-充值记录' %}
+
+{% set order_statuses        = constant('App\\Common\\Model\\Payment\\RechargeOrder::STATUSES') %}
+{% set payment_methods = constant('App\\PaymentConstants::PAYMENT_METHOD_CLASSES') %}
+
+{% block css %}
+    {{ use_assets('/assets/open/css/finance.css') }}
+{% endblock %}
+
+{% block main_content %}
+  {#<div class="caiwu-left" style="float: left; width: calc(100% - 380px);height: auto;border:1px solid #E0E0E0;">#}
+    {#<div class="panel-item g-bdc">#}
+      {#<div style="">#}
+        {#{% include "Reseller/Finance/financeTabs.twig" %}#}
+        {#<div class="m-screen-item">#}
+          {#<form action="" method="get" id="get-search" class="layui-form">#}
+              {#<div class="layui-form-item m-screen">#}
+                  {#{{ sf.text(form.order_id, null, {'outer': null}, {'placeholder': '业务单号'}) }}#}
+                  {#{{ sf.select(form.payment_method, null,  to_options(payment_methods, '支付方式'), {'outer': null}) }}#}
+                  {#{{ sf.select(form.status, null,  to_options(order_statuses, '交易状态'), {'outer': null}) }}#}
+                  {#{{ sf.text(form.from, null, {'outer': null}, {'placeholder': '开始时间', 'class': 'layui-input datepicker'}) }}#}
+                  {#{{ sf.text(form.to,  null, {'outer': null}, {'placeholder': '结束时间', 'class': 'layui-input datepicker'}) }}#}
+              {#</div>#}
+            {#<div class="m-cx btn-location">#}
+              {#<button class="layui-btn" onclick="get_trade_data();return false;">查 询</button>#}
+            {#</div>#}
+            {#<div style="clear: both;"></div>#}
+            {#<input name="_token" value="{{ csrf_token('finance') }}" id="_token">#}
+          {#</form>#}
+        {#</div>#}
+      {#</div>#}
+      {#<div class="m-tab-btn">#}
+        {#<button class="layui-btn layui-btn-small f-fnsna" onclick="show_count(this)">查看统计</button>#}
+      {#</div>#}
+
+      {#<div class="m-table-total" style="display: none;">#}
+        {#<ul class="g-bdc">#}
+          {#<li>总计：<span id="shouru_count"></span>（<span id="shouru_sum_money"></span>）</li>#}
+        {#</ul>#}
+      {#</div>#}
+
+
+      {#<div class="record-table g-bdc">#}
+        {#<table class="">#}
+          {#<thead>#}
+          {#<tr>#}
+            {#<th>充值单号</th>#}
+            {#<th>交易名称</th>#}
+            {#<th>金额</th>#}
+            {#<th>交易状态</th>#}
+            {#<th>支付方式</th>#}
+            {#<th>时间</th>#}
+          {#</tr>#}
+          {#</thead>#}
+          {#<tbody id="data-table">#}
+
+          {#{% for order in data %}#}
+            {#<tr>#}
+              {#<td>{{ order.id }}</td>#}
+              {#<td>{{ order.product_name }}</td>#}
+              {#<td>{{ order.amount|number_format(2) }}</td>#}
+              {#<td>{{ order_statuses[order.status]|default('未知状态(' ~ order.status ~ ')') }}</td>#}
+              {#<td>{{ payment_methods[order.payment_class_id]|default('未知状态(' ~ order.payment_class_id ~ ')') }}</td>#}
+              {#<td>{{ order.add_time|date('Y-m-d H:i:s') }}</td>#}
+            {#</tr>#}
+          {#{% endfor %}#}
+          {#</tbody>#}
+        {#</table>#}
+      {#</div>#}
+    {#</div>#}
+  {#</div>#}
+  {#{% include "Reseller/Common/_rightPanel.twig" %}#}
+
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md9">
+            <div class="layui-card">
+                <div class="layadmin-finance">
+                    <div class="layui-form layuiadmin-card-text">
+                        <form action="" method="get" id="get-search">
+                            <div class="layui-inline">
+                                <label class="layui-form-label">流水号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="trade_sn" value="" placeholder="请输入流水号" class="layui-input" />
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">业务单号</label>
+                                <div class="layui-input-block">
+                                    <input type="text" name="order_id" value="" placeholder="请输入业务单号" class="layui-input" />
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">支付方式</label>
+                                <div class="layui-input-block">
+                                    {{ sf.select_raw('payment_class_id', to_options(constant('App\\PaymentConstants::PAYMENT_METHOD_CLASSES'), '全部'), {"class": "layui-input"}) }}
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">充值状态</label>
+                                <div class="layui-input-block">
+                                    {{ sf.select_raw('status', to_options('App\\Common\\Model\\Payment\\RechargeOrder::STATUSES', '全部'), {"class": "layui-input"}) }}
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">金额范围</label>
+                                <div class="layui-input-block">
+                                    <input type="number" name="min" value="" class="layui-input" placeholder="最小金额" style="display: inline-block; width: 110px;"/>
+                                    <input type="number" name="max" value="" class="layui-input" placeholder="最大金额" style="display: inline-block; width: 110px;" />
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <label class="layui-form-label">订单时间</label>
+                                <div class="layui-inline layadmin-time-content">
+                                    <input id="timeFrame" type="text" name="" value="" class="layui-input" placeholder="开始时间 - 结束时间" />
+                                    <input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                                    <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <button class="layui-btn layui-btn-normal layui-btn-sm" onclick="get_data();return false">查 询</button>
+                            </div>
+                        </form>
+                    </div>
+                    <table id="paged-table" class="layui-table" lay-filter="paged-table">
+
+                    </table>
+                    <script id="add_time" type="text/html">
+                        <%#
+                        var date = new Date();
+                        date.setTime(d.add_time*1000);
+                        return date.Format("yyyy-MM-dd hh:mm:ss");
+                        %>
+                    </script>
+                </div>
+            </div>
+        </div>
+        {% include 'Open/Common/right-panel.twig' %}
+    </div>
+
+  <script type="text/javascript">
+      form.render();
+
+      var url = "";
+      var columns = [[
+          {"field": "trade_sn", "title": "流水号", "width": 100},
+          {"field": "id", "title": "业务单号", "width": 150},
+          {"field": "amount", "title": "充值金额", "width": 150},
+          {"field": "note", "title": "备注"},
+          {"field": "log_type", "title": "支付方式"},
+          {"field": "status", "title": "充值状态"},
+          {"field": "add_time", "title": "时间", "width": 200, templet: "#add_time"},
+      ]];
+
+      function get_data() {
+          var params=$('form#get-search').serialize();
+          url = '?' + params;
+          rander_table('#paged-table', url, columns, '');
+      }
+
+      // 初始化
+      get_data();
+
+  </script>
+{% endblock %}

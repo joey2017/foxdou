@@ -1,0 +1,29 @@
+{% extends '/Passport/layout.twig' %}
+{% block css %}
+    <link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/safe/css/x-autocomple.css"/>
+{% endblock %}
+
+{% block main_content %}
+<div class="page-content">
+    <div class="tab-group-title">
+        <div class="title-item title-this">
+            <i class="iconfont">&#xe600;</i></br>
+            <span>验证身份</span>
+        </div>
+        <div class="line line-this"></div>
+        <div class="title-item title-this">
+            <i class="iconfont">&#xe603;</i></br>
+            <span>{{ operation[type]['name'] }}</span>
+        </div>
+        <div class="line line-this"></div>
+        <div class="title-item title-this">
+            <i class="iconfont">&#xe641;</i></br>
+            <span>完成</span>
+        </div>
+    </div>
+    <div class="tab-content" style="text-align: center;margin-top: 50px;">
+        <p class="f-cl-green" style="font-size: 18px;">操作成功！为了您的账户安全请重新登录。</p>
+        <a href="javascript:location.history.back()" class="btn btn-yellow" style="margin-top: 50px;">返回</a>
+    </div>
+</div>
+{% endblock %}

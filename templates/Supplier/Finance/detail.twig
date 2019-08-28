@@ -1,0 +1,110 @@
+{% extends 'Supplier/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% block main_content %}
+    <div class="foxdou-row foxdou-row-notm">
+        <div class="foxdou-form-row" style="margin-left: 200px;">
+            <form class="layui-form layui-form-pane" action="" id="trade-list">
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">流水号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="trade_id" placeholder="请输入流水号" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">业务单号</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="order_id" placeholder="请输入业务单号" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">交易名称</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="name" placeholder="请输入交易名称" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">交易类型</label>
+                        <div class="layui-input-block foxdou-select-length">
+                            {{ sf.select_raw('log_type', to_options(constant("App\\Common\\Model\\Payment\\UserMoneyLog::LOG_TYPES"), '全部'), {"class": "layui-input"}) }}
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">金额范围</label>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="amount_min" placeholder="￥" autocomplete="off" class="layui-input">
+                        </div>
+                        <div class="layui-form-mid">-</div>
+                        <div class="layui-input-inline" style="width: 100px;">
+                            <input type="text" name="amount_max" placeholder="￥" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+                    <div class="layui-inline">
+                        <label class="layui-form-label">交易时间</label>
+                        <div class="layui-input-block">
+                            <input type="text" name="" class="layui-input" id="timeFrame" placeholder="">
+                            <input type="hidden" name="start_time" id="start_time" value="{{ 'now'|date('Y-m-d') }}">
+                            <input type="hidden" name="end_time" id="end_time" value="{{ 'now'|date('Y-m-d') }}">
+                        </div>
+                    </div>
+
+                    <div class="layui-inline">
+                        <button class="layui-btn layui-btn-normal" onclick="get_data();return false;">立即查询</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="foxdou-table-page" style="padding: 15px;margin-left: 200px;">
+            <div class="layui-form-item">
+                <div class="layui-inline foxdou-left">
+                    <button class="layui-btn layui-btn-sm layui-btn-normal" id="statics">查看统计</button>
+                    <button class="layui-btn layui-btn-sm layui-btn-success" id="export">导出订单</button>
+                </div>
+            </div>
+            <div class="table-header" style="display: none;" id="show-count">
+                <ul>
+                    <li>收入：<span class="income-count">0</span>笔（<span class="income-money">0.00</span>元）</li>
+                    <li>支出：<span class="payment-count">0</span>笔（<span class="payment-money">0.00</span>元）</li>
+                </ul>
+            </div>
+            <table class="layui-table" id="trade-list-table" lay-filter="trade-list-table">
+
+            </table>
+        </div>
+    </div>
+    <script id="actions" type="text/html">
+        <div class="layui-btn-container">
+            {#<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="view">查看</a>#}
+        </div>
+    </script>
+    <script id="add_time" type="text/html">
+         <%#
+          var date = new Date();
+          date.setTime(d.add_time*1000);
+          return date.Format("yyyy-MM-dd hh:mm:ss");
+         %>
+    </script>
+{% endblock %}
+
+{% block extra %}
+
+    <style type="text/css">
+        /*局部样式*/
+        .layadmin-td-img img {
+            width: 100px;
+            height: 80px;
+            box-sizing: border-box;
+            margin: 5px 3px;
+            cursor: pointer;
+        }
+        .layadmin-td-img img:hover {
+            border: 2px solid #5FB878;
+        }
+    </style>
+
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Supplier/Finance/detail_js.twig" %}
+{% endblock %}

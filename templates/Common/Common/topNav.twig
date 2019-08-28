@@ -1,0 +1,68 @@
+{% set cate_id     = app.request.get('cate_id', '') %}
+{% set sub_cate = app.request.get('sub_cate', '') %}
+<div class="top">
+  <div class="top-location">
+    <div class="top-logo"><a href="{{ path('open_frontpage_index') }}"></a></div>
+    <ul id="menu">
+      {% set top_nav = get_service_mall_nav_menus() %}
+      {% for nav in top_nav %}
+        {% set is_current = false %}
+      <li class="{{ is_current ? 'menu-this ' : '' }}  {{ nav.id == 'goods' ? 'menu-event ' : '' }}">
+        <a href="{{ nav.url }}">{{ nav.name }}</a>
+        {% if nav.subbusiness is defined %}
+        <div class="menu-list">
+          <div class="menu-list-location">
+            {% for idx, sub_nav in nav.subbusiness %}
+            {% if idx <= 7 %}
+            <div class="menu-item {{ cate_id == sub_nav.id ? 'menu-item-hover ' : '' }}">
+              <div class="menu-title">{{ sub_nav.name }}<i>>></i></div>
+              <div class="menu-body " style="top: -{{ 46 * idx }}px!important;">
+                {% for feature in sub_nav.subfeature %}
+                <a href="{{ feature.url }}" style="{{ feature.id == sub_cate ? 'background:#0FB5D8;' : ''}}">{{ feature.name }}</a>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            <pre><img src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/img/xiala-up.png"/></pre>
+          </div>
+        </div>
+        {% endif %}
+      </li>
+      {% endfor %}
+    </ul>
+    <div class="top-login">
+      <a href="/open/dashboard" class="btn btn-blue" target="_blank">控制台</a>
+      {% if is_granted('ROLE_OPEN_PLATFORM') %}
+        <a href="/open/dashboard" class="a" target="_blank">{{ app.user.nick_name }}</a>
+        <a href="{{ logout_path() }}" class="a">退出</a>
+      {% else %}
+        <a href="javascript:void(0);" onclick="login();"
+           class="a">登录</a>
+        <a href="{{ path('passport_register') }}" class="a" target="_blank">注册</a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+//    <?php if(!($cate_id||$two_cate_id)):?>
+    {% if not cate_id and not sub_cate %}
+    $(".menu-list").find('.menu-item').first().addClass('menu-item-hover');
+    {% endif %}
+    $(".menu-event").hover(
+        function () {
+            $(".menu-list").slideDown("fast");
+        },
+        function () {
+            $(".menu-list").stop(true).slideUp('fast');
+        }
+    );
+    $('.menu-title').mouseenter(function(){
+        $(this).parent().addClass('menu-item-hover').siblings().removeClass('menu-item-hover');
+        $(this).parent().find('.menu-body').hide();
+    });
+
+</script>
+

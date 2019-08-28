@@ -1,0 +1,329 @@
+{% extends ('/Admin/Common/layout.twig') %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set title = '商品货源管理' %}
+
+{% block css %}
+    <style>
+        .search-form .layui-form-label {
+            min-width: 130px;
+        }
+        .layui-table-cell {
+            word-wrap: break-word;
+        }
+        #edit-form input.error {
+            border: solid 1px red !important;
+            background-color: #f7ecb5;
+        }
+        #edit-form .error input:focus {
+            border: solid 1px red !important;
+            background-color: #f7ecb5;
+        }
+        .table-header{
+            padding: 10px!important;
+            background-color: #eee;
+        }
+
+        .layui-table-cell {
+            text-align: center !important;
+        }
+        .table-action {cursor: pointer;color: #01AAED;}
+
+        .status_radio .layui-form-radio {
+            display: block;
+        }
+    </style>
+{% endblock %}
+
+{% block main_content %}
+    <div class="layui-fluid">
+
+        <table class="layui-table layadmin-remove-color">
+            <tr>
+                <td class="table-header" colspan="2"><h2>商品信息</h2></td>
+            </tr>
+            <tr>
+                <td style="width: 150px;text-align: center;">商品编号</td>
+                <td>{{ product.id }}</td>
+            </tr>
+            <tr>
+                <td style="width: 150px;text-align: center;">商品名称</td>
+                <td>{{ product.name }}</td>
+            </tr>
+            <tr>
+                <td style="width: 150px;text-align: center;">面值</td>
+                <td>{{ product.face_value }}</td>
+            </tr>
+        </table>
+
+        <div class="layui-card">
+            <div class="layui-card-body">
+                <form class="layui-form search-form" id="search-form">
+                    <div>
+                        {#'product_id'             => ['required, numeric'],#}
+                        {#'supplier_account_status'        => ['enum[1|0]'],#}
+                        {#'template_status'        => ['enum[1|0]'],#}
+                        {#'source_status'          => ['enum[1|0]'],#}
+                        {#'template_source_status' => ['enum[1|0]'],#}
+                        {#'template_audit_status'  => ['enum[1|0]'],#}
+                        {#'source_strategy_status' => ['enum[1|0]'],#}
+                        {#'search'                 => ['max_length[100]'],#}
+
+                        <div class="layui-inline" style="margin-bottom: 0;">
+                            {{ sf.select('supplier_account_status',         null, to_options('App\\Common\\Model\\User\\User::STATUSES', "供应商状态"), {'outer': null}) }}
+                            {{ sf.select('source_group_status',         null, to_options('App\\Common\\Model\\Product\\SourceGroup::STATUSES', "模板启用状态"), {'outer': null}) }}
+                            {{ sf.select('source_status',           null, to_options('App\\ProductConstants::STATUSES', "货源上架状态"), {'outer': null}) }}
+                            {{ sf.select('source_review_status',   null, to_options('App\\ProductConstants::REVIEW_STATUSES', "货源审核状态"), {'outer': null}) }}
+                            {#{{ sf.select('source_strategy_status', null, to_options('App\\ProductConstants::STATUSES', "启用状态"), {'outer': null}) }}#}
+                            {{ sf.text('search', null, {'outer': null}, {'placeholder': '搜索'}) }}
+                            {{ sf.button('搜索', {'outer': null}, {'class': 'layui-btn layui-btn-sm', 'style': 'width: 80px;', 'onclick': 'reload_table()'}, null) }}
+                        </div>
+                    </div>
+                </form>
+
+                <script type="text/html" id="toolbar">
+                    <div class="layui-btn-container">
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="check_all">全选</button>
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="check_reverse">反选</button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update_source_price">
+                                修改供货价/比例
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update_supplier_account_status">
+                                修改供应商状态
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update_source_status">
+                                修改货源上架状态
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update_product_source_review_status">
+                                修改货源审核状态
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-normal layui-btn-sm" lay-event="update_product_source_enable_status">
+                                修改货源对本商品启用状态
+                            </button>
+                        </div>
+
+                        <div class="layui-btn-group" style="">
+                            <button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delete_selected">删除</button>
+                        </div>
+                    </div>
+                </script>
+
+                <script type="text/html" id="source_setting_sort">
+                    <span class="table-action">
+                        <%= d.source_setting_sort %>
+                    </span>
+                </script>
+                <script type="text/html" id="source_setting_weight">
+                    <span class="table-action">
+                        <%= d.source_setting_weight %>
+                    </span>
+                </script>
+                <script type="text/html" id="source">
+                    <% d.product_name %><br>
+                    面值：<% d.product_face_value %> 元
+                </script>
+                <script type="text/html" id="supplier">
+                    <% d.supplier_user_name %><br>
+                    <% d.supplier_business_name ? d.supplier_business_name : '-' %><br>
+                    <% d.supplier_mobile %>
+                </script>
+                <script type="text/html" id="template">
+                    <% d.group_name %><br>
+                    <% d.group_id %>
+                </script>
+                <script type="text/html" id="source_price_info">
+                    <div class="table-action">
+                        <p><%= d.source_price %> / <%= d.source_rate %></p>
+                    </div>
+                </script>
+                <script type="text/html" id="supplier_account_status">
+                    <% d.supplier_account_status === 'ACTIVE' ? '<span class="table-action layui-badge layui-bg-green">正常</span>' :
+                        d.supplier_account_status === 'INACTIVE' ? '<span class="table-action layui-badge layui-bg-orange">未激活</span>' :
+                            d.supplier_account_status === 'REVIEW' ? '<span class="table-action layui-badge layui-bg-orange">审核中</span>' :
+                                d.supplier_account_status === 'SUSPENDED' ? '<span class="table-action layui-badge layui-bg-orange">冻结</span>' :
+                                    d.supplier_account_status === 'BANNED' ? '<span class="table-action layui-badge layui-bg-red">封号清退</span>' :
+                                        d.supplier_account_status === 'REJECTED' ? '<span class="table-action layui-badge layui-bg-red">审核失败</span>' :
+                                            '未知状态(' + d.supplier_account_status + ')'
+                    %>
+                </script>
+                <script type="text/html" id="template_status">
+                    <% d.group_status == 1 ? '<span class="table-action layui-badge layui-bg-green">启用</span>' : '<span class="table-action layui-badge layui-bg-orange">停用</span>' %>
+                </script>
+                <script type="text/html" id="source_status">
+                    <% d.source_status == 1 ? '<span class="table-action layui-badge layui-bg-green">上架</span>' : '<span class="table-action layui-badge layui-bg-orange">下架</span>' %>
+                </script>
+                <script type="text/html" id="source_review_status">
+                    <% d.source_review_status == 1 ? '<span class="table-action layui-badge layui-bg-orange">待审核</span>' :
+                         d.source_review_status == 2 ? '<span class="table-action layui-badge layui-bg-green">审核通过</span>' : '<span class="table-action layui-badge layui-bg-red">审核不通过</span>'
+                    %>
+                </script>
+                <script type="text/html" id="product_source_enable_status">
+                    <% d.source_setting_enable_status == 1 ? '<span class="table-action layui-badge layui-bg-green">启用</span>' : '<span class="table-action layui-badge layui-bg-orange">停用</span>' %>
+                </script>
+
+                <script type="text/html" id="actions">
+                    <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="delete_selected">移除</button>
+                </script>
+
+                <table id="table" class="layui-table layadmin-table layui-form list-table" lay-filter="table"
+                       lay-data="{url:'{{ path(current_route, {'product_type': app.request.get('product_type')}) }}?product_id={{ product.id }}', page:true, id:'table', method:'get', toolbar: '#toolbar', defaultToolbar: [], done: 'on_table_render_done()'}">
+                    <thead>
+                    {#su.id as user_id, su.user_name, su.user_business_name, su.user_mobile, su.status as user_status,#}
+                    {#t.id as template_id, t.name as template_name, t.status as template_status,#}
+                    {#s.source_price, s.status as source_status, 999 as template_source_status, s.review_status as source_review_status, 999 as source_strategy_status, FROM_UNIXTIME(s.add_time) as source_add_time",#}
+
+                    <tr>
+                        <th lay-data="{field:'source_id', width:40, type: 'checkbox'}"></th>
+                        <th lay-data="{field:'source_setting_sort', event:'update_source_distribution_sort', width:50, templet: '#source_setting_sort'}">排序</th>
+                        <th lay-data="{field:'source_setting_weight', event:'update_source_distribution_weight', width:80, templet: '#source_setting_weight'}">分流常数</th>
+                        <th lay-data="{field:'source', templet: '#source'}">货源</th>
+                        <th lay-data="{field:'supplier', width:170, templet: '#supplier'}">来源供应商</th>
+                        <th lay-data="{field:'group', width:170, templet: '#template'}">来源供货模板</th>
+                        <th lay-data="{field:'source_price_info', width:150, event:'update_source_price', templet: '#source_price_info'}">供货价/比例</th>
+                        <th lay-data="{field:'supplier_account_status', width:100, event:'update_supplier_account_status', templet: '#supplier_account_status'}">供应商状态<br/>（狐豆控制）</th>
+                        <th lay-data="{field:'template_status', width:120, event:'update_source_group_status', templet: '#template_status'}">模板启用状态<br/>（供应商控制）</th>
+                        <th lay-data="{field:'source_status', width:150, event:'update_source_status', templet: '#source_status'}">货源上架状态<br/>（供应商控制）</th>
+                        <th lay-data="{field:'source_review_status', width:120, event:'update_product_source_review_status', templet: '#source_review_status'}">货源审核状态 <br/>（狐豆控制）</th>
+                        <th lay-data="{field:'product_source_enable_status', width:150, event:'update_product_source_enable_status', templet: '#product_source_enable_status'}">货源对本商品启用状态<br/>（狐豆控制）</th>
+                        <th lay-data="{field:'add_time', width:150}">创建时间</th>
+                        <th lay-data="{width:80, templet: '#actions'}">
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra %}
+    <div class="layui-card" id="update_source_price_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="update_source_price_form" class="layui-form" lay-filter="update_source_price_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;">售价/比例</td>
+                        <td>
+                            <div class="layui-inline">
+                                <div class="layui-input-inline" style="margin-left: 0;padding: 0px;">
+                                    {{ sf.text_raw('price', {'placeholder': '售价', 'oninput': 'on_price_changed(this);'}) }}
+                                </div>
+                                <div class="layui-input-inline" style="margin-left: 0;padding: 0px;">
+                                    /
+                                </div>
+                                <div class="layui-input-inline" style="margin-left: 0;padding: 0px;">
+                                    {{ sf.text_raw('rate', {'placeholder': '比例', 'oninput': 'on_rate_changed(this);'}) }}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                {{ sf.hidden_raw('product_id', {'value': product.id}) }}
+                {{ sf.hidden_raw('face_value', {'value': product.face_value}) }}
+            </form>
+        </div>
+    </div>
+    <div class="layui-card" id="update_supplier_account_status_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="update_supplier_account_status_form" class="layui-form" lay-filter="update_supplier_account_status_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;">供货商状态</td>
+                        <td>
+                            <div class="status_radio">
+                                {{ sf.radio_raw('status', {'ACTIVE': '正常', 'SUSPENDED': '冻结'}) }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="layui-card" id="update_source_group_status_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="update_source_group_status_form" class="layui-form" lay-filter="update_source_group_status_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;">供货模板状态</td>
+                        <td>
+                            <div class="status_radio">
+                                {{ sf.radio_raw('status', {'1': '启用', '0': '禁用'}) }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="layui-card" id="update_source_status_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="update_source_status_form" class="layui-form" lay-filter="update_source_status_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;">货源上架状态</td>
+                        <td>
+                            <div class="status_radio">
+                                {{ sf.radio_raw('status', {'1': '上架', '0': '下架'}) }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="layui-card" id="edit_source_review_status_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="edit_source_review_status_form" class="layui-form" lay-filter="edit_source_review_status_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;">售价/比例</td>
+                        <td>
+                            <div class="status_radio">
+                                {{ sf.radio_raw('status', {'1': '审核通过，上架', '2': '审核通过，下架', '3': '审核不通过', }) }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+    <div class="layui-card" id="update_product_source_enable_status_dialog" style="display: none;">
+        <div class="layui-card-body">
+            <form id="update_product_source_enable_status_form" class="layui-form" lay-filter="update_product_source_enable_status_form">
+                <table class="layui-table layadmin-remove-color">
+                    <tr>
+                        <td style="width: 150px;text-align: center;">货源对本商品启用状态</td>
+                        <td>
+                            <div class="status_radio">
+                                {{ sf.radio_raw('status', {'1': '启用', '0': '不启用'}) }}
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_end %}
+    {% include "/Admin/ProductManagement/Product/product_common_js.twig" %}
+    {% include "/Admin/ProductManagement/SourceGroup/index_js.twig" %}
+{% endblock %}

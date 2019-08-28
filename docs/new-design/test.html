@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<title>测试文件</title>
+	<link rel="stylesheet" href="layui/css/layui.css"  media="all">
+	<link rel="stylesheet" href="css/common.css"/>
+	<style type="text/css">
+		.a {width: 200px; height: 30px; margin: 30px auto; border: 1px solid #BBBBBB; border-radius: 15px; text-align: center; line-height: 30px;
+			cursor: pointer;}
+		.inp {width: 200px; height: 40px; line-height: 40px; padding: 0 8px;}
+		.b {display: none; padding: 10px;}
+		.b a {display: inline-block; margin-top: 20px; padding: 4px 15px; border: 1px solid #BBBBBB; color: #000000;}
+	</style>
+</head>
+
+<body>
+	
+	<div class="a relieve">解除绑定</div>
+	
+	<div class="layer-content">
+		<div class="layui-input-block">
+			<input type="password" value="" name="" class="layui-input" />
+		</div>
+		<div class="layui-input-block">
+			<button type="button" class="layui-btn layui-btn-normal layui-btn-small">确定</button>
+			<button type="button" class="layui-btn layui-btn-primary layui-btn-small">取消</button>
+		</div>
+	</div>
+	
+	<div class="b">
+		判断输入框是否为空<br/>
+		<input class="inp" type="text" name="" id="" value="" /><br/>
+		<a href="javascript:;" class="c" >确定</a>
+	</div>
+	
+	<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	<script type="text/javascript" src="js/layui/layui.js" ></script>
+	<script type="text/javascript">
+	
+	layui.use('layer', function(){
+		var layer = layui.layer;
+		
+		$('.relieve').click(function(){
+			layer.open({
+		    	type: 1
+			    ,title: false
+			    ,closeBtn: false
+			    ,btn:
+			    ,area: '400px'
+		        ,shade: 0.3  //遮罩透明度
+	    		,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+			    ,btnAlign: 'c'
+			    ,content: $('.layer-content')
+			    ,success:function(){
+			    	$('.c').click(function(index){
+			    		var d=$('.inp').val();
+			    		console.log(d)
+				    	if(!d==''){
+				    		layer.close(index);
+				    		return false;
+				    	}
+				    	layer.msg('输入框不能为空');
+			    	})
+			    }
+			    	
+			});
+		})
+	});
+	
+//		layui.use(['laypage','layer'], function(){
+//		    var laypage = layui.laypage,
+//		    	layer = layui.layer;
+//		    
+//		    
+//		    //弹出层
+//		    var active = {
+//		    	notice: function(){ //重置AppSecret层
+//				    layer.open({
+//				    	type: 1
+//					    ,title: false
+//					    ,closeBtn: false
+//					    ,btn:
+//					    ,area: '400px'
+//				        ,shade: 0.3  //遮罩透明度
+//		        		,id: 'LAY_layuipro' //设定一个id，防止重复弹出
+//					    ,btnAlign: 'c'
+//					    ,content: $('.b')
+//					    ,success:function(){
+//					    	$('.c').click(function(index){
+//					    		var d=$('.inp').val();
+//					    		console.log(d)
+//						    	if(!d==''){
+//						    		layer.close(index);
+//						    		return false;
+//						    	}
+//						    	layer.msg('输入框不能为空');
+//					    	})
+//					    }
+//					    	
+//					});
+//				}
+////		    	,abc:function(){
+////		    		layer.prompt({title: '设置回调URL地址', formType:2,value:(old_url=='未设置'?'':old_url)}, function(notify_url, index){
+////			        $.ajax('/open/app/set-notify-url?app_id=100012',{
+////			            type:'post'
+////			            ,data:{notify_url:notify_url}
+////			            ,success:function(data) {
+////			                if (!data.status) {
+////			                    alert(data.msg);
+////			                    return false;
+////			                }
+////			                $("#notify_url").html(notify_url);
+////			                layer.close(index);
+////			            }
+////			            ,error:function () {
+////			                layer.msg('网络或系统异常，请稍候再试', function () {});
+////			            }
+////			        });
+////			    });
+////		    	}
+//			}
+//		    $('.site-demo-layer').on('click', function(){
+//			    var type = $(this).data('type');
+//			    active[type] ? active[type].call(this) : '';
+//		    });
+//		});
+	</script>
+</body>
+</html>

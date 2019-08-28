@@ -1,0 +1,100 @@
+{% set user = app.user %}
+{% set current_route = app.request.attributes.get('_route') %}
+{% set current_path  = app.request.pathinfo %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %} {{ title|default("狐豆云数据") }} {% endblock %}</title>
+
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/js/layui/css/layui.css"/>#}
+  {#<script type="text/javascript" src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/common/js/jquery.min.js"></script>#}
+
+
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/css/index.css"/>#}
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/css/common.css"/>#}
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/css/font/iconfont.css">#}
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/slideBanner/css/fullSlide.css">#}
+
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/css/font-icon.css"/>#}
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/css/font/iconfont.css"/>#}
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/css/article-article.css"/>#}
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/select/css/xui-select.css"/>#}
+  {#<link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/prettifyCode/prettify.css"/>#}
+
+  {#<script type="text/javascript" src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/slideBanner/js/superslide.2.1.js"></script>#}
+
+  {#<!--    代码修饰-->#}
+  {#<script src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/prettifyCode/prettify.js" charset="utf-8"></script>#}
+  {#<script type="text/javascript" src="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/js/select/xui-select.js"></script>#}
+    {{ use_assets([
+        '/assets/open/frontpage/css/index.css',
+        '/assets/open/frontpage/css/common.css',
+        '/assets/open/frontpage/css/font-icon/iconfont.css',
+        '/assets/open/frontpage/js/slideBanner/css/fullSlide.css',
+        '/assets/common/js/jquery.min.js',
+        '/assets/open/frontpage/js/slideBanner/js/jquery.js',
+        '/assets/open/frontpage/js/slideBanner/js/superslide.2.1.js',
+    ]) }}
+  <style type="text/css">
+
+    .appitem-main h2,.appitem-main p{overflow: hidden;white-space: nowrap;text-overflow: ellipsis;}
+    /*合作流程*/
+    .cooperation {width: 100%; height: auto; margin-top: 60px; background: url(//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/servicemall/img/hzlc-bg.jpg) no-repeat; background-color: #36393b; background-position: center;}
+    .cooperation-location {width: 1200px; height: 500px; margin: 0 auto;}
+    .cooperation-location h2 {color: #fff;}
+    .cooperation-main {position: relative; height: 320px;}
+    .cooperation-axis {position: absolute; top: 150px; left: 0; right: 0; text-align: center;}
+    .cooperation-axis li {position: relative; top: -7px; display: inline-block; width: 200px; height: 1px; background-color: rgba(255,255,255,.5);}
+    .cooperation-axis li:nth-child(even) {position: initial; width: 14px; height: 14px; border-radius: 50%; margin: 0 8px;}
+
+    .cooperation-bubble {position: absolute; top: 20px; display: block; width: 200px; height: auto;}
+    .bubble { position:relative; display: inline-block; width:100%; padding: 10px; background:rgba(99, 107, 109, 0.78); border-radius:4px;
+      box-shadow: 0 3px 8px rgba(0,0,0,.1); cursor: default;}
+    .bubble p {line-height: 20px; color: #444355; font-size: 14px; text-align: left;}
+    .bubble .arrow { position:absolute; bottom: -16px; left:43%; width:0; height:0; font-size:0; border:solid 8px;
+      border-color:rgba(99, 107, 109, 0.78) transparent transparent transparent; }
+
+    .cm-col2 .bubble {background:rgba(99, 107, 109, 0.78);}
+    .cm-col2 .arrow {top: -16px; border-color:transparent transparent rgba(99, 107, 109, 0.78) transparent;}
+    .cm-col3 .bubble {background: rgba(99, 107, 109, 0.78);}
+    .cm-col3 .arrow {bottom: -16px; border-color:rgba(99, 107, 109, 0.78) transparent transparent transparent;}
+
+    .cooperation-bubble .cm-text {position: relative; padding: 7px;}
+    .cooperation-bubble .cm-text em {position: absolute; top: 0; left: 0; display: block; font-family: arial;
+      font-size: 64px; line-height: 64px; color: #fff;}
+    .cooperation-bubble .cm-text h1, .cooperation-bubble .cm-text p {padding-left: 45px;}
+    .cooperation-bubble .cm-text h1 {display: block;height: 24px; margin-bottom: 10px; font-size: 24px; color: #fff; font-weight: normal;
+      overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+    .cooperation-bubble .cm-text p {display: block; height: 40px; color: #fff; overflow: hidden;}
+    .cooperation-bubble .cm-text p a{height: 40px; color: #fff;overflow: hidden;}
+    .cm-col1 {left: 260px;}
+    .cm-col2 {top: 200px; left: 500px;}
+    .cm-col3 {right: 265px;}
+
+    .layui-elem-quote{border-color: #0fb5d8;}
+    .detail-arrt .qita-input{display: inline-block;width: 60px;height: 26px;margin-left: 5px; padding: 0 10px;border: 1px solid #BBBBBB;}
+    .detail-arrt .qita-input:focus{border-color: #0fb5d8;}
+  </style>
+
+  {% block css %}
+  {% endblock %}
+  {% block js %}
+  {% endblock %}
+  {% block validation_scripts %}
+  {% endblock %}
+
+</head>
+<body>
+
+<div class="g-head">
+  {% include "/Open/Common/topNav.twig" %}
+</div>
+{% block main_content %}
+{% endblock %}
+{% block extra %}
+{% endblock %}
+{% block js_end %}
+{% endblock %}
+</body>
+</html>

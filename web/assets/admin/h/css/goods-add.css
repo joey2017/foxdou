@@ -1,0 +1,74 @@
+
+body{background-color: #f3f3f4;}
+
+.goods-main{float: left;width: 100%;height: auto;}
+
+.wap-content{width: 100%;height: auto;box-sizing: border-box;padding: 20px;}
+.goods-form{width: 100%; height: auto;box-sizing: border-box;padding: 20px 40px 30px 40px;border-top: 4px solid #E0E0E0;background-color: #FFFFFF;}
+.h-input-inline{float: left;}		
+.image-view{width: 100px;height: 100px;}
+.sisi-btn-item input{width: 100px;height: 100px;}
+.sisi-btn-item button{width: 100px;height: 100px;}
+.sisi-btn-item span{font-size: 60px;line-height:90px;}
+.editpr-box0{margin: 5px 0;}
+.editor-tab-btn a{margin-right: 10px;}
+ul.h-details li{margin: 5px 0;}
+.h-checkbox{display: block;}
+.h-checkbox label{display: inline-block;margin-right: 10px; line-height: 34px;color: #666666;}
+.h-checkbox input{float: left;margin: 10px 5px 0 0;}
+
+.alone-pro{width: 133px;}
+.alone-pro input{width: 40px;padding: 0 5px!important;}
+.alone-pro span{margin: 0 5px;}
+.width-250{width: 250px;}
+.width-230{width: 230px;}
+.width-205{width: 205px;}
+.width-195{width: 195px;}
+.width-175{width: 175px;}
+.width-200{width: 200px;}
+.width-133{width: 133px;}
+.width-120{width: 121px;}
+.width-100{width: 100px;}
+.width-90{width: 90px;}
+.width-80{width: 80px;}
+.width-70{width: 70px;}
+.width-60{width: 60px;}
+
+
+.editor-tab-btn{margin: 20px 0px 15px 0px;}
+.xui-editor{float: left;min-width:660px;height: auto;}
+.td-title{width: 50px;background: #F8F8F8;color: #333333;}
+.api-item{float: left; width: auto;height: auto;padding-top: 5px;}
+.api-item p{margin-right: 20px;}
+.api-item a{margin: 8px auto;}
+.api-item .explain-pro{margin-left: 0;display: inline-block; margin-top: 10px;}
+
+
+.goods-koufei{height: 34px;border-bottom: 1px solid #E0E0E0;margin-bottom: 20px; line-height: 34px;}
+.goods-koufei>span{float: left;margin-right: 10px;color: #18A689;}
+.goods-koufei li{float: left;}
+.goods-koufei a{display: inline-block; padding: 0 20px;color: #888888;}
+.goods-koufei .a-this{border-top-left-radius: 4px;border-top-right-radius: 4px;
+	border-left: 1px solid #E0E0E0;border-top: 1px solid #E0E0E0;border-right: 1px solid #E0E0E0;
+	background-color: #FFFFFF;color: #333333;font-weight: bold;
+}
+.add-inline-table{display: block;margin-top: 10px; border: 1px solid #EEEEEE;background-color: #F8F8F8;}
+.add-inline-table:hover{border-color: #CCCCCC;}
+.add-inline-table:hover a{color: #666666!important;}
+.add-inline-table a{display: block!important;width: 100%!important; line-height: 34px;color: #BBBBBB!important;}
+
+
+
+/*扣费方式*/
+.moban-tab{margin: 20px 0;}
+.moban-tab b{margin-right: 10px; font-size: 14px;color: #333333;}
+.moban-tab a{margin-right: 5px;}
+
+.layer-docking{padding:20px 30px;height: auto;display: none;}
+.docking-info{height: 40px;margin-bottom: 15px;line-height: 40px;}
+.docking-info p{display: inline-block;width: auto;}
+.docking-info p:first-child{margin-right: 80px;}
+.docking-info label, .docking-info span{display: inline-block;}
+.docking-info label:last-child{margin-left: 30px;}
+.docking-btn-group{height: 34px;padding: 15px 0; text-align: center;border-bottom: 1px dashed #E0E0E0;}
+.docking-btn-group a{margin: 0 5px;}

@@ -1,0 +1,126 @@
+{
+    "name": "nxwd/foxdou",
+    "license": "Private",
+    "type": "project",
+    "description": "",
+    "prefer-stable": true,
+    "require": {
+        "php": "^7.2",
+        "ext-pdo_sqlite": "*",
+        "endroid/qr-code-bundle": "^3.3",
+        "mashape/unirest-php": "^3.0",
+        "nxwd/alipay-sdk-mini": "@dev",
+        "php-pm/httpkernel-adapter": "^1.0.5",
+        "php-pm/php-pm": "^1.0.5",
+        "ramsey/uuid": "^3.8",
+        "sensio/framework-extra-bundle": "^5.0",
+        "sensiolabs/security-checker": "^4.1",
+        "symfony/flex": "^1.0.86",
+        "symfony/framework-bundle": "^4.1",
+        "symfony/monolog-bundle": "^3.1",
+        "symfony/polyfill-php72": "^1.8",
+        "symfony/security-bundle": "^4.1",
+        "symfony/swiftmailer-bundle": "^3.1",
+        "symfony/translation": "^4.1",
+        "symfony/twig-bundle": "^4.1",
+        "symfony/yaml": "^4.1",
+        "symfu/simple-form-bundle": "dev-master",
+        "symfu/simple-validation": "dev-master",
+        "tfr/simple-record": "dev-master",
+        "twig/extensions": "^1.5",
+        "yansongda/pay": "^2.5",
+        "oneup/uploader-bundle": "^2.1",
+        "oneup/flysystem-bundle": "^3.0",
+        "snc/redis-bundle": "^2.1",
+        "enqueue/enqueue-bundle": "^0.9.3",
+        "enqueue/fs": "^0.9.2",
+        "enqueue/redis": "^0.9.6",
+        "enqueue/async-command": "^0.9.6"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.12",
+        "steevanb/symfony-container-introspection": "^1.1.1",
+        "symfony/browser-kit": "^4.1",
+        "symfony/css-selector": "^4.1",
+        "symfony/debug-bundle": "^4.1",
+        "symfony/dotenv": "^4.1",
+        "symfony/phpunit-bridge": "^4.1",
+        "symfony/stopwatch": "^4.1",
+        "symfony/web-profiler-bundle": "^4.1",
+        "symfony/web-server-bundle": "^4.1",
+        "phpstan/phpstan": "^0.11.1"
+    },
+    "config": {
+        "preferred-install": {
+            "*": "dist"
+        },
+        "sort-packages": false
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd"
+        },
+        "post-install-cmd": [
+            "@auto-scripts"
+        ],
+        "post-update-cmd": [
+            "@auto-scripts"
+        ]
+    },
+    "conflict": {
+        "symfony/symfony": "*"
+    },
+    "extra": {
+        "symfony": {
+            "allow-contrib": true
+        }
+    },
+    "repositories": {
+        "0": {
+            "type": "vcs",
+            "url": "git@gitee.com:nxwd/php-pm.git"
+        },
+        "1": {
+            "type": "vcs",
+            "url": "git@gitee.com:nxwd/httpkernel-adapter.git"
+        },
+        "2": {
+            "type": "vcs",
+            "url": "git@gitee.com:nxwd/simple-record.git"
+        },
+        "3": {
+            "type": "vcs",
+            "url": "git@gitee.com:nxwd/simple-form-bundle.git"
+        },
+        "4": {
+            "type": "vcs",
+            "url": "git@gitee.com:nxwd/simple-validation.git"
+        },
+        "5": {
+            "type": "vcs",
+            "url": "git@gitee.com:nxwd/symfony-swoole-bundle.git"
+        },
+        "6": {
+            "type": "vcs",
+            "url": "git@gitee.com:nxwd/alipay-sdk-mini.git"
+        },
+        "7": {
+            "type": "vcs",
+            "url": "git@gitee.com:nxwd/aliyun-dysms-php-sdk.git"
+        },
+        "packagist": {
+            "type": "composer",
+            "url": "https://packagist.laravel-china.org"
+        }
+    }
+}

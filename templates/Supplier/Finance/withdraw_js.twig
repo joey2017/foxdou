@@ -1,0 +1,39 @@
+<script>
+    var trade_statuses = JSON.parse('{{ constant("App\\Common\\Model\\Payment\\SellCashUserLog::TRADE_STATUSES")|json_encode|raw }}');
+    var url = "";
+    var columns = [[
+        {"field": "id", "title": "提现记录编号"},
+        {
+            "field": "trade_status", "title": "提现状态", templet: function (d) {
+                return trade_statuses[d.trade_status];
+            }
+        },
+        {"field": "get_cash", "title": "申请提现金额"},
+        {"field": "shouxu_cash", "title": "手续费"},
+        {"field": "actual_cash", "title": "预计到账金额"},
+        {
+            "field": "log_type", "title": "提现账户", "width": 150, templet: function (d) {
+                return d.account_user + ',' + d.account_num + '('+ d.account_bank_name +')';
+            }
+        },
+        {"field": "info", "title": "备注"},
+        {"field": "add_time", "title": "时间", templet: "#add_time"},
+        {"field": "edit_time", "title": "审核时间", templet: "#edit_time"},
+        {"field": "remark", "title": "平台备注"}
+    ]];
+
+    function get_data() {
+        var params = $('form#trade-list').serialize();
+        url = '?' + params;
+        rander_table('#trade-list-table', url, columns);
+    }
+
+    // 初始化
+    get_data();
+    form.render();
+
+    $(document).on('click', function (e) {
+        var target = $(e.target);
+    });
+
+</script>

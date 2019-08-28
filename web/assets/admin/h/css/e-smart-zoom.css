@@ -1,0 +1,7 @@
+#pageContent {float: left;position: relative; width: 450px;height: 320px; margin-right: 30px;overflow: hidden;}
+#imgContainer {width: 450px;height: 320px;}
+#positionButtonDiv {background: rgb(58, 56, 63);background: rgba(58, 56, 63, 0.4);border: solid 1px #999999;color: #fff;padding: 8px;text-align: left;position: absolute;right:20px;top:20px;}
+#positionButtonDiv .positionButtonSpan img {float: right;border: 0;}
+.positionMapClass area {cursor: pointer;}
+.zoomButton {border: 0;	cursor: pointer;}
+.zoomableContainer {background-image: url("img/transparent.png");}

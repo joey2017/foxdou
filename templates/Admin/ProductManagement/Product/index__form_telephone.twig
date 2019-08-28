@@ -1,0 +1,11 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<div>
+    <div class="layui-inline" style="margin-bottom: 0;">
+        <label class="layui-form-label">商品属性筛选</label>
+        {{ sf.select('face_value_type', null, to_options('App\\ProductConstants::FACE_VALUE_TYPES', "面值类型"), {'outer': null}) }}
+        {{ sf.select('sale_region', null, to_options('App\\ProductConstants::PRODUCT_SALE_REGIONS', "适用范围"), {'outer': null}) }}
+        {{ sf.select('operator_id', null, to_options(top_operators, '运营商'), {'outer': null}) }}
+        {{ sf.select('speed', null, to_options('App\\ProductConstants::RECHARGE_SPEED_TYPES', "快充/慢充"), {'outer': null}) }}
+    </div>
+</div>

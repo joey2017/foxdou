@@ -1,0 +1,25 @@
+#swiftmailer:
+#    url: '%env(MAILER_URL)%'
+#    spool: { type: 'memory' }
+
+swiftmailer:
+    default_mailer: mxhichina
+    mailers:
+        mxhichina:
+#            delivery_addresses:   ['dbg@edge.ac']
+            url: '%env(MAILER_URL)%'
+            #sender_address:       'safe@foxdou.com'
+            #sender_address:       'safe@foxdou.com'
+            sender_address:       'gxlclizongjun@163.com'
+            logging:              true
+            spool:
+                type:             file
+                path:             '%kernel.cache_dir%/swiftmailer/spool'
+            antiflood:
+                threshold:        99
+                sleep:            1
+#            stream_options:
+#                ssl:
+#                    verify_peer:       false
+#                    verify_peer_name:  false
+#                    allow_self_signed: true

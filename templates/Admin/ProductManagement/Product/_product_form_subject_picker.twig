@@ -1,0 +1,28 @@
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+<div class="layui-inline" style="margin-bottom: 0;">
+    <label class="layui-form-label">选择操作对象</label>
+    <div class="layui-input-inline">
+        {{ sf.select_raw('subject_type', constant('App\\ProductConstants::SETTING_SUBJECT_TYPES'), {'lay-filter': 'subject_type', 'value': app.request.get('subject_type')}) }}
+    </div>
+    <div class="layui-input-inline subject_type_filter subject_type_GROUP" style="display: none;">
+        <select name="group_id" id="group_id_filter">
+            {% for group in price_groups %}
+                <option value="{{ group.id }}">{{ group.group_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="layui-input-inline subject_type_filter subject_type_USER" style="display: none;">
+        {{ sf.text_raw('criteria', {'placeholder': '输入通行证/手机/昵称'}) }} <span id="user_info"></span>
+        <input type="hidden" name="user_id"  />
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        layui.form.on('select(subject_type)', function (data) {
+            var value = data.value;
+            $('.subject_type_filter').hide();
+            $('.subject_type_' + value).show();
+        })
+    });
+</script>

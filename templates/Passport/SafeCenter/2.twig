@@ -1,0 +1,49 @@
+<div class="tab-content">
+    <form action="" method="post">
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">电子邮箱</label>
+            <div class="sisi-input-inline">
+                <input type="text" name="email" id="email" value="" class="sisi-input-ing email" />
+            </div>
+            <div class="sisi-input-inline" style="margin-top: 8px;">
+                <input name="is_user" id="is_user" value="yes" title="将该邮箱号作为登录帐号" type="checkbox" checked
+                       class="sisi-checkbox f-fl" style="margin: 4px 5px 0 0;">
+                <span>将该邮箱号作为登录帐号</span>
+            </div>
+            <div class="sisi-input-auxe" style="width:auto;color: red;margin-left: 10px;">
+                <span></span>
+            </div>
+        </div>
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">图形验证码</label>
+            <div class="sisi-input-inline" style="width: 80px;">
+                <input type="text" id="verify_code" class="sisi-input-ing" />
+            </div>
+            <div class="sisi-input-auxe">
+                <div style="width: 90px; height: 34px;background: #CCCCCC;">
+                    <img class="verify_img" src="{{ url('common_recaptcha_index',{'id':'verify_code'}) }}" height="34px" width="90px" onclick="this.src='{{ url('common_recaptcha_index',{'id':'verify_code'}) }}?&'+Math.random();" title="点击获取"/>
+                </div>
+            </div>
+        </div>
+        <div class="sisi-input-item">
+            <label class="sisi-input-lable">邮箱验证码</label>
+            <div class="sisi-input-inline">
+                <input type="text" name="email_verify_code" value="" class="sisi-input-ing verify-code" />
+            </div>
+            <div class="sisi-input-auxe">
+                <button type="button" class="btn btn-green" onclick="sendCode(2)">
+                    <span class="s-white" id="mobile-time"></span><span id="mobile-time-span">发送验证码</span>
+                </button>
+            </div>
+        </div>
+        <div style="margin: 50px 0 0 110px;">
+            <button class="btn btn-middle btn-blue">确 认</button>
+        </div>
+    </form>
+</div>
+<div class="tab-prompt" style="box-sizing: border-box; padding: 20px;">
+    <p style="color: red"><strong>注意：修改邮箱后原来邮箱不可作为登录帐号</strong></p>
+    <p>没有收到短信校正码？</p>
+    <p>1、网络通讯异常可能会造成短信丢失，请重新获取或稍后再试。</p>
+    <p>2、请核实手机是否已欠费停机，或者屏蔽了系统短信。</p>
+</div>

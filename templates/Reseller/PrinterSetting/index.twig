@@ -1,0 +1,64 @@
+{% extends 'Reseller/Common/layout.twig' %}
+{% import ('/Common/simple_form_helpers_for_layui.html.twig') as sf %}
+
+{% set print_type = print_type|default("THERMAL_58MM") %}
+{% set title_map = {
+    "thermal_58mm": "打印设置-58mm热敏打印-狐豆",
+    "generic": "打印设置-普通打印样板-狐豆",
+   }
+%}
+
+{% set title = title_map[print_type]|default("打印设置-普通打印样板-狐豆") %}
+
+{% block css %}
+  <link rel="stylesheet" href="//foxdou-public-read.oss-cn-shenzhen.aliyuncs.com/agent/css/print-single.css">
+  <style>
+    .layui-form-switch {
+      float: right;}
+  </style>
+{% endblock %}
+
+{% block js %}
+{% endblock %}
+
+{% block main_content %}
+  <form id="print_settings" action="{{ path("reseller_printer_settings_save", {"print_type": print_type}) }}" method="post"  class="layui-form">
+  <div class="m-wrapper">
+    <div class="layui-form hz-form">
+      <div class="layui-form-item">
+        <label class="layui-form-label" style="width: auto;"><b>选择打印默认模板：</b></label>
+        <div class="layui-input-block">
+          <input type="radio" name="print_type" lay-filter="print_type" value="THERMAL_58MM" title="58mm热敏打印样板" {{ print_type == 'THERMAL_58MM' ? "checked" : "" }}>
+          <input type="radio" name="print_type" lay-filter="print_type" value="GENERIC" title="普通打印样板"  {{ print_type == 'GENERIC' ? "checked" : "" }}>
+        </div>
+      </div>
+    </div>
+    <div class="hz-box">
+      <div class="hz-form-contant">
+      {% if print_type == 'THERMAL_58MM' %}
+        {% include "/Reseller/PrinterSetting/printer_THERMAL_58MM.twig" with {"form": form} %}
+      {% else %}
+        {% include "/Reseller/PrinterSetting/printer_GENERIC.twig" with {"form": form} %}
+      {% endif %}
+      </div>
+    </div>
+  </div>
+  <div hidden>
+    <input type="text" id="product_type_content" class="print_view_content" value="">
+    <input type="text" id="print_info_content" class="print_view_content" value="">
+      {{ sf.csrf('printer_settings') }}
+
+  </div>
+  </form>
+
+  <script type="text/javascript">
+      layui.use(['form'], function(){
+          var form = layui.form;
+          form.on('radio(print_type)', function(data){
+              location.href='{{ path(current_route) }}?print_type=' + data.value ;
+          });
+
+      });
+  </script>
+
+{% endblock %}

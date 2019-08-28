@@ -1,0 +1,67 @@
+/*账户信息-在线充值*/
+.layadmin-finance-info {
+	padding: 20px 10px 25px 20px;
+	border-bottom: 2px dashed #E0E0E0;
+}
+.layadmin-finance-info h2 span {
+	color: #1E9FFF;
+}
+.layadmin-finance-money {
+	padding: 15px 0 8px 0;
+	color: #666;
+}
+.layadmin-finance-money .icon {
+	font-size: 18px;
+}
+.layadmin-finance-money .money {
+	margin: 0 10px;
+	font-size: 20px;
+	color: #F07E05;
+}
+.layadmin-finance-money .layui-btn {
+	position: relative;
+	top: -4px;
+	height: 28px;
+	line-height: 28px;
+	padding: 0 10px;
+	margin-left: 20px;
+}
+
+/*最近交易记录*/
+.layadmin-table-finance {
+	
+}
+.layadmin-table-finance th　{
+	display: inline-block;
+	padding: 10px 20px;	
+}
+.layadmin-table-finance th .layui-text {
+	display: inline-block;
+	margin-left: 30px;
+}
+.layadmin-table-finance h3 {
+	display: inline-block;
+}
+.layadmin-table-finance .spacer {
+	position: relative;
+	top: 2px;
+	display: inline-block;
+	margin: 0 8px;
+	width: 1px;
+	height: 14px;
+	background-color: #999;
+	cursor: default;
+}
+.layadmin-table-finance td {
+	padding: 10px;
+}
+
+.layadmin-finance {
+	padding: 15px;
+}
+.layadmin-finance .layui-form .layui-inline {
+	margin: 2px 30px 2px 0;
+}
+.layadmin-finance .layui-form {
+	margin-bottom: 20px;
+}

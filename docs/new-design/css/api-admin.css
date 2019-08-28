@@ -1,0 +1,14 @@
+/*小侧栏*/
+.foxdou-sidenav {position: absolute; width: 151px; margin: 30px auto; z-index: 2;}
+.foxdou-sidenav-item {margin: 5px 0; line-height: 30px; text-align: center;}
+.foxdou-sidenav-item a {display: block; padding: 0 10px; border-right: 1px solid #E0E0E0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;}
+.foxdou-sidenav .foxdou-this a {border-color: #1E9FFF!important; color: #1E9FFF!important;}
+
+/*右内容区*/
+.foxdou-col-md {position: relative; left: 150px; width: -webkit-calc(100% - 150px); width: -moz-calc(100% - 150px); width: calc(100% - 150px);
+	min-height: 600px; box-sizing: border-box; border-left: 1px solid #E0E0E0; padding: 15px;}
+	
+	/*面包屑*/
+	.foxdou-breadcrumb {margin-bottom: 20px;}
+	.foxdou-breadcrumb a:hover {color: #1E9FFF!important;}
+	.foxdou-breadcrumb a cite {color: #333;}
